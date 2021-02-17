@@ -35,10 +35,7 @@ body {
 .login-form .form-group {
     margin-bottom: 20px;
 }
-.login-form label {
-    font-weight: bold;
-    font-size: 20px;
-}
+
 .login-form .form-control {
     min-height: 38px;
     box-shadow: none !important;
@@ -47,9 +44,7 @@ body {
     max-width: 42px;
     text-align: center;
 }
-.login-form input[type="checkbox"] {
-    margin-top: 2px;
-}   
+   
 .login-form .btn-signup{        
     font-size: 16px;
     font-weight: bold;
@@ -102,10 +97,7 @@ body {
 .login-form p {
     color:#FB963C;
 }
-.login-form a {
-    color: #fff;	
-    text-decoration: underline;
-}
+
 .login-form a:hover {
     text-decoration: none;
 }
@@ -138,8 +130,4 @@ body {
 
 .form-control {
     font-size: larger;
-}
-
-.btn-success {
-    background-color: purple;
 }
