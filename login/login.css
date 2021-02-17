@@ -10,54 +10,56 @@ body {
 .form-control, .btn {        
     border-radius: 3px;
 }
-.signup-form {
+.login-form {
     width: 500px;
     margin: 0 auto;
     padding: 30px 0;
 }
-.signup-form form {
+.login-form form {
     color: #999;
-    border-radius: 3px;
+    border-radius: 10px;
     margin-bottom: 15px;
     background: #fff;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     padding: 30px;
 }
-.signup-form h2 {
-    color: #333;
-    font-weight: bold;
+.login-form h2 {
+    color: #7641BD;
+    font-weight: 400;
+    font-size: 300%;
     margin-top: 0;
 }
-.signup-form hr {
+.login-form hr {
     margin: 0 -30px 20px;
 }
-.signup-form .form-group {
+.login-form .form-group {
     margin-bottom: 20px;
 }
-.signup-form label {
+.login-form label {
     font-weight: bold;
     font-size: 20px;
 }
-.signup-form .form-control {
+.login-form .form-control {
     min-height: 38px;
     box-shadow: none !important;
 }	
-.signup-form .input-group-addon {
+.login-form .input-group-addon {
     max-width: 42px;
     text-align: center;
 }
-.signup-form input[type="checkbox"] {
+.login-form input[type="checkbox"] {
     margin-top: 2px;
 }   
-.signup-form .btn-signup{        
+.login-form .btn-signup{        
     font-size: 16px;
     font-weight: bold;
     background: #FB963C;
     border-color: #FB963C;
     color: #ffffff;
     min-width: 140px;
+    text-decoration: none;
 }
-.signup-form .btn-login{        
+.login-form .btn-login{        
     font-size: 16px;
     font-weight: bold;
     background:#ffffff;
@@ -65,43 +67,62 @@ body {
     color:  #7641BD;
     min-width: 140px;
 }
-.signup-form .btn-signup:hover, .signup-form .btn:focus {
+.login-form .btn-signup:hover, .login-form .btn:focus {
     background: #ffffff;
     border-color: #FB963C;
     color: #FB963C;
+    text-decoration: none;
 }
 
-.signup-form .btn-login:hover, .signup-form .btn:focus {
+.login-form .btn-reset {
+    background: #ffffff;
+    border-color: #FB963C;
+    color: #FB963C;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-form .btn-reset:hover, .login-form .btn:focus {        
+    /* font-size: 16px; */
+    font-weight: bold;
+    background: #FB963C;
+    border-color: #FB963C;
+    color: #ffffff;
+    min-width: 140px;
+    text-decoration: none;
+}
+
+.login-form .btn-login:hover, .login-form .btn:focus {
     background: #7641BD;
     border-color: #7641BD;
     text-decoration: none;
     color: #fff;
 }
 
-.signup-form p {
-    color: #7641BD;
+.login-form p {
+    color:#FB963C;
 }
-.signup-form a {
+.login-form a {
     color: #fff;	
     text-decoration: underline;
 }
-.signup-form a:hover {
+.login-form a:hover {
     text-decoration: none;
 }
-.signup-form form a {
+.login-form form a {
     color: #FB963C;
     text-decoration: none;
 }	
-.signup-form form a:hover {
+.login-form form a:hover {
     text-decoration: underline;
 }
-.signup-form .fa {
+.login-form .fa {
     font-size: 21px;
 }
-.signup-form .fa-paper-plane {
+.login-form .fa-paper-plane {
     font-size: 18px;
 }
-.signup-form .fa-check {
+.login-form .fa-check {
     color: #fff;
     left: 17px;
     top: 18px;

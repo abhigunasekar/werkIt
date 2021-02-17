@@ -24,36 +24,13 @@
 
 </head>
 <body>
-    <div class="signup-form">
+    <div class="login-form">
         <form action="/examples/actions/confirmation.php" method="post">
             <!-- Header -->
             <div id="container">
-                <h2>Create An Account</h2>
+                <h2 class="text-center">Login</h2>
             </div>
             <hr>
-            <!-- First Name -->
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" name="first-name" placeholder="First Name" required="required">
-                </div>
-            </div>
-
-            <!-- Last Name -->
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="far fa-user"></i></span>
-                    <input type="text" class="form-control" name="last-name" placeholder="Last Name" required="required">
-                </div>
-            </div>
-
-             <!-- Email -->
-             <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
-                    <input type="email" class="form-control" name="email" placeholder="Email" required="required">
-                </div>
-            </div>
 
             <!-- Username -->
             <div class="form-group">
@@ -71,24 +48,23 @@
                 </div>
             </div>
 
-            <!-- Confirm Password -->
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="email" class="form-control" name="password" placeholder="Confirm Password" required="required">
-                </div>
-            </div>
+
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                  <button type="submit" class="btn btn-signup btn-lg btn-block">Signup</button>
+                  <button type="submit" class="btn btn-login btn-lg btn-block">Login</button>
                 </div>
 
             </div>
               <div class="form-group row">
-                <div class="col-sm-12 text-center">
-                    <p>Have an account already?</p>
-                    <a href="../login/login.html" class="btn btn-login btn-lg btn-block" role="button">Login</a>
+                <div class="col-sm-6 text-center">
+                    <p>Don't have an account?</p>
+                    <a href="../signup/signup.html" class="btn btn-signup btn-lg btn-block" role="button">Sign Up</a>
+                    <!-- <button type="submit" class="btn btn-login">Login</button> -->
+                </div>
+                <div class="col-sm-6 text-center">
+                    <p>Forgot Password?</p>
+                    <a href="../reset/reset.html" class="btn btn-reset btn-lg btn-block" role="button">Reset Password</a>
                     <!-- <button type="submit" class="btn btn-login">Login</button> -->
                 </div>
             </div>
