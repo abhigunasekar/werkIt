@@ -1,0 +1,156 @@
+html {
+    scroll-behavior: smooth;
+}
+
+nav #logo{
+    background-color: white;
+    color: white;
+    width: 100%;
+    padding: none;
+}
+
+.navbar-brand {
+    padding: 0%;
+    margin: 0px;
+    background-color: #fff;
+}
+
+/* Modify the backgorund color */ 
+.navbar-custom { 
+    background-color: #fff; 
+} 
+
+.navbar-main {
+    background-color: #7641BD;
+    color:#fff;
+}
+
+.bg-main {
+    background-color: #7641BD;
+    color:#fff;
+    font-size: 20px;
+    padding-left: 15px;
+}
+
+#about:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+#food:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+#exercise:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+#features:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+#signup:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+#login:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+.navbar-right { 
+    margin-left: auto; 
+} 
+.btn-outline-login:hover{        
+    font-size: 16px;
+    font-weight: bold;
+    background:#ffffff;
+    border-color: #7641BD;
+    font-weight: bold;
+    color:  #7641BD;
+    /* min-width: 50px; */
+}
+.btn-outline-login {
+    background: #7641BD;
+    border-color: #7641BD;
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+}
+.custom-toggler.navbar-toggler { 
+    border-color: whitesmoke; 
+} 
+.custom-toggler .navbar-toggler-icon { 
+    background-image: url( 
+"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255,255,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E"); 
+} 
+.jumbotron{
+    margin-top: -30px;
+    
+}
+.jumbotron-hero {
+    background-color: #ffffff;
+}
+
+.jumbotron-about {
+    background-color: #7641BD;
+}
+
+.jumbotron-about h1 {
+    color: #fff;
+    font-weight: 300;
+    margin-bottom: 3%;
+}
+.heading {
+    color:  #7641BD;
+}
+.lead {
+    font-size:xx-large;
+    font-weight: 400;
+}
+
+.btn-signup{        
+    font-size: 16px;
+    font-weight: bold;
+    background: #FB963C;
+    border-color: #FB963C;
+    color: #ffffff;
+    min-width: 140px;
+}
+
+.btn-signup:hover, .btn:focus {
+    background: #ffffff;
+    border-color: #FB963C;
+    color: #FB963C;
+}
+
+.btn-learn:hover{        
+
+    font-weight: bold;
+    background: #FB963C;
+    border-color: #FB963C;
+    color: #ffffff;
+
+}
+
+.btn-learn, .btn:focus {
+    font-size: 16px;
+    background: #ffffff;
+    border-color: #FB963C;
+    color: #FB963C;
+    min-width: 140px;
+}
+
+.jumbotron-about img {
+    width:max-content;
+}
+.improve-health-text {
+    color: #fff;
+}
+
+.health-icon {
+    color: #fff;
+    font-size: 1500%;
+    margin: 5%;
+}
+.jumbotron-about h4 {
+    color: #fff;
+}

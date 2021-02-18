@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
-    <link rel=icon type=image/x-icon href=../assets/favicon.png>
-    <!-- Bootstrap CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel=icon type=image/x-icon href=assets/favicon.png>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+     <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     
     <!-- Learned Bootstrap From -->
     <!-- https://getbootstrap.com/-->
@@ -19,10 +21,80 @@
     <script src="https://kit.fontawesome.com/25ed10730a.js" crossorigin="anonymous"></script>
     
     <!-- Personalized CSS -->
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="styles.css">
     <title>Werk It</title>
 </head>
 <body>
-    <h1>HELLO WORLD. TESTING 1, 2, 3 ...</h1>
+    <!-- Logo -->
+    <nav  class="navbar navbar-custom">
+        <div id="logo">
+            <a class="navbar-brand" href="#">
+                <img src="assets/logo.png"  width="160" height="40" class="d-inline-block align-top" alt="">
+            </a>
+        </div>
+    </nav>
+    <!-- Links Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-main bg-main">
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        <!-- <a class="navbar-brand navbar-main bg-main" id="about" href="index.html">About</a> -->
+        
+        <div class="collapse navbar-collapse navbar-main bg-main"   id="navbarTogglerDemo03">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+            <li class="nav-item ">
+                <a class="nav-link navbar-main bg-main" id="about" href="#about-section">About</a>
+              </li>
+            <li class="nav-item ">
+                <a class="nav-link navbar-main bg-main" id="food" href="#">Food</a>
+              </li>
+            <li class="nav-item ">
+              <a class="nav-link navbar-main bg-main" id="exercise" href="#">Exercise</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link navbar-main bg-main" id="features" href="#">Features</a>
+            </li>
+            <!-- <li class="nav-item ">
+                <a class="nav-link navbar-main bg-main" id="signup" href="#">Sign Up</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link navbar-main bg-main" id="login" href="#" >Login</a>
+              </li> -->
+         </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <a href="signup/signup.html" class="btn btn-outline-login my-2 my-sm-0" type="submit">Sign Up</a>
+            </form>
+            <form class="form-inline my-2 my-lg-0">
+                <a href="login/login.html" class="btn btn-outline-login my-2 my-sm-0" type="submit">Login</a>
+            </form>
+        </div>
+
+        </div>
+      </nav>'
+      <div class="jumbotron jumbotron-hero">
+        <h1 class="display-1 text-center heading">Werk It</h1>
+        <p class="lead text-center">Tracking your workouts has never been this easy</p>
+        <hr class="my-4">
+        <p class="lead text-center">
+          <a class="btn btn-learn btn-lg" href="#about-section" role="button">Learn more</a>
+          <a class="btn btn-signup btn-lg" href="signup/signup.html" role="button">Create an account</a>
+        </p>
+      </div>
+      <div id="about-section" class="jumbotron jumbotron-about">
+        <h1 class="display-9 text-center heading">Improve Your Health</h1>
+        <div class="row">
+            <div class="col-lg-5 text-center">
+                <i class="health-icon fas fa-running"></i>
+             </div>    
+            <div class="col-lg-7">
+                <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam impedit nisi optio obcaecati consequatur voluptas, sequi quia illo quasi! Repudiandae aspernatur fuga minus molestias laborum dolor necessitatibus aliquid incidunt ab.
+                Similique ab totam quisquam. Vitae, sunt quaerat fugit voluptate repellat illo commodi veniam voluptates optio reprehenderit ratione minima exercitationem. Libero voluptatem officiis nobis! Excepturi aut laborum, quibusdam ex eius praesentium?
+                Necessitatibus atque at assumenda dicta cum, optio rerum soluta ut reprehenderit molestias dolore, dolorum pariatur ipsum architecto! Illum, vel! Odio et magnam sit quae omnis at distinctio corporis doloremque obcaecati.
+                Repellendus ducimus magni dicta distinctio ut facilis dolorum. Repellat optio ea a qui ducimus. At alias quae quas. Pariatur ratione veniam tempore nulla eos in laboriosam fuga eum mollitia ipsam?
+                </h4>
+            </div>                              
+           
+        </div>
+      </div>
 </body>
 </html>

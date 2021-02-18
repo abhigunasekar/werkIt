@@ -131,3 +131,8 @@ body {
 .form-control {
     font-size: larger;
 }
+
+.health-icon {
+    color: #7641BD;
+    font-size: xxx-large;
+}
