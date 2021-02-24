@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TextInput } from 'react-native';
 
-import styles from './styles';
+import styles from '../styles';
 
 export default class TextBox extends Component {
     constructor(props) {

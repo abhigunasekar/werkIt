@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import Button from '../Button';
-import TextBox from '../TextBox';
+import Button from '../components/Button';
+import TextBox from '../components/TextBox';
 
 import styles from '../styles';
 
@@ -12,7 +12,7 @@ export default class Login extends Component {
 
         this.state = {
 
-        }
+        };
     }
 
     render() {

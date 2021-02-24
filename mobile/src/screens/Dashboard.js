@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { ScrollView } from 'react-native-gesture-handler';
-import { Text } from 'react-native'
+import { ScrollView, Text } from 'react-native'
+import Button from '../components/Button';
 
 export default class Dashboard extends Component{
     constructor() {
@@ -8,13 +8,17 @@ export default class Dashboard extends Component{
 
         this.state = {
 
-        }
+        };
     }
 
     render() {
         return(
             <ScrollView>
                 <Text>Dashboard</Text>
+                <Button
+                    buttonText='Create New Workout'
+                    onPress={() => this.props.navigation.navigate('WorkoutEditor')}
+                />
             </ScrollView>
         );
     }

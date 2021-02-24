@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
-import Dashboard from './src/screens/Dashboard';
+import StackNavigator from './src/StackNavigator';
 import Login from './src/screens/Login';
 
 export default class App extends Component {
@@ -11,7 +10,7 @@ export default class App extends Component {
 
         this.state = {
             isLoggedIn: false,
-        }
+        };
 
         this.login = this.login.bind(this);
     }
@@ -30,7 +29,7 @@ export default class App extends Component {
         }
         else {
             return (
-                <Dashboard />
+                <StackNavigator />
             );
         }
     }
