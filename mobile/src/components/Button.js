@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Pressable, Text } from 'react-native';
 
 import styles from '../styles';
 
 export default class Button extends Component {
     constructor(props) {
         super(props);
+
     }
 
     render() {
         return (
-            <TouchableOpacity
+            <Pressable
                 onPress={() => this.props.onPress()}
-                style={styles.button}
+                style={({ pressed }) => [ { backgroundColor: pressed ? '#7641BD' : '#FFFFFF' }, styles.button ]}
             >
-                <Text style={{color: '#7641BD'}}>{this.props.buttonText}</Text>
-            </TouchableOpacity>
+                {({ pressed }) => <Text style={{color: pressed ? '#FFFFFF' : '#7641BD'}}>{this.props.buttonText}</Text> }
+            </Pressable>
         );
     }
 }
