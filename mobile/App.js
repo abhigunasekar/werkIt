@@ -12,12 +12,20 @@ export default class App extends Component {
         this.state = {
             isLoggedIn: false,
         }
+
+        this.login = this.login.bind(this);
+    }
+
+    login() {
+        this.setState({ isLoggedIn: true });
     }
 
     render() {
         if (!this.state.isLoggedIn) {
             return (
-                <Login />
+                <Login
+                     login={this.login}
+                />
             );
         }
         else {

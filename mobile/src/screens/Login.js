@@ -1,36 +1,35 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
+
 import Button from '../Button';
 import TextBox from '../TextBox';
 
+import styles from '../styles';
+
 export default class Login extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
 
         }
-
-        this.buttonPress = this.buttonPress.bind(this);
-    }
-
-    buttonPress() {
-        console.log('Login Button Pressed');
     }
 
     render() {
         return (
-            <ScrollView>
-                <TextBox
-                    placeholder="Username"
-                />
-                <TextBox
-                    placeholder="Password"
-                />
-                <Button 
-                    buttonText="Login"
-                    onPress={this.buttonPress}
-                />
+            <ScrollView style={styles.loginContainer} centerContent={true}>
+                <View>
+                    <TextBox
+                        placeholder="Username"
+                    />
+                    <TextBox
+                        placeholder="Password"
+                    />
+                    <Button 
+                        buttonText="Login"
+                        onPress={this.props.login}
+                    />
+                </View>
             </ScrollView>
         );
     }
