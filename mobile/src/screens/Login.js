@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
@@ -18,24 +18,21 @@ export default class Login extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.loginContainer} centerContent={true}>
-                <View>
+            <View style={styles.loginContainer}>
+                <View style={styles.loginForm}>
                     <TextBox
                         placeholder='Username'
                     />
                     <TextBox
                         placeholder='Password'
                     />
+                    <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ marginBottom: 10, color: '#7641BD'}}>Create Account</Text>
                     <Button 
                         buttonText='Login'
                         onPress={this.props.login}
                     />
-                    <Button
-                        buttonText='Create Account'
-                        onPress={() => this.props.navigation.navigate('CreateAccount')}
-                    />
                 </View>
-            </ScrollView>
+            </View>
         );
     }
 }

@@ -4,6 +4,8 @@ export default StyleSheet.create({
     button: {
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
+        borderColor: '#7641BD',
+        borderWidth: 3,
         borderRadius: 3,
         height: 35,
         justifyContent: 'center',
@@ -11,10 +13,23 @@ export default StyleSheet.create({
     },
     loginContainer: {
         backgroundColor: '#7641BD',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    loginForm: {
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        height: '80%',
+        width: '70%',
+        justifyContent: 'center',
     },
     textBox: {
         borderColor: '#000000',
         borderWidth: 2,
-        margin: 5
+        marginBottom: 15,
+        padding: 10,
+        height: 40,
+        width: '75%',
     }
 })
