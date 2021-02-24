@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
+
+import Button from '../components/Button';
 
 export default class CreateAccount extends Component {
     constructor() {
@@ -16,7 +18,13 @@ export default class CreateAccount extends Component {
 
     render() {
         return (
-            <Text>CreateAccount</Text>
+            <ScrollView>
+                <Text>Create Account</Text>
+                <Button 
+                    buttonText='Sign up'
+                    onPress={() => this.props.navigation.navigate('Login')}
+                />
+            </ScrollView>
         );
     }
 }
