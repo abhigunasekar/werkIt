@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import StackNavigator from './src/StackNavigator';
+
+import LoginStackNavigator from './src/LoginStackNavigator';
+import DashboardStackNavigator from './src/DashboardStackNavigator';
 import Login from './src/screens/Login';
 
 export default class App extends Component {
@@ -22,14 +24,12 @@ export default class App extends Component {
     render() {
         if (!this.state.isLoggedIn) {
             return (
-                <Login
-                     login={this.login}
-                />
+                <LoginStackNavigator login={this.login}/>
             );
         }
         else {
             return (
-                <StackNavigator />
+                <DashboardStackNavigator />
             );
         }
     }

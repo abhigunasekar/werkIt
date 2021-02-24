@@ -11,7 +11,8 @@ export default class Login extends Component {
         super(props);
 
         this.state = {
-
+            username: '',
+            password: '',
         };
     }
 
@@ -20,14 +21,18 @@ export default class Login extends Component {
             <ScrollView style={styles.loginContainer} centerContent={true}>
                 <View>
                     <TextBox
-                        placeholder="Username"
+                        placeholder='Username'
                     />
                     <TextBox
-                        placeholder="Password"
+                        placeholder='Password'
                     />
                     <Button 
-                        buttonText="Login"
+                        buttonText='Login'
                         onPress={this.props.login}
+                    />
+                    <Button
+                        buttonText='Create Account'
+                        onPress={() => this.props.navigation.navigate('CreateAccount')}
                     />
                 </View>
             </ScrollView>
