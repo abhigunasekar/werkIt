@@ -1,7 +1,7 @@
 async function main() {
     const MongoClient = require('mongodb').MongoClient;
     const uri =
-      'mongodb+srv://katy-penquite:testpassword@cluster0.dcu5m.mongodb.net/sample_airbnb?retryWrites=true&w=majority';
+      'mongodb+srv://cluser0.dtedr.mongodb.net/sample-airbnb';
     const client = new MongoClient(uri, { useNewUrlParser: true });
   
     // Connect to the client and query
