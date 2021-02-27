@@ -1,40 +1,15 @@
 async function main() {
     const MongoClient = require('mongodb').MongoClient;
-    const uri =
-      'mongodb+srv://cluser0.dtedr.mongodb.net/sample-airbnb';
-    const client = new MongoClient(uri, { useNewUrlParser: true });
+    const uri = 'mongodb://cluster0-shard-00-01.aplfp.mongodb.net:27017,cluster0-shard-00-00.aplfp.mongodb.net:27017,cluster0-shard-00-02.aplfp.mongodb.net:27017/WerkItDB?authSource=admin&compressors=snappy&gssapiServiceName=mongodb&replicaSet=atlas-lcmezp-shard-0&ssl=true'
+ 
+    //const uri =
+    //  'mongodb+srv://cluser0.aplfp.mongodb.net/WerkItDB';
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:true });
   
     // Connect to the client and query
     await client.connect();
-    findListings(client, 5);
+    console.log("database connected"); 
     client.close();
   }
   
-    main().catch(console.error);
-
-  async function findListings(client, resultsLimit) {
-    const cursor = client
-      .db('sample_airbnb')
-      .collection('listingsAndReviews')
-      .find()
-      .limit(resultsLimit);
-  
-    const results = await cursor.toArray();
-    if (results.length > 0) {
-      console.log(`Found ${results.length} listing(s):`);
-      results.forEach((result, i) => {
-        date = new Date(result.last_review).toDateString();
-  
-        console.log();
-        console.log(`${i + 1}. name: ${result.name}`);
-        console.log(`   _id: ${result._id}`);
-        console.log(`   bedrooms: ${result.bedrooms}`);
-        console.log(`   bathrooms: ${result.bathrooms}`);
-        console.log(
-          `   most recent review date: ${new Date(
-            result.last_review
-          ).toDateString()}`
-        );
-      });
-    }
-  }
+main().catch(console.error);
