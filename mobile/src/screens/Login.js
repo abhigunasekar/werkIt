@@ -22,14 +22,22 @@ export default class Login extends Component {
                 <View style={styles.loginForm}>
                     <TextBox
                         placeholder='Username'
+                        onChangeText={(text) => this.setState({ username: text })}
+                        value={this.state.username}
                     />
                     <TextBox
                         placeholder='Password'
+                        onChangeText={(text) => this.setState({ username: text })}
+                        value={this.state.password}
                     />
                     <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ marginBottom: 10, color: '#7641BD'}}>Create Account</Text>
                     <Button 
                         buttonText='Login'
-                        onPress={this.props.login}
+                        onPress={() => {
+                            console.log('Username: ' + this.state.username);
+                            console.log('Password: ' + this.state.password);
+                            this.props.login();
+                        }}
                     />
                 </View>
             </View>
