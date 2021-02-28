@@ -22,6 +22,12 @@
     
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Animate.css -->
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
     <title>Werk It</title>
 </head>
 <body>
@@ -46,13 +52,10 @@
                 <a class="nav-link navbar-main bg-main" id="about" href="#about-section">About</a>
               </li>
             <li class="nav-item ">
-                <a class="nav-link navbar-main bg-main" id="food" href="#">Food</a>
-              </li>
-            <li class="nav-item ">
-              <a class="nav-link navbar-main bg-main" id="exercise" href="#">Exercise</a>
+              <a class="nav-link navbar-main bg-main" id="exercise" href="#exercise-section">Exercise</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link navbar-main bg-main" id="features" href="#">Features</a>
+                <a class="nav-link navbar-main bg-main" id="features" href="#feature-section">Features</a>
             </li>
             <!-- <li class="nav-item ">
                 <a class="nav-link navbar-main bg-main" id="signup" href="#">Sign Up</a>
@@ -80,20 +83,88 @@
           <a class="btn btn-signup btn-lg" href="signup/signup.html" role="button">Create an account</a>
         </p>
       </div>
-      <div id="about-section" class="jumbotron jumbotron-about">
-        <h1 class="display-9 text-center heading">Improve Your Health</h1>
+      <div id="about-section" class="jumbotron jumbotron-about ">
+        <h1 class="display-5 text-center heading section-head ">Improve Your Health</h1>
         <div class="row">
             <div class="col-lg-5 text-center">
                 <i class="health-icon fas fa-running"></i>
              </div>    
             <div class="col-lg-7">
-                <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam impedit nisi optio obcaecati consequatur voluptas, sequi quia illo quasi! Repudiandae aspernatur fuga minus molestias laborum dolor necessitatibus aliquid incidunt ab.
-                Similique ab totam quisquam. Vitae, sunt quaerat fugit voluptate repellat illo commodi veniam voluptates optio reprehenderit ratione minima exercitationem. Libero voluptatem officiis nobis! Excepturi aut laborum, quibusdam ex eius praesentium?
-                Necessitatibus atque at assumenda dicta cum, optio rerum soluta ut reprehenderit molestias dolore, dolorum pariatur ipsum architecto! Illum, vel! Odio et magnam sit quae omnis at distinctio corporis doloremque obcaecati.
-                Repellendus ducimus magni dicta distinctio ut facilis dolorum. Repellat optio ea a qui ducimus. At alias quae quas. Pariatur ratione veniam tempore nulla eos in laboriosam fuga eum mollitia ipsam?
-                </h4>
+                <h5 class="about-us-descript">
+                  Exercise is an essential component for a healthy mind and body. However, working out today, given the current pandemic, has become hard and lackluster. This is because physical and social isolation can cause lethargy and a lack of motivation. People seeking to improve their physical fitness have varying ranges of experience when it comes to exercise, and tracking one’s exercise goals has become tedious and cumbersome.
+                  <p></p>
+                  <p></p>
+                  Tech companies like Apple and Google have created apps such as Apple HealthKit and Fitbit, which track and monitor health data. These technologies, while great for collecting data such as calories burned or steps taken, don’t have the option of creating and tracking workouts. One of major motivational elements of exercise is being to see progress, and to be able to share it with friends.
+                  <p></p>
+                  This is why our team built <span class="badge bg-secondary">Werk It: </span> a cross-platform application that makes working out from anywhere easy.
+
+                  
+                </h5>
             </div>                              
-           
+        </div>
+      </div>
+      <div id="exercise-section" class="jumbotron jumbotron-exercise ">
+        <h1 class="display-5 text-center heading section-head ">Exercise</h1>
+
+        <h4 class="display-9 text-center subheading">Werk It Supports a Variety of exercises</h4>
+        
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <div class="col">
+            <div class="card h-100">
+              <img src="assets/bench-press.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 id="primary-color" class="card-title h3 text-center subheading">Bench Press</h5>
+                <p class="card-text"></p>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card h-100">
+              <img src="assets/pull-ups.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 id="primary-color" class="card-title h3 text-center subheading">Pull Ups</h5>
+                <p class="card-text"></p>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card h-100">
+              <img src="assets/leg-press.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 id="primary-color" class="card-title h3 text-center">Leg Press</h5>
+                <p class="card-text"></p>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card h-100">
+              <img src="assets/cardio.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 id="primary-color" class="card-title h3 text-center">Cardio</h5>
+                <p class="card-text"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="feature-section" class="jumbotron jumbotron-about ">
+        <h1 class="display-5 text-center heading section-head ">Features</h1>
+        <div class="row">
+            <div class="col-lg-3 text-center">
+              <img src="assets/features.png" class="img-mrg rounded float-start" alt="...">
+             </div>    
+             <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <h5 class="about-us-descript">
+                  <ul class="list-group">
+                    <li class="list-group-item active " id="list-group-purple">By using the Werk It application, you can:</li>
+                    <li class="list-group-item">1. Record data collected from workouts, caloric intake and fitness goals through the iOS app</li>
+                    <li class="list-group-item">2. View graphical visualizations based on your workout data</li>
+                    <li class="list-group-item">3. Generate workout suggestions based on your age, sex, and other attributes.</li>
+                    <li class="list-group-item">4. Connect and compete with your friends on Twitter or Instagram</li>
+                  </ul>
+                </h5>
+            </div>                              
         </div>
       </div>
 </body>

@@ -1,6 +1,10 @@
 html {
     scroll-behavior: smooth;
 }
+body {
+    margin: 0;
+    padding-bottom: 0;
+}
 
 nav #logo{
     background-color: white;
@@ -36,10 +40,6 @@ nav #logo{
     font-weight: bold;
     color: whitesmoke;
 }
-#food:hover {
-    font-weight: bold;
-    color: whitesmoke;
-}
 #exercise:hover {
     font-weight: bold;
     color: whitesmoke;
@@ -59,6 +59,18 @@ nav #logo{
 .navbar-right { 
     margin-left: auto; 
 } 
+.bolded {
+    color: #7641BD;
+    font-weight:900;
+    
+}
+.section-head {
+    font-weight: bolder;
+}
+h4 {
+    font-weight: 400;
+    line-height: 2.5rem;
+}
 .btn-outline-login:hover{        
     font-size: 16px;
     font-weight: bold;
@@ -90,8 +102,17 @@ nav #logo{
     background-color: #ffffff;
 }
 
+.jumbotron-exercise {
+    margin-top: -20px;
+    background-color: #fff;
+}
 .jumbotron-about {
     background-color: #7641BD;
+}
+.about-us-descript {
+    color: #fff;
+    line-height: 35px;
+    font-weight: 400;
 }
 
 .jumbotron-about h1 {
@@ -144,6 +165,7 @@ nav #logo{
 }
 .improve-health-text {
     color: #fff;
+    font-weight: 400;
 }
 
 .health-icon {
@@ -153,4 +175,32 @@ nav #logo{
 }
 .jumbotron-about h4 {
     color: #fff;
+}
+mark {
+    background-color: #FB963C;
+}
+
+h4 {
+    margin-bottom: 30px;
+}
+
+#feature-section{
+    margin-bottom: 0%;
+}
+
+.list-group-item {
+    color: #000;
+}
+
+.img-mrg {
+    margin-bottom: 50px;
+}
+
+#list-group-purple {
+    background-color: #7641BD;
+    border: none;
+}
+
+#primary-color {
+    color: #7641BD;
 }
