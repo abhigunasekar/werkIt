@@ -20,6 +20,7 @@ export default class Login extends Component {
         return (
             <View style={styles.loginContainer}>
                 <View style={styles.loginForm}>
+                    <Text style={styles.loginText}>Sign in</Text>
                     <TextBox
                         placeholder='Username'
                         onChangeText={(text) => this.setState({ username: text })}
@@ -30,7 +31,7 @@ export default class Login extends Component {
                         onChangeText={(text) => this.setState({ password: text })}
                         value={this.state.password}
                     />
-                    <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ marginBottom: 10, color: '#7641BD'}}>Create Account</Text>
+                    <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ marginBottom: 10, color: '#FB963C' }}>Create Account</Text>
                     <Button 
                         buttonText='Login'
                         onPress={() => {

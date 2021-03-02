@@ -13,15 +13,22 @@ export default StyleSheet.create({
     loginContainer: {
         backgroundColor: '#7641BD',
         height: '100%',
+        justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'center'
     },
     loginForm: {
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
-        height: '80%',
+        height: '50%',
         width: '70%',
+        flexDirection: 'column',
         justifyContent: 'center',
+    },
+    loginText: {
+        fontSize: 20,
+        color: '#7641BD',
+        fontWeight: 'bold',
+        marginBottom: 45,
     },
     textBox: {
         borderColor: '#000000',
