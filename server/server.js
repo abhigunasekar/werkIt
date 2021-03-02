@@ -13,10 +13,10 @@ app.get('/', function (req, res) {
 
 app.post('/create_account', (req, res) => {
   console.log(req.body); 
-  name = req.body.name;
+  name = req.body.f_name;
   username = req.body.username;
   password = req.body.password;
-  res.send("hello " + account_info.name + "!");
+  res.send("hello " + req.body.name + "!");
 });
 
 app.patch('/user/:id/profile', (req, res) => {
