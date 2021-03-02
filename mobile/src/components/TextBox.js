@@ -14,7 +14,7 @@ export default class TextBox extends Component {
                 onChangeText={this.props.onChangeText}
                 onEndEditing={this.props.onEndEditing}
                 placeholder={this.props.placeholder}
-                style={styles.textBox}
+                style={[ styles.textBox, this.props.style ]}
             />
         );
     }

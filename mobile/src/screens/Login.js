@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
@@ -31,7 +31,7 @@ export default class Login extends Component {
                         onChangeText={(text) => this.setState({ password: text })}
                         value={this.state.password}
                     />
-                    <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ marginBottom: 10, color: '#FB963C' }}>Create Account</Text>
+                    <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ marginTop: 5, marginBottom: 20, color: '#FB963C' }}>Create Account</Text>
                     <Button 
                         buttonText='Login'
                         onPress={() => {
@@ -39,6 +39,8 @@ export default class Login extends Component {
                             console.log('Password: ' + this.state.password);
                             this.props.login();
                         }}
+                        style={{ borderColor: '#7641BD' }}
+                        purple={true}
                     />
                 </View>
             </View>
