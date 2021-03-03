@@ -19,29 +19,9 @@ export default class CreateAccount extends Component {
         };
 
         this.passwordHandler = this.passwordHandler.bind(this);
-        this.passwordMatcher = this.passwordMatcher.bind(this);
     }
 
-    passwordHandler(text) {
-        console.log('Password Handler');
-        this.setState({ password: text });
-        console.log(text);
-        console.log(this.state.password);
-        this.setState({ dummy: '' });
-
-        let str = '';
-
-        for (let i = 1; i < text.length; i++) {
-            str += '*';
-        }
-
-        console.log(str);
-
-        this.setState({ dummy: str });
-        console.log(this.state.dummy);
-    }
-
-    passwordMatcher(e) {
+    passwordHandler(e) {
         console.log('Password Matcher');
         console.log(e.nativeEvent.text);
     }
@@ -74,33 +54,14 @@ export default class CreateAccount extends Component {
                         />
                         <TextBox
                             placeholder='Password'
-                            // onKeyPress={({ nativeEvent }) => {
-                            //     if (nativeEvent.key === 'Backspace') {
-                            //         console.log('backspace');
-                            //         console.log(this.state.dummy.length);
-                            //         const str = this.state.dummy.slice(0, -1);
-                            //         console.log(this.state.dummy);
-                            //         console.log(str);
-
-                            //         this.setState((state) => ({ dummy: state.dummy.slice(0, -1) }));
-                            //         console.log(this.state.dummy.length);
-                            //     }
-                            // }}
-                            onChangeText={(text) => {
-                                let str = '';
-
-                                for (let i = 0; i < text.length; i++) {
-                                    str += '*';
-                                }
-
-                                this.setState({ dummy: str });
-                            }}
-                            //onEndEditing={(e) => this.setState({ password: e.nativeEvent.text })}
-                            value={this.state.dummy}
+                            onChangeText={(text) => this.setState({ password: text })}
+                            secureTextEntry={true}
+                            value={this.state.password}
                         />
                         <TextBox
-                            placeholder="Change Password"
+                            placeholder="Confirm Password"
                             onEndEditing={(e) => this.passwordMatcher(e)}
+                            secureTextEntry={true}
                         />
                         <Button 
                             buttonText='Sign up'
