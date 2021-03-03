@@ -15,15 +15,15 @@ export default class CreateAccount extends Component {
             email: '',
             username: '',
             password: '',
-            dummy: ''
         };
 
         this.passwordHandler = this.passwordHandler.bind(this);
     }
 
     passwordHandler(e) {
-        console.log('Password Matcher');
-        console.log(e.nativeEvent.text);
+        if (e.nativeEvent.text !== this.state.password) {
+            console.log('Passwords don\'t match');
+        }
     }
 
     render() {
@@ -60,15 +60,12 @@ export default class CreateAccount extends Component {
                         />
                         <TextBox
                             placeholder="Confirm Password"
-                            onEndEditing={(e) => this.passwordMatcher(e)}
+                            onEndEditing={(e) =>  this.passwordHandler(e)}
                             secureTextEntry={true}
                         />
                         <Button 
                             buttonText='Sign up'
-                            onPress={() => {
-                                console.log(this.state.dummy);
-                                this.props.navigation.navigate('Login');
-                            }}
+                            onPress={() => this.props.navigation.navigate('Login')}
                             style={{ marginTop: 10, borderColor: '#FB963C' }}
                         />
                     </KeyboardAvoidingView>

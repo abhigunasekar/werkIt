@@ -31,6 +31,7 @@ export default class Login extends Component {
                         <TextBox
                             placeholder='Password'
                             onChangeText={(text) => this.setState({ password: text })}
+                            secureTextEntry={true}
                             value={this.state.password}
                         />
                         <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ marginTop: 5, marginBottom: 20, color: '#FB963C' }}>Create Account</Text>
