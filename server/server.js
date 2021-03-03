@@ -1,7 +1,9 @@
 const express = require('express');
+var bodyParser = require('body-parser');
 const app = express();
 
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 var name = "";
 var username = "";
@@ -13,10 +15,10 @@ app.get('/', function (req, res) {
 
 app.post('/create_account', (req, res) => {
   console.log(req.body); 
-  name = req.body.f_name;
+  name = req.body.f_name + " " + req.body.l_name;
   username = req.body.username;
   password = req.body.password;
-  res.send("hello " + req.body.name + "!");
+  res.send("Welcome " + name + "!\n\n" + "Please Download the Werk It Mobile App");
 });
 
 app.patch('/user/:id/profile', (req, res) => {

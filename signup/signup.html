@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -31,7 +33,7 @@
 
 <body>
     <div class="signup-form">
-        <form name="signUp" action="../server/server.js" onsubmit="return validatePassword()" method="post">
+        <form name="signUp" action="http://192.168.1.1:8000/create_account"  method="POST">
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../index.html"><i class="health-icon fas fa-running"></i></a>
@@ -42,7 +44,8 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" name="first-name" placeholder="First Name"
+                    <label for="test"></label>
+                    <input id="test" type="text" class="form-control" name="f_name" value="" placeholder="First Name"
                         required="required">
                 </div>
             </div>
@@ -51,7 +54,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="far fa-user"></i></span>
-                    <input type="text" class="form-control" name="last-name" placeholder="Last Name"
+                    <input type="text" class="form-control" name="l_name" placeholder="Last Name"
                         required="required">
                 </div>
             </div>
@@ -76,7 +79,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="password" class="form-control" name="pass" placeholder="Password"
+                    <input type="password" class="form-control" name="password" placeholder="Password"
                         required="required">
                 </div>
             </div>
