@@ -25,6 +25,7 @@ export default class StackNavigator extends Component {
                 <Stack.Screen 
                     name='CreateAccount'
                     component={CreateAccount}
+                    options={{ gestureEnabled: false }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

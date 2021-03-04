@@ -20,6 +20,7 @@ export default function StackNavigator() {
                 <Stack.Screen 
                     name='WorkoutEditor'
                     component={WorkoutEditor}
+                    options={{ gestrueEnabled: false }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
