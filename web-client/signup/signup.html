@@ -27,13 +27,31 @@
 
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="signup.css">
+    <!-- JS -->
+    <script>
+        window.onload = function() {
+        document.querySelector('.button').onclick = function() {
+            var password = document.getElementById("pswd").value;
+            var confirmP = document.getElementById("confirm").value;
+            console.log(password);
+            console.log(confirmP);
+            if (password == "") {
+                alert("Field cannor be empty.");
+            }
+            else if (password != confirmP) {
+                alert("Password didn't match try again.");
+                return false;
+            }
+        }
+    }
+    </script>
     <title>Sign Up</title>
 
 </head>
-
+<!-- action="http://192.168.1.1:8000/create_account" Must Add to form later-->
 <body>
     <div class="signup-form">
-        <form name="signUp" action="http://192.168.1.1:8000/create_account"  method="POST">
+        <form name="signUp"  action="http://192.168.1.1:8000/create_account" method="POST">
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../index.html"><i class="health-icon fas fa-running"></i></a>
@@ -79,7 +97,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="password" class="form-control" name="password" placeholder="Password"
+                    <input type="password" id="pswd" class="form-control password" name="password" placeholder="Password"
                         required="required">
                 </div>
             </div>
@@ -88,14 +106,14 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="password" class="form-control" name="confirmPass" placeholder="Confirm Password"
+                    <input id="confirm" type="password" class="form-control confirmPassword" name="confirmPass" placeholder="Confirm Password"
                         required="required">
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                    <button type="submit" value="Submit" class="btn btn-signup btn-lg btn-block">Signup</button>
+                    <button type="submit" value="Submit" class="button btn btn-signup btn-lg btn-block">Signup</button>
                 </div>
 
             </div>
@@ -106,9 +124,10 @@
                     <!-- <button type="submit" class="btn btn-login">Login</button> -->
                 </div>
             </div>
+        </form>
 
     </div>
-    </div>
+
 </body>
 
 </html>
