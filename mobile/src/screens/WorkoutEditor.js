@@ -20,6 +20,7 @@ export default class WorkoutEditor extends Component {
                     <Button
                         buttonText='Submit'
                         onPress={() => this.props.navigation.navigate('Dashboard')}
+                        orange={true}
                     />
                 </ScrollView>
             </View>

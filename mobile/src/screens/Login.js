@@ -33,8 +33,10 @@ export default class Login extends Component {
                             secureTextEntry={true}
                             value={this.state.password}
                         />
-                        <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ marginTop: 5, marginBottom: 20, color: '#FB963C' }}>Create Account</Text>
-                        <Text onPress={() => this.props.navigation.navigate('ChangePassword')} style={{ marginTop: 5, marginBottom: 20, color: '#FB963C' }}>Change Password</Text>
+                        <View style={{flexDirection: 'row', marginTop: 5, marginBottom: 20}}>
+                            <Text onPress={() => this.props.navgation.navigate('CreateAccount')} style={{ color: '#FB963C', marginRight: 15 }}>Create Account</Text>
+                            <Text onPress={() => this.props.navigation.navigate('ChangePassword')} style={{ color: '#535c68' }}>Forgot Password?</Text>
+                        </View>
                         <Button 
                             buttonText='Login'
                             onPress={() => {
