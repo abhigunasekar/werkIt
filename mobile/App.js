@@ -12,10 +12,15 @@ export default class App extends Component {
         };
 
         this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     login() {
         this.setState({ isLoggedIn: true });
+    }
+
+    logout() {
+        this.setState({ isLoggedIn: false });
     }
 
     render() {
@@ -26,7 +31,7 @@ export default class App extends Component {
         }
         else {
             return (
-                <DashboardStackNavigator />
+                <DashboardStackNavigator logout={this.logout}/>
             );
         }
     }

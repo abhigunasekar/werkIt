@@ -99,7 +99,7 @@ export default StyleSheet.create({
         borderRadius: 3,
         height: 35,
         justifyContent: 'center',
-        padding: 5
+        padding: 7
     },
     textBox: {
         borderColor: '#6B6767',
