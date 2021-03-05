@@ -17,12 +17,12 @@ export default class Dashboard extends Component{
         return(
             <View style={styles.dashboardContainer}>
                 <Text style={styles.motivationalQuote}>Motivational Quote</Text>
-                <ScrollView style={styles.workoutList}>
+                <ScrollView style={styles.workoutList} contentContainerStyle={{alignItems: 'center'}}>
                     <Text>Workouts go here</Text>
                 </ScrollView>
                 <Button
                     buttonText='Create New Workout'
-                    onPress={() => this.props.navigation.navigate('WorkoutEditor')}
+                    onPress={() => this.props.navigation.navigate('WorkoutEditor', {workoutName: 'Example'})}
                     purple={true}
                 />
             </View>

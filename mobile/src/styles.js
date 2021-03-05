@@ -81,6 +81,18 @@ export default StyleSheet.create({
         borderWidth: 3,
         marginBottom: 20,
     },
+    workoutEditorContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    exerciseList: {
+        height: '75%',
+        width: '80%',
+        borderColor: '#6B6767',
+        borderWidth: 3,
+        marginTop: 30,
+        marginBottom: 20,
+    },
     button: {
         alignItems: 'center',
         borderWidth: 2,
