@@ -23,7 +23,7 @@ export default class StackNavigator extends Component {
                         component={Dashboard}
                         options={{
                             headerRight: () => (<Button
-                                buttonText='Sign out'
+                                buttonText='Log out'
                                 onPress={() => this.props.logout()}
                                 style={{marginRight: 20}}
                                 orange={true}

@@ -5,6 +5,8 @@ import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 import styles from '../styles';
 
+import { invalidEmailAlert, mismatchPasswordAlert } from '../components/Alerts';
+
 export default class CreateAccount extends Component {
     constructor() {
         super();
@@ -20,9 +22,17 @@ export default class CreateAccount extends Component {
         this.passwordHandler = this.passwordHandler.bind(this);
     }
 
+    emailHandler(e) {
+        if (!e.nativeEvent.text.includes('@')) {
+            console.log('invalid email');
+            invalidEmailAlert();
+        }
+    }
+
     passwordHandler(e) {
         if (e.nativeEvent.text !== this.state.password) {
-            console.log('Passwords don\'t match');
+            console.log('passwords do not match');
+            mismatchPasswordAlert();
         }
     }
 
@@ -45,6 +55,7 @@ export default class CreateAccount extends Component {
                         <TextBox 
                             placeholder='Email'
                             onChangeText={(text) => this.setState({ email: text })}
+                            onEndEditing={(e) => this.emailHandler(e)}
                             value={this.state.email}
                         />
                         <TextBox

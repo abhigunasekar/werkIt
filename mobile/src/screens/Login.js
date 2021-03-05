@@ -34,7 +34,7 @@ export default class Login extends Component {
                             value={this.state.password}
                         />
                         <View style={{flexDirection: 'row', marginTop: 5, marginBottom: 20}}>
-                            <Text onPress={() => this.props.navgation.navigate('CreateAccount')} style={{ color: '#FB963C', marginRight: 15 }}>Create Account</Text>
+                            <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ color: '#FB963C', marginRight: 15 }}>Create Account</Text>
                             <Text onPress={() => this.props.navigation.navigate('ChangePassword')} style={{ color: '#535c68' }}>Forgot Password?</Text>
                         </View>
                         <Button 
