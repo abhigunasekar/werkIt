@@ -11,16 +11,32 @@ export default function StackNavigator() {
     return(
         <NavigationContainer>
             <Stack.Navigator
-                screenOptions={{ headerShown: false }}
             >
                 <Stack.Screen 
                     name='Dashboard'
                     component={Dashboard}
+                    options={{ 
+                        headerStyle: {
+                            backgroundColor: '#7641BD',
+                        },
+                        headerTitleStyle: {
+                            color: '#FFFFFF',
+                        },
+                    }}
                 />
                 <Stack.Screen 
                     name='WorkoutEditor'
                     component={WorkoutEditor}
-                    options={{ gestrueEnabled: false }}
+                    options={{
+                        gestureEnabled: false,
+                        headerLeft: null,
+                        headerStyle: {
+                            backgroundColor: '#FB963C',
+                        },
+                        headerTitleStyle: {
+                            color: '#FFFFFF',
+                        },
+                    }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

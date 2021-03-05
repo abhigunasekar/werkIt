@@ -43,13 +43,30 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 40,
     },
+    dashboardContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    motivationalQuote: {
+        width: '100%',
+        textAlign: 'center',
+        fontSize: 30,
+        margin: 20
+    },
+    workoutList: {
+        height: '75%',
+        width: '80%',
+        borderColor: '#6B6767',
+        borderWidth: 3,
+        marginBottom: 20,
+    },
     button: {
         alignItems: 'center',
         borderWidth: 2,
         borderRadius: 3,
         height: 35,
         justifyContent: 'center',
-        width: 70,
+        padding: 5
     },
     textBox: {
         borderColor: '#6B6767',

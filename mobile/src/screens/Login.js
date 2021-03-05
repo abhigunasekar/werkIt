@@ -42,7 +42,6 @@ export default class Login extends Component {
                                 console.log('Password: ' + this.state.password);
                                 this.props.login();
                             }}
-                            style={{ borderColor: '#7641BD' }}
                             purple={true}
                         />
                     </View>

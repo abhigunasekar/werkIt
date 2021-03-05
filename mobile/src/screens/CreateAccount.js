@@ -66,7 +66,7 @@ export default class CreateAccount extends Component {
                         <Button 
                             buttonText='Sign up'
                             onPress={() => this.props.navigation.navigate('Login')}
-                            style={{ marginTop: 10, borderColor: '#FB963C' }}
+                            style={{ marginTop: 10 }}
                         />
                     </KeyboardAvoidingView>
                 </View>

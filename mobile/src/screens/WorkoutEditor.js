@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 
-import TextBox from '../components/TextBox';
 import Button from '../components/Button';
 
 export default class WorkoutEditor extends Component {
@@ -9,19 +8,21 @@ export default class WorkoutEditor extends Component {
         super();
 
         this.state = {
-
+            exercises: [],
         };
     }
 
     render() {
         return(
-            <ScrollView>
+            <View>
                 <Text>WorkoutEditor</Text>
-                <Button
-                    buttonText='Submit'
-                    onPress={() => this.props.navigation.navigate('Dashboard')}
-                />
-            </ScrollView>
+                <ScrollView>
+                    <Button
+                        buttonText='Submit'
+                        onPress={() => this.props.navigation.navigate('Dashboard')}
+                    />
+                </ScrollView>
+            </View>
         );
     }
 }
