@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { TouchableWithoutFeedback, Keyboard, Text, View } from 'react-native';
 
 import Button from '../components/Button';
-//import DismissKeyboard from '../components/DismissKeyboard';
 import TextBox from '../components/TextBox';
 
 import styles from '../styles';
