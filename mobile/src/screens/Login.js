@@ -21,7 +21,7 @@ export default class Login extends Component {
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={styles.loginContainer}>
                     <View style={styles.loginForm}>
-                        <Text style={styles.loginText}>Sign in</Text>
+                        <Text style={styles.loginText}>Log in</Text>
                         <TextBox
                             placeholder='Username'
                             onChangeText={(text) => this.setState({ username: text })}
@@ -34,6 +34,7 @@ export default class Login extends Component {
                             value={this.state.password}
                         />
                         <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ marginTop: 5, marginBottom: 20, color: '#FB963C' }}>Create Account</Text>
+                        <Text onPress={() => this.props.navigation.navigate('ChangePassword')} style={{ marginTop: 5, marginBottom: 20, color: '#FB963C' }}>Change Password</Text>
                         <Button 
                             buttonText='Login'
                             onPress={() => {

@@ -18,13 +18,22 @@ export default class Button extends Component {
                     {({ pressed }) => <Text style={{color: pressed ? '#FFFFFF' : '#7641BD'}}>{this.props.buttonText}</Text> }
                 </Pressable>
             );
-        } else {
+        } else if (this.props.orange) {
             return (
                 <Pressable
                     onPress={() => this.props.onPress()}
                     style={({ pressed }) => [ { backgroundColor: pressed ? '#FB963C' : '#FFFFFF' , borderColor: '#FB963C'}, styles.button, this.props.style ]}
                 >
                     {({ pressed }) => <Text style={{color: pressed ? '#FFFFFF' : '#FB963C'}}>{this.props.buttonText}</Text> }
+                </Pressable>
+            );
+        }   else if (this.props.gray) {
+            return (
+                <Pressable
+                    onPress={() => this.props.onPress()}
+                    style={({ pressed }) => [ { backgroundColor: pressed ? '#535c68' : '#FFFFFF' , borderColor: '#535c68'}, styles.button, this.props.style ]}
+                >
+                    {({ pressed }) => <Text style={{color: pressed ? '#FFFFFF' : '#535c68'}}>{this.props.buttonText}</Text> }
                 </Pressable>
             );
         }

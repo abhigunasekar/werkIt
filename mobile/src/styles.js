@@ -12,15 +12,15 @@ export default StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 7,
         height: '50%',
-        width: '70%',
+        width: '75%',
         flexDirection: 'column',
         justifyContent: 'center',
     },
     loginText: {
-        fontSize: 20,
+        fontSize: 35,
         color: '#7641BD',
         fontWeight: 'bold',
-        marginBottom: 40,
+        marginBottom: 23,
     },
     createAccountContainer: {
         backgroundColor: '#FB963C',
@@ -42,6 +42,27 @@ export default StyleSheet.create({
         color: '#FB963C',
         fontWeight: 'bold',
         marginBottom: 40,
+    },
+    changePasswordContainer: {
+        backgroundColor: '#535c68',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+    changePasswordForm: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#FFFFFF',
+        height: '45%',
+        width: '75%',
+        borderRadius: 7,
+    },
+    changePasswordText: {
+        fontSize: 25,
+        color: '#535c68',
+        fontWeight: 'bold',
+        marginBottom: 35,
     },
     dashboardContainer: {
         alignItems: 'center',
