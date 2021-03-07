@@ -13,7 +13,7 @@
     "package.json": "^2.0.1"
   },
   "scripts": {
-    "test": "mocha --recursive --exit",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "keywords": [],
