@@ -1,25 +1,31 @@
 import React, { Component } from 'react'
-import { ScrollView, Text } from 'react-native'
+import { View, ScrollView, Text } from 'react-native'
 import Button from '../components/Button';
+
+import styles from '../styles';
 
 export default class Dashboard extends Component{
     constructor() {
         super();
 
         this.state = {
-
+            workouts: [],
         };
     }
 
     render() {
         return(
-            <ScrollView>
-                <Text>Dashboard</Text>
+            <View style={styles.dashboardContainer}>
+                <Text style={styles.motivationalQuote}>Motivational Quote</Text>
+                <ScrollView style={styles.workoutList} contentContainerStyle={{alignItems: 'center'}}>
+                    <Text>Workouts go here</Text>
+                </ScrollView>
                 <Button
                     buttonText='Create New Workout'
-                    onPress={() => this.props.navigation.navigate('WorkoutEditor')}
+                    onPress={() => this.props.navigation.navigate('WorkoutEditor', {workoutName: 'Example'})}
+                    purple={true}
                 />
-            </ScrollView>
+            </View>
         );
     }
 }

@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './screens/Login';
 import CreateAccount from './screens/CreateAccount';
+import ChangePassword from './screens/ChangePassword';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,12 @@ export default class StackNavigator extends Component {
                 <Stack.Screen 
                     name='CreateAccount'
                     component={CreateAccount}
+                    options={{ gestureEnabled: false }}
+                />
+                <Stack.Screen
+                    name='ChangePassword'
+                    component={ChangePassword}
+                    options={{ gestureEnabled: false }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
