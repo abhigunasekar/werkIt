@@ -30,5 +30,5 @@ export default StyleSheet.create({
         padding: 10,
         height: 40,
         width: '75%',
-    }
+    },
 })

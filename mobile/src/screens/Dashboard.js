@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, Image } from 'react-native'
+import { ScrollView, Text, ImageBackground } from 'react-native'
 import Button from '../components/Button';
 import ImageUploader from 'react-images-upload';
 import mafioso from '../../assets/MV5BOGQ4NTRhNjMtODYyYi00NjJhLThmZTUtNmI4MTdlZWM5MDliXkEyXkFqcGdeQXVyMzMzMTExNzI@._V1_UY1200_CR109,0,630,1200_AL_.jpg';
+import defaultPic from '../../assets/icon.jpg';
 
 export default class Dashboard extends Component{
     constructor(props) {
@@ -10,42 +11,36 @@ export default class Dashboard extends Component{
 
         this.state = {
             pictures: [],
-            profile: null
+            profile: defaultPic
         };
-        this.onDrop = this.onDrop.bind(this);
-    
+
+        this.onImageChange = this.onImageChange.bind(this);
     }
 
-    onDrop(picture) {
-        this.setState({
-            pictures: this.state.pictures.concat(picture),
-            profile: URL.createObjectURL(picture)
-        });
-    }
+    onImageChange = event => {
+        if (event.target.files && event.target.files[0]) {
+            let img = event.target.files[0];
+            this.setState({
+                profile: URL.createObjectURL(img)
+            });
+        }
+    };
 
     render() {
         return(
             <ScrollView>
-                <ImageUploader
-                    withIcon={true}
-                    withPreview={true}
-                    buttonText='Choose images'
-                    onChange={this.onDrop}
-                    imgExtension={['.jpg', '.png']}
-                    maxFileSize={524288000000000}
-                />
-                <Image
-                    source={this.state.profile}
-                    style={{width: 200, height: 200, borderRadius: 200/ 2}}
-                    />
-                <h1> Select Image </h1>
-                <input type="file" name="myImage" onChange={}
-                {/* <img src={mafioso} alt="Slow but sure" /> */}
-                <Text>Dashboard</Text>
-                <Button
-                    buttonText="Create New Workout"
-                    onPress={() => this.props.navigation.navigate('WorkoutEditor')}
-                />
+                <ImageBackground source={this.state.profile} imageStyle={{width: 200, height: 200, borderRadius: 200/ 2}}>
+                    <label title="Click to give ya self a new look!" for="updateProfile" style={{width: 200, height: 200, borderRadius: 200/ 2}}></label>
+                </ImageBackground>
+
+                <input type="file" id="updateProfile" name="myImage" onChange={this.onImageChange} hidden/>
+
+                <Text>
+                    Dashboard
+                </Text>
+
+                <Button buttonText="Create New Workout" onPress={() => this.props.navigation.navigate('WorkoutEditor')}/>
+
             </ScrollView>
         );
     }

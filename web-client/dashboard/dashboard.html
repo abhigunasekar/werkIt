@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./dashboard.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script>
+    var imageList = '../assets/icon.jpg';
+
+    function initialize() {
+        document.getElementById("profilePic").src = '../assets/icon.jpg';
+    }
+
+    function updateProfile() {
+        document.getElementById("profilePic").src = URL.createObjectURL(document.getElementById("updateProfile").files[0]);
+    }
+
+    function triggerUpdateProfile() {
+        document.getElementById("updateProfile").click();
+    }
+</script>
+<body onload="initialize()"> 
+    <img id="profilePic" title="Click to give ya self a new look!" onclick="triggerUpdateProfile()" class="profile"/>
+
+    <!-- <label class="profile" title="Click to give ya self a new look!" for="updateProfile"></label> -->
+
+    <input type="file" id="updateProfile" name="" onChange="updateProfile()" hidden/>
+    
+</body>
+    
+</head>
+</html>
