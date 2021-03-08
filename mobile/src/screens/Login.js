@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Image, Text, View } from 'react-native';
+import MMKVStorage from "react-native-mmkv-storage";
+import ReactDOM from 'react-dom';
 
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
@@ -9,6 +11,19 @@ import styles from '../styles';
 export default class Login extends Component {
     constructor(props) {
         super(props);
+        /* this._retrieveData();
+        var MMKV = new MMKVStorage.Loader().initialize();
+        this.MMKV = MMKV;
+
+        var result = MMKV.getStringAsync("current"); */
+        /* if (result != null)
+        {
+            this.props.login();
+        }
+        else
+        {
+            console.log("Issue in fetching data");
+        } */
 
         this.state = {
             username: '',
@@ -20,7 +35,39 @@ export default class Login extends Component {
         };
 
         this.opError = this.opError.bind(this);
+        this.keepSignedIn = this.keepSignedIn.bind(this);
+        /* this._storeData = this._storeData.bind(this);
+        this._retrieveData = this._retrieveData.bind(this); */
+        
     }
+
+    keepSignedIn() {
+        console.log("We know how to implement checkboxes...YAAAY!");
+        /* this.MMKV.setStringAsync("current", this.state.username + ':' + this.state.password); */
+        // this._storeData();
+    }
+
+    _storeData = async () => {
+        try {
+            await AsyncStorage.setItem(
+                toString(this.state.username),
+                toString(this.state.username) + ':' + toString(this.state.password));
+        } catch (error) {
+            console.log("Issue in saving data");
+        }
+    };
+
+    _retrieveData = async () => {
+        try {
+            const result = await AsyncStorage.getItem(toString(this.state.username));
+            if (result !== null) {
+                console.log("We're on da waaay to implementing keep me signed in!");
+                this.props.login();
+            }
+        } catch (error) {
+            console.log("Issue in fetching data");
+        }
+    };
 
     opError(errorString) {
 
@@ -36,6 +83,8 @@ export default class Login extends Component {
             this.setState({errPasswordStyle : 'textBoxErr'});
         }
     };
+
+
 
     render() {
         return (
@@ -68,6 +117,13 @@ export default class Login extends Component {
                         buttonText='Dev: Test Error Messages'
                         onPress={() => this.opError("Test")}
                     />
+                    <label>
+                        Keep me signed in:
+                        <input
+                            name="keepSignedIn"
+                            type="checkbox"
+                            onChange={this.keepSignedIn} />
+                    </label>
                 </View>
             </View>
         );
