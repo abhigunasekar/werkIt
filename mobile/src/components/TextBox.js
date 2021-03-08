@@ -17,6 +17,7 @@ export default class TextBox extends Component {
                 secureTextEntry={this.props.secureTextEntry}
                 placeholder={this.props.placeholder}
                 style={[ styles.textBox, this.props.style ]}
+                value={this.props.value}
             />
         );
     }

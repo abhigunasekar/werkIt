@@ -3,6 +3,7 @@ import { View, ScrollView, Text } from 'react-native';
 
 import Button from '../components/Button';
 import HideableView from '../components/HideableView';
+import ExerciseLabel from '../components/ExerciseLabel';
 
 import styles from '../styles';
 
@@ -13,24 +14,35 @@ export default class WorkoutEditor extends Component {
         this.state = {
             workoutName: this.props.route.params.workoutName,
             exercises: [],
+            mounted: false
         };
     }
 
-    componentWillMount() {
-        console.log('component will mount')
+    componentDidMount() {
         //code to load exercises into the array based on workoutName
-        this.state.exercises.push('Exercise 1');
-        this.state.exercises.push('Exercise 2');
-        this.state.exercises.push('Exercise 3');
-        console.log(this.state.exercises.length)
+        this.state.exercises.push({ name: 'Exercise 1', sets: true, reps: true, weight: true });
+        this.state.exercises.push({ name: 'Exercise 2', duration: true, pace: true });
+        this.state.exercises.push({ name: 'Exercise 3', distance: true, pace: true });
+        this.setState({ mounted: true });
     }
 
     render() {
         let exerciseList = [];
-        console.log('render');
         for (let i = 0; i < this.state.exercises.length; i++) {
-            console.log('haha');
-            exerciseList.push(<HideableView name={this.state.exercises[i]} visible={true}/>);
+            let exercise = this.state.exercises[i];
+            exerciseList.push(
+                <ExerciseLabel
+                    key={i}
+                    name={exercise.name}
+                    sets={exercise.sets}
+                    reps={exercise.reps}
+                    weight={exercise.weight}
+                    duration={exercise.duration}
+                    distance={exercise.distance}
+                    pace={exercise.pace}
+                    incline={exercise.incline}
+                />
+            );
         }
         return(
             <View style={styles.workoutEditorContainer}>
