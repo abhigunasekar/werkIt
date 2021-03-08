@@ -31,4 +31,13 @@ export default StyleSheet.create({
         height: 40,
         width: '75%',
     },
+    textBoxErr: {
+        borderColor: '#ff0000',
+        borderWidth: 2,
+        color: '#ff0000',
+        marginBottom: 15,
+        padding: 10,
+        height: 40,
+        width: '75%',
+    }
 })

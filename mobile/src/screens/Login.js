@@ -24,11 +24,13 @@ export default class Login extends Component {
                         placeholder='Username'
                         onChangeText={(text) => this.setState({ username: text })}
                         value={this.state.username}
+                        style={styles.textBox}
                     />
                     <TextBox
                         placeholder='Password'
                         onChangeText={(text) => this.setState({ password: text })}
                         value={this.state.password}
+                        style={styles.textBox}
                     />
                     <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ marginBottom: 10, color: '#7641BD'}}>Create Account</Text>
                     <Button 
