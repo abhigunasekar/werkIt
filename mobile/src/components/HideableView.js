@@ -17,6 +17,7 @@ export default class HideableView extends Component {
                     <Text style={{marginBottom: 13}}>{this.props.name}</Text>
                     <TextBox
                         style={[{marginLeft: 5, width: 30, height: 30, paddingLeft: 5, paddingBottom: 0, paddingTop: 0, paddingRight: 5}, this.props.style]}
+                        onEndEditing={this.props.update}
                         value={this.props.value}
                     />
                 </View>

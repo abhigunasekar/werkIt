@@ -20,9 +20,9 @@ export default class WorkoutEditor extends Component {
 
     componentDidMount() {
         //code to load exercises into the array based on workoutName
-        this.state.exercises.push({ name: 'Exercise 1', sets: true, reps: true, weight: true });
-        this.state.exercises.push({ name: 'Exercise 2', duration: true, pace: true });
-        this.state.exercises.push({ name: 'Exercise 3', distance: true, pace: true });
+        this.state.exercises.push({ name: 'Exercise 1', sets: 3, reps: 7, weight: 100 });
+        this.state.exercises.push({ name: 'Exercise 2', duration: 60, pace: 7 });
+        this.state.exercises.push({ name: 'Exercise 3', distance: 2, pace: 8 });
         this.setState({ mounted: true });
     }
 
@@ -46,19 +46,20 @@ export default class WorkoutEditor extends Component {
         }
         return(
             <View style={styles.workoutEditorContainer}>
-                <Text style={{marginTop: 20, fontSize: 20}}>{this.state.workoutName}</Text>
-                <ScrollView style={styles.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
+                <Text style={{marginTop: 15, fontSize: 20}}>{this.state.workoutName}</Text>
+                <ScrollView style={styles.exerciseList} /*contentContainerStyle={{alignItems: 'center'}}*/>
                     {exerciseList}
                     <Button
-                        buttonText='Add new exercise'
-                        style={{marginTop: 10}}
-                        onPress={() => console.log('not yet implemented')}
+                        buttonText='Add exercise'
+                        style={{width: 150}}
+                        onPress={() => console.log(this.state.exercises)}
                         orange={true}
                     />
                 </ScrollView>
                 <Button
                         buttonText='Submit'
                         onPress={() => this.props.navigation.navigate('Dashboard')}
+                        style={{marginTop: 10}}
                         orange={true}
                     />
             </View>

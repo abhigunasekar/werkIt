@@ -87,11 +87,14 @@ export default StyleSheet.create({
     },
     exerciseList: {
         height: '75%',
-        width: '80%',
+        width: '100%',
         borderColor: '#6B6767',
-        borderWidth: 3,
-        marginTop: 30,
+        //borderWidth: 3,
+        borderTopWidth: 3,
+        borderBottomWidth: 3,
+        marginTop: 15,
         marginBottom: 20,
+        padding: 15
     },
     button: {
         alignItems: 'center',
