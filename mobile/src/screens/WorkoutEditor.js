@@ -16,19 +16,34 @@ export default class WorkoutEditor extends Component {
         this.state = {
             workoutName: this.props.route.params.workoutName,
             exercises: [],
-            mounted: false
         };
 
         this.createExercise = this.createExercise.bind(this);
+        this.deleteExercise = this.deleteExercise.bind(this);
     }
 
     createExercise(exercise) {
-        let newArray = this.state.exercises;
+        let newArray = this.state.exercises.map(exercise => exercise);
         newArray.push({ name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline});
 
-        this.setState({ exercise: newArray });
+        this.setState({ exercises: newArray });
+    }
 
+    deleteExercise(exercise) {
+        let newArray = this.state.exercises;
 
+        console.log(newArray.length);
+        for (let i = 0; i < newArray.length; i++) {
+            if (exercise.name == newArray[i].name) {
+                console.log('found exercise');
+
+                newArray.splice(i, 1);
+            }
+        }
+
+        console.log(newArray.length);
+
+        this.setState({ exercises: newArray });
     }
 
     render() {
@@ -46,6 +61,7 @@ export default class WorkoutEditor extends Component {
                     distance={exercise.distance}
                     pace={exercise.pace}
                     incline={exercise.incline}
+                    edit={() => this.swipeUpDownRef.showFull()}
                 />
             );
         }
@@ -75,12 +91,14 @@ export default class WorkoutEditor extends Component {
                     itemFull={
                         <ExerciseEditor
                             createExercise={(exercise) => this.createExercise(exercise)}
+                            deleteExercise={(exercise) => this.deleteExercise(exercise)}
                             dismiss={() => this.swipeUpDownRef.showMini()}
                         />
                     } // Pass props component when show full
-                    //style={{ backgroundColor: 'green' }} // style for swipe
+                    style={{ backgroundColor: '#FFFFFF' }} // style for swipe
+                    animation='easeInEaseOut'
                     hasRef={(ref) => this.swipeUpDownRef = ref}
-d                />
+                />
             </View>
         );
     }

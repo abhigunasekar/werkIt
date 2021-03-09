@@ -58,20 +58,62 @@ export default class ExerciseLabel extends Component {
     }
 
     render() {
-        let metadata = [];
-        metadata.push(<HideableView key='Set' name='Sets: ' value={this.state.sets} update={(e) => this.updateSets(e)} visible={this.state.sets}/>);
-        metadata.push(<HideableView key='Rep' name='Reps: ' value={this.state.reps} update={(e) => this.updateReps(e)} visible={this.state.reps}/>)
-        metadata.push(<HideableView key='Weight' name='Weight: ' style={{width: 60}} value={this.state.weight} update={(e) => this.updateWeight(e)} visible={this.state.weight}/>)
-        metadata.push(<HideableView key='Duration' name='Duration: ' style={{width: 60}} value={this.state.duration} update={(e) => this.updateDuration(e)} visible={this.state.duration}/>)
-        metadata.push(<HideableView key='Distance' name='Distance: ' style={{width: 60}} value={this.state.distance} update={(e) => this.updateDistance(e)} visible={this.state.distance}/>)
-        metadata.push(<HideableView key='Pace' name='Pace: ' value={this.state.pace} update={(e) => this.updatePace(e)} visible={this.state.pace}/>)
-        metadata.push(<HideableView key='Incline' name='Incline: ' value={this.state.incline} update={(e) => this.updateIncline(e)} visible={this.state.incline}/>)
-
         return (
-            <Pressable style={{borderColor: '#000000', /*borderWidth: 3,*/ width: '100%', marginBottom: 7}} onPress={() => console.log(this.state)}>
+            <Pressable style={{borderColor: '#000000', /*borderWidth: 3,*/ width: '100%', marginBottom: 7}} onPress={() => this.props.edit()}>
                 <Text>{this.props.name}</Text>
                 <View style={styles.metadataList}>
-                    {metadata}
+                    <HideableView
+                        key='Set'
+                        name='Sets: '
+                        value={this.state.sets}
+                        update={(e) => this.updateSets(e)}
+                        visible={this.state.sets}
+                    />
+                    <HideableView
+                        key='Rep'
+                        name='Reps: '
+                        value={this.state.reps}
+                        update={(e) => this.updateReps(e)}
+                        visible={this.state.reps}
+                    />
+                    <HideableView
+                        key='Weight'
+                        name='Weight: '
+                        style={{width: 60}}
+                        value={this.state.weight}
+                        update={(e) => this.updateWeight(e)}
+                        visible={this.state.weight}
+                    />
+                    <HideableView
+                        key='Duration'
+                        name='Duration: '
+                        style={{width: 60}}
+                        value={this.state.duration}
+                        update={(e) => this.updateDuration(e)}
+                        visible={this.state.duration}
+                    />
+                    <HideableView
+                        key='Distance'
+                        name='Distance: '
+                        style={{width: 60}}
+                        value={this.state.distance}
+                        update={(e) => this.updateDistance(e)}
+                        visible={this.state.distance}
+                    />
+                    <HideableView
+                        key='Pace'
+                        name='Pace: '
+                        value={this.state.pace}
+                        update={(e) => this.updatePace(e)}
+                        visible={this.state.pace}
+                    />
+                    <HideableView
+                        key='Incline'
+                        name='Incline: '
+                        value={this.state.incline}
+                        update={(e) => this.updateIncline(e)}
+                        visible={this.state.incline}
+                    />
                 </View>
             </Pressable>
         );

@@ -76,6 +76,11 @@ export default class ExerciseEditor extends Component {
                         orange={true}
                     />
                     <Button
+                        buttonText='Delete'
+                        onPress={() => this.props.dismiss()}
+                        orange={true}
+                    />
+                    <Button
                         buttonText='Submit'
                         onPress={() => {
                             this.props.createExercise(this.state);
