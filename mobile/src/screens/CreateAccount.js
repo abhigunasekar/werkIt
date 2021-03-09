@@ -3,6 +3,8 @@ import { TouchableWithoutFeedback, Keyboard, View, Text, KeyboardAvoidingView } 
 
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
+
+import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
 import { invalidEmailAlert, mismatchPasswordAlert } from '../components/Alerts';
@@ -20,6 +22,7 @@ export default class CreateAccount extends Component {
         };
 
         this.passwordHandler = this.passwordHandler.bind(this);
+        this.onPress = this.onPress.bind(this);
     }
 
     emailHandler(e) {
@@ -34,6 +37,11 @@ export default class CreateAccount extends Component {
             console.log('passwords do not match');
             mismatchPasswordAlert();
         }
+    }
+
+    onPress() {
+        serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, passsword: this.state.password});
+        this.props.navigation.navigate('Login')
     }
 
     render() {
@@ -77,7 +85,7 @@ export default class CreateAccount extends Component {
                         />
                         <Button 
                             buttonText='Sign up'
-                            onPress={() => this.props.navigation.navigate('Login')}
+                            onPress={() => this.onPress()}
                             style={{ marginTop: 10 }}
                             orange={true}
                         />
