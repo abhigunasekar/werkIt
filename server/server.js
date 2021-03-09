@@ -1,8 +1,10 @@
 const express = require('express');
+const util = require('util');
 const mc = require('./mongoConnect')
 var bodyParser = require('body-parser');
 const app = express();
 const port = 8000;
+const ip = "127.0.0.1";
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,6 +36,6 @@ app.patch('/user/:id/profile', (req, res) => {
     }
 })
 
-app.listen(8000, function() {
-    console.log("server is running")
+app.listen(port, ip, function() {
+    console.log(util.format("Server listening on %s:%d", ip, port));
 })
