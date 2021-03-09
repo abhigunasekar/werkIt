@@ -69,13 +69,21 @@ export default class ExerciseEditor extends Component {
                         update={(e) => this.setState({ incline: e.nativeEvent.text })}
                         visible={true}
                     />
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 15}}>
                     <Button
+                        buttonText='Cancel'
+                        onPress={() => this.props.dismiss()}
+                        orange={true}
+                    />
+                    <Button
+                        buttonText='Submit'
                         onPress={() => {
                             this.props.createExercise(this.state);
                             this.props.dismiss();
                         }}
                         orange={true}
                     />
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
         );

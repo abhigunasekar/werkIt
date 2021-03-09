@@ -78,7 +78,7 @@ export default class WorkoutEditor extends Component {
                             dismiss={() => this.swipeUpDownRef.showMini()}
                         />
                     } // Pass props component when show full
-                    style={{ backgroundColor: 'green' }} // style for swipe
+                    //style={{ backgroundColor: 'green' }} // style for swipe
                     hasRef={(ref) => this.swipeUpDownRef = ref}
 d                />
             </View>

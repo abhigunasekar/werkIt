@@ -18,6 +18,7 @@ export default class HideableView extends Component {
                     <TextBox
                         style={[{marginLeft: 5, width: 30, height: 30, paddingLeft: 5, paddingBottom: 0, paddingTop: 0, paddingRight: 5}, this.props.style]}
                         onEndEditing={this.props.update}
+                        keyboardType='number-pad'
                         value={this.props.value}
                     />
                 </View>

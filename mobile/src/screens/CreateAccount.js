@@ -54,6 +54,7 @@ export default class CreateAccount extends Component {
                         />
                         <TextBox 
                             placeholder='Email'
+                            keyboardType='email-address'
                             onChangeText={(text) => this.setState({ email: text })}
                             onEndEditing={(e) => this.emailHandler(e)}
                             value={this.state.email}

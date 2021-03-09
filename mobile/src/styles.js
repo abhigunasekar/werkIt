@@ -85,6 +85,9 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    exerciseEditorContainer: {
+        
+    },
     exerciseList: {
         height: '75%',
         width: '100%',

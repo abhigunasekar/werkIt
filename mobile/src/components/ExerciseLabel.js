@@ -61,7 +61,7 @@ export default class ExerciseLabel extends Component {
         let metadata = [];
         metadata.push(<HideableView key='Set' name='Sets: ' value={this.state.sets} update={(e) => this.updateSets(e)} visible={this.state.sets}/>);
         metadata.push(<HideableView key='Rep' name='Reps: ' value={this.state.reps} update={(e) => this.updateReps(e)} visible={this.state.reps}/>)
-        metadata.push(<HideableView key='Weight' name='Weight: ' style={{widht: 60}} value={this.state.weight} update={(e) => this.updateWeight(e)} visible={this.state.weight}/>)
+        metadata.push(<HideableView key='Weight' name='Weight: ' style={{width: 60}} value={this.state.weight} update={(e) => this.updateWeight(e)} visible={this.state.weight}/>)
         metadata.push(<HideableView key='Duration' name='Duration: ' style={{width: 60}} value={this.state.duration} update={(e) => this.updateDuration(e)} visible={this.state.duration}/>)
         metadata.push(<HideableView key='Distance' name='Distance: ' style={{width: 60}} value={this.state.distance} update={(e) => this.updateDistance(e)} visible={this.state.distance}/>)
         metadata.push(<HideableView key='Pace' name='Pace: ' value={this.state.pace} update={(e) => this.updatePace(e)} visible={this.state.pace}/>)
