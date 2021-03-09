@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 
+import SwipeUpDown from 'react-native-swipe-up-down-fix';
+
 import Button from '../components/Button';
-import HideableView from '../components/HideableView';
 import ExerciseLabel from '../components/ExerciseLabel';
+import ExerciseEditor from './ExerciseEditor';
 
 import styles from '../styles';
 
@@ -16,14 +18,17 @@ export default class WorkoutEditor extends Component {
             exercises: [],
             mounted: false
         };
+
+        this.createExercise = this.createExercise.bind(this);
     }
 
-    componentDidMount() {
-        //code to load exercises into the array based on workoutName
-        this.state.exercises.push({ name: 'Exercise 1', sets: 3, reps: 7, weight: 100 });
-        this.state.exercises.push({ name: 'Exercise 2', duration: 60, pace: 7 });
-        this.state.exercises.push({ name: 'Exercise 3', distance: 2, pace: 8 });
-        this.setState({ mounted: true });
+    createExercise(exercise) {
+        let newArray = this.state.exercises;
+        newArray.push({ name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline});
+
+        this.setState({ exercise: newArray });
+
+
     }
 
     render() {
@@ -45,14 +50,18 @@ export default class WorkoutEditor extends Component {
             );
         }
         return(
-            <View style={styles.workoutEditorContainer}>
+            <View style={styles.workoutEditorContainer} hasRef={(ref) => this.containerRef = ref}>
+                
                 <Text style={{marginTop: 15, fontSize: 20}}>{this.state.workoutName}</Text>
                 <ScrollView style={styles.exerciseList} /*contentContainerStyle={{alignItems: 'center'}}*/>
                     {exerciseList}
                     <Button
                         buttonText='Add exercise'
                         style={{width: 150}}
-                        onPress={() => console.log(this.state.exercises)}
+                        onPress={() => {
+                            console.log(this.state.exercises);
+                            this.swipeUpDownRef.showFull();
+                        }}
                         orange={true}
                     />
                 </ScrollView>
@@ -61,7 +70,17 @@ export default class WorkoutEditor extends Component {
                         onPress={() => this.props.navigation.navigate('Dashboard')}
                         style={{marginTop: 10}}
                         orange={true}
-                    />
+                />
+                <SwipeUpDown		
+                    itemFull={
+                        <ExerciseEditor
+                            createExercise={(exercise) => this.createExercise(exercise)}
+                            dismiss={() => this.swipeUpDownRef.showMini()}
+                        />
+                    } // Pass props component when show full
+                    style={{ backgroundColor: 'green' }} // style for swipe
+                    hasRef={(ref) => this.swipeUpDownRef = ref}
+d                />
             </View>
         );
     }
