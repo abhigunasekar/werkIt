@@ -85,13 +85,19 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    exerciseEditorContainer: {
+        
+    },
     exerciseList: {
         height: '75%',
-        width: '80%',
+        width: '100%',
         borderColor: '#6B6767',
-        borderWidth: 3,
-        marginTop: 30,
+        //borderWidth: 3,
+        borderTopWidth: 3,
+        borderBottomWidth: 3,
+        marginTop: 15,
         marginBottom: 20,
+        padding: 15
     },
     button: {
         alignItems: 'center',
@@ -109,5 +115,18 @@ export default StyleSheet.create({
         padding: 10,
         height: 40,
         width: '75%',
+    },
+    hideableView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginLeft: 5,
+        marginRight: 5,
+    },
+    metadataList: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 10,
+        width: '100%'
     },
 })

@@ -1,16 +1,17 @@
 const express = require('express');
 const util = require('util');
-const mc = require('./mongoConnect')
+const mc = require('./mongoConnect');
 var bodyParser = require('body-parser');
 const app = express();
 const port = 8000;
-const ip = "127.0.0.1";
+const ip = "10.186.118.49";
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function (req, res) {
-  res.send('Hello World!')
+  console.log("Got GET request")
+  res.send('Successful connection to werkIt server')
 });
 
 // TODO implement return status codes

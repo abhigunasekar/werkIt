@@ -16,7 +16,9 @@ export default class TextBox extends Component {
                 onKeyPress={this.props.onKeyPress}
                 secureTextEntry={this.props.secureTextEntry}
                 placeholder={this.props.placeholder}
+                keyboardType={this.props.keyboardType}
                 style={[ styles.textBox, this.props.style ]}
+                value={this.props.value}
             />
         );
     }
