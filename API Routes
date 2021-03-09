@@ -1,0 +1,35 @@
+API Routes for communication between server and clients.
+
+Creating a New Account
+method: POST 
+route: '/create_account'
+Request Body:
+    {
+        "f_name":"<first last>",
+        "l_name":"<last name>",
+        "email":"<email>",
+        "username":"<username>",
+        "password":"<password>"
+    }
+Response Body:
+
+
+Logging In
+method: POST
+route: '/login'
+Request Body:
+	{
+		"username":"<username>",
+		"password":"<password>"
+	}
+Response Body:
+
+Resetting password
+method: PATCH
+route: '/login/{username}'
+Request Body:
+	{
+		"password":"<password>"
+	}
+Response Body:
+	
