@@ -16,10 +16,12 @@ export default class WorkoutEditor extends Component {
         this.state = {
             workoutName: this.props.route.params.workoutName,
             exercises: [],
+            currExercise: '',
         };
 
         this.createExercise = this.createExercise.bind(this);
         this.deleteExercise = this.deleteExercise.bind(this);
+        this.editExercise = this.editExercise.bind(this);
     }
 
     createExercise(exercise) {
@@ -32,18 +34,18 @@ export default class WorkoutEditor extends Component {
     deleteExercise(exercise) {
         let newArray = this.state.exercises;
 
-        console.log(newArray.length);
         for (let i = 0; i < newArray.length; i++) {
             if (exercise.name == newArray[i].name) {
-                console.log('found exercise');
-
                 newArray.splice(i, 1);
             }
         }
 
-        console.log(newArray.length);
-
         this.setState({ exercises: newArray });
+    }
+
+    editExercise(exercise) {
+        this.setState({ currExercise: exercise });
+        this.swipeUpDownRef.showFull();
     }
 
     render() {
@@ -61,7 +63,7 @@ export default class WorkoutEditor extends Component {
                     distance={exercise.distance}
                     pace={exercise.pace}
                     incline={exercise.incline}
-                    edit={() => this.swipeUpDownRef.showFull()}
+                    edit={(exercise) => this.editExercise(exercise)}
                 />
             );
         }
@@ -74,10 +76,7 @@ export default class WorkoutEditor extends Component {
                     <Button
                         buttonText='Add exercise'
                         style={{width: 150}}
-                        onPress={() => {
-                            console.log(this.state.exercises);
-                            this.swipeUpDownRef.showFull();
-                        }}
+                        onPress={() => this.swipeUpDownRef.showFull()}
                         orange={true}
                     />
                 </ScrollView>
@@ -93,6 +92,14 @@ export default class WorkoutEditor extends Component {
                             createExercise={(exercise) => this.createExercise(exercise)}
                             deleteExercise={(exercise) => this.deleteExercise(exercise)}
                             dismiss={() => this.swipeUpDownRef.showMini()}
+                            name={this.state.currExercise.name}
+                            sets={this.state.currExercise.sets}
+                            reps={this.state.currExercise.reps}
+                            weight={this.state.currExercise.weight}
+                            duration={this.state.currExercise.duration}
+                            distance={this.state.currExercise.distance}
+                            pace={this.state.currExercise.pace}
+                            incline={this.state.currExercise.incline}
                         />
                     } // Pass props component when show full
                     style={{ backgroundColor: '#FFFFFF' }} // style for swipe
