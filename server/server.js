@@ -26,8 +26,13 @@ app.post('/web/create_account', (req, res) => {
       );
       console.log("Successfully created new user")
       res.status(201).send("Welcome " + name + "!\n\nPlease Download the Werk It Mobile App");
-    }
-  });
+      /*describe("User Creation", () => {
+      	it("Successfully created new user", () => {
+	  assert.equal(mc.check_user_existence(req.body.username, true));
+	});
+      });*/
+     }
+   });
 });
 
 app.post('/mobile/create_account', (req, res) => {
