@@ -25,13 +25,31 @@
 
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="reset.css">
+    <!-- JS -->
+    <script>
+        window.onload = function () {
+            document.querySelector('.button').onclick = function () {
+                var password = document.getElementById("pswd").value;
+                var confirmP = document.getElementById("confirm").value;
+                console.log(password);
+                console.log(confirmP);
+                if (password == "") {
+                    alert("Field cannor be empty.");
+                }
+                else if (password != confirmP) {
+                    alert("Password didn't match try again.");
+                    return false;
+                }
+            }
+        }
+    </script>
     <title>Reset Password</title>
 
 </head>
 
 <body>
     <div class="signup-form">
-        <form action="/examples/actions/confirmation.php" method="post">
+        <form action="http://127.0.0.1:8000/user/:username/profile" method="post">
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../login/login.html"><i class="health-icon fas fa-running"></i></a>
@@ -48,10 +66,28 @@
             </div>
 
             <!-- Email -->
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
                     <input type="email" class="form-control" name="email" placeholder="Email" required="required">
+                </div>
+            </div> -->
+
+            <!-- Password -->
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                    <input type="password" class="form-control" name="password" placeholder="New Password"
+                        required="required">
+                </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                    <input type="email" class="form-control" name="password" placeholder="Confirm Password"
+                        required="required">
                 </div>
             </div>
 
