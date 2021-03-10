@@ -50,12 +50,20 @@ response body:
 RESETTING PASSWORD
 -----Request-----
 method: PATCH
-route: '/login/{username}'
+route: '/login/{username}/profile'
 request Body:
 	{
 		"password":"<password>"
 	}
 
 -----Response-----
+status: 204
+
+status: 401 Unauthorized
 response body:
+    "User does not exist - cannot change password"
+
+status: 403 Forbidden
+response body:
+    "Password is the same as the current one - enter different password"
 	

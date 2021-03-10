@@ -1,5 +1,4 @@
 const express = require('express');
-const util = require('util');
 const mc = require('./mongoConnect')
 const bodyParser = require('body-parser');
 const app = express();
@@ -51,16 +50,18 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.patch('/user/:id/profile', (req, res) => {
-    console.log(req.body);
-    if (req.params.id == username) {
-        password = req.body.password;
-        res.send("your new password is " + password);
-    } else {
-        res.send("no user found");
-    }
-})
+app.patch('/user/:username/profile', (req, res) => {
+  mc.change_password(req.params.username, req.body.password).then(_ => {
+    console.log("Successfully changed password for %s", req.params.username);
+    res.status(204).end()
+  }).catch(err => {
+    var err_dict = {401 : "User does not exist - cannot change password",
+                    403 : "Password is the same as the current one - enter different password"};
+    console.log("%s", err_dict[err]);
+    res.status(err).send(err_dict[err]);
+  })
+});
 
 app.listen(port, ip, function() {
-    console.log(util.format("Server listening on http://%s:%d", ip, port));
-})
+    console.log("Server listening on http://%s:%d", ip, port);
+});
