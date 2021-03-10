@@ -45,7 +45,7 @@
                 }
             }
         }
-        $("#reset").on("click", function (e) {
+        $(".button").on("click", function (e) {
             e.preventDefault();
             // http://127.0.0.1:8000/user/:username/profile
             var username = document.getElementById("user").value;
@@ -107,7 +107,8 @@
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                    <button type="submit" id="reset" class="btn btn-signup btn-lg btn-block">Reset Password</button>
+                    <button type="submit" class="button" id="reset" class="btn btn-signup btn-lg btn-block">Reset
+                        Password</button>
                 </div>
 
             </div>
