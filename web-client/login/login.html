@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <!-- Bootstrap CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
     <!-- Learned Bootstrap From -->
     <!--  https://getbootstrap.com/-->
-    
+
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/25ed10730a.js" crossorigin="anonymous"></script>
-    
+
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="login.css">
     <title>Login</title>
 
 </head>
+
 <body>
     <div class="login-form">
-        <form action="/examples/actions/confirmation.php" method="post">
+        <form action="http://127.0.0.1:8000/login" method="post">
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../index.html"><i class="health-icon fas fa-running"></i></a>
@@ -45,7 +51,8 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                    <input type="password" class="form-control" name="password" placeholder="Password"
+                        required="required">
                 </div>
             </div>
 
@@ -53,22 +60,24 @@
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                  <button type="submit" class="btn btn-login btn-lg btn-block">Login</button>
+                    <button type="submit" class="btn btn-login btn-lg btn-block">Login</button>
                 </div>
 
             </div>
-              <div class="form-group row">
+            <div class="form-group row">
                 <div class="col-sm-6 text-center">
                     <p>Don't have an account?</p>
                     <a href="../signup/signup.html" class="btn btn-signup btn-lg btn-block" role="button">Sign Up</a>
                 </div>
                 <div class="col-sm-6 text-center">
                     <p>Forgot Password?</p>
-                    <a href="../reset/reset.html" class="btn btn-reset btn-lg btn-block" role="button">Reset Password</a>
+                    <a href="../reset/reset.html" class="btn btn-reset btn-lg btn-block" role="button">Reset
+                        Password</a>
                 </div>
             </div>
 
-        </div>
+    </div>
     </div>
 </body>
+
 </html>
