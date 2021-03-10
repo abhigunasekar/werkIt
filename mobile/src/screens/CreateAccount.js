@@ -19,6 +19,7 @@ export default class CreateAccount extends Component {
             email: '',
             username: '',
             password: '',
+            correctEmail: true,
         };
 
         this.emailHandler = this.emailHandler.bind(this);
@@ -41,7 +42,7 @@ export default class CreateAccount extends Component {
     }
 
     validForm() {
-        return ((this.state.firstName !== '') && (this.state.lastName !== '') && (this.state.email !== '') && (this.state.username !== '') && (this.state.password !== ''));
+        return ((this.state.firstName !== '') && (this.state.lastName !== '') && ((this.state.email !== '') && (this.state.email.includes('@'))) && (this.state.username !== '') && (this.state.password !== ''));
     }
 
     render() {
@@ -63,6 +64,7 @@ export default class CreateAccount extends Component {
                         <TextBox 
                             placeholder='Email'
                             keyboardType='email-address'
+                            autoFocus={!this.state.correctEmail}
                             onChangeText={(text) => this.setState({ email: text })}
                             onEndEditing={(e) => this.emailHandler(e)}
                             value={this.state.email}

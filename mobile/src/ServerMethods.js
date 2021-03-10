@@ -1,6 +1,6 @@
 export async function createAccount(info) {
     console.log('create account');
-    await fetch('http://10.186.150.93:8000/mobile/create_account',{
+    return await fetch('http://10.186.150.93:8000/mobile/create_account', {
         method: 'POST',
         body: JSON.stringify({
             f_name: info.firstName,
@@ -12,30 +12,26 @@ export async function createAccount(info) {
         headers: {
             'Content-Type': 'application/json'
         }
-    })
-    .then(response => console.log(response)
-    ).catch(error => console.log('create account error: ' + error));
+    });
 }
 
 export async function login(info) {
     console.log('login');
-    await fetch('http://10.186.150.93:8000/mobile/login',{
+    return await fetch('http://10.186.150.93:8000/mobile/login', {
         method: 'POST',
         body: JSON.stringify({
-          username: info.username,
-          password: info.password,
+            username: info.username,
+            password: info.password,
         }),
         headers: {
             'Content-Type': 'application/json'
         }
-      })
-      .then(response => console.log(response)
-      ).catch(error => console.log('login error: ' + error));
+    });
 }
 
 export async function changePassword(info) {
     console.log('change password');
-     await fetch('http://10.186.150.93:8000/mobile/user' + info.username + '/profile',{
+    return await fetch('http://10.186.150.93:8000/mobile/user' + info.username + '/profile', {
         method: 'PATCH',
         body: JSON.stringify({
           username: info.username,
@@ -44,7 +40,5 @@ export async function changePassword(info) {
         headers: {
             'Content-Type': 'application/json'
         }
-      })
-      .then(response => console.log(response)
-      ).catch(error => console.log('change password error: ' + error));
+    });
 }

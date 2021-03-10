@@ -4,7 +4,7 @@ import { TouchableWithoutFeedback, Keyboard, Text, View } from 'react-native';
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 
-import { invalidFormAlert } from '../components/Alerts';
+import { invalidCredentialsAlert, invalidFormAlert } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
@@ -51,8 +51,12 @@ export default class Login extends Component {
                                 if (this.validForm()) {
                                     console.log('Username: ' + this.state.username);
                                     console.log('Password: ' + this.state.password);
-                                    await serverMethods.login(this.state);
-                                    this.props.login();
+                                    let response = await serverMethods.login(this.state);
+                                    if (response.status === 204) {
+                                        this.props.login;
+                                    } else {
+                                        invalidCredentialsAlert();
+                                    }
                                 } else {
                                     console.log('field is empty');
                                     invalidFormAlert();
