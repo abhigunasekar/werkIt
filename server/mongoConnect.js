@@ -38,13 +38,32 @@ function save_new_account_data(u_name, username, password, u_email) {
 
 	user.save(function (err, user) {
 		if (err) return console.error(err);
-		console.log("successfully created new user");
 	});
 }
 
-async function get_user_pass(name) {
-	return await User.find({ name: 'Katy'}).pass;
+async function check_login(user, pass) {
+	return await User.exists({ user: user, pass: pass });
 }
 
-module.exports = { save_new_account_data, get_user_pass }
+async function check_user_existence(username) {
+	return await User.exists({ user: username });
+}
+
+async function change_password(user, new_pass) {
+	if (!(await check_user_existence(user))) {
+		// User does not exist
+		throw 401;
+	} else if (await check_login(user, new_pass)){
+		// New password is not different from old one
+		throw 403;
+	} else {
+		return await User.findOneAndUpdate(
+			{user: user}, {pass: new_pass}, {new: true}
+			).exec();
+	}
+}
+
+module.exports = { 
+	save_new_account_data, check_login, 
+	check_user_existence, change_password }
 

@@ -1,7 +1,6 @@
 const express = require('express');
-const util = require('util');
-const mc = require('./mongoConnect');
-var bodyParser = require('body-parser');
+const mc = require('./mongoConnect')
+const bodyParser = require('body-parser');
 const app = express();
 const port = 8000;
 const ip = "10.186.150.93";
@@ -14,29 +13,60 @@ app.get('/', function (req, res) {
   res.send('Successful connection to werkIt server')
 });
 
-// TODO implement return status codes
 app.post('/create_account', (req, res) => {
-  console.log(req.body); 
+  console.log("Request to create account"); 
   var name = req.body.f_name + " " + req.body.l_name;
-
-  mc.save_new_account_data(
-    name, req.body.username, req.body.password, req.body.email
-  );
-  res.send("Welcome " + name + "!\n\nPlease Download the Werk It Mobile App");
-  var list = mc.get_user_pass(name);  // TODO pass prints as <pending> -- need to do research on async functions
-  console.log(list);
+  mc.check_user_existence(req.body.username).then(exists => {
+    if (exists) {
+      console.log("Username already exists.")
+      res.status(403).send("Username already exists in database.  Please choose a new one.");
+    } else {
+      mc.save_new_account_data(
+        name, req.body.username, req.body.password, req.body.email
+      );
+      console.log("Successfully created new user")
+      res.status(201).send("Welcome " + name + "!\n\nPlease Download the Werk It Mobile App");
+      /*describe("User Creation", () => {
+      	it("Successfully created new user", () => {
+	  assert.equal(mc.check_user_existence(req.body.username, true));
+	});
+      });*/
+     }
+   });
 });
 
-app.patch('/user/:id/profile', (req, res) => {
-    console.log(req.body);
-    if (req.params.id == username) {
-        password = req.body.password;
-        res.send("your new password is " + password);
+app.post('/login', (req, res) => {
+  console.log("Request to log in");
+  mc.check_login(req.body.username, req.body.password).then(exists => {
+    if (exists) {
+      console.log("Login credentials match - successful login");
+      res.status(204).end();
     } else {
-        res.send("no user found");
+      mc.check_user_existence(req.body.username).then(user_exist => {
+        if (user_exist) {
+          console.log("Invalid password - unsuccessful login");
+          res.status(403).send("Invalid password");
+        } else {
+          console.log("User does not exist - unsuccesful login");
+          res.status(401).send("User does not exist");
+        }
+      });
     }
-})
+  });
+});
+
+app.patch('/user/:username/profile', (req, res) => {
+  mc.change_password(req.params.username, req.body.password).then(_ => {
+    console.log("Successfully changed password for %s", req.params.username);
+    res.status(204).end()
+  }).catch(err => {
+    var err_dict = {401 : "User does not exist - cannot change password",
+                    403 : "Password is the same as the current one - enter different password"};
+    console.log("%s", err_dict[err]);
+    res.status(err).send(err_dict[err]);
+  })
+});
 
 app.listen(port, ip, function() {
-    console.log(util.format("Server listening on %s:%d", ip, port));
-})
+    console.log("Server listening on http://%s:%d", ip, port);
+});
