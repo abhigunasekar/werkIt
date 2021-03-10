@@ -1,43 +1,37 @@
 // Requiring module 
 const assert = require('assert'); 
 
-// We can group similar tests inside a describe block 
-describe("Simple Calculations", () => { 
-before(() => { 
-	console.log( "This part executes once before all tests" ); 
-}); 
+const request = require("request");
 
-after(() => { 
-	console.log( "This part executes once after all tests" ); 
-}); 
+describe("WerkIt Server Testing", function() {
 	
-// We can add nested blocks for different tests 
-describe( "Test1", () => { 
-	beforeEach(() => { 
-	console.log( "executes before every test" ); 
-	}); 
-	
-	it("Is returning 5 when adding 2 + 3", () => { 
-	assert.equal(2 + 3, 4); 
-	}); 
+	it('Connection to Server', function(done) {
+		request("http://127.0.0.1:8000/", function(error, response, body) {
+			assert.equal(body, "Successful connection to werkIt server");
+			done();
+		});
+	});
 
-	it("Is returning 6 when multiplying 2 * 3", () => { 
-	assert.equal(2*3, 6); 
-	}); 
-}); 
+	it('Create Account Page', function(done) {
+		request("http://127.0.0.1:8000/create_account", function(error, response, body) {
+			assert.equal(response.statusCode, 404);
+			done();
+		});
+	});
 
-describe("Test2", () => { 
-	beforeEach(() => { 
-	console.log( "executes before every test" ); 
-	}); 
-	
-	it("Is returning 4 when adding 2 + 3", () => { 
-	assert.equal(2 + 3, 5); 
-	}); 
+	it('Login Page', function(done) {
+		request("http://127.0.0.1:8000/login", function(error, response, body) {
+			assert.equal(response.statusCode, 404);
+			done();
+		});
+	});
 
-	it("Is returning 8 when multiplying 2 * 4", () => { 
-	assert.equal(2*4, 8); 
-	}); 
-}); 
+	it('Reset Password Page', function(done) {
+		request("http://127.0.0.1:8000/user/:username/profile", function(error, response, body) {
+			assert.equal(response.statusCode, 404);
+			done();
+		});
+	});
+
+
 });
-
