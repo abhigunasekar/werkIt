@@ -4,6 +4,7 @@ import { TouchableWithoutFeedback, Keyboard, Text, View } from 'react-native';
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 
+import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
 export default class Login extends Component {
@@ -42,6 +43,7 @@ export default class Login extends Component {
                             onPress={() => {
                                 console.log('Username: ' + this.state.username);
                                 console.log('Password: ' + this.state.password);
+                                serverMethods.login(this.state);
                                 this.props.login();
                             }}
                             purple={true}
