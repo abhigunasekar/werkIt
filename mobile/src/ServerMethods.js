@@ -42,3 +42,8 @@ export async function changePassword(info) {
         }
     });
 }
+
+export async function verifyUsername(info) {
+    console.log('verify username');
+    return await fetch('http://10.186.150.93:8000/mobile/user' + info.username);
+}

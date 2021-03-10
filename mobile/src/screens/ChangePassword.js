@@ -4,7 +4,7 @@ import { Text, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 
-import { mismatchPasswordAlert, invalidFormAlert } from '../components/Alerts';
+import { mismatchPasswordAlert, invalidFormAlert, usernameDoesNotExist } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
@@ -24,13 +24,14 @@ export default class ChangePassword extends Component {
         this.validForm = this.validForm.bind(this);
     }
 
-    checkUsername(e) {
-        //server request to validate username
-        /* if (error) {
-            throw an error
-        } */
+    async checkUsername(e) {
         if (this.state.username !== '') {
-            this.setState({ matchingUsername: true });
+            let response = await serverMethods.verifyUsername(e.nativeEvent.text);
+            if (response.status === 200) {
+                this.setState({ matchingUsername: true });
+            } else {
+                usernameDoesNotExist();
+            }
         } else {
             invalidFormAlert();
         }

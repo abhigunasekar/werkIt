@@ -47,3 +47,27 @@ export const invalidFormAlert = () => {
         ]
     )
 }
+
+export const usernameAlreadyExists = () => {
+    Alert.alert(
+        '',
+        'The selected username already exists',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const usernameDoesNotExist = () => {
+    Alert.alert(
+        '',
+        'The specified username does not exist',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
