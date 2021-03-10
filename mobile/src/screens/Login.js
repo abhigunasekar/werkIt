@@ -4,6 +4,8 @@ import { TouchableWithoutFeedback, Keyboard, Text, View } from 'react-native';
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 
+import { invalidFormAlert } from '../components/Alerts';
+import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
 export default class Login extends Component {
@@ -14,6 +16,12 @@ export default class Login extends Component {
             username: '',
             password: '',
         };
+
+        this.validForm = this.validForm.bind(this);
+    }
+
+    validForm() {
+        return ((this.state.username !== '') && (this.state.password !== ''));
     }
 
     render() {
@@ -39,10 +47,16 @@ export default class Login extends Component {
                         </View>
                         <Button 
                             buttonText='Login'
-                            onPress={() => {
-                                console.log('Username: ' + this.state.username);
-                                console.log('Password: ' + this.state.password);
-                                this.props.login();
+                            onPress={async () => {
+                                if (this.validForm()) {
+                                    console.log('Username: ' + this.state.username);
+                                    console.log('Password: ' + this.state.password);
+                                    await serverMethods.login(this.state);
+                                    this.props.login();
+                                } else {
+                                    console.log('field is empty');
+                                    invalidFormAlert();
+                                }
                             }}
                             purple={true}
                         />
