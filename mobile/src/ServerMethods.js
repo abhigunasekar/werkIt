@@ -1,38 +1,47 @@
 export async function createAccount(info) {
-    // fetch('http://127.0.0.1:8000/create_account',{
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     f_name: info.firstName,
-    //     l_name: info.lastName,
-    //     email: info.email,
-    //     username: info.username,
-    //     password: info.password,
-    //   })
-    // })
-    // .then(function(response){
-    // return response.json()
-    // }).catch(error => console.log('lmfao'));
+    console.log('create account');
+    await fetch('http://10.186.150.93:8000/mobile/create_account',{
+        method: 'POST',
+        body: JSON.stringify({
+            f_name: info.firstName,
+            l_name: info.lastName,
+            email: info.email,
+            username: info.username,
+            password: info.password,
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => console.log(response)
+    ).catch(error => console.log('create account error: ' + error));
+}
 
-    console.log('attempt server connection');
+export async function login(info) {
+    console.log('login');
+    await fetch('http://10.186.150.93:8000/mobile/login',{
+        method: 'POST',
+        body: JSON.stringify({
+          username: info.username,
+          password: info.password,
+        })
+      })
+      .then(response => console.log(response)
+      ).catch(error => console.log('login error: ' + error));
+}
 
-    // fetch('http://127.0.0.1:8000/', {
-    //     method: 'GET',
-    //     mode: 'cors',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json'
-    //     },
-    //     params: null,
-    //     body: null
-    // })
-     fetch('http://10.186.118.49:8000/')
-         .then(response => console.log('connect'))
-         .catch(error => console.log(error));
-    console.log("made it");
-
-    // const response = await fetch("http://192.168.137.1:8000/");
-    // console.log("here");
-    // const data = await response.json();
-    // console.log("now here");
-    // console.log(data);
+export async function changePassword(info) {
+    console.log('change password');
+     await fetch('http://10.186.150.93:8000/mobile/user' + info.username + '/profile',{
+        method: 'PATCH',
+        body: JSON.stringify({
+          username: info.username,
+          password: info.newPassword,
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+      })
+      .then(response => console.log(response)
+      ).catch(error => console.log('change password error: ' + error));
 }

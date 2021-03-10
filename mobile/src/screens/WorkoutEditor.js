@@ -3,6 +3,7 @@ import { View, ScrollView, Text } from 'react-native';
 
 import SwipeUpDown from 'react-native-swipe-up-down-fix';
 
+import TextBox from '../components/TextBox';
 import Button from '../components/Button';
 import ExerciseLabel from '../components/ExerciseLabel';
 import ExerciseEditor from './ExerciseEditor';
@@ -14,8 +15,8 @@ export default class WorkoutEditor extends Component {
         super(props);
 
         this.state = {
-            workoutName: this.props.route.params.workoutName,
-            exercises: [],
+            name: this.props.route.params?.workout.name,
+            exercises: this.props.route.params?.workout.exercises ?? [],
             currExercise: '',
         };
 
@@ -70,7 +71,12 @@ export default class WorkoutEditor extends Component {
         return(
             <View style={styles.workoutEditorContainer} hasRef={(ref) => this.containerRef = ref}>
                 
-                <Text style={{marginTop: 15, fontSize: 20}}>{this.state.workoutName}</Text>
+                {/* <Text style={{marginTop: 15, fontSize: 20}}>{this.state.workoutName}</Text> */}
+                <TextBox
+                    placeholder='Workout Name'
+                    onChangeText={(text) => this.setState({ name: text })}
+                    value={this.state.name}
+                />
                 <ScrollView style={styles.exerciseList} /*contentContainerStyle={{alignItems: 'center'}}*/>
                     {exerciseList}
                     <Button
@@ -82,7 +88,10 @@ export default class WorkoutEditor extends Component {
                 </ScrollView>
                 <Button
                         buttonText='Submit'
-                        onPress={() => this.props.navigation.navigate('Dashboard')}
+                        onPress={() => {
+                            this.props.navigation.navigate('Dashboard', { workout: this.state });
+                            //this.props.navigation.navigate({ routeName: 'Dashboard', params: { workout: this.state } })
+                        }}
                         style={{marginTop: 10}}
                         orange={true}
                 />

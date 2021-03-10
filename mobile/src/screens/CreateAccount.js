@@ -7,7 +7,7 @@ import TextBox from '../components/TextBox';
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
-import { invalidEmailAlert, mismatchPasswordAlert } from '../components/Alerts';
+import { invalidEmailAlert, mismatchPasswordAlert, invalidFormAlert } from '../components/Alerts';
 
 export default class CreateAccount extends Component {
     constructor() {
@@ -21,8 +21,9 @@ export default class CreateAccount extends Component {
             password: '',
         };
 
+        this.emailHandler = this.emailHandler.bind(this);
         this.passwordHandler = this.passwordHandler.bind(this);
-        this.onPress = this.onPress.bind(this);
+        this.validForm = this.validForm.bind(this);
     }
 
     emailHandler(e) {
@@ -39,9 +40,8 @@ export default class CreateAccount extends Component {
         }
     }
 
-    onPress() {
-        serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, passsword: this.state.password});
-        this.props.navigation.navigate('Login')
+    validForm() {
+        return ((this.state.firstName !== '') && (this.state.lastName !== '') && (this.state.email !== '') && (this.state.username !== '') && (this.state.password !== ''));
     }
 
     render() {
@@ -85,7 +85,16 @@ export default class CreateAccount extends Component {
                         />
                         <Button 
                             buttonText='Sign up'
-                            onPress={() => this.onPress()}
+                            onPress={async () => {
+                                if (this.validForm()) {
+                                    //maybe add a confirmation alert here??
+                                    await serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, passsword: this.state.password});
+                                    this.props.navigation.navigate('Login');    
+                                } else {
+                                    console.log('field is empty');
+                                    invalidFormAlert();
+                                }
+                            }}
                             style={{ marginTop: 10 }}
                             orange={true}
                         />
