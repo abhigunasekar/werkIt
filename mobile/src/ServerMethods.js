@@ -1,6 +1,6 @@
 export async function createAccount(info) {
     console.log('create account');
-    await fetch('http://10.186.150.93:8000/create_account',{
+    await fetch('http://10.186.150.93:8000/mobile/create_account',{
         method: 'POST',
         body: JSON.stringify({
             f_name: info.firstName,
@@ -19,7 +19,7 @@ export async function createAccount(info) {
 
 export async function login(info) {
     console.log('login');
-    await fetch('http://10.186.150.93:8000/login',{
+    await fetch('http://10.186.150.93:8000/mobile/login',{
         method: 'POST',
         body: JSON.stringify({
           username: info.username,
@@ -32,7 +32,7 @@ export async function login(info) {
 
 export async function changePassword(info) {
     console.log('change password');
-     await fetch('http://10.186.150.93:8000/user' + info.username + '/profile',{
+     await fetch('http://10.186.150.93:8000/mobile/user' + info.username + '/profile',{
         method: 'PATCH',
         body: JSON.stringify({
           username: info.username,
