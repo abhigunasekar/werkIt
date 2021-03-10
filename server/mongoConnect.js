@@ -38,13 +38,23 @@ function save_new_account_data(u_name, username, password, u_email) {
 
 	user.save(function (err, user) {
 		if (err) return console.error(err);
-		console.log("successfully created new user");
 	});
 }
 
+// const get_user_pass = async(name) => {
+// 	console.log("here");
+// 	var list = await User.find({ name: name}).exec();
+// 	return list;
+// }
+
 async function get_user_pass(name) {
-	return await User.find({ name: 'Katy'}).pass;
+	var list = await User.find({ name: name}).exec();
+	return list;
 }
 
-module.exports = { save_new_account_data, get_user_pass }
+async function check_user_existence(username) {
+	return await User.exists({ user: username });
+}
+
+module.exports = { save_new_account_data, get_user_pass, check_user_existence }
 
