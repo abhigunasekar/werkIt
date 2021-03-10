@@ -40,10 +40,10 @@ export default class Login extends Component {
                         </View>
                         <Button 
                             buttonText='Login'
-                            onPress={() => {
+                            onPress={async () => {
                                 console.log('Username: ' + this.state.username);
                                 console.log('Password: ' + this.state.password);
-                                serverMethods.login(this.state);
+                                await serverMethods.login(this.state);
                                 this.props.login();
                             }}
                             purple={true}

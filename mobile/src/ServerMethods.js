@@ -1,6 +1,6 @@
-export function createAccount(info) {
+export async function createAccount(info) {
     console.log('create account');
-    fetch('http://10.186.150.93:8000/create_account',{
+    await fetch('http://10.186.150.93:8000/create_account',{
       method: 'POST',
       body: JSON.stringify({
         f_name: info.firstName,
@@ -14,9 +14,9 @@ export function createAccount(info) {
     ).catch(error => console.log('create account error: ' + error));
 }
 
-export function login(info) {
+export async function login(info) {
     console.log('login');
-    fetch('http://10.186.150.93:8000/login',{
+    await fetch('http://10.186.150.93:8000/login',{
         method: 'POST',
         body: JSON.stringify({
           username: info.username,
@@ -27,9 +27,9 @@ export function login(info) {
       ).catch(error => console.log('login error: ' + error));
 }
 
-export function changePassword(info) {
+export async function changePassword(info) {
     console.log('change password');
-    fetch('http://10.186.150.93:8000/user' + info.username + '/profile',{
+     await fetch('http://10.186.150.93:8000/user' + info.username + '/profile',{
         method: 'PATCH',
         body: JSON.stringify({
           username: info.username,
