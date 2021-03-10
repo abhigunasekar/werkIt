@@ -42,6 +42,15 @@
                 }
             }
         }
+        $("#reset").on("click", function (e) {
+            e.preventDefault();
+            // http://127.0.0.1:8000/user/:username/profile
+            var username = document.getElementById("user").value;
+            var url = "http://127.0.0.1:8000/user/";
+            var res = url.concat(username);
+            var final = res.concat("/profile");
+            $('#reset_pass').attr('action', final).submit();
+        });
     </script>
     <title>Reset Password</title>
 
@@ -49,7 +58,7 @@
 
 <body>
     <div class="signup-form">
-        <form action="http://127.0.0.1:8000/login/{username}/profile" method="post">
+        <form action="" id="reset_pass" method="post">
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../login/login.html"><i class="health-icon fas fa-running"></i></a>
@@ -61,7 +70,8 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
-                    <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+                    <input type="text" class="form-control" name="username" id="user" placeholder="Username"
+                        required="required">
                 </div>
             </div>
 
@@ -94,7 +104,7 @@
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                    <button type="submit" class="btn btn-signup btn-lg btn-block">Reset Password</button>
+                    <button type="submit" id="reset" class="btn btn-signup btn-lg btn-block">Reset Password</button>
                 </div>
 
             </div>
