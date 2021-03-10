@@ -16,6 +16,7 @@ export default class ChangePassword extends Component {
             username: '',
             newPassword: '',
             matchingUsername: false,
+            passwordChanged: false,
         }
 
         this.checkUsername = this.checkUsername.bind(this);
@@ -59,7 +60,7 @@ export default class ChangePassword extends Component {
                     </View>
                 </TouchableWithoutFeedback>
             );
-        } else {
+        } else if (!this.state.passwordChanged) {
             return (
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={styles.changePasswordContainer}>
@@ -81,8 +82,24 @@ export default class ChangePassword extends Component {
                                 onPress={async () => {
                                     console.log('New password: ' + this.state.newPassword);
                                     await serverMethods.changePassword({ username: this.state.username, newPassword: this.state.newPassword });
-                                    this.props.navigation.navigate('Login');
+                                    this.setState({ passwordChanged: true });
                                 }}
+                                style={{ marginTop: 15 }}
+                                gray={true}
+                            />
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            );
+        } else {
+            return (
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                    <View style={styles.changePasswordContainer}>
+                        <View style={styles.changePasswordForm}>
+                            <Text>Your password has been successfully reset!</Text>
+                            <Button
+                                buttonText='Return to login'
+                                onPress={() => this.props.navigation.navigate('Login')}
                                 style={{ marginTop: 15 }}
                                 gray={true}
                             />
