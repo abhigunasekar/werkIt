@@ -90,7 +90,7 @@ export default class CreateAccount extends Component {
                             onPress={async () => {
                                 if (this.validForm()) {
                                     //maybe add a confirmation alert here??
-                                    let response = await serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, passsword: this.state.password});
+                                    let response = await serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, password: this.state.password});
                                     if (response.status === 200) {
                                         this.props.navigation.navigate('Login');
                                     } else {
