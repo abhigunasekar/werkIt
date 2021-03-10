@@ -35,3 +35,15 @@ export const invalidEmailAlert = () => {
         ]
     )
 }
+
+export const invalidFormAlert = () => {
+    Alert.alert(
+        '',
+        'Please make sure every field is filled out',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}

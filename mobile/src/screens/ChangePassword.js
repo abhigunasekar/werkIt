@@ -4,7 +4,7 @@ import { Text, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 
-import { mismatchPasswordAlert } from '../components/Alerts';
+import { mismatchPasswordAlert, invalidFormAlert } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
@@ -21,6 +21,7 @@ export default class ChangePassword extends Component {
 
         this.checkUsername = this.checkUsername.bind(this);
         this.passwordHandler = this.passwordHandler.bind(this);
+        this.validForm = this.validForm.bind(this);
     }
 
     checkUsername(e) {
@@ -28,7 +29,12 @@ export default class ChangePassword extends Component {
         /* if (error) {
             throw an error
         } */
-        this.setState({ matchingUsername: true });
+        if (this.state.username !== '') {
+            this.setState({ matchingUsername: true });
+        } else {
+            invalidFormAlert();
+        }
+
     }
 
     passwordHandler(e) {
@@ -36,6 +42,10 @@ export default class ChangePassword extends Component {
             console.log('passwords do not match');
             mismatchPasswordAlert();
         }
+    }
+
+    validForm() {
+        return (this.state.newPassword !== '');
     }
 
     render() {
@@ -80,9 +90,13 @@ export default class ChangePassword extends Component {
                             <Button
                                 buttonText='Reset Password'
                                 onPress={async () => {
-                                    console.log('New password: ' + this.state.newPassword);
-                                    await serverMethods.changePassword({ username: this.state.username, newPassword: this.state.newPassword });
-                                    this.setState({ passwordChanged: true });
+                                    if (this.validForm()) {
+                                        console.log('New password: ' + this.state.newPassword);
+                                        await serverMethods.changePassword({ username: this.state.username, newPassword: this.state.newPassword });
+                                        this.setState({ passwordChanged: true });
+                                    } else {
+                                        invalidFormAlert();
+                                    }
                                 }}
                                 style={{ marginTop: 15 }}
                                 gray={true}
