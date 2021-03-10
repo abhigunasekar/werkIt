@@ -24,7 +24,10 @@ export async function login(info) {
         body: JSON.stringify({
           username: info.username,
           password: info.password,
-        })
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
       })
       .then(response => console.log(response)
       ).catch(error => console.log('login error: ' + error));
