@@ -41,20 +41,13 @@ function save_new_account_data(u_name, username, password, u_email) {
 	});
 }
 
-// const get_user_pass = async(name) => {
-// 	console.log("here");
-// 	var list = await User.find({ name: name}).exec();
-// 	return list;
-// }
-
-async function get_user_pass(name) {
-	var list = await User.find({ name: name}).exec();
-	return list;
+async function check_login(user, pass) {
+	return await User.exists({ user: user, pass: pass });
 }
 
 async function check_user_existence(username) {
 	return await User.exists({ user: username });
 }
 
-module.exports = { save_new_account_data, get_user_pass, check_user_existence }
+module.exports = { save_new_account_data, check_login, check_user_existence }
 

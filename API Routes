@@ -23,6 +23,7 @@ response body:
     "Username already exists in database.  Please choose a new one."
 
 
+
 LOGGING IN
 -----Request-----
 method: POST
@@ -32,8 +33,18 @@ request body:
 		"username":"<username>",
 		"password":"<password>"
 	}
+
 -----Response-----
+status: 204 No Content
+
+status: 401 Unauthorized
 response body:
+    "User does not exist"
+    
+status: 403 Forbidden
+response body:
+    "Invalid password"
+
 
 
 RESETTING PASSWORD
@@ -44,6 +55,7 @@ request Body:
 	{
 		"password":"<password>"
 	}
+
 -----Response-----
 response body:
 	
