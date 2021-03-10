@@ -4,7 +4,7 @@ const mc = require('./mongoConnect');
 var bodyParser = require('body-parser');
 const app = express();
 const port = 8000;
-const ip = "10.186.118.49";
+const ip = "10.186.150.93";
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
