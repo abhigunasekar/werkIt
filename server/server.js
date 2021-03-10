@@ -3,7 +3,7 @@ const mc = require('./mongoConnect')
 const bodyParser = require('body-parser');
 const app = express();
 const port = 8000;
-const ip = "10.0.0.48";
+const ip = "127.0.0.1";
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,8 +26,13 @@ app.post('/create_account', (req, res) => {
       );
       console.log("Successfully created new user")
       res.status(201).send("Welcome " + name + "!\n\nPlease Download the Werk It Mobile App");
-    }
-  });
+      /*describe("User Creation", () => {
+      	it("Successfully created new user", () => {
+	  assert.equal(mc.check_user_existence(req.body.username, true));
+	});
+      });*/
+     }
+   });
 });
 
 app.post('/login', (req, res) => {
