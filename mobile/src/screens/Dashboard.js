@@ -12,7 +12,7 @@ export default class Dashboard extends Component{
         //console.log(this.props.route.params);
         this.state = {
             workouts: [],
-            //currWorkout: this.props.route.params? this.props.route.params.workout : '',
+            currWorkout: '',
         };
 
         this.createWorkout = this.createWorkout.bind(this);
@@ -22,6 +22,11 @@ export default class Dashboard extends Component{
         if (prevProps.route.params?.workout !== this.props.route.params?.workout) {
             this.createWorkout(this.props.route.params?.workout);
         }
+    }
+
+    editWorkout(workout) {
+        this.setState({ currWorkout: workout });
+
     }
 
     createWorkout(workout) {

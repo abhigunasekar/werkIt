@@ -9,6 +9,7 @@ export default class ExerciseLabel extends Component {
     constructor(props) {
         super(props);
 
+        console.log('props sets: ' + this.props.sets);
         this.state = {
             name: this.props.name,
             sets: this.props.sets,

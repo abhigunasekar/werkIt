@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 
+// @ts-ignore
 import SwipeUpDown from 'react-native-swipe-up-down-fix';
 
 import TextBox from '../components/TextBox';
@@ -17,7 +18,9 @@ export default class WorkoutEditor extends Component {
         this.state = {
             name: this.props.route.params?.workout.name,
             exercises: this.props.route.params?.workout.exercises ?? [],
+            currKey: -1,
             currExercise: '',
+            numExercises: 0,
         };
 
         this.createExercise = this.createExercise.bind(this);
@@ -26,10 +29,31 @@ export default class WorkoutEditor extends Component {
     }
 
     createExercise(exercise) {
+        console.log('create exercise');
         let newArray = this.state.exercises.map(exercise => exercise);
-        newArray.push({ name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline});
+        let edited = false;
+        // if (this.state.currExercise < this.state.numExercises) {
+            for (let i = 0; i < newArray.length; i++) {
+                if (newArray[i].key === this.state.currKey) {
+                    console.log('found exercise');
+                    newArray[i] = { key: this.state.currKey, name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline };
+                    edited = true;
+                }
+            }
+        // } else {
+            if (!edited) {
+                console.log('create')
+                let key = this.state.numExercises;
+                newArray.push({ key: key++, name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline });
+
+                this.setState({ numExercises: key});
+            }
+        //}
 
         this.setState({ exercises: newArray });
+        this.setState({ currExercise: '' });
+        this.setState({ currKey: -1 });
+        this.forceUpdate();
     }
 
     deleteExercise(exercise) {
@@ -42,17 +66,27 @@ export default class WorkoutEditor extends Component {
         }
 
         this.setState({ exercises: newArray });
+        this.setState({ currExercise: '' });
     }
 
     editExercise(exercise) {
+        for (let i = 0; i < this.state.exercises.length; i++) {
+            if (exercise.name === this.state.exercises[i].name) {
+                this.setState({ currKey: this.state.exercises[i].key });
+            }
+        }
+
         this.setState({ currExercise: exercise });
         this.swipeUpDownRef.showFull();
     }
 
     render() {
+        console.log('render')
         let exerciseList = [];
+        console.log('array length: ' + exerciseList.length)
         for (let i = 0; i < this.state.exercises.length; i++) {
             let exercise = this.state.exercises[i];
+            console.log('editor sets: ' + exercise.sets)
             exerciseList.push(
                 <ExerciseLabel
                     key={i}
@@ -86,7 +120,21 @@ export default class WorkoutEditor extends Component {
                         orange={true}
                     />
                 </ScrollView>
-                <Button
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 15}}>
+                    <Button
+                        buttonText='Cancel'
+                        onPress={() => this.props.navigation.navigate('Dashboard')}
+                        orange={true}
+                    />
+                    <Button
+                        buttonText='Delete'
+                        onPress={() => {
+                            this.props.deleteExercise(this.state);
+                            this.props.dismiss();
+                        }}
+                        orange={true}
+                    />
+                    <Button
                         buttonText='Submit'
                         onPress={() => {
                             this.props.navigation.navigate('Dashboard', { workout: this.state });
@@ -94,7 +142,8 @@ export default class WorkoutEditor extends Component {
                         }}
                         style={{marginTop: 10}}
                         orange={true}
-                />
+                    />
+                </View>
                 <SwipeUpDown		
                     itemFull={
                         <ExerciseEditor

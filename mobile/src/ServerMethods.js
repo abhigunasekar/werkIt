@@ -1,6 +1,8 @@
+const address = '10.186.150.93';
+
 export async function createAccount(info) {
     console.log('create account');
-    return await fetch('http://10.186.150.93:8000/mobile/create_account', {
+    return await fetch('http://' + address + ':8000/mobile/create_account', {
         method: 'POST',
         body: JSON.stringify({
             f_name: info.firstName,
@@ -17,7 +19,7 @@ export async function createAccount(info) {
 
 export async function login(info) {
     console.log('login');
-    return await fetch('http://10.186.150.93:8000/mobile/login', {
+    return await fetch('http://' + address + ':8000/mobile/login', {
         method: 'POST',
         body: JSON.stringify({
             username: info.username,
@@ -31,7 +33,7 @@ export async function login(info) {
 
 export async function changePassword(info) {
     console.log('change password');
-    return await fetch('http://10.186.150.93:8000/mobile/user/' + info.username + '/profile', {
+    return await fetch('http://' + address + ':8000/mobile/user/' + info.username + '/profile', {
         method: 'PATCH',
         body: JSON.stringify({
           username: info.username,
@@ -45,5 +47,5 @@ export async function changePassword(info) {
 
 export async function verifyUsername(username) {
     console.log('verify username: ' + username);
-    return await fetch('http://10.186.150.93:8000/mobile/user/' + username);
+    return await fetch('http://' + address + ':8000/mobile/user/' + username);
 }
