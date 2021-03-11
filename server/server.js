@@ -99,12 +99,11 @@ app.get('/mobile/user/:username', (req, res) => {
     } else {
       res.status(400).json({exists: false});
     }
-  })
-})
+  });
+});
 
 app.patch('/web/user/:username/profile', (req, res) => {
-  console.log(req.body);
-  mc.change_password(req.params.username, req.body.password).then(_ => {
+  mc.change_password(req.params.username, req.body.password[0]).then(_ => {
     console.log("Successfully changed password for %s", req.params.username);
     res.send("Successfully changed password")
   }).catch(err => {
@@ -112,7 +111,7 @@ app.patch('/web/user/:username/profile', (req, res) => {
                     403 : "Password is the same as the current one - enter different password"};
     console.log("%s", err_dict[err]);
     res.status(err).send(err_dict[err]);
-  })
+  });
 });
 
 app.patch('/mobile/user/:username/profile', (req, res) => {
@@ -124,7 +123,7 @@ app.patch('/mobile/user/:username/profile', (req, res) => {
                     403 : "Password is the same as the current one - enter different password"};
     console.log("%s", err_dict[err]);
     res.status(err).json({data: err_dict[err]});
-  })
+  });
 });
 
 app.listen(port, ip, function() {
