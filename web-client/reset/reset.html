@@ -45,15 +45,14 @@
                 }
             }
         }
-        // $(".button").on("click", function (e) {
-        //     e.preventDefault();
-        //     // http://127.0.0.1:8000/user/:username/profile
-        //     var username = document.getElementById("user").value;
-        //     var url = "http://127.0.0.1:8000/user/";
-        //     var res = url.concat(username);
-        //     var final = res.concat("/profile");
-        //     $('#reset_pass').attr('action', final).submit();
-        // });
+        function setAction(form) {
+            var username = document.getElementById("user").value;
+            var url = "http://10.0.0.48:8000/web/user/";
+            var res = url.concat(username);
+            var final = res.concat("/profile");
+            form.method = "patch";
+            form.action = final;
+        }
     </script>
     <title>Reset Password</title>
 
@@ -61,7 +60,7 @@
 
 <body>
     <div class="signup-form">
-        <form action="http://127.0.0.1:8000/web/reset_pass_redirect" id="reset_pass" method="post">
+        <form action="http://10.0.0.48:8000/web/user/username12345/profile?_method=PATCH" id="reset_pass" method="POST">
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../login/login.html"><i class="health-icon fas fa-running"></i></a>
