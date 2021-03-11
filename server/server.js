@@ -43,7 +43,7 @@ app.post('/mobile/create_account', (req, res) => {
         name, req.body.username, req.body.password, req.body.email
       );
       console.log("Successfully created new user")
-      res.status(201).json({data: true});
+      res.status(200).json({data: true});
     }
   });
 });
@@ -73,7 +73,7 @@ app.post('/mobile/login', (req, res) => {
   mc.check_login(req.body.username, req.body.password).then(exists => {
     if (exists) {
       console.log("Login credentials match - successful login");
-      res.status(204).json({data: true});
+      res.status(200).json({data: true});
     } else {
       mc.check_user_existence(req.body.username).then(user_exist => {
         if (user_exist) {
@@ -113,7 +113,7 @@ app.patch('/web/user/:username/profile', (req, res) => {
 app.patch('/mobile/user/:username/profile', (req, res) => {
   mc.change_password(req.params.username, req.body.password).then(_ => {
     console.log("Successfully changed password for %s", req.params.username);
-    res.status(204).json({data: true})
+    res.status(200).json({data: true})
   }).catch(err => {
     var err_dict = {401 : "User does not exist - cannot change password",
                     403 : "Password is the same as the current one - enter different password"};

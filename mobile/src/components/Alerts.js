@@ -39,7 +39,31 @@ export const invalidEmailAlert = () => {
 export const invalidFormAlert = () => {
     Alert.alert(
         '',
-        'Please make sure every field is filled out',
+        'Please make sure every field is filled out correctly',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const usernameAlreadyExists = () => {
+    Alert.alert(
+        '',
+        'The selected username already exists',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const usernameDoesNotExist = () => {
+    Alert.alert(
+        '',
+        'The specified username does not exist',
         [
             {
                 text: 'OK'
