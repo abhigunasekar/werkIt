@@ -7,7 +7,7 @@ import TextBox from '../components/TextBox';
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
-import { invalidEmailAlert, mismatchPasswordAlert, invalidFormAlert } from '../components/Alerts';
+import { invalidEmailAlert, mismatchPasswordAlert, invalidFormAlert, usernameAlreadyExists } from '../components/Alerts';
 
 export default class CreateAccount extends Component {
     constructor() {
@@ -19,6 +19,7 @@ export default class CreateAccount extends Component {
             email: '',
             username: '',
             password: '',
+            correctEmail: true,
         };
 
         this.emailHandler = this.emailHandler.bind(this);
@@ -41,7 +42,7 @@ export default class CreateAccount extends Component {
     }
 
     validForm() {
-        return ((this.state.firstName !== '') && (this.state.lastName !== '') && (this.state.email !== '') && (this.state.username !== '') && (this.state.password !== ''));
+        return ((this.state.firstName !== '') && (this.state.lastName !== '') && ((this.state.email !== '') && (this.state.email.includes('@'))) && (this.state.username !== '') && (this.state.password !== ''));
     }
 
     render() {
@@ -63,6 +64,7 @@ export default class CreateAccount extends Component {
                         <TextBox 
                             placeholder='Email'
                             keyboardType='email-address'
+                            autoFocus={!this.state.correctEmail}
                             onChangeText={(text) => this.setState({ email: text })}
                             onEndEditing={(e) => this.emailHandler(e)}
                             value={this.state.email}
@@ -88,8 +90,12 @@ export default class CreateAccount extends Component {
                             onPress={async () => {
                                 if (this.validForm()) {
                                     //maybe add a confirmation alert here??
-                                    await serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, passsword: this.state.password});
-                                    this.props.navigation.navigate('Login');    
+                                    let response = await serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, password: this.state.password});
+                                    if (response.status === 200) {
+                                        this.props.navigation.navigate('Login');
+                                    } else {
+                                        usernameAlreadyExists();
+                                    }  
                                 } else {
                                     console.log('field is empty');
                                     invalidFormAlert();

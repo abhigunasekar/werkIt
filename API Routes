@@ -50,7 +50,7 @@ response body:
 RESETTING PASSWORD
 -----Request-----
 method: PATCH
-route: '/login/{username}/profile'
+route: '/user/{username}/profile'
 request Body:
 	{
 		"password":"<password>"

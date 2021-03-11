@@ -4,7 +4,7 @@ import { Text, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 
-import { mismatchPasswordAlert, invalidFormAlert } from '../components/Alerts';
+import { mismatchPasswordAlert, invalidFormAlert, usernameDoesNotExist } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
@@ -24,13 +24,15 @@ export default class ChangePassword extends Component {
         this.validForm = this.validForm.bind(this);
     }
 
-    checkUsername(e) {
-        //server request to validate username
-        /* if (error) {
-            throw an error
-        } */
+    async checkUsername() {
         if (this.state.username !== '') {
-            this.setState({ matchingUsername: true });
+            let response = await serverMethods.verifyUsername(this.state.username);
+            console.log(response.status);
+            if (response.status === 200) {
+                this.setState({ matchingUsername: true });
+            } else {
+                usernameDoesNotExist();
+            }
         } else {
             invalidFormAlert();
         }
@@ -92,8 +94,10 @@ export default class ChangePassword extends Component {
                                 onPress={async () => {
                                     if (this.validForm()) {
                                         console.log('New password: ' + this.state.newPassword);
-                                        await serverMethods.changePassword({ username: this.state.username, newPassword: this.state.newPassword });
-                                        this.setState({ passwordChanged: true });
+                                        let response = await serverMethods.changePassword({ username: this.state.username, newPassword: this.state.newPassword });
+                                        if (response.status === 200) {
+                                            this.setState({ passwordChanged: true });
+                                        }
                                     } else {
                                         invalidFormAlert();
                                     }
