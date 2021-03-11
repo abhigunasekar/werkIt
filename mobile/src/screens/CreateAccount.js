@@ -92,7 +92,8 @@ export default class CreateAccount extends Component {
                                     //maybe add a confirmation alert here??
                                     let response = await serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, password: this.state.password});
                                     if (response.status === 200) {
-                                        this.props.navigation.navigate('Login');
+                                        //this.props.navigation.navigate('Dashboard');
+                                        this.props.login();
                                     } else {
                                         usernameAlreadyExists();
                                     }  

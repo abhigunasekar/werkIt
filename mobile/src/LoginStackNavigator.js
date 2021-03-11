@@ -25,9 +25,10 @@ export default class StackNavigator extends Component {
                 </Stack.Screen>
                 <Stack.Screen 
                     name='CreateAccount'
-                    component={CreateAccount}
                     options={{ gestureEnabled: false }}
-                />
+                >
+                    {props => <CreateAccount {...props} login={this.props.login} />}
+                </Stack.Screen>
                 <Stack.Screen
                     name='ChangePassword'
                     component={ChangePassword}
