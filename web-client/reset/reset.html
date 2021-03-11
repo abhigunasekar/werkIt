@@ -49,9 +49,11 @@
             var username = document.getElementById("user").value;
             var url = "http://10.0.0.48:8000/web/user/";
             var res = url.concat(username);
-            var final = res.concat("/profile");
-            form.method = "patch";
+            var final = res.concat("/profile?_method=PATCH");
+            //form.method = "patch";
             form.action = final;
+            alert(form.action);
+            return false;
         }
     </script>
     <title>Reset Password</title>
@@ -60,7 +62,7 @@
 
 <body>
     <div class="signup-form">
-        <form action="http://10.0.0.48:8000/web/user/username12345/profile?_method=PATCH" id="reset_pass" method="POST">
+        <form action="" onSubmit="return setAction(this)" id="reset_pass" method="POST">
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../login/login.html"><i class="health-icon fas fa-running"></i></a>
