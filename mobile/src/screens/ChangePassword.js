@@ -24,9 +24,10 @@ export default class ChangePassword extends Component {
         this.validForm = this.validForm.bind(this);
     }
 
-    async checkUsername(e) {
+    async checkUsername() {
         if (this.state.username !== '') {
-            let response = await serverMethods.verifyUsername(e.nativeEvent.text);
+            let response = await serverMethods.verifyUsername(this.state.username);
+            console.log(response.status);
             if (response.status === 200) {
                 this.setState({ matchingUsername: true });
             } else {
@@ -93,8 +94,10 @@ export default class ChangePassword extends Component {
                                 onPress={async () => {
                                     if (this.validForm()) {
                                         console.log('New password: ' + this.state.newPassword);
-                                        await serverMethods.changePassword({ username: this.state.username, newPassword: this.state.newPassword });
-                                        this.setState({ passwordChanged: true });
+                                        let response = await serverMethods.changePassword({ username: this.state.username, newPassword: this.state.newPassword });
+                                        if (response.status === 200) {
+                                            this.setState({ passwordChanged: true });
+                                        }
                                     } else {
                                         invalidFormAlert();
                                     }

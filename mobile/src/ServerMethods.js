@@ -31,7 +31,7 @@ export async function login(info) {
 
 export async function changePassword(info) {
     console.log('change password');
-    return await fetch('http://10.186.150.93:8000/mobile/user' + info.username + '/profile', {
+    return await fetch('http://10.186.150.93:8000/mobile/user/' + info.username + '/profile', {
         method: 'PATCH',
         body: JSON.stringify({
           username: info.username,
@@ -43,7 +43,7 @@ export async function changePassword(info) {
     });
 }
 
-export async function verifyUsername(info) {
-    console.log('verify username');
-    return await fetch('http://10.186.150.93:8000/mobile/user' + info.username);
+export async function verifyUsername(username) {
+    console.log('verify username: ' + username);
+    return await fetch('http://10.186.150.93:8000/mobile/user/' + username);
 }

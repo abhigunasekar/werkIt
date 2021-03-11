@@ -53,7 +53,7 @@ export default class Login extends Component {
                                     console.log('Password: ' + this.state.password);
                                     let response = await serverMethods.login(this.state);
                                     if (response.status === 200) {
-                                        this.props.login;
+                                        this.props.login();
                                     } else {
                                         invalidCredentialsAlert();
                                     }
