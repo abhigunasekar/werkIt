@@ -20,6 +20,7 @@ export default class CreateAccount extends Component {
             username: '',
             password: '',
             correctEmail: true,
+            usernameError: false,
         };
 
         this.emailHandler = this.emailHandler.bind(this);
@@ -58,7 +59,8 @@ export default class CreateAccount extends Component {
                         />
                         <TextBox
                             placeholder='Last Name'
-                            onChangeText={(text) => this.setState({ lastName: text })}
+                            onChangeText={(text) => this.setState({ lastName: text, usernameError: false })}
+                            style={this.state.usernameError ? styles.errorBox : ''}
                             value={this.state.lastName}
                         />
                         <TextBox 
@@ -85,26 +87,35 @@ export default class CreateAccount extends Component {
                             onEndEditing={(e) =>  this.passwordHandler(e)}
                             secureTextEntry={true}
                         />
-                        <Button 
-                            buttonText='Sign up'
-                            onPress={async () => {
-                                if (this.validForm()) {
-                                    //maybe add a confirmation alert here??
-                                    let response = await serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, password: this.state.password});
-                                    if (response.status === 200) {
-                                        //this.props.navigation.navigate('Dashboard');
-                                        this.props.login();
+                        <View style={{flexDirection: 'row', marginTop: 17}}>
+                            <Button 
+                                buttonText='Go back'
+                                onPress={() => this.props.navigation.navigate('Login')}
+                                style={{marginRight: 30}}
+                                purple={true}
+                            /> 
+                            <Button 
+                                buttonText='Sign up'
+                                onPress={async () => {
+                                    if (this.validForm()) {
+                                        //maybe add a confirmation alert here??
+                                        let response = await serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, password: this.state.password});
+                                        if (response.status === 200) {
+                                            //this.props.navigation.navigate('Dashboard');
+                                            this.props.login();
+                                        } else {
+                                            // add parsing for spaces at the end of string
+                                            usernameAlreadyExists();
+                                            this.setState({usernameError: true});
+                                        }  
                                     } else {
-                                        usernameAlreadyExists();
-                                    }  
-                                } else {
-                                    console.log('field is empty');
-                                    invalidFormAlert();
-                                }
-                            }}
-                            style={{ marginTop: 10 }}
-                            orange={true}
-                        />
+                                        console.log('field is empty');
+                                        invalidFormAlert();
+                                    }
+                                }}
+                                orange={true}
+                            />
+                        </View>
                     </KeyboardAvoidingView>
                 </View>
             </TouchableWithoutFeedback>
