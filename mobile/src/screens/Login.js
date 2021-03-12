@@ -8,6 +8,8 @@ import ReactDOM from 'react-dom';
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 
+import { invalidCredentialsAlert, invalidFormAlert } from '../components/Alerts';
+import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 import { Style } from 'radium/lib';
 import bounceOut from 'react-animations/lib/bounce-out';
@@ -105,6 +107,7 @@ export default class Login extends Component {
 
     render() {
         return (
+            <TouchableWithoutFeedback>
             <View style={styles.loginContainer}>
                 <View style={styles.loginForm}>
                     <TextBox
@@ -148,6 +151,7 @@ export default class Login extends Component {
                     
                 </View>
             </View>
+            </TouchableWithoutFeedback>
         );
     }
 }

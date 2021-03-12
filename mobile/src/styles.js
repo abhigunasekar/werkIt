@@ -1,31 +1,116 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
-    button: {
-        alignItems: 'center',
-        borderColor: '#7641BD',
-        borderWidth: 3,
-        borderRadius: 3,
-        height: 35,
-        justifyContent: 'center',
-        width: 70
-    },
     loginContainer: {
         backgroundColor: '#7641BD',
         height: '100%',
+        justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'center'
     },
     loginForm: {
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
-        height: '80%',
-        width: '70%',
+        borderRadius: 7,
+        height: '50%',
+        width: '75%',
+        flexDirection: 'column',
         justifyContent: 'center',
     },
-    textBox: {
-        borderColor: '#000000',
+    loginText: {
+        fontSize: 35,
+        color: '#7641BD',
+        fontWeight: 'bold',
+        marginBottom: 23,
+    },
+    createAccountContainer: {
+        backgroundColor: '#FB963C',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    createAccountForm: {
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        height: '80%',
+        width: '75%',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        borderRadius: 7
+    },
+    createAccountText: {
+        fontSize: 30,
+        color: '#FB963C',
+        fontWeight: 'bold',
+        marginBottom: 40,
+    },
+    changePasswordContainer: {
+        backgroundColor: '#535c68',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+    changePasswordForm: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#FFFFFF',
+        height: '60%',
+        width: '75%',
+        borderRadius: 7,
+    },
+    changePasswordText: {
+        fontSize: 25,
+        color: '#535c68',
+        fontWeight: 'bold',
+        marginBottom: 35,
+    },
+    dashboardContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    motivationalQuote: {
+        width: '100%',
+        textAlign: 'center',
+        fontSize: 30,
+        margin: 20
+    },
+    workoutList: {
+        height: '75%',
+        width: '80%',
+        borderColor: '#6B6767',
+        borderWidth: 3,
+        marginBottom: 20,
+    },
+    workoutEditorContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    exerciseEditorContainer: {
+        
+    },
+    exerciseList: {
+        height: '75%',
+        width: '100%',
+        borderColor: '#6B6767',
+        //borderWidth: 3,
+        borderTopWidth: 3,
+        borderBottomWidth: 3,
+        marginTop: 15,
+        marginBottom: 20,
+        padding: 15
+    },
+    button: {
+        alignItems: 'center',
         borderWidth: 2,
+        borderRadius: 3,
+        height: 35,
+        justifyContent: 'center',
+        padding: 7
+    },
+    textBox: {
+        borderColor: '#6B6767',
+        borderWidth: 2,
+        borderRadius: 3,
         marginBottom: 15,
         padding: 10,
         height: 40,

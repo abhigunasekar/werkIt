@@ -9,6 +9,7 @@ export default class Dashboard extends Component{
     constructor(props) {
         super(props);
 
+        //console.log(this.props.route.params);
         this.state = {
             pictures: [],
             profile: defaultPic
@@ -27,6 +28,18 @@ export default class Dashboard extends Component{
     };
 
     render() {
+        let workoutList = [];
+        for (let i = 0; i < this.state.workouts.length; i++) {
+            let workout = this.state.workouts[i];
+            workoutList.push(
+                <WorkoutLabel
+                    key={i}
+                    name={workout.name}
+                    exercises={workout.exercies}
+                    edit={() => this.props.navigation.navigate('WorkoutEditor', { workout: workout })}
+                />
+            );
+        }
         return(
             <ScrollView>
                 <ImageBackground source={this.state.profile} imageStyle={{width: 200, height: 200, borderRadius: 200/ 2}}>

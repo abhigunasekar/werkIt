@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -25,13 +28,41 @@
 
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="reset.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!-- JS -->
+    <script>
+        window.onload = function () {
+            document.querySelector('.button').onclick = function () {
+                var password = document.getElementById("pswd").value;
+                var confirmP = document.getElementById("confirm").value;
+                console.log(password);
+                console.log(confirmP);
+                if (password == "") {
+                    alert("Field cannor be empty.");
+                }
+                else if (password != confirmP) {
+                    alert("Password didn't match try again.");
+                    return false;
+                }
+            }
+        }
+        function setAction(form) {
+            var username = document.getElementById("user").value;
+            var url = "http://10.0.0.48:8000/web/user/";
+            var res = url.concat(username);
+            var final = res.concat("/profile?_method=PATCH");
+            //form.method = "patch";
+            form.action = final;
+        }
+    </script>
     <title>Reset Password</title>
 
 </head>
 
 <body>
     <div class="signup-form">
-        <form action="/examples/actions/confirmation.php" method="post">
+        <form action="" onSubmit="return setAction(this)" id="reset_pass" method="POST">
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../login/login.html"><i class="health-icon fas fa-running"></i></a>
@@ -42,34 +73,54 @@
             <!-- Username -->
             <div class="form-group">
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
-                    <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+                    <span class="input-group-addon"><i
+                            class="animate__animated animate__slideInLeft fas fa-user-shield"></i></span>
+                    <input type="text" class="form-control" name="username" id="user" placeholder="Username"
+                        required="required">
                 </div>
             </div>
 
             <!-- Email -->
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
                     <input type="email" class="form-control" name="email" placeholder="Email" required="required">
+                </div>
+            </div> -->
+
+            <!-- Password -->
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                    <input type="password" id="pswd" class="form-control" name="password" placeholder="New Password"
+                        required="required">
+                </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                    <input type="password" id="confirm" class="form-control" name="password"
+                        placeholder="Confirm Password" required="required">
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                    <button type="submit" class="btn btn-signup btn-lg btn-block">Reset Password</button>
+                    <button type="submit" id="reset" class="button btn btn-signup btn-lg btn-block">Reset
+                        Password</button>
                 </div>
 
             </div>
-            <div class="form-group row">
+            <!-- <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p>Want to Change Username, Instead?</p>
                     <a href="../username/username.html" class="btn btn-login btn-lg btn-block" role="button">Change
                         Username</a>
-                    <!-- <button type="submit" class="btn btn-login">Login</button> -->
                 </div>
-            </div>
+            </div> -->
 
     </div>
     </div>

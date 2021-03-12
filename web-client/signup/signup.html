@@ -7,7 +7,8 @@
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -27,34 +28,38 @@
 
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="signup.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <!-- JS -->
     <script>
-        window.onload = function() {
-        document.querySelector('.button').onclick = function() {
-            var password = document.getElementById("pswd").value;
-            var confirmP = document.getElementById("confirm").value;
-            console.log(password);
-            console.log(confirmP);
-            if (password == "") {
-                alert("Field cannor be empty.");
-            }
-            else if (password != confirmP) {
-                alert("Password didn't match try again.");
-                return false;
+        window.onload = function () {
+            document.querySelector('.button').onclick = function () {
+                var password = document.getElementById("pswd").value;
+                var confirmP = document.getElementById("confirm").value;
+                console.log(password);
+                console.log(confirmP);
+                if (password == "") {
+                    alert("Field cannor be empty.");
+                }
+                else if (password != confirmP) {
+                    alert("Password didn't match try again.");
+                    return false;
+                }
             }
         }
-    }
     </script>
     <title>Sign Up</title>
 
 </head>
-<!-- action="http://192.168.1.1:8000/create_account" Must Add to form later-->
+<!-- action="http://127.0.0.1:8000/create_account" Must Add to form later-->
+
 <body>
     <div class="signup-form">
-        <form name="signUp"  action="http://192.168.1.1:8000/create_account" method="POST">
+        <form name="signUp" action="http://10.0.0.48:8000/web/create_account" method="POST">
             <!-- Header -->
             <div class="text-center" id="container">
-                <a href="../index.html"><i class="health-icon fas fa-running"></i></a>
+                <a href="../index.html"><i
+                        class="animate__animated animate__slideInLeft health-icon fas fa-running"></i></a>
                 <h2>Create An Account</h2>
             </div>
             <hr>
@@ -72,8 +77,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="far fa-user"></i></span>
-                    <input type="text" class="form-control" name="l_name" placeholder="Last Name"
-                        required="required">
+                    <input type="text" class="form-control" name="l_name" placeholder="Last Name" required="required">
                 </div>
             </div>
 
@@ -97,8 +101,8 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="password" id="pswd" class="form-control password" name="password" placeholder="Password"
-                        required="required">
+                    <input type="password" id="pswd" class="form-control password" name="password"
+                        placeholder="Password" required="required">
                 </div>
             </div>
 
@@ -106,8 +110,8 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input id="confirm" type="password" class="form-control confirmPassword" name="confirmPass" placeholder="Confirm Password"
-                        required="required">
+                    <input id="confirm" type="password" class="form-control confirmPassword" name="confirmPass"
+                        placeholder="Confirm Password" required="required">
                 </div>
             </div>
             <div class="form-group row">

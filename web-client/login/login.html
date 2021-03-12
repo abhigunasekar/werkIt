@@ -1,34 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <!-- Bootstrap CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
     <!-- Learned Bootstrap From -->
     <!--  https://getbootstrap.com/-->
-    
+
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/25ed10730a.js" crossorigin="anonymous"></script>
-    
+
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="login.css">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     <title>Login</title>
 
 </head>
+
 <body>
     <div class="login-form">
-        <form action="/examples/actions/confirmation.php" method="post">
+        <form action="http://10.0.0.48:8000/web/login" method="post">
             <!-- Header -->
             <div class="text-center" id="container">
-                <a href="../index.html"><i class="health-icon fas fa-running"></i></a>
+                <a href="../index.html"><i
+                        class="animate__animated animate__slideInLeft health-icon fas fa-running"></i></a>
                 <h2 class="text-center">Login</h2>
             </div>
             <hr>
@@ -45,7 +59,8 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                    <input type="password" class="form-control" name="password" placeholder="Password"
+                        required="required">
                 </div>
             </div>
 
@@ -53,22 +68,24 @@
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                  <button type="submit" class="btn btn-login btn-lg btn-block">Login</button>
+                    <button type="submit" class="btn btn-login btn-lg btn-block">Login</button>
                 </div>
 
             </div>
-              <div class="form-group row">
+            <div class="form-group row">
                 <div class="col-sm-6 text-center">
                     <p>Don't have an account?</p>
                     <a href="../signup/signup.html" class="btn btn-signup btn-lg btn-block" role="button">Sign Up</a>
                 </div>
                 <div class="col-sm-6 text-center">
                     <p>Forgot Password?</p>
-                    <a href="../reset/reset.html" class="btn btn-reset btn-lg btn-block" role="button">Reset Password</a>
+                    <a href="../reset/reset.html" class="btn btn-reset btn-lg btn-block" role="button">Reset
+                        Password</a>
                 </div>
             </div>
 
-        </div>
+    </div>
     </div>
 </body>
+
 </html>

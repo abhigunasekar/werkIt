@@ -1,0 +1,69 @@
+API Routes for communication between server and clients.
+
+CREATING A NEW ACCOUNT
+-----Request-----
+method: POST 
+route: '/create_account'
+request Body:
+    {
+        "f_name":"<first last>",
+        "l_name":"<last name>",
+        "email":"<email>",
+        "username":"<username>",
+        "password":"<password>"
+    }
+
+-----Response-----
+status: 201 Created
+response body:
+    "Welcome <name>! Please download the Werk It Mobile App"
+
+status: 403 Forbidden
+response body:
+    "Username already exists in database.  Please choose a new one."
+
+
+
+LOGGING IN
+-----Request-----
+method: POST
+route: '/login'
+request body:
+	{
+		"username":"<username>",
+		"password":"<password>"
+	}
+
+-----Response-----
+status: 204 No Content
+
+status: 401 Unauthorized
+response body:
+    "User does not exist"
+    
+status: 403 Forbidden
+response body:
+    "Invalid password"
+
+
+
+RESETTING PASSWORD
+-----Request-----
+method: PATCH
+route: '/user/{username}/profile'
+request Body:
+	{
+		"password":"<password>"
+	}
+
+-----Response-----
+status: 204
+
+status: 401 Unauthorized
+response body:
+    "User does not exist - cannot change password"
+
+status: 403 Forbidden
+response body:
+    "Password is the same as the current one - enter different password"
+	

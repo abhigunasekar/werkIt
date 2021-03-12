@@ -5,11 +5,16 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "chai": "^4.3.3",
     "express": "^4.17.1",
+    "localtunnel": "^2.0.1",
+    "method-override": "^3.0.0",
     "mongodb": "^3.6.4",
     "mongojs": "^3.1.0",
     "mongoose": "^5.11.18",
-    "package.json": "^2.0.1"
+    "node-fetch": "^2.6.1",
+    "package.json": "^2.0.1",
+    "request": "^2.88.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,5 +22,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^8.3.1"
+  }
 }

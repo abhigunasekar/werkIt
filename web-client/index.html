@@ -1,171 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Favicon -->
-    <link rel=icon type=image/x-icon href=assets/favicon.png>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
-    
-    <!-- Learned Bootstrap From -->
-    <!-- https://getbootstrap.com/-->
-    
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/25ed10730a.js" crossorigin="anonymous"></script>
-    
-    <!-- Personalized CSS -->
-    <link rel="stylesheet" href="styles.css">
 
-    <!-- Animate.css -->
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-  />
-    <title>Werk It</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Favicon -->
+  <link rel=icon type=image/x-icon href=assets/favicon.png>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+
+  <!-- Learned Bootstrap From -->
+  <!-- https://getbootstrap.com/-->
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/25ed10730a.js" crossorigin="anonymous"></script>
+
+  <!-- Personalized CSS -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <title>Werk It</title>
 </head>
+
 <body>
-    <!-- Logo -->
-    <nav  class="navbar navbar-custom">
-        <div id="logo">
-            <a class="navbar-brand" href="#">
-                <img src="assets/logo.png"  width="160" height="40" class="d-inline-block align-top" alt="">
-            </a>
-        </div>
-    </nav>
-    <!-- Links Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-main bg-main">
-        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        <!-- <a class="navbar-brand navbar-main bg-main" id="about" href="index.html">About</a> -->
-        
-        <div class="collapse navbar-collapse navbar-main bg-main"   id="navbarTogglerDemo03">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
-            <li class="nav-item ">
-                <a class="nav-link navbar-main bg-main" id="about" href="#about-section">About</a>
-              </li>
-            <li class="nav-item ">
-              <a class="nav-link navbar-main bg-main" id="exercise" href="#exercise-section">Exercise</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link navbar-main bg-main" id="features" href="#feature-section">Features</a>
-            </li>
-            <!-- <li class="nav-item ">
+  <!-- Logo -->
+  <nav class="navbar navbar-custom">
+    <div id="logo">
+      <a class="navbar-brand" href="#">
+        <img src="assets/logo.png" width="160" height="40" class="d-inline-block align-top" alt="">
+      </a>
+    </div>
+  </nav>
+  <!-- Links Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-main bg-main">
+    <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- <a class="navbar-brand navbar-main bg-main" id="about" href="index.html">About</a> -->
+
+    <div class="collapse navbar-collapse navbar-main bg-main" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+        <li class="nav-item ">
+          <a class="nav-link navbar-main bg-main" id="about" href="#about-section">About</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link navbar-main bg-main" id="exercise" href="#exercise-section">Exercise</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link navbar-main bg-main" id="features" href="#feature-section">Features</a>
+        </li>
+        <!-- <li class="nav-item ">
                 <a class="nav-link navbar-main bg-main" id="signup" href="#">Sign Up</a>
               </li>
               <li class="nav-item ">
                 <a class="nav-link navbar-main bg-main" id="login" href="#" >Login</a>
               </li> -->
-         </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <a href="signup/signup.html" class="btn btn-outline-login my-2 my-sm-0" type="submit">Sign Up</a>
-            </form>
-            <form class="form-inline my-2 my-lg-0">
-                <a href="login/login.html" class="btn btn-outline-login my-2 my-sm-0" type="submit">Login</a>
-            </form>
-        </div>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <a href="signup/signup.html" class="btn btn-outline-login my-2 my-sm-0" type="submit">Sign Up</a>
+      </form>
+      <form class="form-inline my-2 my-lg-0">
+        <a href="login/login.html" class="btn btn-outline-login my-2 my-sm-0" type="submit">Login</a>
+      </form>
+    </div>
 
-        </div>
-      </nav>'
-      <div class="jumbotron jumbotron-hero">
-        <h1 class="display-1 text-center heading">Werk It</h1>
-        <p class="lead text-center">Tracking your workouts has never been this easy</p>
-        <hr class="my-4">
-        <p class="lead text-center">
-          <a class="btn btn-learn btn-lg" href="#about-section" role="button">Learn more</a>
-          <a class="btn btn-signup btn-lg" href="signup/signup.html" role="button">Create an account</a>
-        </p>
+    </div>
+  </nav>'
+  <div class="jumbotron jumbotron-hero">
+    <h1 class="animate__animated animate__backInLeft display-1 text-center heading">Werk It</h1>
+    <p class="lead text-center">Tracking your workouts has never been this easy</p>
+    <hr class="my-4">
+    <p class="lead text-center">
+      <a class="btn btn-learn btn-lg" href="#about-section" role="button">Learn more</a>
+      <a class="btn btn-signup btn-lg" href="signup/signup.html" role="button">Create an account</a>
+    </p>
+  </div>
+  <div id="about-section" class="jumbotron jumbotron-about ">
+    <h1 class="display-5 text-center heading section-head ">About Us</h1>
+    <div class="row">
+      <div class="col-lg-5 text-center">
+        <i class="health-icon fas fa-running"></i>
       </div>
-      <div id="about-section" class="jumbotron jumbotron-about ">
-        <h1 class="display-5 text-center heading section-head ">Improve Your Health</h1>
-        <div class="row">
-            <div class="col-lg-5 text-center">
-                <i class="health-icon fas fa-running"></i>
-             </div>    
-            <div class="col-lg-7">
-                <h5 class="about-us-descript">
-                  Exercise is an essential component for a healthy mind and body. However, working out today, given the current pandemic, has become hard and lackluster. This is because physical and social isolation can cause lethargy and a lack of motivation. People seeking to improve their physical fitness have varying ranges of experience when it comes to exercise, and tracking one’s exercise goals has become tedious and cumbersome.
-                  <p></p>
-                  <p></p>
-                  Tech companies like Apple and Google have created apps such as Apple HealthKit and Fitbit, which track and monitor health data. These technologies, while great for collecting data such as calories burned or steps taken, don’t have the option of creating and tracking workouts. One of major motivational elements of exercise is being to see progress, and to be able to share it with friends.
-                  <p></p>
-                  This is why our team built <span class="badge bg-secondary">Werk It: </span> a cross-platform application that makes working out from anywhere easy.
+      <div class="col-lg-7">
+        <h5 class="about-us-descript">
+          Exercise is an essential component for a healthy mind and body. However, working out today, given the current
+          pandemic, has become hard and lackluster. This is because physical and social isolation can cause lethargy and
+          a lack of motivation. People seeking to improve their physical fitness have varying ranges of experience when
+          it comes to exercise, and tracking one’s exercise goals has become tedious and cumbersome.
+          <p></p>
+          <p></p>
+          Tech companies like Apple and Google have created apps such as Apple HealthKit and Fitbit, which track and
+          monitor health data. These technologies, while great for collecting data such as calories burned or steps
+          taken, don’t have the option of creating and tracking workouts. One of major motivational elements of exercise
+          is being to see progress, and to be able to share it with friends.
+          <p></p>
+          This is why our team built <span class="badge bg-secondary">Werk It: </span> a cross-platform application that
+          makes working out from anywhere easy.
 
-                  
-                </h5>
-            </div>                              
-        </div>
-      </div>
-      <div id="exercise-section" class="jumbotron jumbotron-exercise ">
-        <h1 class="display-5 text-center heading section-head ">Exercise</h1>
 
-        <h4 class="display-9 text-center subheading">Werk It Supports a Variety of exercises</h4>
-        
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-          <div class="col">
-            <div class="card h-100">
-              <img src="assets/bench-press.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 id="primary-color" class="card-title h3 text-center subheading">Bench Press</h5>
-                <p class="card-text"></p>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="assets/pull-ups.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 id="primary-color" class="card-title h3 text-center subheading">Pull Ups</h5>
-                <p class="card-text"></p>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="assets/leg-press.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 id="primary-color" class="card-title h3 text-center">Leg Press</h5>
-                <p class="card-text"></p>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="assets/cardio.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 id="primary-color" class="card-title h3 text-center">Cardio</h5>
-                <p class="card-text"></p>
-              </div>
-            </div>
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div id="exercise-section" class="jumbotron jumbotron-exercise ">
+    <h1 class="display-5 text-center heading section-head ">Exercise</h1>
+
+    <h4 class="display-9 text-center subheading">Werk It Supports a Variety of exercises</h4>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card h-100">
+          <img src="assets/bench-press.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 id="primary-color" class="card-title h3 text-center subheading">Bench Press</h5>
+            <p class="card-text"></p>
           </div>
         </div>
       </div>
-      <div id="feature-section" class="jumbotron jumbotron-about ">
-        <h1 class="display-5 text-center heading section-head ">Features</h1>
-        <div class="row">
-            <div class="col-lg-3 text-center">
-              <img src="assets/features.png" class="img-mrg rounded float-start" alt="...">
-             </div>    
-             <div class="col-lg-3"></div>
-            <div class="col-lg-6">
-                <h5 class="about-us-descript">
-                  <ul class="list-group">
-                    <li class="list-group-item active " id="list-group-purple">By using the Werk It application, you can:</li>
-                    <li class="list-group-item">1. Record data collected from workouts, caloric intake and fitness goals through the iOS app</li>
-                    <li class="list-group-item">2. View graphical visualizations based on your workout data</li>
-                    <li class="list-group-item">3. Generate workout suggestions based on your age, sex, and other attributes.</li>
-                    <li class="list-group-item">4. Connect and compete with your friends on Twitter or Instagram</li>
-                  </ul>
-                </h5>
-            </div>                              
+      <div class="col">
+        <div class="card h-100">
+          <img src="assets/pull-ups.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 id="primary-color" class="card-title h3 text-center subheading">Pull Ups</h5>
+            <p class="card-text"></p>
+          </div>
         </div>
       </div>
+      <div class="col">
+        <div class="card h-100">
+          <img src="assets/leg-press.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 id="primary-color" class="card-title h3 text-center">Leg Press</h5>
+            <p class="card-text"></p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card h-100">
+          <img src="assets/cardio.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 id="primary-color" class="card-title h3 text-center">Cardio</h5>
+            <p class="card-text"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="feature-section" class="jumbotron jumbotron-about ">
+    <h1 class="display-5 text-center heading section-head ">Features</h1>
+    <div class="row">
+      <div class="col-lg-3 text-center">
+        <img src="assets/features.png" class="img-mrg rounded float-start" alt="...">
+      </div>
+      <div class="col-lg-3"></div>
+      <div class="col-lg-6">
+        <h5 class="about-us-descript">
+          <ul class="list-group">
+            <li class="list-group-item active " id="list-group-purple">By using the Werk It application, you can:</li>
+            <li class="list-group-item">1. Record data collected from workouts, caloric intake and fitness goals through
+              the iOS app</li>
+            <li class="list-group-item">2. View graphical visualizations based on your workout data</li>
+            <li class="list-group-item">3. Generate workout suggestions based on your age, sex, and other attributes.
+            </li>
+            <li class="list-group-item">4. Connect and compete with your friends on Twitter or Instagram</li>
+          </ul>
+        </h5>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
