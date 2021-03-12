@@ -3,6 +3,7 @@ import { TouchableWithoutFeedback, Keyboard, View, Text, KeyboardAvoidingView } 
 
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
+import PasswordBox from '../components/PasswordBox';
 
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
@@ -59,8 +60,7 @@ export default class CreateAccount extends Component {
                         />
                         <TextBox
                             placeholder='Last Name'
-                            onChangeText={(text) => this.setState({ lastName: text, usernameError: false })}
-                            style={this.state.usernameError ? styles.errorBox : ''}
+                            onChangeText={(text) => this.setState({ lastName: text })}
                             value={this.state.lastName}
                         />
                         <TextBox 
@@ -73,19 +73,20 @@ export default class CreateAccount extends Component {
                         />
                         <TextBox
                             placeholder='Username'
-                            onChangeText={(text) => this.setState({ username: text })}
+                            onChangeText={(text) => this.setState({ username: text, usernameError: false })}
+                            style={this.state.usernameError ? styles.errorBox : ''}
                             value={this.state.username}
                         />
-                        <TextBox
+                        <PasswordBox
                             placeholder='Password'
                             onChangeText={(text) => this.setState({ password: text })}
-                            secureTextEntry={true}
+                            //secureTextEntry={true}
                             value={this.state.password}
                         />
-                        <TextBox
+                        <PasswordBox
                             placeholder="Confirm Password"
                             onEndEditing={(e) =>  this.passwordHandler(e)}
-                            secureTextEntry={true}
+                            //secureTextEntry={true}
                         />
                         <View style={{flexDirection: 'row', marginTop: 17}}>
                             <Button 

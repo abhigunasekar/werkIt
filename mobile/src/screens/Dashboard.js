@@ -30,15 +30,16 @@ export default class Dashboard extends Component{
     }
 
     createWorkout(workout) {
+        if (workout.name !== undefined) {
         let newArray = this.state.workouts.map(workout => workout);
         newArray.push({ name: workout.name, exercises: workout.exercises });
 
         this.setState({ workouts: newArray });
+        }
     }
 
     render() {
         let workoutList = [];
-        //workoutList.push(<WorkoutLabel name='Sample Workout 1'/>);
         for (let i = 0; i < this.state.workouts.length; i++) {
             let workout = this.state.workouts[i];
             workoutList.push(
@@ -57,7 +58,7 @@ export default class Dashboard extends Component{
                     <Text style={{fontSize: 30}}>Workouts</Text>
                 </View>
                 <ScrollView style={styles.workoutList} contentContainerStyle={{alignItems: 'center'}}>
-                    <Text style={{fontSize: 15}}>{this.state.workouts.length ? "" : "Create a new workout to get started!"}</Text>
+                    <Text style={{fontSize: 15}}>{(this.state.workouts.length !== 0) ? "" : "Create a new workout to get started!"}</Text>
                     {workoutList}
                 </ScrollView>
                 <Button

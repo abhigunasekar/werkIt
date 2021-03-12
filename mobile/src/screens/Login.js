@@ -3,6 +3,7 @@ import { TouchableWithoutFeedback, Keyboard, Text, View } from 'react-native';
 
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
+import PasswordBox from '../components/PasswordBox';
 
 import { invalidCredentialsAlert, invalidFormAlert } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
@@ -35,10 +36,10 @@ export default class Login extends Component {
                             onChangeText={(text) => this.setState({ username: text })}
                             value={this.state.username}
                         />
-                        <TextBox
+                        <PasswordBox
                             placeholder='Password'
                             onChangeText={(text) => this.setState({ password: text })}
-                            secureTextEntry={true}
+                            //secureTextEntry={true}
                             value={this.state.password}
                         />
                         <View style={{flexDirection: 'row', marginTop: 5, marginBottom: 20}}>

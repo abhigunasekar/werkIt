@@ -54,7 +54,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#FFFFFF',
-        height: '60%',
+        height: '45%',
         width: '75%',
         borderRadius: 7,
     },
@@ -116,7 +116,7 @@ export default StyleSheet.create({
         width: '75%',
     },
     errorBox: {
-        borderColor: '#ae0700',
+        borderColor: '#f70015',
         borderWidth: 2,
         borderRadius: 3,
         marginBottom: 15,

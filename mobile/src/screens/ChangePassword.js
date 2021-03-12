@@ -3,6 +3,7 @@ import { Text, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
+import PasswordBox from '../components/PasswordBox';
 
 import { mismatchPasswordAlert, invalidFormAlert, usernameDoesNotExist } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
@@ -78,16 +79,16 @@ export default class ChangePassword extends Component {
                     <View style={styles.changePasswordContainer}>
                         <View style={styles.changePasswordForm}>
                             <Text style={styles.changePasswordText}>Change Password</Text>
-                            <TextBox
+                            <PasswordBox
                                 placeholder='New Password'
                                 onChangeText={(text) => this.setState({ newPassword: text })}
-                                secureTextEntry={true}
+                                //secureTextEntry={true}
                                 value={this.state.newPassword}
                             />
-                            <TextBox
+                            <PasswordBox
                                 placeholder="Confirm Password"
                                 onEndEditing={(e) =>  this.passwordHandler(e)}
-                                secureTextEntry={true}
+                                //secureTextEntry={true}
                             />
                             <Button
                                 buttonText='Reset Password'
