@@ -77,7 +77,7 @@ export default class ExerciseEditor extends Component {
                         value={this.state.incline}
                         visible={true}
                     />
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 15}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 15, borderColor: '#6B6767', borderTopWidth: 2}}>
                         <Button
                             buttonText='Cancel'
                             onPress={() => this.props.dismiss()}
