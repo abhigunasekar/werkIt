@@ -23,7 +23,9 @@ app.post('/web/create_account', (req, res) => {
   mc.check_user_existence(req.body.username).then(exists => {
     if (exists) {
       console.log("Username already exists.")
-      res.status(403).send("Username already exists in database.  Please choose a new one.");
+      res.status(403).send("<h1 style='color: red'> Username already exists in database.  Please choose a new one.</h1>");
+      //res.status(403).send('<script>alert("Username already exists in database.  Please choose a new one.")</script>');
+      return false;
     } else {
       mc.save_new_account_data(
         name, req.body.username, req.body.password, req.body.email
