@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bounce } from 'react-animations';
+import Radium, {StyleRoot} from 'radium';
 import { Image, Text, View } from 'react-native';
 import MMKVStorage from "react-native-mmkv-storage";
 import ReactDOM from 'react-dom';
@@ -7,6 +9,15 @@ import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 
 import styles from '../styles';
+import { Style } from 'radium/lib';
+import bounceOut from 'react-animations/lib/bounce-out';
+
+const styles1 = {
+    bounce: {
+        animation: 'x 1s',
+        animationName: Radium.keyframes(bounce, 'bounce'),
+    }
+}
 
 export default class Login extends Component {
     constructor(props) {
@@ -39,6 +50,12 @@ export default class Login extends Component {
         /* this._storeData = this._storeData.bind(this);
         this._retrieveData = this._retrieveData.bind(this); */
         
+    }
+
+    keepAnimating() {
+        return (
+            <Text>Werking On It...</Text>
+        )
     }
 
     keepSignedIn() {
@@ -110,6 +127,10 @@ export default class Login extends Component {
                         onPress={() => {
                             console.log('Username: ' + this.state.username);
                             console.log('Password: ' + this.state.password);
+                            var i;
+                            for (i = 0; i < 1000000; i++) {
+                                this.keepAnimating();
+                            }
                             this.props.login();
                         }}
                     />
@@ -124,6 +145,7 @@ export default class Login extends Component {
                             type="checkbox"
                             onChange={this.keepSignedIn} />
                     </label>
+                    
                 </View>
             </View>
         );
