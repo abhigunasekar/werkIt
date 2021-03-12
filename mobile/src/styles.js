@@ -115,6 +115,15 @@ export default StyleSheet.create({
         height: 40,
         width: '75%',
     },
+    errorBox: {
+        borderColor: '#ae0700',
+        borderWidth: 2,
+        borderRadius: 3,
+        marginBottom: 15,
+        padding: 10,
+        height: 40,
+        width: '75%',
+    },
     hideableView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
