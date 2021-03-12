@@ -1,7 +1,14 @@
 // Requiring module 
 const assert = require('assert'); 
-
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
 const request = require("request");
+const port = 8000;
+const ip = "127.0.0.1"
+
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 describe("WerkIt Server Testing", function() {
 	
@@ -12,8 +19,8 @@ describe("WerkIt Server Testing", function() {
 		});
 	});
 
-	it('Create Account Page', function(done) {
-		request("http://127.0.0.1:8000/create_account", function(error, response, body) {
+	/*it('Create Account Page', function(done) {
+		request("http://127.0.0.1:8000/web/create_account", function(error, response, body) {
 			assert.equal(response.statusCode, 404);
 			done();
 		});
@@ -31,7 +38,7 @@ describe("WerkIt Server Testing", function() {
 			assert.equal(response.statusCode, 404);
 			done();
 		});
-	});
-
-
+	});*/
 });
+
+
