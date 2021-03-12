@@ -1,12 +1,15 @@
 const express = require('express');
 const mc = require('./mongoConnect')
 const bodyParser = require('body-parser');
+const fetch = require("node-fetch");
+const methodOverride = require('method-override');
 const app = express();
 const port = 8000;
-const ip = "10.186.150.93";
+const ip = "10.0.0.48";
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 
 app.get('/', function (req, res) {
   console.log("Got GET request")
@@ -15,6 +18,7 @@ app.get('/', function (req, res) {
 
 app.post('/web/create_account', (req, res) => {
   console.log("Request to create account"); 
+  console.log(req.body);
   var name = req.body.f_name + " " + req.body.l_name;
   mc.check_user_existence(req.body.username).then(exists => {
     if (exists) {
@@ -26,11 +30,6 @@ app.post('/web/create_account', (req, res) => {
       );
       console.log("Successfully created new user")
       res.status(201).send("Welcome " + name + "!\n\nPlease Download the Werk It Mobile App");
-      /*describe("User Creation", () => {
-      	it("Successfully created new user", () => {
-	  assert.equal(mc.check_user_existence(req.body.username, true));
-	});
-      });*/
      }
    });
 });
@@ -58,7 +57,7 @@ app.post('/web/login', (req, res) => {
   mc.check_login(req.body.username, req.body.password).then(exists => {
     if (exists) {
       console.log("Login credentials match - successful login");
-      res.status(204).end();
+      res.send("You have successfully Logged In");
     } else {
       mc.check_user_existence(req.body.username).then(user_exist => {
         if (user_exist) {
@@ -100,19 +99,19 @@ app.get('/mobile/user/:username', (req, res) => {
     } else {
       res.status(400).json({exists: false});
     }
-  })
-})
+  });
+});
 
 app.patch('/web/user/:username/profile', (req, res) => {
-  mc.change_password(req.params.username, req.body.password).then(_ => {
+  mc.change_password(req.params.username, req.body.password[0]).then(_ => {
     console.log("Successfully changed password for %s", req.params.username);
-    res.status(204).end()
+    res.send("Successfully changed password")
   }).catch(err => {
     var err_dict = {401 : "User does not exist - cannot change password",
                     403 : "Password is the same as the current one - enter different password"};
     console.log("%s", err_dict[err]);
     res.status(err).send(err_dict[err]);
-  })
+  });
 });
 
 app.patch('/mobile/user/:username/profile', (req, res) => {
@@ -124,7 +123,7 @@ app.patch('/mobile/user/:username/profile', (req, res) => {
                     403 : "Password is the same as the current one - enter different password"};
     console.log("%s", err_dict[err]);
     res.status(err).json({data: err_dict[err]});
-  })
+  });
 });
 
 app.listen(port, ip, function() {
