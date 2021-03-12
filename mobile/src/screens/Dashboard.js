@@ -12,7 +12,7 @@ export default class Dashboard extends Component{
         //console.log(this.props.route.params);
         this.state = {
             workouts: [],
-            //currWorkout: this.props.route.params? this.props.route.params.workout : '',
+            currWorkout: '',
         };
 
         this.createWorkout = this.createWorkout.bind(this);
@@ -24,6 +24,11 @@ export default class Dashboard extends Component{
         }
     }
 
+    editWorkout(workout) {
+        this.setState({ currWorkout: workout });
+
+    }
+
     createWorkout(workout) {
         let newArray = this.state.workouts.map(workout => workout);
         newArray.push({ name: workout.name, exercises: workout.exercises });
@@ -33,22 +38,26 @@ export default class Dashboard extends Component{
 
     render() {
         let workoutList = [];
+        //workoutList.push(<WorkoutLabel name='Sample Workout 1'/>);
         for (let i = 0; i < this.state.workouts.length; i++) {
             let workout = this.state.workouts[i];
             workoutList.push(
                 <WorkoutLabel
                     key={i}
                     name={workout.name}
-                    exercises={workout.exercies}
+                    exercises={workout.exercises}
                     edit={() => this.props.navigation.navigate('WorkoutEditor', { workout: workout })}
                 />
             );
         }
         return(
             <View style={styles.dashboardContainer}>
-                <Text style={styles.motivationalQuote}>Motivational Quote</Text>
+                {/* <Text style={styles.motivationalQuote}>Motivational Quote</Text> */}
+                <View style={{borderColor: "#000000", borderBottomWidth: 2, marginTop: 10, width: '75%', alignItems: 'center'}}>
+                    <Text style={{fontSize: 30}}>Workouts</Text>
+                </View>
                 <ScrollView style={styles.workoutList} contentContainerStyle={{alignItems: 'center'}}>
-                    <Text>Workouts go here</Text>
+                    <Text style={{fontSize: 15}}>{this.state.workouts.length ? "" : "Create a new workout to get started!"}</Text>
                     {workoutList}
                 </ScrollView>
                 <Button

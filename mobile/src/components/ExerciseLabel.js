@@ -9,6 +9,7 @@ export default class ExerciseLabel extends Component {
     constructor(props) {
         super(props);
 
+        console.log('props sets: ' + this.props.sets);
         this.state = {
             name: this.props.name,
             sets: this.props.sets,
@@ -59,7 +60,7 @@ export default class ExerciseLabel extends Component {
 
     render() {
         return (
-            <Pressable style={{borderColor: '#000000', /*borderWidth: 3,*/ width: '100%', marginBottom: 7}} onPress={() => this.props.edit(this.state)}>
+            <Pressable style={{borderColor: '#000000', borderWidth: 3, width: '100%', marginBottom: 7}} onPress={() => this.props.edit(this.state)}>
                 <Text>{this.props.name}</Text>
                 <View style={styles.metadataList}>
                     <HideableView

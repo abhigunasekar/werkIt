@@ -77,8 +77,9 @@ export default StyleSheet.create({
     workoutList: {
         height: '75%',
         width: '80%',
-        borderColor: '#6B6767',
-        borderWidth: 3,
+        marginTop: 20,
+        //  borderColor: '#6B6767',
+        //  borderWidth: 3,
         marginBottom: 20,
     },
     workoutEditorContainer: {
@@ -90,13 +91,11 @@ export default StyleSheet.create({
     },
     exerciseList: {
         height: '75%',
-        width: '100%',
+        width: '80%',
         borderColor: '#6B6767',
-        //borderWidth: 3,
         borderTopWidth: 3,
-        borderBottomWidth: 3,
-        marginTop: 15,
-        marginBottom: 20,
+        marginTop: 7,
+        marginBottom: 15,
         padding: 15
     },
     button: {
