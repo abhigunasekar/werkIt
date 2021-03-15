@@ -142,7 +142,6 @@ export default class WorkoutEditor extends Component {
                         onPress={() => {
                             this.props.navigation.navigate('Dashboard', { workout: this.state });
                         }}
-                        style={{marginLeft: 'auto'}}
                         orange={true}
                     />
                 </View>

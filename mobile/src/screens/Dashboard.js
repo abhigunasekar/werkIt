@@ -9,13 +9,17 @@ export default class Dashboard extends Component{
     constructor(props) {
         super(props);
 
-        //console.log(this.props.route.params);
         this.state = {
             workouts: [],
             currWorkout: '',
         };
 
         this.createWorkout = this.createWorkout.bind(this);
+    }
+
+    componentDidMount() {
+        // server call to get workouts related to user
+        // this.setState({ workouts: response });
     }
 
     componentDidUpdate(prevProps) {

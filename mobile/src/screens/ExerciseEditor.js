@@ -26,7 +26,7 @@ export default class ExerciseEditor extends Component {
     render() {
         return (
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <View style={styles.exerciseEditorContainer}>
+                <View /*style={styles.exerciseEditorContainer}*/>
                     <TextBox
                         placeholder='Name'
                         onChangeText={(text) => this.setState({ name: text })}
