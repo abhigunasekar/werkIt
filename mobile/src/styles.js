@@ -124,5 +124,27 @@ export default StyleSheet.create({
         padding: 10,
         height: 40,
         width: '75%',
-    }
+    },
+    errorBox: {
+        borderColor: '#f70015',
+        borderWidth: 2,
+        borderRadius: 3,
+        marginBottom: 15,
+        padding: 10,
+        height: 40,
+        width: '75%',
+    },
+    hideableView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginLeft: 5,
+        marginRight: 5,
+    },
+    metadataList: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 10,
+        width: '100%'
+    },
 })

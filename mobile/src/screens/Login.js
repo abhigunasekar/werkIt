@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
+import PasswordBox from '../components/PasswordBox';
 
 import { invalidCredentialsAlert, invalidFormAlert } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
