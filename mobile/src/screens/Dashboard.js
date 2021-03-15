@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, ImageBackground } from 'react-native'
+import { ScrollView, Text, ImageBackground, Image, TouchableOpacity } from 'react-native'
 import Button from '../components/Button';
-import ImageUploader from 'react-images-upload';
+// import ImageUploader from 'react-images-upload';
 import mafioso from '../../assets/MV5BOGQ4NTRhNjMtODYyYi00NjJhLThmZTUtNmI4MTdlZWM5MDliXkEyXkFqcGdeQXVyMzMzMTExNzI@._V1_UY1200_CR109,0,630,1200_AL_.jpg';
 import defaultPic from '../../assets/icon.jpg';
 
@@ -42,11 +42,16 @@ export default class Dashboard extends Component{
         }
         return(
             <ScrollView>
-                <ImageBackground source={this.state.profile} imageStyle={{width: 200, height: 200, borderRadius: 200/ 2}}>
-                    <label title="Click to give ya self a new look!" for="updateProfile" style={{width: 200, height: 200, borderRadius: 200/ 2}}></label>
-                </ImageBackground>
+                <TouchableOpacity onPress={this.onImageChange}>
+                    <Image 
+                        source={this.state.profile} 
+                        style={{width: 200, height: 200, borderRadius: 200/ 2}}>
+                        {/* <label title="Click to give ya self a new look!" for="updateProfile" style={{width: 200, height: 200, borderRadius: 200/ 2}}></label> */}
+                    </Image>
+                </TouchableOpacity>
+                
 
-                <input type="file" id="updateProfile" name="myImage" onChange={this.onImageChange} hidden/>
+                {/* <input type="file" id="updateProfile" name="myImage" onChange={this.onImageChange} hidden/> */}
 
                 <Text>
                     Dashboard

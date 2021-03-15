@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { bounce } from 'react-animations';
-import Radium, {StyleRoot} from 'radium';
-import { Image, Text, View } from 'react-native';
+/* import { bounce } from 'react-animations'; */
+/* import Radium, {StyleRoot} from 'radium'; */
+import { Image, Text, View, TouchableWithoutFeedback } from 'react-native';
 import MMKVStorage from "react-native-mmkv-storage";
 import ReactDOM from 'react-dom';
 
@@ -11,15 +11,15 @@ import TextBox from '../components/TextBox';
 import { invalidCredentialsAlert, invalidFormAlert } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
-import { Style } from 'radium/lib';
-import bounceOut from 'react-animations/lib/bounce-out';
+/* import { Style } from 'radium/lib';
+import bounceOut from 'react-animations/lib/bounce-out'; */
 
-const styles1 = {
+/* const styles1 = {
     bounce: {
         animation: 'x 1s',
         animationName: Radium.keyframes(bounce, 'bounce'),
     }
-}
+} */
 
 export default class Login extends Component {
     constructor(props) {
@@ -130,24 +130,24 @@ export default class Login extends Component {
                         onPress={() => {
                             console.log('Username: ' + this.state.username);
                             console.log('Password: ' + this.state.password);
-                            var i;
+                            /* var i;
                             for (i = 0; i < 1000000; i++) {
                                 this.keepAnimating();
-                            }
+                            } */
                             this.props.login();
                         }}
                     />
-                    <Button
+                    {/* <Button
                         buttonText='Dev: Test Error Messages'
                         onPress={() => this.opError("Test")}
-                    />
-                    <label>
+                    /> */}
+                   {/*  <label>
                         Keep me signed in:
                         <input
                             name="keepSignedIn"
                             type="checkbox"
                             onChange={this.keepSignedIn} />
-                    </label>
+                    </label> */}
                     
                 </View>
             </View>
