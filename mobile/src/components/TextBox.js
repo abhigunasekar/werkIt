@@ -18,6 +18,7 @@ export default class TextBox extends Component {
                 secureTextEntry={this.props.secureTextEntry}
                 placeholder={this.props.placeholder}
                 keyboardType={this.props.keyboardType}
+                maxLength={this.props.maxLength}
                 style={[ styles.textBox, this.props.style ]}
                 value={this.props.value}
             />

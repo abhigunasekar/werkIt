@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback, Keyboard, Text, View } from 'react-native';
 import TouchID from 'react-native-touch-id';
+import * as LocalAuthentication from 'expo-local-authentication';
+
 
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
@@ -10,17 +12,7 @@ import { invalidCredentialsAlert, invalidFormAlert } from '../components/Alerts'
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
-//https://www.npmjs.com/package/react-native-touch-id
-
-TouchID.isSupported({unifiedErrors: false, passcodeFallback: false})
-    .then(biometryType => {
-        if (biometryType === 'FaceID') {
-            console.log('FaceID is supported.');
-        } else {
-            console.log('TouchID is supported.');
-        }
-    })
-    .catch(error => console.log(error));
+//https://docs.expo.io/versions/latest/sdk/local-authentication/
 
 export default class Login extends Component {
     constructor(props) {
@@ -32,18 +24,47 @@ export default class Login extends Component {
             persist: false,
         };
 
+        this.checkCompatibility = this.checkCompatibility.bind(this);
+        this.checkBiometrics = this.checkBiometrics.bind(this);
+        this.touchID = this.touchID.bind(this);
         this.validForm = this.validForm.bind(this);
-        this.onPress = this.onPress.bind(this);
+    }
+
+    componentDidMount() {
+        this.checkCompatibility();
+        this.checkBiometrics();
+        //this.touchID();
+    }
+
+    async checkCompatibility() {
+        let compatible = await LocalAuthentication.hasHardwareAsync();
+        if (compatible) {
+            console.log('Combatible');
+        } else {
+            console.log('combatibility error');
+        }
+    }
+
+    async checkBiometrics() {
+        let records = await LocalAuthentication.isEnrolledAsync();
+        if (records) {
+            console.log('Has records');
+        } else {
+            console.log('biometrics error')
+        }
+    }
+
+    async touchID() {
+        let result = await LocalAuthentication.authenticateAsync();
+        if (result.success) {
+            this.props.login();
+        } else {
+            console.log('TouchID failed')
+        }
     }
 
     validForm() {
         return ((this.state.username !== '') && (this.state.password !== ''));
-    }
-
-    onPress() {
-        TouchID.authenticate('to login')
-        .then(success => console.log('Success'))
-        .catch(error => console.log('error'));
     }
 
     render() {
@@ -86,6 +107,16 @@ export default class Login extends Component {
                                 }
                             }}
                             purple={true}
+                        />
+                        <Button
+                            buttonText='Testing'
+                            onPress={() => this.props.login()}
+                            gray={true}
+                        />
+                        <Button
+                            buttonText='Test touchid'
+                            onPress={() => this.touchID()}
+                            gray={true}
                         />
                     </View>
                 </View>

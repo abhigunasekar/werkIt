@@ -36,6 +36,8 @@ export default class ExerciseEditor extends Component {
                         name='Sets: '
                         onChangeText={(text) => this.setState({ sets: text })}
                         value={this.state.sets}
+                        maxLength={2}
+                        style={{width: 33}}
                         visible={true}
                     />
                     <HideableView

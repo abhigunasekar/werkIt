@@ -19,6 +19,7 @@ export default class HideableView extends Component {
                         style={[{marginLeft: 5, width: 30, height: 30, paddingLeft: 5, paddingBottom: 0, paddingTop: 0, paddingRight: 5}, this.props.style]}
                         onChangeText={this.props.onChangeText}
                         keyboardType='number-pad'
+                        maxLength={this.props.maxLength}
                         value={this.props.value}
                     />
                 </View>
