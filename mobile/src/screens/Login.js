@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback, Keyboard, Text, View } from 'react-native';
-import TouchID from 'react-native-touch-id';
+import { CheckBox } from 'react-native-elements';
 import * as LocalAuthentication from 'expo-local-authentication';
 
 
@@ -84,6 +84,11 @@ export default class Login extends Component {
                             //secureTextEntry={true}
                             value={this.state.password}
                         />
+                        <CheckBox
+                            title='Remember me'
+                            checked={this.state.persist}
+                            onPress={() => this.setState({ persist: !this.state.persist })}
+                        />
                         {/* Add a checkbox for "Keep me signed in" that sets this.state.persist: true */}
                         <View style={{flexDirection: 'row', marginTop: 5, marginBottom: 20}}>
                             <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ color: '#FB963C', marginRight: 15 }}>Create Account</Text>
@@ -97,7 +102,10 @@ export default class Login extends Component {
                                     console.log('Password: ' + this.state.password);
                                     let response = await serverMethods.login(this.state);
                                     if (response.status === 200) {
-                                        this.props.login(this.state.persist);
+                                        if (this.state.persist) {
+                                            this.props.persist();
+                                        }
+                                        this.props.login();
                                     } else {
                                         invalidCredentialsAlert();
                                     }
