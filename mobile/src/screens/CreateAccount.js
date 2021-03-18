@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableWithoutFeedback, Keyboard, View, Text, KeyboardAvoidingView } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard, View, ScrollView, Text, KeyboardAvoidingView } from 'react-native';
 
 import Button from '../components/Button';
 import TextBox from '../components/TextBox';
@@ -9,8 +9,6 @@ import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
 import { invalidEmailAlert, mismatchPasswordAlert, invalidFormAlert, usernameAlreadyExists } from '../components/Alerts';
-
-import styles from '../styles';
 
 export default class CreateAccount extends Component {
     constructor() {

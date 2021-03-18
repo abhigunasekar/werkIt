@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./profile.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script>
+      var imageList = '../assets/icon.jpg';
+
+      function cameraStuff() {
+      
+        var width = 320;    
+        var height = 0;     
+      
+        var streaming = false;
+      
+        var video = null;
+        var canvas = null;
+        var photo = null;
+        var startbutton = null;
+
+        startup();
+      
+        function startup() {
+          document.getElementById('profilePic').hidden=true;
+          video = document.getElementById('video');
+          camera = document.getElementById('camera');
+          video.hidden=false;
+          canvas = document.getElementById('canvas');
+          photo = document.getElementById('photo');
+          photo.hidden=true;
+      
+          navigator.mediaDevices.getUserMedia({video: true, audio: false}).then(function(stream) {
+            video.srcObject = stream;
+            video.play();
+          }).catch(function(err) {
+            console.log('An error occurred: ' + err);
+          });
+
+      
+          video.addEventListener('canplay', function(ev){
+            if (!streaming) {
+              height = video.videoHeight / (video.videoWidth/width);
+            
+              if (isNaN(height)) {
+                height = width / (4/3);
+              }
+            
+              video.setAttribute('width', width);
+              video.setAttribute('height', height);
+              canvas.setAttribute('width', width);
+              canvas.setAttribute('height', height);
+              streaming = true;
+            }
+            this.removeEventListener('canplay', arguments.callee);
+          }, false);
+      
+          video.addEventListener('click', function(ev) {
+            takepicture();
+            const vstream = video.srcObject;
+            const vtracks = vstream.getTracks();
+            vtracks.forEach(function(element) {
+              element.stop();
+            });
+            video.hidden=true;
+            photo.hidden=true;
+            ev.preventDefault();
+            this.removeEventListener('click', arguments.callee);
+            video.srcObject = null;
+            video = null;
+          }, false);
+        }
+      
+        function clearphoto() {
+          var context = canvas.getContext('2d');
+          context.fillStyle = '#AAA';
+          context.fillRect(0, 0, canvas.width, canvas.height);
+      
+          var data = canvas.toDataURL('image/png');
+          photo.setAttribute('src', data);
+        }
+      
+        function takepicture() {
+          var context = canvas.getContext('2d');
+          if (width && height) {
+            canvas.width = width;
+            canvas.height = height;
+            context.drawImage(video, 0, 0, width, height);
+          
+            var data = canvas.toDataURL('image/png');
+            photo.setAttribute('src', data);
+            document.getElementById('profilePic').src=photo.src;
+            document.getElementById('profilePic').hidden=false;
+          } else {
+            clearphoto();
+          }
+        }
+      }
+
+      function initialize() {
+        if (document.getElementById("profilePic").src === '') {
+            document.getElementById("profilePic").src = '../assets/icon.jpg';
+        }
+        
+        document.addEventListener('keydown', function(event) {
+          if (event.ctrlKey && event.altKey && event.key === 'c') {
+            cameraStuff();
+          }
+        });
+      }
+
+      function updateProfile() {
+        document.getElementById("profilePic").src = URL.createObjectURL(document.getElementById("updateProfile").files[0]);
+      }
+
+      function triggerUpdateProfile() {
+        document.getElementById("updateProfile").onchange();
+      }
+    </script>
+</head>
+<body onload="initialize()">
+
+    <div>
+      Click your profile pic to change to an existing one!
+    </div>
+
+    <div>
+      Ctrl+Alt+c to change your profile pic to a fresh selfie!
+    </div>
+
+    <div class="camera">
+        <video id="video" hidden>Video stream not available.</video>
+        <label for="updateProfile">
+          <img id="profilePic" title="Click to give ya self a new look!" class="profile"/>
+        </label>
+        <img id="photo" alt="The screen capture will appear in this box." class="profilePicture" hidden>
+    </div>
+    <canvas id="canvas" hidden>
+    </canvas>
+    
+    <input type="file" id="updateProfile" onchange="updateProfile()" name="" hidden/>
+    
+</body>
+</html>

@@ -27,7 +27,7 @@ export default class Button extends Component {
                     {({ pressed }) => <Text style={{color: pressed ? '#FFFFFF' : '#FB963C'}}>{this.props.buttonText}</Text> }
                 </Pressable>
             );
-        }   else if (this.props.gray) {
+        }   else if (1 === 1/* this.props.gray */) {
             return (
                 <Pressable
                     onPress={() => this.props.onPress()}
