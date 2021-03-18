@@ -1,0 +1,11 @@
+Vivek Nair - Manual Testing Note for Web Profile Pic Functionality - User Story 16
+
+  Key
+    U - Uploading a picture (via clicking on the profile pic)
+    S - Taking a selfie (via pressing Ctrl+Alt+c)
+
+  Tests - Successful as of 03/17/2021 @ 10:55PM
+    UU
+    US
+    SU
+    SS
