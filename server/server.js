@@ -5,7 +5,8 @@ const fetch = require("node-fetch");
 const methodOverride = require('method-override');
 const app = express();
 const port = 8000;
-const ip = "10.0.0.48";
+// const ip = "10.0.0.48"; exp://5k-axx.anonymous.mobile.exp.direct:80
+const ip = "172.19.15.255";
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));

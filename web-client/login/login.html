@@ -35,8 +35,14 @@
     <title>Login</title>
 
 </head>
+<script>
+    function initialize() {
+        window.addEventListener('offline', function(e) { console.log('offline'); });
+        window.addEventListener('online', function(e) { console.log('online'); });
+    }
+</script>
 
-<body>
+<body onload="initialize()">
     <div class="login-form">
         <form action="http://10.0.0.48:8000/web/login" method="post">
             <!-- Header -->
