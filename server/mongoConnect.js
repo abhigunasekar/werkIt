@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema({
 	user: String,
 	pass: String,
 	email: String,
+	workoutType: String,
+	exerciseType: String,
 });
 
 userSchema.methods.get_pass = function() {
@@ -33,7 +35,9 @@ function save_new_account_data(u_name, username, password, u_email) {
 		name: u_name,
 		user: username,
 		pass: password,
-		email: u_email
+		email: u_email,
+		workoutType: NULL,
+		exerciseType: NULL,
 	});
 
 	user.save(function (err, user) {
