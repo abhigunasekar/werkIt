@@ -49,7 +49,7 @@
         }
         function setAction(form) {
             var username = document.getElementById("user").value;
-            var url = "http://10.186.113.88:8000/web/user/";
+            var url = "http://127.0.0.1:8000/web/user/";
             var res = url.concat(username);
             var final = res.concat("/profile?_method=PATCH");
             //form.method = "patch";
