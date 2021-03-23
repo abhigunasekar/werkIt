@@ -1,5 +1,14 @@
 API Routes for communication between server and clients.
 
+CHECKING CONNECTION WITH Server
+-----Request-----
+method: GET 
+route: '/'
+
+-----Response-----
+status: 200
+
+
 CREATING A NEW ACCOUNT
 -----Request-----
 method: POST 
@@ -14,14 +23,9 @@ request Body:
     }
 
 -----Response-----
-status: 201 Created
-response body:
-    "Welcome <name>! Please download the Werk It Mobile App"
+status: 201 Created (succesfully created new account)
 
-status: 403 Forbidden
-response body:
-    "Username already exists in database.  Please choose a new one."
-
+status: 403 Forbidden (username already exists)
 
 
 LOGGING IN
@@ -35,16 +39,22 @@ request body:
 	}
 
 -----Response-----
-status: 204 No Content
+status: 204 No Content (successfully logged in)
 
-status: 401 Unauthorized
-response body:
-    "User does not exist"
+status: 401 Unauthorized (user does not exist)
     
-status: 403 Forbidden
-response body:
-    "Invalid password"
+status: 403 Forbidden (invalid password)
 
+
+CHECK USER EXISTENCE
+-----Request-----
+method: GET
+route: '/user/{username}'
+
+-----Response-----
+status: 200 (user does exist)
+
+status: 400 (user does not exist)
 
 
 RESETTING PASSWORD
@@ -57,13 +67,8 @@ request Body:
 	}
 
 -----Response-----
-status: 204
+status: 204 No Content (successfully reset password)
 
-status: 401 Unauthorized
-response body:
-    "User does not exist - cannot change password"
+status: 401 Unauthorized (user does not exist)
 
-status: 403 Forbidden
-response body:
-    "Password is the same as the current one - enter different password"
-	
+status: 403 Forbidden (password is same as current)	
