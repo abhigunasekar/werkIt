@@ -2,16 +2,20 @@ import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 // reference this --> https://reactnative.dev/docs/asyncstorage
 
+import MotivationalQuote from './src/screens/MotivationalQuote';
 import LoginStackNavigator from './src/LoginStackNavigator';
-import DashboardStackNavigator from './src/DashboardStackNavigator';
+import WorkoutStackNavigator from './src/WorkoutStackNavigator';
+import DashboardDrawerNavigator from './src/DashboardDrawerNavigator';
 
 export default class App extends Component {
     constructor() {
         super();
 
         this.state = {
+            isLoaded: false,
             isLoggedIn: false,
             persist: false,
+            username: '',
         };
 
         this.login = this.login.bind(this);
@@ -21,38 +25,34 @@ export default class App extends Component {
     }
 
     async componentDidMount() {
-        console.log('component did mount')
         const token = await this.getToken();
-        console.log('setting state to: ' + token);
         this.setState({ isLoggedIn: token });
+        setTimeout(() => this.setState({ isLoaded: true }), 5000);
     }
 
     persist() {
-        console.log('pressed');
         this.setState({ persist: !this.state.persist });
     }
 
-    async login() {
+    async login(user) {
         if (this.state.persist) {
             // AsyncStorage method to create token???
-            console.log('persist');
             try {
                 await AsyncStorage.setItem('loginToken', JSON.stringify(true));
             } catch (error) {
-                console.log('setToken error: ' + e);
+                console.log('setToken error: ' + error);
             }
         }
 
-        this.setState({ isLoggedIn: true });
+        this.setState({ isLoggedIn: true, username: user });
     }
 
     async logout() {
-        console.log('logout');
         // AsyncStorage method to remove token???
         try {
             await AsyncStorage.removeItem('loginToken');
         } catch (error) {
-            console.log('setToken error: ' + e);
+            console.log('setToken error: ' + error);
         }
         this.setState({ isLoggedIn: false });
     }
@@ -61,27 +61,30 @@ export default class App extends Component {
         //retrieve user token from storage if (exists) and set this.state.isLoggedIn appropriately
         try {
             const loginToken = await AsyncStorage.getItem('loginToken');
-            console.log('token is: ' + loginToken);
-            const tokenValue = await JSON.parse(loginToken);
+            //const tokenValue = await JSON.parse(loginToken);
             return loginToken != null;
-            //return tokenValue
         } catch (error) {
             console.log('getToken error:' + error);
         }
-
     }
 
     render() {
-        console.log('isLoggedIn: ' + this.state.isLoggedIn);
-        if (!this.state.isLoggedIn) {
+        if (!this.state.isLoaded) {
             return (
-                <LoginStackNavigator login={this.login} persist={this.persist}/>
+                <MotivationalQuote />
             );
-        }
-        else {
-            return (
-                <DashboardStackNavigator logout={this.logout}/>
-            );
+        } else {
+            if (!this.state.isLoggedIn) {
+                return (
+                    <LoginStackNavigator login={this.login} persist={this.persist}/>
+                );
+            }
+            else {
+                return (
+                    //<DashboardStackNavigator logout={this.logout} username={this.state.username}/>
+                    <DashboardDrawerNavigator logout={this.logout} username={this.state.username}/>
+                );
+            }
         }
     }
 }
