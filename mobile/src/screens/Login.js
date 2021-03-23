@@ -105,7 +105,7 @@ export default class Login extends Component {
                                         if (this.state.persist) {
                                             this.props.persist();
                                         }
-                                        this.props.login();
+                                        this.props.login(this.state.username);
                                     } else {
                                         invalidCredentialsAlert();
                                     }
@@ -118,7 +118,7 @@ export default class Login extends Component {
                         />
                         <Button
                             buttonText='Testing'
-                            onPress={() => this.props.login()}
+                            onPress={() => this.props.login(this.state.username)}
                             gray={true}
                         />
                         <Button

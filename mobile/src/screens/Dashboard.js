@@ -10,6 +10,7 @@ export default class Dashboard extends Component{
         super(props);
 
         this.state = {
+            username: this.props.username,
             workouts: [],
             currWorkout: '',
         };
@@ -30,7 +31,6 @@ export default class Dashboard extends Component{
 
     editWorkout(workout) {
         this.setState({ currWorkout: workout });
-
     }
 
     createWorkout(workout) {
@@ -43,6 +43,7 @@ export default class Dashboard extends Component{
     }
 
     render() {
+        console.log(this.state.username);
         let workoutList = [];
         for (let i = 0; i < this.state.workouts.length; i++) {
             let workout = this.state.workouts[i];
