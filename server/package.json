@@ -12,7 +12,6 @@
     "mongodb": "^3.6.4",
     "mongojs": "^3.1.0",
     "mongoose": "^5.11.18",
-    "node-fetch": "^2.6.1",
     "package.json": "^2.0.1",
     "request": "^2.88.2"
   },
