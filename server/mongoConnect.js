@@ -16,16 +16,44 @@ const userSchema = new mongoose.Schema({
 	user: String,
 	pass: String,
 	email: String,
+	workouts: [
+		{type: mongoose.Schema.Types.ObjectId, ref: 'Workout'}
+	],
+	workoutTypes: [
+		{type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutType'}
+	]
 });
 
-userSchema.methods.get_pass = function() {
-	console.log(this.pass);
-	return this.pass;
-}
+const User = mongoose.model('User', userSchema);
+
+const wkoutSchema = new mongoose.Schema({
+	name: String,
+	type: {type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutType'},
+	exercises: [
+		{type: mongoose.Schema.Types.ObjectId, ref: 'Exercise'}
+	]
+});
+
+const Workout = mongoose.model('Workout', wkoutSchema);
+
+const exerciseSchema = new mongoose.Schema({
+	name: String,
+	data: [{
+		sets: Number,
+		reps: Number,
+	}]
+});
+
+const Exercise = mongoose.model('Exercise', exerciseSchema);
+
+const wkoutTypeSchema = new mongoose.Schema({
+	name: String,
+	exercises: [String]		// assumes exercises have unique names
+});
+
+const WorkoutType = mongoose.model('WorkoutType', wkoutTypeSchema);
 
 // Functions called by server
-
-const User = mongoose.model('User', userSchema)
 
 function save_new_account_data(u_name, username, password, u_email) {
 	
@@ -33,12 +61,18 @@ function save_new_account_data(u_name, username, password, u_email) {
 		name: u_name,
 		user: username,
 		pass: password,
-		email: u_email
+		email: u_email,
+		workouts: [],
+		workoutTypes: []
 	});
 
 	user.save(function (err, user) {
 		if (err) return console.error(err);
 	});
+}
+
+function generate_default_wkoutTypes(username) {
+
 }
 
 async function check_login(user, pass) {
@@ -63,7 +97,85 @@ async function change_password(user, new_pass) {
 	}
 }
 
+function save_new_exercise(w_name, e_name, data) {
+	
+	const exercise = new Exercise({
+		name: e_name,
+		data: data
+	});
+
+	exercise.save(function (err, exercise) {
+		if (err) return console.error(err);
+	});
+
+	// gets the workout and adds exercise to the list
+	var query = {name: w_name};
+	Workout.findOne(query, function(err, wkout) {
+		new_exercises = wkout.exercises;
+		new_exercises.push(exercise);
+		Workout.findOneAndUpdate(query, {exercises: new_exercises}).exec();
+	});
+}
+
+async function save_new_workout(username, w_name, w_type) {
+	
+	console.log("saving new workout");
+	console.log(username)
+	const workout = new Workout({
+		name: w_name,
+		type: w_type,
+		exercises: []
+	});
+
+	workout.save(function (err, workout) {
+		if (err) return console.error(err);
+	});
+
+	console.log("new workout saved, adding workout to list");
+
+	// gets the user and add workout to the list
+	var query = {user: username};
+	User.findOne(query, function(err, user) {
+		console.log(user);
+		console.log("found user: %s\n", user.username);
+		new_workouts = user.workouts;
+		new_workouts.push(workout);
+		User.findOneAndUpdate(query, {workouts: new_workouts}).exec();
+		console.log("workout added to list");
+	});
+	
+}
+
+async function save_new_workoutType(username, wt_name, exercises) {
+	
+	console.log("saving new workout type");
+	const workoutType = new WorkoutType({
+		name: wt_name,
+		exercises: exercises
+	});
+
+	workout.save(function (err, workout) {
+		if (err) return console.error(err);
+	});
+
+	console.log("new workout saved, adding workout to list");
+
+	// gets the user and add workout to the list
+	var query = {user: username};
+	User.findOne(query, function(err, user) {
+		console.log(user);
+		console.log("found user: %s\n", user.username);
+		new_workouts = user.workouts;
+		new_workouts.push(workout);
+		User.findOneAndUpdate(query, {workouts: new_workouts}).exec();
+		console.log("workout added to list");
+	});
+	
+}
+
 module.exports = { 
 	save_new_account_data, check_login, 
-	check_user_existence, change_password }
+	check_user_existence, change_password,
+	save_new_exercise, save_new_workout,
+	save_new_workoutType }
 

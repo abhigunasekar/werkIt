@@ -6,7 +6,7 @@ const app = express();
 const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
-const ip = "10.186.38.254";
+const ip = "10.186.122.243";
 //const lt = require('localtunnel');
 
 app.use(express.json());
@@ -80,6 +80,16 @@ app.patch('/user/:username/profile', (req, res) => {
                     403 : "Password is the same as the current one - enter different password"};
     console.log("%s", err_dict[err]);
     res.status(err).end();
+  });
+});
+
+app.post('/:username/workout', (req, res) => {
+  console.log(req.body);
+  console.log(req.params);
+  mc.save_new_workout(req.params.username, req.body.name, req.body.type).then(_ => {
+    req.body.exercises.forEach(exercise => {
+      mc.save_new_exercise(req.body.name, exercise.name, exercise);
+    });
   });
 });
 
