@@ -6,7 +6,7 @@ const app = express();
 const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
-const ip = "10.186.122.243";
+const ip = "10.0.0.52";
 //const lt = require('localtunnel');
 
 app.use(express.json());

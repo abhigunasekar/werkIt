@@ -42,6 +42,10 @@ const exerciseSchema = new mongoose.Schema({
 	data: [{
 		sets: Number,
 		reps: Number,
+		weight: Number,
+		duration: Number,
+		speed: Number,
+		laps: Number
 	}]
 });
 
