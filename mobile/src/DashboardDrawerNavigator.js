@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createDrawerNavigator, DrawerItem, DrawerItemList, DrawerContentScrollView } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
 import WorkoutStackNavigator from './WorkoutStackNavigator';

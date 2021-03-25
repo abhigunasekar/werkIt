@@ -24,6 +24,7 @@ export default class Dashboard extends Component{
     }
 
     componentDidUpdate(prevProps) {
+        // this will probably need to change after server calls are introduced
         if (prevProps.route.params?.workout !== this.props.route.params?.workout) {
             this.createWorkout(this.props.route.params?.workout);
         }
@@ -31,6 +32,7 @@ export default class Dashboard extends Component{
 
     editWorkout(workout) {
         this.setState({ currWorkout: workout });
+        //find current workout in the this.state.workouts
     }
 
     createWorkout(workout) {
@@ -65,12 +67,14 @@ export default class Dashboard extends Component{
                 <ScrollView style={styles.workoutList} contentContainerStyle={{alignItems: 'center'}}>
                     <Text style={{fontSize: 15}}>{(this.state.workouts.length !== 0) ? "" : "Create a new workout to get started!"}</Text>
                     {workoutList}
+                    <Button
+                        buttonText='Create New Workout'
+                        onPress={() => this.props.navigation.navigate('WorkoutEditor')}
+                        style={{marginTop: 20}}
+                        purple={true}
+                    />
                 </ScrollView>
-                <Button
-                    buttonText='Create New Workout'
-                    onPress={() => this.props.navigation.navigate('WorkoutEditor')}
-                    purple={true}
-                />
+
             </View>
         );
     }

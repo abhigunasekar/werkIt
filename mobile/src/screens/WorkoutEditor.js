@@ -28,6 +28,11 @@ export default class WorkoutEditor extends Component {
         this.editExercise = this.editExercise.bind(this);
     }
 
+    componentDidMount() {
+        //server call to get workout information if the user decided to edit a workout
+        // server call to get previously saved exercises??
+    }
+
     createExercise(exercise) {
         //console.log('create exercise');
         let newArray = this.state.exercises.map(exercise => exercise);
@@ -46,7 +51,7 @@ export default class WorkoutEditor extends Component {
                 let key = this.state.numExercises;
                 newArray.push({ key: key++, name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline });
 
-                this.setState({ numExercises: key});
+                this.setState({ numExercises: key });
             }
         //}
 
@@ -103,8 +108,8 @@ export default class WorkoutEditor extends Component {
             );
         }
         return(
+            //add a dropdown menu populated with previously added exercises
             <View style={styles.workoutEditorContainer}>
-                
                 {/* <Text style={{marginTop: 15, fontSize: 20}}>{this.state.workoutName}</Text> */}
                 <TextBox
                     placeholder='Workout Name'

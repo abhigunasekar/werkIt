@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import MotivationalQuote from './src/screens/MotivationalQuote';
 import LoginStackNavigator from './src/LoginStackNavigator';
-import WorkoutStackNavigator from './src/WorkoutStackNavigator';
 import DashboardDrawerNavigator from './src/DashboardDrawerNavigator';
 
 export default class App extends Component {

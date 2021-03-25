@@ -57,7 +57,10 @@ export default class Login extends Component {
     async touchID() {
         let result = await LocalAuthentication.authenticateAsync();
         if (result.success) {
-            this.props.login();
+            if (this.state.persist) {
+                this.props.persist();
+            }
+            this.props.login(this.state.username);
         } else {
             console.log('TouchID failed')
         }

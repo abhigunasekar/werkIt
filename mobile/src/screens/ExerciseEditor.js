@@ -19,7 +19,8 @@ export default class ExerciseEditor extends Component {
             duration: this.props.duration,
             distance: this.props.distance,
             pace: this.props.pace,
-            incline: this.props.incline
+            incline: this.props.incline,
+            laps: this.props.laps
         };
     }
 
@@ -77,6 +78,12 @@ export default class ExerciseEditor extends Component {
                         name='Incline: '
                         onChangeText={(text) => this.setState({ incline: text })}
                         value={this.state.incline}
+                        visible={true}
+                    />
+                    <HideableView
+                        name='Laps: '
+                        onChangeText={(text) => this.setState({ laps: text })}
+                        value={this.state.laps}
                         visible={true}
                     />
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 15, borderColor: '#6B6767', borderTopWidth: 2}}>
