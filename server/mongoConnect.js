@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
 	user: String,
 	pass: String,
 	email: String,
+	darkMode: Boolean,
 	workouts: [
 		{type: mongoose.Schema.Types.ObjectId, ref: 'Workout'}
 	],
