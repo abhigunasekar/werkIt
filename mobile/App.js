@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import MotivationalQuote from './src/screens/MotivationalQuote';
 import LoginStackNavigator from './src/LoginStackNavigator';
-import DashboardDrawerNavigator from './src/DashboardDrawerNavigator';
+import DrawerNavigator from './src/DrawerNavigator';
 
 export default class App extends Component {
     constructor() {
@@ -81,7 +81,7 @@ export default class App extends Component {
             else {
                 return (
                     //<DashboardStackNavigator logout={this.logout} username={this.state.username}/>
-                    <DashboardDrawerNavigator logout={this.logout} username={this.state.username}/>
+                    <DrawerNavigator logout={this.logout} username={this.state.username}/>
                 );
             }
         }
