@@ -79,15 +79,48 @@ export default class WorkoutEditor extends Component {
         this.setState({ currExercise: '' });
     }
 
-    editExercise(exercise) {
+    editExercise(name, field, val) {
+        console.log('edit');
+        console.log(name)
+        console.log(field);
+        console.log(val);
         for (let i = 0; i < this.state.exercises.length; i++) {
-            if (exercise.name === this.state.exercises[i].name) {
-                this.setState({ currKey: this.state.exercises[i].key });
+            if (name === this.state.exercises[i].name) {
+                //this.setState({ currKey: this.state.exercises[i].key });
+                let array = this.state.exercises.slice();
+                switch(field) {
+                    case 'Sets':
+                        array[i].sets = val;
+                        break;
+                    case 'Reps':
+                        array[i].reps = val;
+                        break;
+                    case 'Weight':
+                        array[i].weight = val;
+                        break;
+                    case 'Duration':
+                        array[i].duration = val;
+                        break;
+                    case 'Distance':
+                        array[i].distance = val;
+                        break;
+                    case 'Pace':
+                        array[i].pace = val;
+                        break;
+                    case 'Incline':
+                        array[i].incline = val;
+                        break;
+                    case 'Laps':
+                        array[i].laps = val;
+                        break;
+                }
+                //array[i] = { key: this.state.exercises[i].key, name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline };
+                this.setState({ exercises: array });
             }
         }
 
-        this.setState({ currExercise: exercise });
-        this.swipeUpDownRef.showFull();
+        //this.setState({ currExercise: exercise });
+        //this.swipeUpDownRef.showFull();
     }
 
     render() {
@@ -108,7 +141,8 @@ export default class WorkoutEditor extends Component {
                     distance={exercise.distance}
                     pace={exercise.pace}
                     incline={exercise.incline}
-                    edit={(exercise) => this.editExercise(exercise)}
+                    laps={exercise.laps}
+                    edit={(field, val) => this.editExercise(exercise.name, field, val)}
                 />
             );
         }
@@ -120,11 +154,25 @@ export default class WorkoutEditor extends Component {
                 <Button
                     key={i}
                     buttonText={exercise.name}
-                    onPress={() => this.createExercise({name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight})}
+                    onPress={() => this.createExercise({ name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps })}
+                    style={{width: '80%', margin: 5}}
                     orange={true}
                 />
             )
         }
+        buttonList.push(
+            <Button
+                key={this.state.list.length}
+                buttonText='Create a new exercise'
+                onPress={() => {
+                    this.setState({ modalVisible: false });
+                    this.swipeUpDownRef.showFull();
+                }}
+                style={{width: '80%', margin: 5}}
+                gray={true}
+            />
+        )
+
         return(
             //add a dropdown menu populated with previously added exercises
             <View style={styles.workoutEditorContainer}>
@@ -148,19 +196,7 @@ export default class WorkoutEditor extends Component {
                         >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Hello World!</Text>
-                            {/* <Button
-                                buttonText='Bench'  
-                                onPress={() => this.createExercise({name: 'Bench', sets: 3, reps: 12})}
-                                orange={true}
-                            /> */}
-                            {buttonList}
-                            <Pressable
-                                style={[styles.button, styles.buttonClose]}
-                                onPress={() => this.setState({ modalVisible: !this.state.modalVisible })}
-                            >
-                                <Text style={styles.textStyle}>Hide Modal</Text>
-                            </Pressable>
+                                {buttonList}
                             </View>
                         </View>
                     </Modal>
@@ -190,6 +226,7 @@ export default class WorkoutEditor extends Component {
                     <Button
                         buttonText='Submit'
                         onPress={() => {
+                            console.log(this.state.exercises);
                             this.props.navigation.navigate('Dashboard', { workout: this.state });
                         }}
                         orange={true}
