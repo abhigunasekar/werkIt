@@ -6,20 +6,20 @@ const app = express();
 const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
-const ip = "10.0.0.52";
+const ip = "10.0.0.48";
 //const lt = require('localtunnel');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 
-// checking connection with server
+// check connection with server
 app.get('/', function (req, res) {
   console.log("Got GET request")
   res.status(200).end();
 });
 
-// creating a new account
+// create a new account
 app.post('/create_account', (req, res) => {
   console.log("Request to create account"); 
   console.log(req.body);
@@ -38,7 +38,7 @@ app.post('/create_account', (req, res) => {
    });
 });
 
-// logging in
+// log in
 app.post('/login', (req, res) => {
   console.log("Request to log in");
   mc.check_login(req.body.username, req.body.password).then(exists => {
@@ -70,7 +70,7 @@ app.get('/user/:username', (req, res) => {
   });
 });
 
-// resetting password
+// reset password
 app.patch('/user/:username/profile', (req, res) => {
   mc.change_password(req.params.username, req.body.password).then(_ => {
     console.log("Successfully changed password for %s", req.params.username);
@@ -83,6 +83,20 @@ app.patch('/user/:username/profile', (req, res) => {
   });
 });
 
+// get all user profile info
+app.get('/profile/:username', (req, res) => {
+  
+});
+
+// get known workout types
+
+// set new workout type
+
+// get exercises given a workout type
+
+// add new exercise to a given workout type
+
+// save a new workout
 app.post('/:username/workout', (req, res) => {
   console.log(req.body);
   console.log(req.params);

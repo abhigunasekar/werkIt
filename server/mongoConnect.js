@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
 	user: String,
 	pass: String,
 	email: String,
-	darkMode: Boolean,
+	dark_mode: Boolean,
 	workouts: [
 		{type: mongoose.Schema.Types.ObjectId, ref: 'Workout'}
 	],
@@ -53,14 +53,14 @@ const Exercise = mongoose.model('Exercise', exerciseSchema);
 
 const wkoutTypeSchema = new mongoose.Schema({
 	name: String,
-	exercises: [String]		// assumes exercises have unique names
+	exercises: []		// assumes exercises have unique names
 });
 
 const WorkoutType = mongoose.model('WorkoutType', wkoutTypeSchema);
 
 // Functions called by server
 
-function save_new_account_data(u_name, username, password, u_email) {
+async function save_new_account_data(u_name, username, password, u_email) {
 	
 	const user = new User({
 		name: u_name,
@@ -71,13 +71,15 @@ function save_new_account_data(u_name, username, password, u_email) {
 		workoutTypes: []
 	});
 
-	user.save(function (err, user) {
-		if (err) return console.error(err);
+	user.save().then(_ => {
+		generate_default_wkoutTypes(username);
 	});
+
 }
 
-function generate_default_wkoutTypes(username) {
-
+async function generate_default_wkoutTypes(username) {
+	await save_new_workoutType(username, "Lifting", ["Bench", "Squats"]);
+	await save_new_workoutType(username, "Cardio", ["Running", "Hiking"]);
 }
 
 async function check_login(user, pass) {
@@ -153,29 +155,23 @@ async function save_new_workout(username, w_name, w_type) {
 
 async function save_new_workoutType(username, wt_name, exercises) {
 	
-	console.log("saving new workout type");
 	const workoutType = new WorkoutType({
 		name: wt_name,
 		exercises: exercises
 	});
 
-	workout.save(function (err, workout) {
+	workoutType.save(function (err, workoutType) {
 		if (err) return console.error(err);
 	});
 
-	console.log("new workout saved, adding workout to list");
-
-	// gets the user and add workout to the list
+	// gets the user and add workout type to the list
 	var query = {user: username};
-	User.findOne(query, function(err, user) {
-		console.log(user);
-		console.log("found user: %s\n", user.username);
-		new_workouts = user.workouts;
-		new_workouts.push(workout);
-		User.findOneAndUpdate(query, {workouts: new_workouts}).exec();
-		console.log("workout added to list");
+	await User.findOne(query, async function(err, user) {
+		new_workouts = user.workoutTypes;
+		new_workouts.push(workoutType);
+		var x = await User.findOneAndUpdate(query, {workoutTypes: new_workouts}, {new: true}).exec();
 	});
-	
+
 }
 
 module.exports = { 
