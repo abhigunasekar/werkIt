@@ -6,7 +6,8 @@ var mostRecentNetworkStatus = 1;
 function checkNetworkConnection() {
     const checkOnlineStatus = async() => {
         try {
-            const online = await fetch("http://172.30.81.223:8000/", {
+            // http://172.30.81.223:8000/
+            const online = await fetch("https://www.google.com", {
                 method: 'GET',
                 mode: 'no-cors',
                 cache: 'no-cache'
