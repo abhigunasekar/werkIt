@@ -102,6 +102,11 @@ async function change_password(user, new_pass) {
 	}
 }
 
+async function get_individual_profile(username) {
+	return await User.findOne({user: username}).exec();
+
+}
+
 function save_new_exercise(w_name, e_name, data) {
 	
 	const exercise = new Exercise({
@@ -182,5 +187,5 @@ module.exports = {
 	save_new_account_data, check_login, 
 	check_user_existence, change_password,
 	save_new_exercise, save_new_workout,
-	save_new_workoutType }
+	save_new_workoutType, get_individual_profile }
 

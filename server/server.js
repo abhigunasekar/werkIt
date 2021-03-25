@@ -6,7 +6,7 @@ const app = express();
 const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
-const ip = "10.0.0.52";
+const ip = "10.186.122.243";
 //const lt = require('localtunnel');
 
 app.use(express.json());
@@ -18,6 +18,13 @@ app.get('/', function (req, res) {
   console.log("Got GET request")
   res.status(200).end();
 });
+
+app.get('/:username/name', (req, res) => {
+  mc.get_individual_profile(req.params.username, req.params.field).then(user => {
+    console.log("data_val:"+user);
+    res.status(200).json({name: user.name});
+  })
+})
 
 // creating a new account
 app.post('/create_account', (req, res) => {
