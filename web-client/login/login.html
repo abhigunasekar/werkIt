@@ -35,15 +35,24 @@
     <title>Login</title>
 
 </head>
-<script>
-    function initialize() {
-        window.addEventListener('offline', function(e) { console.log('offline'); });
-        window.addEventListener('online', function(e) { console.log('online'); });
-    }
+<script type="text/javascript" src="../loading/loading.js">
 </script>
-
-<body onload="initialize()">
-    <div class="login-form">
+<script>
+    window.onload = function() {
+        checkNetworkConnection();
+        document.getElementById("We're Werking on it...").hidden = false;
+            document.getElementById("We're Werking on it text").hidden = false;
+    };
+    window.onclick = function() {
+        if (!checkNetworkConnectionCaller()) {
+            event.preventDefault();
+            // document.getElementById("We're Werking on it...").hidden = false;
+            // document.getElementById("We're Werking on it...").hidden = true;
+        }
+    };
+</script>
+<body>
+    <div id = "login form" class="login-form">
         <form action="http://10.0.0.48:8000/web/login" method="post">
             <!-- Header -->
             <div class="text-center" id="container">
@@ -89,7 +98,10 @@
                         Password</a>
                 </div>
             </div>
-
+            <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+            <div id="We're Werking on it text" hidden="true">
+                One moment, We're Werking on Your Network Connection...
+            </div>
     </div>
     </div>
 </body>
