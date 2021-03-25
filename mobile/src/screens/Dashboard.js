@@ -37,6 +37,7 @@ export default class Dashboard extends Component{
 
     createWorkout(workout) {
         if (workout.name !== undefined) {
+            //server call to add new workout to database (maybe do this in workout editor?)
         let newArray = this.state.workouts.map(workout => workout);
         newArray.push({ name: workout.name, exercises: workout.exercises });
 
@@ -53,14 +54,13 @@ export default class Dashboard extends Component{
                 <WorkoutLabel
                     key={i}
                     name={workout.name}
-                    exercises={workout.exercises}
+                    exercises={workout.exercises} // is this necessary lmao
                     edit={() => this.props.navigation.navigate('WorkoutEditor', { workout: workout })}
                 />
             );
         }
         return(
             <View style={styles.dashboardContainer}>
-                {/* <Text style={styles.motivationalQuote}>Motivational Quote</Text> */}
                 <View style={{borderColor: "#000000", borderBottomWidth: 2, marginTop: 10, width: '75%', alignItems: 'center'}}>
                     <Text style={{fontSize: 30}}>Workouts</Text>
                 </View>

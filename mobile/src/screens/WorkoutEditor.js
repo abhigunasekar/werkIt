@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Modal, Text, Pressable } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 // @ts-ignore
 import SwipeUpDown from 'react-native-swipe-up-down-fix';
@@ -18,9 +19,11 @@ export default class WorkoutEditor extends Component {
         this.state = {
             name: this.props.route.params?.workout.name,
             exercises: this.props.route.params?.workout.exercises ?? [],
+            list: [{name: 'Bench', sets: true, reps: true}, {name: 'Squats', sets: true, reps: true}],
             currKey: -1,
             currExercise: '',
             numExercises: 0,
+            modalVisible: false,
         };
 
         this.createExercise = this.createExercise.bind(this);
@@ -31,10 +34,11 @@ export default class WorkoutEditor extends Component {
     componentDidMount() {
         //server call to get workout information if the user decided to edit a workout
         // server call to get previously saved exercises??
+        // this.setState({ list: parsed result })
     }
 
     createExercise(exercise) {
-        //console.log('create exercise');
+        console.log('create exercise');
         let newArray = this.state.exercises.map(exercise => exercise);
         let edited = false;
         // if (this.state.currExercise < this.state.numExercises) {
@@ -58,6 +62,7 @@ export default class WorkoutEditor extends Component {
         this.setState({ exercises: newArray });
         this.setState({ currExercise: '' });
         this.setState({ currKey: -1 });
+        this.setState({ modalVisible: false });
         this.forceUpdate();
     }
 
@@ -107,6 +112,19 @@ export default class WorkoutEditor extends Component {
                 />
             );
         }
+
+        let buttonList = [];
+        for (let i = 0; i < this.state.list.length; i++) {
+            let exercise = this.state.list[i];
+            buttonList.push(
+                <Button
+                    key={i}
+                    buttonText={exercise.name}
+                    onPress={() => this.createExercise({name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight})}
+                    orange={true}
+                />
+            )
+        }
         return(
             //add a dropdown menu populated with previously added exercises
             <View style={styles.workoutEditorContainer}>
@@ -119,10 +137,37 @@ export default class WorkoutEditor extends Component {
                 />
                 <ScrollView style={styles.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
                     {exerciseList}
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {
+                            Alert.alert("Modal has been closed.");
+                            this.setState({ modalVisible: !this.state.modalVisible});
+                        }}
+                        >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Hello World!</Text>
+                            {/* <Button
+                                buttonText='Bench'  
+                                onPress={() => this.createExercise({name: 'Bench', sets: 3, reps: 12})}
+                                orange={true}
+                            /> */}
+                            {buttonList}
+                            <Pressable
+                                style={[styles.button, styles.buttonClose]}
+                                onPress={() => this.setState({ modalVisible: !this.state.modalVisible })}
+                            >
+                                <Text style={styles.textStyle}>Hide Modal</Text>
+                            </Pressable>
+                            </View>
+                        </View>
+                    </Modal>
                     <Button
                         buttonText='Add exercise'
                         style={{width: 150}}
-                        onPress={() => this.swipeUpDownRef.showFull()}
+                        onPress={() => /*this.swipeUpDownRef.showFull()*/ this.setState({ modalVisible: true })}
                         orange={true}
                     />
                 </ScrollView>

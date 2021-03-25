@@ -13,6 +13,7 @@ export default class ExerciseEditor extends Component {
 
         this.state = {
             name: this.props.name,
+            type: this.props.type,
             sets: this.props.sets,
             reps: this.props.reps,
             weight: this.props.weight,
@@ -32,6 +33,11 @@ export default class ExerciseEditor extends Component {
                         placeholder='Name'
                         onChangeText={(text) => this.setState({ name: text })}
                         value={this.state.name}
+                    />
+                    <TextBox
+                        placeholder='Exercise type'
+                        onChangeText={(text) => this.setState({ type: text })}
+                        value={this.state.type}
                     />
                     <HideableView
                         name='Sets: '
