@@ -11,6 +11,7 @@ import ExerciseLabel from '../components/ExerciseLabel';
 import ExerciseEditor from './ExerciseEditor';
 
 import styles from '../styles';
+import { workoutTypeError } from '../components/Alerts';
 
 export default class WorkoutEditor extends Component {
     constructor(props) {
@@ -19,11 +20,14 @@ export default class WorkoutEditor extends Component {
         this.state = {
             name: this.props.route.params?.workout.name,
             exercises: this.props.route.params?.workout.exercises ?? [],
-            list: [{name: 'Bench', sets: true, reps: true}, {name: 'Squats', sets: true, reps: true}],
+            savedExercises: [{name: 'Bench', sets: true, reps: true}, {name: 'Squats', sets: true, reps: true}],
+            type: '',
+            savedTypes: [{label: 'Lifting', value: 'lifting'}, {label: 'Running', value: 'running'}],
             currKey: -1,
             currExercise: '',
             numExercises: 0,
             modalVisible: false,
+            
         };
 
         this.createExercise = this.createExercise.bind(this);
@@ -33,8 +37,8 @@ export default class WorkoutEditor extends Component {
 
     componentDidMount() {
         //server call to get workout information if the user decided to edit a workout
-        // server call to get previously saved exercises??
-        // this.setState({ list: parsed result })
+        // server call to get previously saved types
+        // this.setState({ savedtypes: parsed result })
     }
 
     createExercise(exercise) {
@@ -148,8 +152,8 @@ export default class WorkoutEditor extends Component {
         }
 
         let buttonList = [];
-        for (let i = 0; i < this.state.list.length; i++) {
-            let exercise = this.state.list[i];
+        for (let i = 0; i < this.state.savedExercises.length; i++) {
+            let exercise = this.state.savedExercises[i];
             buttonList.push(
                 <Button
                     key={i}
@@ -162,7 +166,7 @@ export default class WorkoutEditor extends Component {
         }
         buttonList.push(
             <Button
-                key={this.state.list.length}
+                key={this.state.savedExercises.length}
                 buttonText='Create a new exercise'
                 onPress={() => {
                     this.setState({ modalVisible: false });
@@ -182,6 +186,20 @@ export default class WorkoutEditor extends Component {
                     onChangeText={(text) => this.setState({ name: text })}
                     style={{marginTop: 20, alignItems: 'center'}}
                     value={this.state.name}
+                />
+                <DropDownPicker
+                    items={this.state.savedTypes}
+                    defaultValue={this.state.type}
+                    placeholder='Select a workout type'
+                    containerStyle={{height: 40, width: '75%'}}
+                    // style={{backgroundColor: '#fafafa'}}
+                    itemStyle={{
+                        justifyContent: 'flex-start'
+                    }}
+                    dropDownStyle={{backgroundColor: '#fafafa'}}
+                    onChangeItem={item => this.setState({
+                        type: item.value
+                    })}
                 />
                 <ScrollView style={styles.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
                     {exerciseList}
@@ -203,7 +221,14 @@ export default class WorkoutEditor extends Component {
                     <Button
                         buttonText='Add exercise'
                         style={{width: 150}}
-                        onPress={() => /*this.swipeUpDownRef.showFull()*/ this.setState({ modalVisible: true })}
+                        onPress={() => {
+                            //add a check to make sure workout type has been set
+                            if (this.state.type === '') {
+                                workoutTypeError();
+                            } else {
+                                this.setState({ modalVisible: true });
+                            }
+                        }}
                         orange={true}
                     />
                 </ScrollView>
@@ -235,17 +260,17 @@ export default class WorkoutEditor extends Component {
                 <SwipeUpDown		
                     itemFull={
                         <ExerciseEditor
-                            createExercise={(exercise) => this.createExercise(exercise)}
-                            deleteExercise={(exercise) => this.deleteExercise(exercise)}
+                            // createExercise={(exercise) => this.createExercise(exercise)}
+                            // deleteExercise={(exercise) => this.deleteExercise(exercise)}
                             dismiss={() => this.swipeUpDownRef.showMini()}
-                            name={this.state.currExercise.name}
-                            sets={this.state.currExercise.sets}
-                            reps={this.state.currExercise.reps}
-                            weight={this.state.currExercise.weight}
-                            duration={this.state.currExercise.duration}
-                            distance={this.state.currExercise.distance}
-                            pace={this.state.currExercise.pace}
-                            incline={this.state.currExercise.incline}
+                            // name={this.state.currExercise.name}
+                            // sets={this.state.currExercise.sets}
+                            // reps={this.state.currExercise.reps}
+                            // weight={this.state.currExercise.weight}
+                            // duration={this.state.currExercise.duration}
+                            // distance={this.state.currExercise.distance}
+                            // pace={this.state.currExercise.pace}
+                            // incline={this.state.currExercise.incline}
                         />
                     } // Pass props component when show full
                     style={{ backgroundColor: '#FFFFFF' }} // style for swipe

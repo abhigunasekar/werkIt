@@ -13,7 +13,7 @@ export default class ExerciseEditor extends Component {
         super(props);
 
         this.state = {
-            name: this.props.name,
+            name: '',
             // sets: this.props.sets,
             // reps: this.props.reps,
             // weight: this.props.weight,
