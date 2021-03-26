@@ -7,18 +7,13 @@
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <!-- Bootstrap CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <!-- Learned Bootstrap Tutorial From -->
     <!-- https://getbootstrap.com/-->
@@ -32,16 +27,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <!-- JS -->
     <script>
-        window.onload = function () {
-            document.querySelector('.button').onclick = function () {
+        window.onload = function() {
+            document.querySelector('.button').onclick = function() {
                 var password = document.getElementById("pswd").value;
                 var confirmP = document.getElementById("confirm").value;
                 console.log(password);
                 console.log(confirmP);
                 if (password == "") {
                     alert("Field cannor be empty.");
-                }
-                else if (password != confirmP) {
+                } else if (password != confirmP) {
                     alert("Password didn't match try again.");
                     return false;
                 }
@@ -51,11 +45,11 @@
     <title>Sign Up</title>
 
 </head>
-<!-- action="http://127.0.0.1:8000/create_account" Must Add to form later-->
+<!-- action="http://128.10.25.203:8000/create_account" Must Add to form later-->
 
 <body>
     <div class="signup-form">
-        <form name="signUp" action="http://10.186.113.88:8000/web/create_account" method="POST">
+        <form name="signUp" action="http://128.10.25.203:8000/create_account" method="POST">
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../index.html"><i
@@ -68,8 +62,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-user"></i></span>
                     <label for="test"></label>
-                    <input id="test" type="text" class="form-control" name="f_name" value="" placeholder="First Name"
-                        required="required">
+                    <input id="fName" type="text" class="form-control" name="f_name" value="" placeholder="First Name" required="required">
                 </div>
             </div>
 
@@ -77,7 +70,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="far fa-user"></i></span>
-                    <input type="text" class="form-control" name="l_name" placeholder="Last Name" required="required">
+                    <input type="text" id="l_name" class="form-control" name="l_name" placeholder="Last Name" required="required">
                 </div>
             </div>
 
@@ -85,7 +78,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
-                    <input type="email" class="form-control" name="email" placeholder="Email" required="required">
+                    <input type="email" id="email" class="form-control" name="email" placeholder="Email" required="required">
                 </div>
             </div>
 
@@ -93,7 +86,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
-                    <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+                    <input type="text" id="username" class="form-control" name="username" placeholder="Username" required="required">
                 </div>
             </div>
 
@@ -101,8 +94,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="password" id="pswd" class="form-control password" name="password"
-                        placeholder="Password" required="required">
+                    <input type="password" id="pswd" class="form-control password" name="password" placeholder="Password" required="required">
                 </div>
             </div>
 
@@ -110,8 +102,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input id="confirm" type="password" class="form-control confirmPassword" name="confirmPass"
-                        placeholder="Confirm Password" required="required">
+                    <input id="confirm" type="password" class="form-control confirmPassword" name="confirmPass" placeholder="Confirm Password" required="required">
                 </div>
             </div>
             <div class="form-group row">

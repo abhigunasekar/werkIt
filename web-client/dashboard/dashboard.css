@@ -1,6 +1,12 @@
 html {
     scroll-behavior: smooth;
 }
+.dark-mode {
+    filter: invert(1) hue-rotate(180deg);
+}
+.invert {
+    filter: invert(1) hue-rotate(180deg);
+}
 body {
     margin: 0;
     padding-bottom: 0;

@@ -1,0 +1,358 @@
+html {
+    scroll-behavior: smooth;
+}
+:root {
+    /* filter: invert(100%); */
+}
+body {
+    margin: 0;
+    padding-bottom: 0;
+}
+
+nav #logo{
+    background-color: white;
+    color: white;
+    width: 100%;
+    padding: none;
+}
+
+.navbar-brand {
+    padding: 0%;
+    margin: 0px;
+    background-color: #fff;
+}
+
+/* Modify the backgorund color */ 
+.navbar-custom { 
+    background-color: #fff; 
+} 
+
+.navbar-main {
+    background-color: #7641BD;
+    color:#fff;
+}
+
+.bg-main {
+    background-color: #7641BD;
+    color:#fff;
+    font-size: 20px;
+    padding-left: 15px;
+}
+
+#about:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+#exercise:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+#features:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+#signup:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+#login:hover {
+    font-weight: bold;
+    color: whitesmoke;
+}
+.navbar-right { 
+    margin-left: auto; 
+} 
+.bolded {
+    color: #7641BD;
+    font-weight:900;
+    
+}
+.section-head {
+    font-weight: bolder;
+}
+h4 {
+    font-weight: 400;
+    line-height: 2.5rem;
+}
+.btn-outline-login:hover{        
+    font-size: 16px;
+    font-weight: bold;
+    background:#ffffff;
+    border-color: #7641BD;
+    font-weight: bold;
+    color:  #7641BD;
+    /* min-width: 50px; */
+}
+.btn-outline-login {
+    background: #7641BD;
+    border-color: #7641BD;
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+}
+.custom-toggler.navbar-toggler { 
+    border-color: whitesmoke; 
+} 
+.custom-toggler .navbar-toggler-icon { 
+    background-image: url( 
+"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255,255,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E"); 
+} 
+.jumbotron{
+    margin-top: -30px;
+    
+}
+.jumbotron-hero {
+    background-color: #ffffff;
+}
+
+.jumbotron-exercise {
+    margin-top: -20px;
+    background-color: #fff;
+}
+.jumbotron-about {
+    background-color: #7641BD;
+}
+.about-us-descript {
+    color: #fff;
+    line-height: 35px;
+    font-weight: 400;
+}
+
+.jumbotron-about h1 {
+    color: #fff;
+    font-weight: 300;
+    margin-bottom: 3%;
+}
+.heading {
+    color:  #7641BD;
+}
+.lead {
+    font-size:xx-large;
+    font-weight: 400;
+}
+
+.btn-signup{        
+    font-size: 32px;
+    font-weight: bold;
+    background: #FB963C;
+    border-color: #FB963C;
+    color: #ffffff;
+    min-width: 140px;
+}
+
+.btn-signup:hover, .btn:focus {
+    background: #ffffff;
+    border-color: #FB963C;
+    color: #FB963C;
+}
+
+.btn-learn:hover{        
+
+    font-weight: bold;
+    background: #FB963C;
+    border-color: #FB963C;
+    color: #ffffff;
+
+}
+
+.btn-learn, .btn:focus {
+    font-size: 16px;
+    background: #ffffff;
+    border-color: #FB963C;
+    color: #FB963C;
+    min-width: 140px;
+}
+
+.jumbotron-about img {
+    width:max-content;
+}
+.improve-health-text {
+    color: #fff;
+    font-weight: 400;
+}
+
+.health-icon {
+    color: #fff;
+    font-size: 1500%;
+    margin: 5%;
+}
+.jumbotron-about h4 {
+    color: #fff;
+}
+mark {
+    background-color: #FB963C;
+}
+
+.navbar-brand {
+    font-size: 100px;
+}
+
+h4 {
+    margin-bottom: 30px;
+}
+
+#feature-section{
+    margin-bottom: 0%;
+}
+
+.list-group-item {
+    color: #000;
+}
+
+.img-mrg {
+    margin-bottom: 50px;
+}
+
+#list-group-purple {
+    background-color: #7641BD;
+    border: none;
+}
+
+#primary-color {
+    color: #7641BD;
+}
+
+body {
+    color: #000;
+    /* background: #7641BD; */
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-control, .form-control:focus, .input-group-addon {
+    border-color: #e1e1e1;
+}
+.form-control, .btn {        
+    border-radius: 3px;
+}
+.login-form {
+    width: 500px;
+    margin: 0 auto;
+    padding: 30px 0;
+}
+.login-form form {
+    color: #000;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background: #fff;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+}
+.login-form h2 {
+    color: #7641BD;
+    font-weight: 400;
+    font-size: 300%;
+    margin-top: 0;
+}
+.login-form hr {
+    margin: 0 -30px 20px;
+}
+.login-form .form-group {
+    margin-bottom: 20px;
+}
+
+.login-form .form-control {
+    min-height: 38px;
+    box-shadow: none !important;
+}	
+.login-form .input-group-addon {
+    max-width: 42px;
+    text-align: center;
+}
+   
+.login-form .btn-signup{        
+    font-size: 16px;
+    font-weight: bold;
+    background: #FB963C;
+    border-color: #FB963C;
+    color: #ffffff;
+    min-width: 140px;
+    text-decoration: none;
+}
+.login-form .btn-login{        
+    font-size: 16px;
+    font-weight: bold;
+    background:#ffffff;
+    border-color: #7641BD;
+    color:  #7641BD;
+    min-width: 140px;
+}
+.login-form .btn-signup:hover, .login-form .btn:focus {
+    background: #ffffff;
+    border-color: #FB963C;
+    color: #FB963C;
+    text-decoration: none;
+}
+
+.login-form .btn-reset {
+    background: #ffffff;
+    border-color: #FB963C;
+    color: #FB963C;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-form .btn-reset:hover, .login-form .btn:focus {        
+    /* font-size: 16px; */
+    font-weight: bold;
+    background: #FB963C;
+    border-color: #FB963C;
+    color: #000;
+    min-width: 140px;
+    text-decoration: none;
+}
+
+.login-form .btn-login:hover, .login-form .btn:focus {
+    background: #7641BD;
+    border-color: #7641BD;
+    text-decoration: none;
+    color: #fff;
+}
+
+.login-form p {
+    color:#FB963C;
+}
+
+.login-form a:hover {
+    text-decoration: none;
+}
+.login-form form a {
+    color: #FB963C;
+    text-decoration: none;
+}	
+.login-form form a:hover {
+    text-decoration: underline;
+}
+.login-form .fa {
+    font-size: 21px;
+}
+.login-form .fa-paper-plane {
+    font-size: 18px;
+}
+.login-form .fa-check {
+    color: #000;
+    left: 17px;
+    top: 18px;
+    font-size: 7px;
+    position: absolute;
+}
+
+#container {
+    width: auto;
+    padding: 0 0;
+
+}
+
+.form-control {
+    font-size: larger;
+}
+
+.health-icon {
+    color: #7641BD;
+    font-size: xxx-large;
+}
+
+#lFName {
+    font-size: 20px;
+    font-weight: 400;
+    color: #7641BD
+}

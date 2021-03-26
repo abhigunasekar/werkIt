@@ -20,6 +20,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
+    <meta name="color-scheme" content="dark light">
 
 
   <!-- Learned Bootstrap From -->
@@ -38,7 +39,7 @@
 
 <body>
   <!-- Links Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-main bg-main">
+  <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
     <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
       data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
       aria-label="Toggle navigation">
@@ -49,17 +50,27 @@
     <div class="collapse navbar-collapse navbar-main bg-main " id="navbarTogglerDemo03">
       <ul class="navbar-nav mx-auto mt-2 mt-lg-0 navbar-center">
         <li class="navbar-brand mr-0 ">
-          <a class="nav-link navbar-main bg-main" id="about" href="#">Dashboard</a>
+          <a class="nav-link navbar-main bg-main " id="about" href="#">Dashboard</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <a href="../profile/profile.html" class="btn btn-outline-login my-2 my-sm-0" type="submit">Profile</a>
+        <a href="../profile/profile.html" class="btn btn-outline-login my-2 my-sm-0 " type="submit">Profile</a>
       </form>
     </div>
 
     </div>
   </nav>'
- 
+  <script>
+    document.onkeypress = function(e) {
+      e = e || window.event;
+      if (e.keyCode === 13) {
+        document.documentElement.classList.toggle('dark-mode');
+        document.querySelectorAll('.inverted').forEach((result) => {
+          result.classList.toggle('invert');
+        })
+      }
+    }
+  </script>
 </body>
 
 </html>
