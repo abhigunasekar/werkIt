@@ -72,3 +72,47 @@ status: 204 No Content (successfully reset password)
 status: 401 Unauthorized (user does not exist)
 
 status: 403 Forbidden (password is same as current)	
+
+
+ADDING AN EXERCISE
+-----Request-----
+method: PUT
+route: '/{username}/{workout}/exercise'
+request Body:
+	{
+		"name": "<exercise name>",
+        "<data field>": value
+	}
+
+-----Response-----
+
+
+ADDING A WORKOUT
+-----Request-----
+method: PUT
+route: '/{username}/workout'
+request Body:
+	{
+		"name": "<exercise name>",
+        "type": "<type>",
+        "exercises": [<exercise names>]
+	}
+
+-----Response-----
+
+
+GETTING KNOWN EXERCISES FOR A WORKOUT TYPE
+-----Request-----
+method: GET
+route: '/{workoutType}/exercises'
+
+-----Response-----
+
+
+GETTING KNOWN WORKOUT TYPES
+-----Request-----
+method: GET
+route: '/workoutTypes'
+
+-----Response-----
+

@@ -16,29 +16,75 @@ const userSchema = new mongoose.Schema({
 	user: String,
 	pass: String,
 	email: String,
+	dark_mode: Boolean,
+	workouts: [
+		{type: mongoose.Schema.Types.ObjectId, ref: 'Workout'}
+	],
+	workoutTypes: [
+		{type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutType'}
+	]
 });
 
-userSchema.methods.get_pass = function() {
-	console.log(this.pass);
-	return this.pass;
-}
+const User = mongoose.model('User', userSchema);
+
+const wkoutSchema = new mongoose.Schema({
+	name: String,
+	type: {type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutType'},
+	exercises: [
+		{type: mongoose.Schema.Types.ObjectId, ref: 'Exercise'}
+	]
+});
+
+const Workout = mongoose.model('Workout', wkoutSchema);
+
+const exerciseSchema = new mongoose.Schema({
+	name: String,
+	data: [{
+		sets: Number,
+		reps: Number,
+		weight: Number,
+		duration: Number,
+		speed: Number,
+		laps: Number
+	}]
+});
+
+const Exercise = mongoose.model('Exercise', exerciseSchema);
+
+const wkoutTypeSchema = new mongoose.Schema({
+	name: String,
+	exercises: []		// assumes exercises have unique names
+});
+
+const WorkoutType = mongoose.model('WorkoutType', wkoutTypeSchema);
 
 // Functions called by server
 
-const User = mongoose.model('User', userSchema)
-
-function save_new_account_data(u_name, username, password, u_email) {
+async function save_new_account_data(u_name, req_body) {
 	
 	const user = new User({
 		name: u_name,
-		user: username,
-		pass: password,
-		email: u_email
+		user: req_body.username,
+		pass: req_body.password,
+		email: req_body.email,
+		dark_mode: false,
+		workouts: [],
+		workoutTypes: []
 	});
 
-	user.save(function (err, user) {
-		if (err) return console.error(err);
+	user.save().then(_ => {
+		generate_default_wkoutTypes(req_body.username);
 	});
+
+}
+
+async function get_profile_info(username) {
+	return await User.findOne({user: username});
+}
+
+async function generate_default_wkoutTypes(username) {
+	await save_new_workoutType(username, "Lifting", ["Bench", "Squats"]);
+	await save_new_workoutType(username, "Cardio", ["Running", "Hiking"]);
 }
 
 async function check_login(user, pass) {
@@ -63,7 +109,92 @@ async function change_password(user, new_pass) {
 	}
 }
 
+function save_new_exercise(w_name, e_name, data) {
+	
+	const exercise = new Exercise({
+		name: e_name,
+		data: data
+	});
+
+	exercise.save(function (err, exercise) {
+		if (err) return console.error(err);
+	});
+
+	// gets the workout and adds exercise to the list
+	var query = {name: w_name};
+	Workout.findOne(query, function(err, wkout) {
+		new_exercises = wkout.exercises;
+		new_exercises.push(exercise);
+		Workout.findOneAndUpdate(query, {exercises: new_exercises}).exec();
+	});
+}
+
+async function save_new_workout(username, w_name, w_type) {
+	
+	console.log("saving new workout");
+	console.log(username)
+	const workout = new Workout({
+		name: w_name,
+		type: w_type,
+		exercises: []
+	});
+
+	workout.save(function (err, workout) {
+		if (err) return console.error(err);
+	});
+
+	console.log("new workout saved, adding workout to list");
+
+	// gets the user and add workout to the list
+	var query = {user: username};
+	User.findOne(query, function(err, user) {
+		console.log(user);
+		console.log("found user: %s\n", user.username);
+		new_workouts = user.workouts;
+		new_workouts.push(workout);
+		User.findOneAndUpdate(query, {workouts: new_workouts}).exec();
+		console.log("workout added to list");
+	});
+	
+}
+
+async function save_new_workoutType(username, wt_name, exercises) {
+	
+	const workoutType = new WorkoutType({
+		name: wt_name,
+		exercises: exercises
+	});
+
+	workoutType.save(function (err, workoutType) {
+		if (err) return console.error(err);
+	});
+
+	// gets the user and add workout type to the list
+	var query = {user: username};
+	await User.findOne(query, async function(err, user) {
+		new_workouts = user.workoutTypes;
+		new_workouts.push(workoutType);
+		var x = await User.findOneAndUpdate(query, {workoutTypes: new_workouts}, {new: true}).exec();
+	});
+
+}
+
+async function get_workout_types(username) {
+	var user = await get_profile_info(username);
+	console.log(user.workoutTypes);
+	var knownTypes = new Array;
+	user.workoutTypes.forEach(obj_id = async() => {
+		console.log(obj_id);
+		var type = await WorkoutType.findById(obj_id).exec();
+		console.log(type);
+		knownTypes.push(type.name);
+	});
+}
+
 module.exports = { 
 	save_new_account_data, check_login, 
-	check_user_existence, change_password }
+	check_user_existence, change_password,
+	save_new_exercise, save_new_workout,
+	save_new_workoutType, get_profile_info,
+	get_workout_types }
 
