@@ -60,21 +60,26 @@ const WorkoutType = mongoose.model('WorkoutType', wkoutTypeSchema);
 
 // Functions called by server
 
-async function save_new_account_data(u_name, username, password, u_email) {
+async function save_new_account_data(u_name, req_body) {
 	
 	const user = new User({
 		name: u_name,
-		user: username,
-		pass: password,
-		email: u_email,
+		user: req_body.username,
+		pass: req_body.password,
+		email: req_body.email,
+		dark_mode: false,
 		workouts: [],
 		workoutTypes: []
 	});
 
 	user.save().then(_ => {
-		generate_default_wkoutTypes(username);
+		generate_default_wkoutTypes(req_body.username);
 	});
 
+}
+
+async function get_profile_info(username) {
+	return await User.findOne({user: username});
 }
 
 async function generate_default_wkoutTypes(username) {
@@ -174,9 +179,22 @@ async function save_new_workoutType(username, wt_name, exercises) {
 
 }
 
+async function get_workout_types(username) {
+	var user = await get_profile_info(username);
+	console.log(user.workoutTypes);
+	var knownTypes = new Array;
+	user.workoutTypes.forEach(obj_id = async() => {
+		console.log(obj_id);
+		var type = await WorkoutType.findById(obj_id).exec();
+		console.log(type);
+		knownTypes.push(type.name);
+	});
+}
+
 module.exports = { 
 	save_new_account_data, check_login, 
 	check_user_existence, change_password,
 	save_new_exercise, save_new_workout,
-	save_new_workoutType }
+	save_new_workoutType, get_profile_info,
+	get_workout_types }
 

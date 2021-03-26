@@ -29,9 +29,7 @@ app.post('/create_account', (req, res) => {
       console.log("Username already exists.")
       res.status(403).end();
     } else {
-      mc.save_new_account_data(
-        name, req.body.username, req.body.password, req.body.email
-      );
+      mc.save_new_account_data(name, req.body);
       console.log("Successfully created new user")
       res.status(201).end();
      }
@@ -85,10 +83,19 @@ app.patch('/user/:username/profile', (req, res) => {
 
 // get all user profile info
 app.get('/profile/:username', (req, res) => {
-  
+  mc.get_profile_info(req.params.username).then(user => {
+    console.log(user);
+    res.status(200).json(user);
+  })
 });
 
 // get known workout types
+app.get('/:username/workoutTypes', (req, res) => {
+  mc.get_workout_types(req.params.username).then(types => {
+    //console.log(types);
+
+  })
+});
 
 // set new workout type
 
