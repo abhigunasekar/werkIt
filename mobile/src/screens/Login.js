@@ -22,6 +22,7 @@ export default class Login extends Component {
             username: '',
             password: '',
             persist: false,
+            touchID: false,
         };
 
         this.checkCompatibility = this.checkCompatibility.bind(this);
@@ -40,8 +41,10 @@ export default class Login extends Component {
         let compatible = await LocalAuthentication.hasHardwareAsync();
         if (compatible) {
             console.log('Combatible');
+            this.setState({ touchID: true });
         } else {
             console.log('combatibility error');
+            this.setState({ touchID: false });
         }
     }
 
@@ -49,8 +52,10 @@ export default class Login extends Component {
         let records = await LocalAuthentication.isEnrolledAsync();
         if (records) {
             console.log('Has records');
+            this.setState({ touchID: true });
         } else {
             console.log('biometrics error')
+            this.setState({ touchID: false });
         }
     }
 
@@ -75,7 +80,7 @@ export default class Login extends Component {
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={styles.loginContainer}>
                     <View style={styles.loginForm}>
-                        <Text style={styles.loginText}>Log in</Text>
+                        <Text style={styles.loginText}>Werk It</Text>
                         <TextBox
                             placeholder='Username'
                             onChangeText={(text) => this.setState({ username: text })}
@@ -84,19 +89,21 @@ export default class Login extends Component {
                         <PasswordBox
                             placeholder='Password'
                             onChangeText={(text) => this.setState({ password: text })}
-                            //secureTextEntry={true}
                             value={this.state.password}
+                            biometric={() => this.touchID()}
                         />
                         <CheckBox
-                            title='Remember me'
+                            title='Keep me signed in'
                             checked={this.state.persist}
+                            containerStyle={{
+                                alignSelf: 'left',
+                                marginLeft: 25,
+                                marginTop: -10,
+                                backgroundColor: '#FFFFFF',
+                                borderColor: '#FFFFFF'
+                            }}
                             onPress={() => this.setState({ persist: !this.state.persist })}
                         />
-                        {/* Add a checkbox for "Keep me signed in" that sets this.state.persist: true */}
-                        <View style={{flexDirection: 'row', marginTop: 5, marginBottom: 20}}>
-                            <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ color: '#FB963C', marginRight: 15 }}>Create Account</Text>
-                            <Text onPress={() => this.props.navigation.navigate('ChangePassword')} style={{ color: '#535c68' }}>Forgot Password?</Text>
-                        </View>
                         <Button 
                             buttonText='Login'
                             onPress={async () => {
@@ -117,18 +124,14 @@ export default class Login extends Component {
                                     invalidFormAlert();
                                 }
                             }}
+                            style={{marginTop: 10, width: 150}}
                             purple={true}
                         />
-                        <Button
-                            buttonText='Testing'
-                            onPress={() => this.props.login(this.state.username)}
-                            gray={true}
-                        />
-                        <Button
-                            buttonText='Test touchid'
-                            onPress={() => this.touchID()}
-                            gray={true}
-                        />
+                        {/* Add a checkbox for "Keep me signed in" that sets this.state.persist: true */}
+                        <View style={{flexDirection: 'row', marginTop: 30}}>
+                            <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ color: '#FB963C', marginRight: 15 }}>Create Account</Text>
+                            <Text onPress={() => this.props.navigation.navigate('ChangePassword')} style={{ color: '#535c68' }}>Forgot Password?</Text>
+                        </View>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
