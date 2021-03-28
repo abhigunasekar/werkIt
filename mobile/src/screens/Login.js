@@ -60,6 +60,7 @@ export default class Login extends Component {
     }
 
     async touchID() {
+        // add a server call to validate username
         let result = await LocalAuthentication.authenticateAsync();
         if (result.success) {
             if (this.state.persist) {

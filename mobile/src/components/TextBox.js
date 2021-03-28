@@ -11,7 +11,6 @@ export default class TextBox extends Component {
     render() {
         return (
             <TextInput
-                autoFocus={this.props.autoFocus}
                 onChangeText={this.props.onChangeText}
                 onEndEditing={this.props.onEndEditing}
                 onKeyPress={this.props.onKeyPress}
