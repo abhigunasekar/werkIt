@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View, ScrollView } from 'react-native';
 
 import HideableView from './HideableView';
 
@@ -21,14 +21,21 @@ export default class ExerciseLabel extends Component {
             incline: this.props.incline,
             laps: this.props.laps,
         };
-
     }
 
     render() {
+        let counter = 0;
+        let array = [this.state.sets, this.state.reps, this.state.weight, this.state.duration, this.state.distance, this.state.pace, this.state.incline, this.state.laps]
+        array.forEach(element => {
+            if (element) {
+                counter++;
+            }
+        });
+        let width = counter * 110;
         return (
             <Pressable style={{borderColor: '#000000', borderWidth: 3, width: '100%', marginBottom: 7}} /*onPress={() => this.props.edit(this.state)}*/>
                 <Text>{this.props.name}</Text>
-                <View style={styles.metadataList}>
+                <ScrollView style={{borderWidth: 1, margin: 10, width: width}}horizontal={true} bounces={false} contentContainerStyle={[{width: width}, styles.metadataList]}>
                     <HideableView
                         key='Set'
                         name='Sets: '
@@ -100,7 +107,7 @@ export default class ExerciseLabel extends Component {
                         maxLength={2}
                         visible={this.state.laps}
                     />
-                </View>
+                </ScrollView>
             </Pressable>
         );
     }

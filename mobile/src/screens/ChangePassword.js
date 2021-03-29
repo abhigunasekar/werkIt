@@ -17,7 +17,7 @@ export default class ChangePassword extends Component {
             username: '',
             email: '',
             newPassword: '',
-            matchingUsername: false,
+            matchingCredentials: false,
             passwordChanged: false,
         }
 
@@ -27,13 +27,19 @@ export default class ChangePassword extends Component {
     }
 
     async checkUsername() {
-        if (this.state.username !== '') {
-            let response = await serverMethods.verifyUsername(this.state.username);
-            console.log(response.status);
-            if (response.status === 200) {
-                this.setState({ matchingUsername: true });
+        if ((this.state.username !== '') && (this.state.email !== '')) {
+            let usernameResponse = await serverMethods.verifyUsername(this.state.username);
+            //let emailResponse = await serverMethods.verifyEmail(this.state.email);
+            console.log(usernameResponse.status);
+            //console.log(emailResponse.status);
+            if ((usernameResponse.status === 200) /*&& (emailResponse.status === 200)*/) {
+                this.setState({ matchingCredentials: true });
             } else {
-                usernameDoesNotExist();
+                if (usernameResponse !== 200) {
+                    usernameDoesNotExist();
+                } else {
+                    //emailDoesNotExist();
+                }
             }
         } else {
             invalidFormAlert();
@@ -53,7 +59,7 @@ export default class ChangePassword extends Component {
     }
 
     render() {
-        if (!this.state.matchingUsername) {
+        if (!this.state.matchingCredentials) {
             return (
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={styles.changePasswordContainer}>
