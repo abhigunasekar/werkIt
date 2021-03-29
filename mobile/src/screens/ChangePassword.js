@@ -14,6 +14,7 @@ export default class ChangePassword extends Component {
 
         this.state = {
             username: '',
+            email: '',
             newPassword: '',
             matchingUsername: false,
             passwordChanged: false,
@@ -62,12 +63,24 @@ export default class ChangePassword extends Component {
                                 onChangeText={(text) => this.setState({ username: text })}
                                 value={this.state.username}
                             />
+                            <TextBox
+                                placeholder='Email'
+                                onChangeText={(text) => this.setState({ email: text })}
+                                value={this.state.email}
+                            />
+                            <View style={{flexDirection: 'row', marginTop: 15}}>
+                            <Button 
+                                buttonText='Go back'
+                                onPress={() => this.props.navigation.navigate('Login')}
+                                style={{marginRight: 45}}
+                                purple={true}
+                            /> 
                             <Button
                                 buttonText='Next'
                                 onPress={() => this.checkUsername()}
-                                style={{ marginTop: 15 }}
                                 gray={true}
                             />
+                            </View>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>

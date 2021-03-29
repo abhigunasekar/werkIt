@@ -11,7 +11,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
         borderRadius: 7,
-        height: '50%',
+        height: '60%',
         width: '75%',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -20,7 +20,7 @@ export default StyleSheet.create({
         fontSize: 35,
         color: '#7641BD',
         fontWeight: 'bold',
-        marginBottom: 23,
+        marginBottom: 30,
     },
     createAccountContainer: {
         backgroundColor: '#FB963C',
@@ -85,9 +85,6 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    exerciseEditorContainer: {
-        
-    },
     exerciseList: {
         height: '75%',
         width: '100%',
@@ -102,7 +99,7 @@ export default StyleSheet.create({
     button: {
         alignItems: 'center',
         borderWidth: 2,
-        borderRadius: 3,
+        borderRadius: 5,
         height: 35,
         justifyContent: 'center',
         padding: 7
@@ -146,5 +143,26 @@ export default StyleSheet.create({
         alignItems: 'center',
         margin: 10,
         width: '100%'
+    },
+    modalView: {
+        margin: '10%',
+        marginTop: '35%',
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    motivationalQuote: {
+        backgroundColor: '#FFFFFF',
+        alignItems: 'center',
+        paddingTop: 300
     },
 })

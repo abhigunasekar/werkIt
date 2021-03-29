@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback, View, Text, Keyboard } from 'react-native';
+import SelectMultiple from 'react-native-select-multiple';
 
 import TextBox from '../components/TextBox';
 import HideableView from '../components/HideableView';
@@ -12,30 +13,45 @@ export default class ExerciseEditor extends Component {
         super(props);
 
         this.state = {
-            name: this.props.name,
-            sets: this.props.sets,
-            reps: this.props.reps,
-            weight: this.props.weight,
-            duration: this.props.duration,
-            distance: this.props.distance,
-            pace: this.props.pace,
-            incline: this.props.incline
+            name: '',
+            // sets: this.props.sets,
+            // reps: this.props.reps,
+            // weight: this.props.weight,
+            // duration: this.props.duration,
+            // distance: this.props.distance,
+            // pace: this.props.pace,
+            // incline: this.props.incline,
+            // laps: this.props.laps
+            selectedFields: [],
         };
     }
 
     render() {
         return (
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <View style={styles.exerciseEditorContainer}>
+                <View /*style={styles.exerciseEditorContainer}*/>
                     <TextBox
                         placeholder='Name'
                         onEndEditing={(e) => this.setState({ name: e.nativeEvent.text })}
                         value={this.state.name}
                     />
+                    <Text>Select all that apply:</Text>
+                    <SelectMultiple
+                        items={['Sets', 'Reps', 'Weight', 'Duration', 'Distance', 'Pace', 'Incline', 'Laps']}
+                        selectedItems={this.state.selectedFields}
+                        style={{marginTop: 10}}
+                        rowStyle={{padding: 10}}
+                        checkboxStyle={{width: 20, height: 20}}
+                        labelStyle={{marginLeft: 5}}
+                        onSelectionsChange={(items) => this.setState({ selectedFields: items })}
+
+                    />
                     <HideableView
                         name='Sets: '
                         update={(e) => this.setState({ sets: e.nativeEvent.text })}
                         value={this.state.sets}
+                        maxLength={2}
+                        style={{width: 33}}
                         visible={true}
                     />
                     <HideableView

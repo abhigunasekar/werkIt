@@ -18,43 +18,9 @@ export default class ExerciseLabel extends Component {
             distance: this.props.distance,
             pace: this.props.pace,
             incline: this.props.incline,
+            laps: this.props.laps,
         };
 
-        this.updateSets = this.updateSets.bind(this);
-        this.updateReps = this.updateReps.bind(this);
-        this.updateWeight = this.updateWeight.bind(this);
-        this.updateDuration = this.updateDuration.bind(this);
-        this.updateDistance = this.updateDistance.bind(this);
-        this.updatePace = this.updatePace.bind(this);
-        this.updateIncline = this.updateIncline.bind(this);
-    }
-
-    updateSets(e) {
-        this.setState({ sets: e.nativeEvent.text });
-    }
-
-    updateReps(e) {
-        this.setState({ reps: e.nativeEvent.text });
-    }
-
-    updateWeight(e) {
-        this.setState({ weight: e.nativeEvent.text });
-    }
-
-    updateDuration(e) {
-        this.setState({ duration: e.nativeEvent.text });
-    }
-
-    updateDistance(e) {
-        this.setState({ distance: e.nativeEvent.text });
-    }
-
-    updatePace(e) {
-        this.setState({ pace: e.nativeEvent.text });
-    }
-
-    updateIncline(e) {
-        this.setState({ incline: e.nativeEvent.text });
     }
 
     render() {
@@ -65,54 +31,73 @@ export default class ExerciseLabel extends Component {
                     <HideableView
                         key='Set'
                         name='Sets: '
-                        value={this.state.sets}
-                        update={(e) => this.updateSets(e)}
+                        value={(this.state.sets != undefined) ? this.state.sets : ''}
+                        update={(e) => {
+                            console.log('tried');
+                            this.props.edit('Sets', e)
+                        }}
+                        maxLength={2}
                         visible={this.state.sets}
                     />
                     <HideableView
                         key='Rep'
                         name='Reps: '
-                        value={this.state.reps}
-                        update={(e) => this.updateReps(e)}
+                        value={(this.state.reps != undefined) ? this.state.reps : ''}
+                        update={(e) => this.props.edit('Reps', e)}
+                        maxLength={2}
                         visible={this.state.reps}
                     />
                     <HideableView
                         key='Weight'
                         name='Weight: '
                         style={{width: 60}}
-                        value={this.state.weight}
-                        update={(e) => this.updateWeight(e)}
+                        value={(this.state.weight != undefined) ? this.state.weight : ''}
+                        update={(e) => this.props.edit('Weight', e)}
+                        maxLength={3}
                         visible={this.state.weight}
                     />
                     <HideableView
                         key='Duration'
                         name='Duration: '
                         style={{width: 60}}
-                        value={this.state.duration}
-                        update={(e) => this.updateDuration(e)}
+                        value={(this.state.duration != undefined) ? this.state.duration : ''}
+                        update={(e) => this.props.edit('Duration', e)}
+                        maxLength={3}
                         visible={this.state.duration}
                     />
                     <HideableView
                         key='Distance'
                         name='Distance: '
                         style={{width: 60}}
-                        value={this.state.distance}
-                        update={(e) => this.updateDistance(e)}
+                        value={(this.state.distance != undefined) ? this.state.distance : ''}
+                        update={(e) => this.props.edit('Duration', e)}
+                        //maxLength={ /* add a check for . and set max length based on  */}
                         visible={this.state.distance}
                     />
                     <HideableView
                         key='Pace'
                         name='Pace: '
-                        value={this.state.pace}
-                        update={(e) => this.updatePace(e)}
+                        value={(this.state.pace != undefined) ? this.state.pace : ''}
+                        update={(e) => this.props.edit('Pace', e)}
+                        maxLength={2}
                         visible={this.state.pace}
                     />
-                    <HideableView
+                    {/* This is not in planning doc */}
+                    <HideableView 
                         key='Incline'
                         name='Incline: '
-                        value={this.state.incline}
-                        update={(e) => this.updateIncline(e)}
+                        value={(this.state.incline != undefined) ? this.state.incline : ''}
+                        update={(e) => this.props.edit('Incline', e)}
+                        maxLength={2}
                         visible={this.state.incline}
+                    />
+                    <HideableView
+                        key='Laps'
+                        name='Laps: '
+                        value={(this.state.laps != undefined) ? this.state.laps : ''}
+                        update={(e) => this.props.edit('Laps', e)}
+                        maxLength={2}
+                        visible={this.state.laps}
                     />
                 </View>
             </Pressable>

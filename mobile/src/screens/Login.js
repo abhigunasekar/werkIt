@@ -22,6 +22,8 @@ import bounceOut from 'react-animations/lib/bounce-out'; */
     }
 } */
 
+//https://docs.expo.io/versions/latest/sdk/local-authentication/
+
 export default class Login extends Component {
     constructor(props) {
         super(props);

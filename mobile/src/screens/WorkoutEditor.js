@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Modal, Text, Pressable } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import SwipeUpDown from 'react-native-swipe-up-down-fix';
 
@@ -9,6 +10,7 @@ import ExerciseLabel from '../components/ExerciseLabel';
 import ExerciseEditor from './ExerciseEditor';
 
 import styles from '../styles';
+import { workoutTypeError } from '../components/Alerts';
 
 export default class WorkoutEditor extends Component {
     constructor(props) {
@@ -23,6 +25,12 @@ export default class WorkoutEditor extends Component {
         this.createExercise = this.createExercise.bind(this);
         this.deleteExercise = this.deleteExercise.bind(this);
         this.editExercise = this.editExercise.bind(this);
+    }
+
+    componentDidMount() {
+        //server call to get workout information if the user decided to edit a workout
+        // server call to get previously saved types
+        // this.setState({ savedtypes: parsed result })
     }
 
     createExercise(exercise) {
@@ -64,10 +72,38 @@ export default class WorkoutEditor extends Component {
                     distance={exercise.distance}
                     pace={exercise.pace}
                     incline={exercise.incline}
-                    edit={(exercise) => this.editExercise(exercise)}
+                    laps={exercise.laps}
+                    edit={(field, val) => this.editExercise(exercise.name, field, val)}
                 />
             );
         }
+
+        let buttonList = [];
+        for (let i = 0; i < this.state.savedExercises.length; i++) {
+            let exercise = this.state.savedExercises[i];
+            buttonList.push(
+                <Button
+                    key={i}
+                    buttonText={exercise.name}
+                    onPress={() => this.createExercise({ name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps })}
+                    style={{width: '80%', margin: 5}}
+                    orange={true}
+                />
+            )
+        }
+        buttonList.push(
+            <Button
+                key={this.state.savedExercises.length}
+                buttonText='Create a new exercise'
+                onPress={() => {
+                    this.setState({ modalVisible: false });
+                    this.swipeUpDownRef.showFull();
+                }}
+                style={{width: '80%', margin: 5}}
+                gray={true}
+            />
+        )
+
         return(
             <View style={styles.workoutEditorContainer} hasRef={(ref) => this.containerRef = ref}>
                 
@@ -79,16 +115,39 @@ export default class WorkoutEditor extends Component {
                 />
                 <ScrollView style={styles.exerciseList} /*contentContainerStyle={{alignItems: 'center'}}*/>
                     {exerciseList}
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {
+                            Alert.alert("Modal has been closed.");
+                            this.setState({ modalVisible: !this.state.modalVisible});
+                        }}
+                        >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                {buttonList}
+                            </View>
+                        </View>
+                    </Modal>
                     <Button
                         buttonText='Add exercise'
                         style={{width: 150}}
-                        onPress={() => this.swipeUpDownRef.showFull()}
+                        onPress={() => {
+                            //add a check to make sure workout type has been set
+                            if (this.state.type === '') {
+                                workoutTypeError();
+                            } else {
+                                this.setState({ modalVisible: true });
+                            }
+                        }}
                         orange={true}
                     />
                 </ScrollView>
                 <Button
                         buttonText='Submit'
                         onPress={() => {
+                            console.log(this.state.exercises);
                             this.props.navigation.navigate('Dashboard', { workout: this.state });
                             //this.props.navigation.navigate({ routeName: 'Dashboard', params: { workout: this.state } })
                         }}
@@ -98,17 +157,17 @@ export default class WorkoutEditor extends Component {
                 <SwipeUpDown		
                     itemFull={
                         <ExerciseEditor
-                            createExercise={(exercise) => this.createExercise(exercise)}
-                            deleteExercise={(exercise) => this.deleteExercise(exercise)}
+                            // createExercise={(exercise) => this.createExercise(exercise)}
+                            // deleteExercise={(exercise) => this.deleteExercise(exercise)}
                             dismiss={() => this.swipeUpDownRef.showMini()}
-                            name={this.state.currExercise.name}
-                            sets={this.state.currExercise.sets}
-                            reps={this.state.currExercise.reps}
-                            weight={this.state.currExercise.weight}
-                            duration={this.state.currExercise.duration}
-                            distance={this.state.currExercise.distance}
-                            pace={this.state.currExercise.pace}
-                            incline={this.state.currExercise.incline}
+                            // name={this.state.currExercise.name}
+                            // sets={this.state.currExercise.sets}
+                            // reps={this.state.currExercise.reps}
+                            // weight={this.state.currExercise.weight}
+                            // duration={this.state.currExercise.duration}
+                            // distance={this.state.currExercise.distance}
+                            // pace={this.state.currExercise.pace}
+                            // incline={this.state.currExercise.incline}
                         />
                     } // Pass props component when show full
                     style={{ backgroundColor: '#FFFFFF' }} // style for swipe

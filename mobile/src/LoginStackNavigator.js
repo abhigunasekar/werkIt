@@ -40,7 +40,7 @@ export default class StackNavigator extends Component {
                 <Stack.Screen 
                     name='Login'
                 >
-                    {props => <Login {...props} login={this.props.login} />}
+                    {props => <Login {...props} login={this.props.login} persist={this.props.persist}/>}
                 </Stack.Screen>
                 <Stack.Screen 
                     name='CreateAccount'
