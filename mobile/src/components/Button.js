@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Pressable, Text } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+
 
 import styles from '../styles';
 
@@ -36,6 +38,17 @@ export default class Button extends Component {
                     {({ pressed }) => <Text style={{color: pressed ? '#FFFFFF' : '#535c68'}}>{this.props.buttonText}</Text> }
                 </Pressable>
             );
+        } else if (this.props.fingerPrint) {
+            return (
+                <Pressable
+                    onPress={() => this.props.onPress()}
+                    style={this.props.style}
+                >
+                    <MaterialCommunityIcons name="fingerprint" size={24} color="black" />
+                </Pressable>
+                );
+        } else {
+            return null;
         }
     }
 }

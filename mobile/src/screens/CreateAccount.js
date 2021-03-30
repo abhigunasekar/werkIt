@@ -20,7 +20,7 @@ export default class CreateAccount extends Component {
             email: '',
             username: '',
             password: '',
-            correctEmail: true,
+            emailError: false,
             usernameError: false,
         };
 
@@ -32,6 +32,7 @@ export default class CreateAccount extends Component {
     emailHandler(e) {
         if (!e.nativeEvent.text.includes('@')) {
             console.log('invalid email');
+            this.setState({ emailError: true });
             invalidEmailAlert();
         }
     }
@@ -66,8 +67,8 @@ export default class CreateAccount extends Component {
                         <TextBox 
                             placeholder='Email'
                             keyboardType='email-address'
-                            autoFocus={!this.state.correctEmail}
-                            onChangeText={(text) => this.setState({ email: text })}
+                            onChangeText={(text) => this.setState({ email: text, emailError: false })}
+                            style={this.state.emailError ? styles.errorBox : ''}
                             onEndEditing={(e) => this.emailHandler(e)}
                             value={this.state.email}
                         />

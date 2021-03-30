@@ -11,13 +11,13 @@ export default class TextBox extends Component {
     render() {
         return (
             <TextInput
-                autoFocus={this.props.autoFocus}
                 onChangeText={this.props.onChangeText}
                 onEndEditing={this.props.onEndEditing}
                 onKeyPress={this.props.onKeyPress}
                 secureTextEntry={this.props.secureTextEntry}
                 placeholder={this.props.placeholder}
                 keyboardType={this.props.keyboardType}
+                maxLength={this.props.maxLength}
                 style={[ styles.textBox, this.props.style ]}
                 value={this.props.value}
             />

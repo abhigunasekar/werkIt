@@ -12,6 +12,7 @@ const { response } = require('express');
 const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
+
 const ip = "128.10.25.205";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 
@@ -23,10 +24,10 @@ app.use(cookieParser());
 //const lt = require('localtunnel');
 
 
-// app.use(express.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-// app.use(methodOverride('_method'));
+//app.use(express.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.json());
+//app.use(methodOverride('_method'));
 
 // check connection with server
 app.get('/', function(req, res) {
@@ -107,29 +108,61 @@ app.get('/profile/:username', cors(), (req, res) => {
     })
 });
 
+// update one element of user profile info
+app.patch('/profile/:username/:field', (req, res) => {
+
+})
+
 // get known workout types
 app.get('/:username/workoutTypes', (req, res) => {
-    mc.get_workout_types(req.params.username).then(types => {
-        //console.log(types);
-
-    })
+  console.log("Requesting known workout types");
+  mc.get_workout_types(req.params.username).then(types => {
+    console.log("Found known workout types: " + types);
+    res.status(200).json(types);
+  });
 });
 
 // set new workout type
+// KNOWN BUG: only connects one exercise to user if multiple are sent (all are saved tho)
+app.post('/:username/workoutType', (req, res) => {
+  console.log("Saving new workout type to database for user: %s", req.params.username);
+  mc.save_new_workoutType(
+    req.params.username, req.body.name, req.body.exercises
+  ).then(_ => {
+    console.log("Successfully saved new workoutType");
+    res.status(200).end();
+  })
+})
 
 // get exercises given a workout type
+app.get('/:username/:workoutType/exercises', (req, res) => {
+  console.log("Getting exercises for workoutType: %s", req.params.workoutType);
+  mc.get_exercises_for_type(req.params.username, req.params.workoutType).then(ex_list => {
+    console.log("Exercises found: " + ex_list);
+    res.status(200).json(ex_list);
+  });
+})
 
 // add new exercise to a given workout type
+// KNOWN BUG: changed exercise schema... fix this to match it
+app.put('/:username/:workoutType/exercise', (req, res) => {
+  console.log("Adding exercise to workoutType: %s", req.params.workoutType);
+  mc.add_exercise_to_wkoutType(
+    req.params.username, req.params.workoutType, req.body.exercise
+  ).then(_ => {
+    console.log("Successfully added exercise to workoutType");
+    res.status(200).end();
+  });
+});
 
 // save a new workout
 app.post('/:username/workout', (req, res) => {
-    console.log(req.body);
-    console.log(req.params);
-    mc.save_new_workout(req.params.username, req.body.name, req.body.type).then(_ => {
-        req.body.exercises.forEach(exercise => {
-            mc.save_new_exercise(req.body.name, exercise.name, exercise);
-        });
-    });
+  console.log("saving new workout");
+  console.log(req.body);
+  console.log(req.params);
+  mc.save_workout(req.params.username, req.body.name, req.body.type, req.body.exercises).then(_ => {
+    res.status(200).end()
+  });
 });
 
 app.listen(port, ip, function() {

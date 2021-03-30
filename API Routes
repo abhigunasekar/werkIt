@@ -74,20 +74,70 @@ status: 401 Unauthorized (user does not exist)
 status: 403 Forbidden (password is same as current)	
 
 
-ADDING AN EXERCISE
+GET ALL USER PROFILE INFO
+-----Request-----
+method: GET
+route: '/profile/{username}'
+
+-----Response-----
+status: 204 No Content (successfully reset password)
+body:
+{
+	"workouts": [<workout ids>],
+	"workoutTypes": [<workout type ids>],
+	"_id": "<id of user>",
+	"name": "<first and last name>",
+	"user": "<username>",
+	"pass": "<password>",
+	"email": "<email>",
+	"dark_mode": <true/false>
+}
+
+
+GETTING KNOWN WORKOUT TYPES
+-----Request-----
+method: GET
+route: '/{username}/workoutTypes'
+
+-----Response-----
+status: 200
+body: ["<workout type name"]
+
+
+SAVE NEW WORKOUT TYPE
+-----Request-----
+method: POST
+route: '/{username}/workoutType'
+body:
+	{
+		"name": "<workoutType name>",
+        "exercises": ["<exercise names>"]
+	}
+
+-----Response-----
+status: 200
+
+
+GETTING KNOWN EXERCISES FOR A GIVEN WORKOUT TYPE
+-----Request-----
+method: GET
+route: '/{username}/{workoutType}/exercises'
+
+-----Response-----
+status: 200
+body: ["<exercise name>"]
+
+
+ADDING NEW EXERCISE TO EXISTING WORKOUT TYPE (WIP)
 -----Request-----
 method: PUT
-route: '/{username}/{workout}/exercise'
-request Body:
-	{
-		"name": "<exercise name>",
-        "<data field>": value
-	}
+route: '/{username}/{workoutType}/exercise'
+
 
 -----Response-----
 
 
-ADDING A WORKOUT
+SAVE A WORKOUT
 -----Request-----
 method: PUT
 route: '/{username}/workout'
@@ -95,24 +145,15 @@ request Body:
 	{
 		"name": "<exercise name>",
         "type": "<type>",
-        "exercises": [<exercise names>]
+        "exercises": {
+			"e_name": "<exercise name>",
+			"data": {
+				"<data field>": value,
+				...
+			},
+			...
+		}
 	}
 
 -----Response-----
-
-
-GETTING KNOWN EXERCISES FOR A WORKOUT TYPE
------Request-----
-method: GET
-route: '/{workoutType}/exercises'
-
------Response-----
-
-
-GETTING KNOWN WORKOUT TYPES
------Request-----
-method: GET
-route: '/workoutTypes'
-
------Response-----
-
+status: 200
