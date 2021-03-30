@@ -20,11 +20,11 @@ export default class Dashboard extends Component{
         this.createWorkout = this.createWorkout.bind(this);
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         // server call to get workouts related to user
         serverMethods.getUserWorkouts(this.state.username)
             .then(response => response.json())
-            .then(response => console.log(response));
+            .then(response => this.setState({ workouts: response }));
         // this.setState({ workouts: response });
     }
 

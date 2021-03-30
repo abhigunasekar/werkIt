@@ -37,11 +37,12 @@ export default class WorkoutEditor extends Component {
     }
 
     componentDidMount() {
+        console.log('call')
         //server call to get workout information if the user decided to edit a workout
         // server call to get previously saved types
-        serverMethods.getUserWorkoutTypes(this.props.route.params.username)
-            .then(response => response.json())
-            .then(response => console.log(response));
+        // serverMethods.getUserWorkoutTypes(this.props.route.params.username)
+        //     .then(response => response.json())
+        //     .then(response => this.setState({ savedTypes: response }));
         // this.setState({ savedtypes: parsed result })
     }
 
