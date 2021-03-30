@@ -78,7 +78,8 @@
         //     }
         // }
         async function doRequest() {
-            let url = 'http://128.10.25.205:8000/profile/katy';
+            let user = localStorage.getItem("user");
+            let url = 'http://128.10.25.205:8000/profile/' + user;
             let res = await fetch(url);
 
             if (res.ok) {
@@ -93,7 +94,7 @@
             var json = JSON.parse(data);
             var dValue = json.dark_mode;
             // console.log(dValue);
-            if (dValue == false) {
+            if (dValue == true) {
                 document.documentElement.classList.toggle('dark-mode');
                 document.querySelectorAll('.inverted').forEach((result) => {
                     result.classList.toggle('invert');
@@ -109,8 +110,13 @@
         let streak = document.getElementById('streak');
         let avg = 0;
 
+        // $(document).ready(function() {
+        //     var user = localStorage.getItem("user");
+        //     alert(user);
+        // });
 
         window.onload = function() {
+
             var actualVal = actual.getAttribute("aria-valuenow");
             var goalVal = actual.getAttribute("aria-valuemax");
             // width.setAttribute("class", "progress-bar w-" + actualVal);

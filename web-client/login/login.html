@@ -83,6 +83,7 @@
         $("#submit-btn").click(function(event) {
             event.preventDefault();
             var uname = $("#username").val();
+            localStorage.setItem("user", uname);
             var password = $("#password").val();
             // var profiles = {
             //     "f_name": fName,
@@ -101,6 +102,7 @@
                     },
                     success: function(data, textStatus) {
                         window.location.href = 'file:///u/riker/u94/agunase/cs307/WerkIt/web-client/dashboard/dashboard.html';
+
                     },
                     error: function(jqXHR, textStatus, err) {
                         // alert('text status ' + textStatus + ', err ' + err)
