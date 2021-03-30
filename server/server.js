@@ -1,7 +1,9 @@
-const express = require('express');
+const express = require('express')
+const cors = require('cors')
 const mc = require('./mongoConnect')
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const methodOverride = require('method-override')
 const app = express();
 const path = require('path');
 var http = require('http');
@@ -10,12 +12,21 @@ const { response } = require('express');
 const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
-const ip = "127.0.0.1";
+const ip = "128.10.25.205";
+var urlencodedparser = bodyParser.urlencoded({ extended: false })
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
+app.use(cookieParser());
+
 //const lt = require('localtunnel');
 
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(methodOverride('_method'));
+
+// app.use(express.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+// app.use(methodOverride('_method'));
 
 // check connection with server
 app.get('/', function(req, res) {
@@ -24,7 +35,7 @@ app.get('/', function(req, res) {
 });
 
 // create a new account
-app.post('/create_account', (req, res) => {
+app.post('/create_account', urlencodedparser, cors(), (req, res) => {
     console.log("Request to create account");
     console.log(req.body);
     var name = req.body.f_name + " " + req.body.l_name;
@@ -34,14 +45,15 @@ app.post('/create_account', (req, res) => {
             res.status(403).end();
         } else {
             mc.save_new_account_data(name, req.body);
-            console.log("Successfully created new user")
-            res.sendFile(path.join(__dirname, '../web-client/dashboard/dashboard.html'));
+            console.log("Successfully created new user");
+            res.status(200).end();
+            //res.redirect('/web-client/dashboard/dashboard.html');
         }
     });
 });
 
 // log in
-app.post('/login', (req, res) => {
+app.post('/login', urlencodedparser, cors(), (req, res) => {
     console.log("Request to log in");
     mc.check_login(req.body.username, req.body.password).then(exists => {
         if (exists) {
@@ -88,7 +100,7 @@ app.patch('/user/:username/profile', (req, res) => {
 });
 
 // get all user profile info
-app.get('/profile/:username', (req, res) => {
+app.get('/profile/:username', cors(), (req, res) => {
     mc.get_profile_info(req.params.username).then(user => {
         console.log(user);
         res.status(200).json(user);
