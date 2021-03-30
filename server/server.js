@@ -6,7 +6,7 @@ const app = express();
 const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
-const ip = "127.0.0.1";
+const ip = "10.186.158.25";
 //const lt = require('localtunnel');
 
 app.use(express.json());
@@ -31,7 +31,7 @@ app.post('/create_account', (req, res) => {
     } else {
       mc.save_new_account_data(name, req.body);
       console.log("Successfully created new user")
-      res.status(201).end();
+      res.status(200).end();
      }
    });
 });
@@ -42,7 +42,7 @@ app.post('/login', (req, res) => {
   mc.check_login(req.body.username, req.body.password).then(exists => {
     if (exists) {
       console.log("Login credentials match - successful login");
-      res.status(204).end();
+      res.status(200).end();
     } else {
       mc.check_user_existence(req.body.username).then(user_exist => {
         if (user_exist) {
@@ -72,7 +72,7 @@ app.get('/user/:username', (req, res) => {
 app.patch('/user/:username/profile', (req, res) => {
   mc.change_password(req.params.username, req.body.password).then(_ => {
     console.log("Successfully changed password for %s", req.params.username);
-    res.status(204).end();
+    res.status(200).end();
   }).catch(err => {
     var err_dict = {401 : "User does not exist - cannot change password",
                     403 : "Password is the same as the current one - enter different password"};
@@ -85,7 +85,7 @@ app.patch('/user/:username/profile', (req, res) => {
 app.get('/profile/:username', (req, res) => {
   mc.get_profile_info(req.params.username).then(user => {
     console.log(user);
-    res.status(200).json(user);
+    res.json(user);
   })
 });
 
