@@ -36,11 +36,8 @@ export default class App extends Component {
     async login(user) {
         if (this.state.persist) {
             // AsyncStorage method to create token???
-            console.log('persist');
             try {
-                console.log(this.state.username);
-                let username = this.state.username;
-                await AsyncStorage.setItem('loginToken', JSON.stringify(this.state));
+                await AsyncStorage.setItem('loginToken', user);
             } catch (error) {
                 console.log('setToken error: ' + error);
             }
@@ -63,12 +60,8 @@ export default class App extends Component {
         //retrieve user token from storage if (exists) and set this.state.isLoggedIn appropriately
         try {
             const loginToken = await AsyncStorage.getItem('loginToken');
-            //console.log('parse token: ' + JSON.parse(loginToken));
-            let response = JSON.parse(loginToken);
-            //const tokenValue = await JSON.parse(loginToken);
-            //return loginToken != null;
             if (loginToken != null) {
-                this.setState({ username: response.username });
+                this.setState({ username: loginToken });
                 return true;
             } else {
                 return false;
@@ -91,7 +84,6 @@ export default class App extends Component {
             }
             else {
                 return (
-                    //<DashboardStackNavigator logout={this.logout} username={this.state.username}/>
                     <DrawerNavigator logout={this.logout} username={this.state.username}/>
                 );
             }
