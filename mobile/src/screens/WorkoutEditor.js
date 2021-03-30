@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { View, ScrollView, Modal, Text, Pressable } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-// @ts-ignore
-import SwipeUpDown from 'react-native-swipe-up-down-fix';
-
 import TextBox from '../components/TextBox';
 import Button from '../components/Button';
 import ExerciseLabel from '../components/ExerciseLabel';
@@ -21,9 +18,9 @@ export default class WorkoutEditor extends Component {
         this.state = {
             name: /*this.props.route.params?.workout.name*/ '',
             exercises: /*this.props.route.params?.workout.exercises ?? []*/ [],
-            savedExercises: [{name: 'Bench', sets: true, reps: true}, {name: 'Squats', sets: true, reps: true}],
+            savedExercises: /*[{name: 'Bench', sets: true, reps: true}, {name: 'Squats', sets: true, reps: true}]*/ [],
             type: '',
-            savedTypes: [{label: 'Lifting', value: 'lifting'}, {label: 'Running', value: 'running'}],
+            savedTypes: /*[{label: 'Lifting', value: 'lifting'}, {label: 'Running', value: 'running'}]*/ [],
             currKey: -1,
             currExercise: '',
             numExercises: 0,
@@ -40,10 +37,14 @@ export default class WorkoutEditor extends Component {
         console.log('call')
         //server call to get workout information if the user decided to edit a workout
         // server call to get previously saved types
-        // serverMethods.getUserWorkoutTypes(this.props.route.params.username)
-        //     .then(response => response.json())
-        //     .then(response => this.setState({ savedTypes: response }));
-        // this.setState({ savedtypes: parsed result })
+        serverMethods.getUserWorkoutTypes(this.props.route.params.username)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                let array = [];
+                response.map((type) => array.push({label: type, value: type}))
+                this.setState({ savedTypes: array })
+            });
     }
 
     createExercise(exercise) {
@@ -113,11 +114,10 @@ export default class WorkoutEditor extends Component {
         }
 
         //this.setState({ currExercise: exercise });
-        //this.swipeUpDownRef.showFull();
     }
 
     render() {
-        //console.log('render')
+        //console.log('render')      
         let exerciseList = [];
         //console.log('array length: ' + exerciseList.length)
         for (let i = 0; i < this.state.exercises.length; i++) {
@@ -143,6 +143,34 @@ export default class WorkoutEditor extends Component {
         let buttonList = [];
         for (let i = 0; i < this.state.savedExercises.length; i++) {
             let exercise = this.state.savedExercises[i];
+            for (let j = 0; j < exercise.data.length; j++) {
+                switch(exercise.data[j]) {
+                    case 'sets':
+                        exercise.sets = true;
+                        break;
+                    case 'reps':
+                        exercise.reps = true;
+                        break;
+                    case 'weight':
+                        exercise.weight = true;
+                        break;
+                    case 'duration':
+                        exercise.duration = true;
+                        break;
+                    case 'distance':
+                        exercise.distance = true;
+                        break;
+                    case 'pace':
+                        exercise.pace = true;
+                        break;
+                    case 'incline':
+                        exercise.incline = true;
+                        break;
+                    case 'laps':
+                        exercise.laps = true;
+                        break;
+                }
+                }
             buttonList.push(
                 <Button
                     key={i}
@@ -159,7 +187,6 @@ export default class WorkoutEditor extends Component {
                 buttonText='Create a new exercise'
                 onPress={() => {
                     this.setState({ modalVisible: false, editorVisible: true });
-                    //this.swipeUpDownRef.showFull();
                 }}
                 style={{width: '80%', margin: 5}}
                 gray={true}
@@ -186,9 +213,15 @@ export default class WorkoutEditor extends Component {
                         justifyContent: 'flex-start'
                     }}
                     dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => this.setState({
-                        type: item.value
-                    })}
+                    onChangeItem={(item) => {
+                        this.setState({ type: item.value });
+                        serverMethods.getExercises(this.props.route.params.username, item.value)
+                            .then(response => response.json())
+                            .then(response => {
+                                console.log(response)
+                                this.setState({ savedExercises: response })
+                            })
+                    }}
                 />
                 <ScrollView style={styles.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
                     {exerciseList}
@@ -266,26 +299,6 @@ export default class WorkoutEditor extends Component {
                         orange={true}
                     />
                 </View>
-                <SwipeUpDown		
-                    itemFull={
-                        <ExerciseEditor
-                            // createExercise={(exercise) => this.createExercise(exercise)}
-                            // deleteExercise={(exercise) => this.deleteExercise(exercise)}
-                            dismiss={() => this.swipeUpDownRef.showMini()}
-                            // name={this.state.currExercise.name}
-                            // sets={this.state.currExercise.sets}
-                            // reps={this.state.currExercise.reps}
-                            // weight={this.state.currExercise.weight}
-                            // duration={this.state.currExercise.duration}
-                            // distance={this.state.currExercise.distance}
-                            // pace={this.state.currExercise.pace}
-                            // incline={this.state.currExercise.incline}
-                        />
-                    } // Pass props component when show full
-                    style={{ backgroundColor: '#FFFFFF' }} // style for swipe
-                    animation='easeInEaseOut'
-                    hasRef={(ref) => this.swipeUpDownRef = ref}
-                />
             </View>
         );
     }

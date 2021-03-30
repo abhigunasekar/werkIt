@@ -24,7 +24,10 @@ export default class Dashboard extends Component{
         // server call to get workouts related to user
         serverMethods.getUserWorkouts(this.state.username)
             .then(response => response.json())
-            .then(response => this.setState({ workouts: response }));
+            .then(response => {
+                console.log(response)
+                this.setState({ workouts: response })
+            });
         // this.setState({ workouts: response });
     }
 
@@ -58,9 +61,8 @@ export default class Dashboard extends Component{
             workoutList.push(
                 <WorkoutLabel
                     key={i}
-                    name={workout.name}
-                    exercises={workout.exercises} // is this necessary lmao
-                    edit={() => this.props.navigation.navigate('WorkoutEditor', { workout: workout })}
+                    name={workout}
+                    edit={() => this.props.navigation.navigate('WorkoutEditor', { workout: workout })} //server call to get exercises given name
                 />
             );
         }

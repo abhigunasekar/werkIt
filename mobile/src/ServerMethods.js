@@ -76,3 +76,21 @@ export function getUserWorkoutTypes(username) {
 
     return fetch('http://' + address + ':8000/' + username + '/workoutTypes');
 }
+
+export function getExercises(username, type) {
+    console.log('getting exercises for workout type: ' + type);
+
+    return fetch('http://' + address + ':8000/' + username + '/' + type + '/exercises');
+}
+
+export function createExercise(username, type, exercise) {
+    console.log('creating a new exercise for type: ' + type);
+
+    return fetch('http://' + address + ':8000/' + username + '/' + type + '/exercise', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(exercise)
+    })
+}
