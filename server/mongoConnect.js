@@ -142,10 +142,24 @@ async function get_workout_obj(username, w_name) {
 	}
 }
 
+async function get_workout_data(username, w_name) {
+	var wkout = await get_workout_obj(username, w_name);
+	var e_list = new Array;
+	for (var e_id of wkout.exercises) {
+		var e = await Exercise.findById(e_id).exec();
+		console.log("exercise:"+e);
+		e_list.push(e);
+	}
+	console.log("exercise list: " +e_list);
+	return e_list;
+}
+
 async function get_wkoutType_by_name(username, wkoutType) {
 	var user = await get_user_obj(username);
+	console.log("********user:"+user)
 	for (var id of user.workoutTypes) {
 		var type = await WorkoutType.findById(id).exec();
+		console.log("loop type:"+ type);
 		if (type.name == wkoutType) {
 			return type;
 		}
@@ -183,6 +197,7 @@ async function save_new_exerciseType(username, w_name, e_name, data) {
 
 	// gets the workout type and adds exercise to the list
 	var wkout = await get_wkoutType_by_name(username, w_name);
+	console.log("workout:"+wkout);
 	var exercises = wkout.exercises;
 	exercises.push(exercise);
 	await WorkoutType.findByIdAndUpdate(wkout._id, {exercises: exercises}, {new: true}).exec();
@@ -202,13 +217,13 @@ async function save_new_workoutType(username, wt_name, exercises) {
 
 	// gets the user and add workout type to the list
 	var query = {user: username};
-	await User.findOne(query, async function(err, user) {
-		new_workouts = user.workoutTypes;
-		new_workouts.push(workoutType);
-		await User.findOneAndUpdate(
-			query, {workoutTypes: new_workouts}, {new: true}
-		).exec();
-	});
+
+	var user = await get_user_obj(username);
+	new_workouts = user.workoutTypes;
+	new_workouts.push(workoutType);
+	await User.findOneAndUpdate(
+		query, {workoutTypes: new_workouts}, {new: true}
+	).exec();
 
 	// add exercises to workoutType
 	for (var e of exercises) {
@@ -282,5 +297,4 @@ module.exports = {
 	save_new_workoutType, get_profile_info,
 	get_workout_types, save_new_exerciseType,
 	get_exercises_for_type, get_workouts,
-	get_workout_obj }
-
+	get_workout_obj, get_workout_data }

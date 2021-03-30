@@ -176,4 +176,16 @@ route: '/{username}/{workout name}'
 
 -----Response-----
 status: 200
-body: ["<workout name>"]
+body: [
+	{
+		"_id": "<exercise id>",
+		"name": "<exercise name>",
+		"data": [
+			{
+				"_id": "<data id>",
+				"field": value,
+				...
+			}
+		]
+	}
+]
