@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "128.10.25.205";
+const ip = "127.0.0.1";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 
 app.set('views', __dirname + '/views');
@@ -164,6 +164,16 @@ app.post('/:username/workout', (req, res) => {
     res.status(200).end()
   });
 });
+
+
+// get workouts for a user
+app.get('/:username/workouts', (req, res) => {
+  console.log("Requesting workouts");
+  mc.get_workouts(req.params.username).then(wkouts => {
+    console.log("Found workouts: " + wkouts);
+    res.status(200).json(wkouts);
+  });
+})
 
 app.listen(port, ip, function() {
     console.log("Server listening on http://%s:%d", ip, port);
