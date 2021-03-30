@@ -36,6 +36,7 @@ app.get('/', function(req, res) {
 });
 
 // create a new account
+// KNOWN BUG: sometimes gives undefined error???
 app.post('/create_account', urlencodedparser, cors(), (req, res) => {
     console.log("Request to create account");
     console.log(req.body);
@@ -48,7 +49,6 @@ app.post('/create_account', urlencodedparser, cors(), (req, res) => {
             mc.save_new_account_data(name, req.body);
             console.log("Successfully created new user");
             res.status(200).end();
-            //res.redirect('/web-client/dashboard/dashboard.html');
         }
     });
 });
@@ -123,7 +123,7 @@ app.get('/:username/workoutTypes', (req, res) => {
 });
 
 // set new workout type
-// KNOWN BUG: only connects one exercise to user if multiple are sent (all are saved tho)
+// KNOWN BUG: same error as sometimes creates promise rejection???
 app.post('/:username/workoutType', (req, res) => {
   console.log("Saving new workout type to database for user: %s", req.params.username);
   mc.save_new_workoutType(
@@ -144,11 +144,10 @@ app.get('/:username/:workoutType/exercises', (req, res) => {
 })
 
 // add new exercise to a given workout type
-// KNOWN BUG: changed exercise schema... fix this to match it
 app.put('/:username/:workoutType/exercise', (req, res) => {
   console.log("Adding exercise to workoutType: %s", req.params.workoutType);
-  mc.add_exercise_to_wkoutType(
-    req.params.username, req.params.workoutType, req.body.exercise
+  mc.save_new_exerciseType(
+    req.params.username, req.params.workoutType, req.body.name, req.body.data
   ).then(_ => {
     console.log("Successfully added exercise to workoutType");
     res.status(200).end();
@@ -174,6 +173,18 @@ app.get('/:username/workouts', (req, res) => {
     res.status(200).json(wkouts);
   });
 })
+
+// get one workout/exercises by name
+// KNOWN BUG: returns id codes intead of names
+app.get('/:username/:workout', (req, res) => {
+  console.log("Getting workout and repective exercises");
+  mc.get_workout_obj(req.params.username, req.params.workout).then(wkout => {
+    console.log("Found workout:" + wkout);
+    res.status(200).json(wkout);
+  })
+})
+
+// TODO update workout
 
 app.listen(port, ip, function() {
     console.log("Server listening on http://%s:%d", ip, port);

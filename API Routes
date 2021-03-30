@@ -157,3 +157,23 @@ request Body:
 
 -----Response-----
 status: 200
+
+
+GET LIST OF WORKOUTS FOR USER
+-----Request-----
+method: GET
+route: '/{username}/workouts'
+
+-----Response-----
+status: 200
+body: ["<workout name>"]
+
+
+GET WORKOUT WITH EXERCISES FOR USER
+-----Request-----
+method: GET
+route: '/{username}/{workout name}'
+
+-----Response-----
+status: 200
+body: ["<workout name>"]
