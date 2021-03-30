@@ -1,8 +1,8 @@
-const address = '10.186.147.111';
+const address = '10.186.158.25';
 
 export async function createAccount(info) {
     console.log('create account');
-    return await fetch('http://' + address + ':8000/mobile/create_account', {
+    return await fetch('http://' + address + ':8000/create_account', {
         method: 'POST',
         body: JSON.stringify({
             f_name: info.firstName,
@@ -19,7 +19,7 @@ export async function createAccount(info) {
 
 export async function login(info) {
     console.log('login');
-    return await fetch('http://' + address + ':8000/mobile/login', {
+    return await fetch('http://' + address + ':8000/login', {
         method: 'POST',
         body: JSON.stringify({
             username: info.username,
@@ -33,7 +33,7 @@ export async function login(info) {
 
 export async function changePassword(info) {
     console.log('change password');
-    return await fetch('http://' + address + ':8000/mobile/user/' + info.username + '/profile', {
+    return await fetch('http://' + address + ':8000/user/' + info.username + '/profile', {
         method: 'PATCH',
         body: JSON.stringify({
           username: info.username,
@@ -47,5 +47,20 @@ export async function changePassword(info) {
 
 export async function verifyUsername(username) {
     console.log('verify username: ' + username);
-    return await fetch('http://' + address + ':8000/mobile/user/' + username);
+    return await fetch('http://' + address + ':8000/user/' + username);
+}
+
+export function getUserData(username) {
+    console.log('getting data for: ' + username);
+    //return await fetch('http://' + address + ':8000/profile/' + username);
+    return fetch('http://' + address + ':8000/profile/' + username, {
+         method: 'GET'
+      })
+    //   .then((response) => response.json())
+    //   .then((responseJson) => {
+    //      console.log(responseJson);
+    //   })
+    //   .catch((error) => {
+    //      console.error(error);
+    //   });
 }
