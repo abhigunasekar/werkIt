@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { View, ScrollView, Text } from 'react-native'
+
 import Button from '../components/Button';
 import WorkoutLabel from '../components/WorkoutLabel';
+import * as serverMethods from '../ServerMethods';
 
 import styles from '../styles';
 
@@ -18,8 +20,11 @@ export default class Dashboard extends Component{
         this.createWorkout = this.createWorkout.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // server call to get workouts related to user
+        serverMethods.getUserData(this.state.username)
+            .then(response => response.json())
+            .then(response => console.log(response));
         // this.setState({ workouts: response });
     }
 

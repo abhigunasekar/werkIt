@@ -33,6 +33,7 @@ export default class ExerciseEditor extends Component {
                     <TextBox
                         placeholder='Name'
                         onChangeText={(text) => this.setState({ name: text })}
+                        style={{width: '100%'}}
                         value={this.state.name}
                     />
                     <Text>Select all that apply:</Text>
@@ -118,9 +119,41 @@ export default class ExerciseEditor extends Component {
                             buttonText='Submit'
                             onPress={() => {
                                 //this.props.createExercise(this.state);
-                                console.log(this.state.selectedFields[0].value)
+                                console.log(this.state.selectedFields)
+                                //'Sets', 'Reps', 'Weight', 'Duration', 'Distance', 'Pace', 'Incline', 'Laps'
+                                let exercise = {name: this.state.name, sets: false, reps: false, weight: false, duration: false, distance: false, pace: false, incline: false, laps: false};
+                                for (let i = 0; i < this.state.selectedFields.length; i++) {
+                                    switch(this.state.selectedFields[i].value) {
+                                        case 'Sets':
+                                            exercise.sets = true;
+                                            break;
+                                        case 'Reps':
+                                            exercise.reps = true;
+                                            break;
+                                        case 'Weight':
+                                            exercise.weight = true;
+                                            break;
+                                        case 'Duration':
+                                            exercise.duration = true;
+                                            break;
+                                        case 'Distance':
+                                            exercise.distance = true;
+                                            break;
+                                        case 'Pace':
+                                            exercise.pace = true;
+                                            break;
+                                        case 'Incline':
+                                            exercise.incline = true;
+                                            break;
+                                        case 'Laps':
+                                            exercise.laps = true;
+                                            break;
+                                    }
+                                }
+                                //console.log(exercise);
+                                this.props.createExercise(exercise); 
                                 //make a call to helper function to server call to create new exercise
-                                this.props.dismiss();
+                                //this.props.dismiss();
                             }}
                             style={{width: '35%', marginLeft: 20}}
                             orange={true}

@@ -59,7 +59,7 @@ app.post('/login', urlencodedparser, cors(), (req, res) => {
     mc.check_login(req.body.username, req.body.password).then(exists => {
         if (exists) {
             console.log("Login credentials match - successful login");
-            res.status(204).end();
+            res.status(200).end();
         } else {
             mc.check_user_existence(req.body.username).then(user_exist => {
                 if (user_exist) {
@@ -89,7 +89,7 @@ app.get('/user/:username', (req, res) => {
 app.patch('/user/:username/profile', (req, res) => {
     mc.change_password(req.params.username, req.body.password).then(_ => {
         console.log("Successfully changed password for %s", req.params.username);
-        res.status(204).end();
+        res.status(200).end();
     }).catch(err => {
         var err_dict = {
             401: "User does not exist - cannot change password",

@@ -104,7 +104,7 @@ export default class CreateAccount extends Component {
                                         let response = await serverMethods.createAccount({ firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, username: this.state.username, password: this.state.password});
                                         if (response.status === 200) {
                                             //this.props.navigation.navigate('Dashboard');
-                                            this.props.login();
+                                            this.props.login(this.state.username);
                                         } else {
                                             // add parsing for spaces at the end of string
                                             usernameAlreadyExists();
