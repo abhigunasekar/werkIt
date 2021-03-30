@@ -17,6 +17,8 @@ const userSchema = new mongoose.Schema({
 	pass: String,
 	email: String,
 	dark_mode: Boolean,
+	workout_time_per_week: Number,
+	weekly_streak_counter: Number,
 	workouts: [
 		{type: mongoose.Schema.Types.ObjectId, ref: 'Workout'}
 	],
