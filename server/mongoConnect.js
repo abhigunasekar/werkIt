@@ -218,7 +218,7 @@ async function save_new_workoutType(username, wt_name, exercises) {
 	// add exercises to workoutType
 	for (var e of exercises) {
 		console.log("e:"+e);
-		save_new_exerciseType(username, wt_name, e.name, e.data);
+		await save_new_exerciseType(username, wt_name, e.name, e.data);
 	}
 
 }
@@ -241,19 +241,34 @@ async function save_workout(username, w_name, w_type, exercises) {
 
 	// gets the user and add workout to the list
 	var query = {user: username};
-	User.findOne(query, function(err, user) {
-		console.log(user);
-		console.log("found user: %s\n", user.username);
-		new_workouts = user.workouts;
-		new_workouts.push(workout);
-		User.findOneAndUpdate(query, {workouts: new_workouts}).exec();
-		console.log("workout added to list");
-	});
+	var user = await get_profile_info(username);
+	console.log("found user: %s\n", user.username);
+	new_workouts = user.workouts;
+	new_workouts.push(workout);
+	User.findOneAndUpdate(query, {workouts: new_workouts}).exec();
+	// User.findOne(query, function(err, user) {
+	// 	console.log(user);
+	// 	console.log("found user: %s\n", user.username);
+	// 	new_workouts = user.workouts;
+	// 	new_workouts.push(workout);
+	// 	User.findOneAndUpdate(query, {workouts: new_workouts}).exec();
+	// 	console.log("workout added to list");
+	// });
 
 	// add exercises to workout
 	for (var e of exercises) {
 		await save_new_exercise(username, w_name, e.e_name, e.data);
 	}
+}
+
+async function get_workouts(username) {
+	var user = await get_profile_info(username);
+	var wkouts = new Array;
+	for (var obj_id of user.workouts) {
+		var type = await Workout.findById(obj_id).exec();
+		wkouts.push(type.name);
+	}
+	return wkouts;
 }
 
 async function get_workout_types(username) {
@@ -297,5 +312,5 @@ module.exports = {
 	save_new_exercise, save_workout,
 	save_new_workoutType, get_profile_info,
 	get_workout_types, add_exercise_to_wkoutType,
-	get_exercises_for_type }
+	get_exercises_for_type, get_workouts }
 
