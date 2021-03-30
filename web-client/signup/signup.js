@@ -1,16 +1,28 @@
 // GET REQUEST
 function getTodos() {
     axios({
-            method: 'post',
-            url: '',
-        })
+        method: 'post',
+        url: 'http://127.0.0.1:8000/create_account',
+    })
         .then(res => console.log(res))
         .catch(err => console.error(err));
 }
 
 // POST REQUEST
-function addTodo() {
-    console.log('POST Request');
+function createAccount() {
+    axios({
+        method: 'post',
+        url: 'http://127.0.0.1:8000/create_account',
+        data: {
+            f_name: 'Lahiri',
+            l_name: 'Mahasaya',
+            email: 'lmahasaya@babaji.com',
+            username: 'LMahasaya',
+            password: 'Babaji',
+        }
+    })
+        .then(res => console.log(res))
+        .catch(err => console.error(err));
 }
 
 // PUT/PATCH REQUEST
@@ -63,8 +75,4 @@ function showOutput(res) {
 }
 
 
-window.onload = function() {
-        getTodos();
-    }
-    // Event listeners
-    // document.getElementById('get').addEventListener('click', );
+document.getElementById('submit-btn').addEventListener('click', createAccount);

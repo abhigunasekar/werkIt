@@ -1,15 +1,17 @@
 html {
     scroll-behavior: smooth;
 }
+
 :root {
     /* filter: invert(100%); */
 }
+
 body {
     margin: 0;
     padding-bottom: 0;
 }
 
-nav #logo{
+nav #logo {
     background-color: white;
     color: white;
     width: 100%;
@@ -22,19 +24,21 @@ nav #logo{
     background-color: #fff;
 }
 
-/* Modify the backgorund color */ 
-.navbar-custom { 
-    background-color: #fff; 
-} 
+
+/* Modify the backgorund color */
+
+.navbar-custom {
+    background-color: #fff;
+}
 
 .navbar-main {
     background-color: #7641BD;
-    color:#fff;
+    color: #fff;
 }
 
 .bg-main {
     background-color: #7641BD;
-    color:#fff;
+    color: #fff;
     font-size: 20px;
     padding-left: 15px;
 }
@@ -43,46 +47,55 @@ nav #logo{
     font-weight: bold;
     color: whitesmoke;
 }
+
 #exercise:hover {
     font-weight: bold;
     color: whitesmoke;
 }
+
 #features:hover {
     font-weight: bold;
     color: whitesmoke;
 }
+
 #signup:hover {
     font-weight: bold;
     color: whitesmoke;
 }
+
 #login:hover {
     font-weight: bold;
     color: whitesmoke;
 }
-.navbar-right { 
-    margin-left: auto; 
-} 
+
+.navbar-right {
+    margin-left: auto;
+}
+
 .bolded {
     color: #7641BD;
-    font-weight:900;
-    
+    font-weight: 900;
 }
+
 .section-head {
     font-weight: bolder;
 }
+
 h4 {
     font-weight: 400;
     line-height: 2.5rem;
 }
-.btn-outline-login:hover{        
+
+.btn-outline-login:hover {
     font-size: 16px;
     font-weight: bold;
-    background:#ffffff;
+    background: #ffffff;
     border-color: #7641BD;
     font-weight: bold;
-    color:  #7641BD;
+    color: #7641BD;
     /* min-width: 50px; */
 }
+
 .btn-outline-login {
     background: #7641BD;
     border-color: #7641BD;
@@ -90,17 +103,19 @@ h4 {
     font-weight: bold;
     color: #fff;
 }
-.custom-toggler.navbar-toggler { 
-    border-color: whitesmoke; 
-} 
-.custom-toggler .navbar-toggler-icon { 
-    background-image: url( 
-"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255,255,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E"); 
-} 
-.jumbotron{
-    margin-top: -30px;
-    
+
+.custom-toggler.navbar-toggler {
+    border-color: whitesmoke;
 }
+
+.custom-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255,255,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.jumbotron {
+    margin-top: -30px;
+}
+
 .jumbotron-hero {
     background-color: #ffffff;
 }
@@ -109,9 +124,11 @@ h4 {
     margin-top: -20px;
     background-color: #fff;
 }
+
 .jumbotron-about {
     background-color: #7641BD;
 }
+
 .about-us-descript {
     color: #fff;
     line-height: 35px;
@@ -123,15 +140,17 @@ h4 {
     font-weight: 300;
     margin-bottom: 3%;
 }
+
 .heading {
-    color:  #7641BD;
+    color: #7641BD;
 }
+
 .lead {
-    font-size:xx-large;
+    font-size: xx-large;
     font-weight: 400;
 }
 
-.btn-signup{        
+.btn-signup {
     font-size: 32px;
     font-weight: bold;
     background: #FB963C;
@@ -140,22 +159,22 @@ h4 {
     min-width: 140px;
 }
 
-.btn-signup:hover, .btn:focus {
+.btn-signup:hover,
+.btn:focus {
     background: #ffffff;
     border-color: #FB963C;
     color: #FB963C;
 }
 
-.btn-learn:hover{        
-
+.btn-learn:hover {
     font-weight: bold;
     background: #FB963C;
     border-color: #FB963C;
     color: #ffffff;
-
 }
 
-.btn-learn, .btn:focus {
+.btn-learn,
+.btn:focus {
     font-size: 16px;
     background: #ffffff;
     border-color: #FB963C;
@@ -164,8 +183,9 @@ h4 {
 }
 
 .jumbotron-about img {
-    width:max-content;
+    width: max-content;
 }
+
 .improve-health-text {
     color: #fff;
     font-weight: 400;
@@ -176,9 +196,11 @@ h4 {
     font-size: 1500%;
     margin: 5%;
 }
+
 .jumbotron-about h4 {
     color: #fff;
 }
+
 mark {
     background-color: #FB963C;
 }
@@ -191,7 +213,7 @@ h4 {
     margin-bottom: 30px;
 }
 
-#feature-section{
+#feature-section {
     margin-bottom: 0%;
 }
 
@@ -218,17 +240,23 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-.form-control, .form-control:focus, .input-group-addon {
+.form-control,
+.form-control:focus,
+.input-group-addon {
     border-color: #e1e1e1;
 }
-.form-control, .btn {        
+
+.form-control,
+.btn {
     border-radius: 3px;
 }
+
 .login-form {
     width: 500px;
     margin: 0 auto;
     padding: 30px 0;
 }
+
 .login-form form {
     color: #000;
     border-radius: 10px;
@@ -237,15 +265,18 @@ body {
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     padding: 30px;
 }
+
 .login-form h2 {
     color: #7641BD;
     font-weight: 400;
     font-size: 300%;
     margin-top: 0;
 }
+
 .login-form hr {
     margin: 0 -30px 20px;
 }
+
 .login-form .form-group {
     margin-bottom: 20px;
 }
@@ -253,13 +284,14 @@ body {
 .login-form .form-control {
     min-height: 38px;
     box-shadow: none !important;
-}	
+}
+
 .login-form .input-group-addon {
     max-width: 42px;
     text-align: center;
 }
-   
-.login-form .btn-signup{        
+
+.login-form .btn-signup {
     font-size: 16px;
     font-weight: bold;
     background: #FB963C;
@@ -268,15 +300,18 @@ body {
     min-width: 140px;
     text-decoration: none;
 }
-.login-form .btn-login{        
+
+.login-form .btn-login {
     font-size: 16px;
     font-weight: bold;
-    background:#ffffff;
+    background: #ffffff;
     border-color: #7641BD;
-    color:  #7641BD;
+    color: #7641BD;
     min-width: 140px;
 }
-.login-form .btn-signup:hover, .login-form .btn:focus {
+
+.login-form .btn-signup:hover,
+.login-form .btn:focus {
     background: #ffffff;
     border-color: #FB963C;
     color: #FB963C;
@@ -291,7 +326,8 @@ body {
     font-weight: bold;
 }
 
-.login-form .btn-reset:hover, .login-form .btn:focus {        
+.login-form .btn-reset:hover,
+.login-form .btn:focus {
     /* font-size: 16px; */
     font-weight: bold;
     background: #FB963C;
@@ -301,7 +337,8 @@ body {
     text-decoration: none;
 }
 
-.login-form .btn-login:hover, .login-form .btn:focus {
+.login-form .btn-login:hover,
+.login-form .btn:focus {
     background: #7641BD;
     border-color: #7641BD;
     text-decoration: none;
@@ -309,25 +346,30 @@ body {
 }
 
 .login-form p {
-    color:#FB963C;
+    color: #FB963C;
 }
 
 .login-form a:hover {
     text-decoration: none;
 }
+
 .login-form form a {
     color: #FB963C;
     text-decoration: none;
-}	
+}
+
 .login-form form a:hover {
     text-decoration: underline;
 }
+
 .login-form .fa {
     font-size: 21px;
 }
+
 .login-form .fa-paper-plane {
     font-size: 18px;
 }
+
 .login-form .fa-check {
     color: #000;
     left: 17px;
@@ -339,7 +381,6 @@ body {
 #container {
     width: auto;
     padding: 0 0;
-
 }
 
 .form-control {
@@ -354,5 +395,82 @@ body {
 #lFName {
     font-size: 20px;
     font-weight: 400;
-    color: #7641BD
+    color: #7641BD;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+
+/* The switch - the box around the slider */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+
+/* Hide default HTML checkbox */
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+
+/* The slider */
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 15px;
+    width: 15px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #7641BD;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #7641BD;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+h3 {
+    color: #7641BD;
 }

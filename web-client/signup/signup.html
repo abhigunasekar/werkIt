@@ -26,30 +26,67 @@
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </script>
     <script>
         window.onload = function() {
-            document.querySelector('.button').onclick = function() {
-                var password = document.getElementById("pswd").value;
-                var confirmP = document.getElementById("confirm").value;
-                console.log(password);
-                console.log(confirmP);
-                if (password == "") {
-                    alert("Field cannor be empty.");
-                } else if (password != confirmP) {
-                    alert("Password didn't match try again.");
-                    return false;
+                document.querySelector('.button').onclick = function() {
+                    var password = document.getElementById("pswd").value;
+                    var confirmP = document.getElementById("confirm").value;
+                    console.log(password);
+                    console.log(confirmP);
+                    if (password == "") {
+                        alert("Field cannot be empty.");
+                    } else if (password != confirmP) {
+                        alert("Password didn't match try again.");
+                        return false;
+                    }
                 }
             }
-        }
-    </script>
-    <title>Sign Up</title>
+            // $(document).ready(function() {
+            //     var fName, lName, email, uname, password;
+            //     $("#submit-btn").click(function() {
+            //         fName = $("#fName").val();
+            //         lName = $("#l_name").val();
+            //         email = $("#email").val();
+            //         uname = $("#username").val();
+            //         password = $("#pswd").val();
+            //         $.post("http://128.10.25.205:8000/create_account", {
+            //             f_name: fName,
+            //             l_name: lName,
+            //             email: email,
+            //             username: uname,
+            //             password: password
+            //         }, function(data) {
+            //             console.log(data);
+            //             if (data == 'yes') {
+            //                 alert("signup success");
+            //             }
+            //         });
+            //         // window.location = "../dashboard/dashboard.html";
+            //     });
+            // });
 
+
+
+
+
+        // $(document).ready(function() {
+        //     $("#submit-btn").click(function() {
+        //         location.replace('../dashboard/dashboard.html');
+        //     });
+        // });
+    </script>
+
+    <!-- file:///u/riker/u94/agunase/cs307/WerkIt/web-client/dashboard/dashboard.html -->
+    <title>Sign Up</title>
+    <!-- <meta http-equiv="refresh" content="5; url=../dashboard/dashboard.html"> -->
 </head>
 <!-- action="http://128.10.25.203:8000/create_account" Must Add to form later-->
 
 <body>
     <div class="signup-form">
-        <form name="signUp" action="http://128.10.25.203:8000/create_account" method="POST">
+        <form name="signUp" id="formElem">
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../index.html"><i
@@ -108,7 +145,7 @@
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                    <button type="submit" value="Submit" class="button btn btn-signup btn-lg btn-block">Signup</button>
+                    <button id="submit-btn" value="Submit" class="button btn btn-signup btn-lg btn-block" type="submit">Signup</button>
                 </div>
 
             </div>
@@ -122,7 +159,43 @@
         </form>
 
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script>
+        $("#submit-btn").click(function(event) {
+            event.preventDefault();
+            var fName = $("#fName").val();
+            var lName = $("#l_name").val();
+            var email = $("#email").val();
+            var uname = $("#username").val();
+            var password = $("#pswd").val();
+            // var profiles = {
+            //     "f_name": fName,
+            //     "l_name": lName,
+            //     "email": email,
+            //     "username": uname,
+            //     "password": password
+            // };
+            $.ajax({
+                    url: 'http://128.10.25.205:8000/create_account',
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        f_name: fName,
+                        l_name: lName,
+                        email: email,
+                        username: uname,
+                        password: password
+                    },
+                    success: function(data, textStatus) {
+                        window.location.href = 'file:///u/riker/u94/agunase/cs307/WerkIt/web-client/dashboard/dashboard.html';
+                    },
+                    error: function(jqXHR, textStatus, err) {
+                        alert("please enter correct credentials and try again");
+                    }
+                })
+                // window.location = "../dashboard/dashboard.html";
+        });
+    </script>
 </body>
 
 </html>

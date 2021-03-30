@@ -42,35 +42,39 @@
 
             <div class="form-group panel panel-primary">
                 <div class="input-group form-row col-lg-12">
-                    <label for="fName" id="lFName">First Name</label>
-                    <input type="text" class="form-control mx-sm-3" id="fName" name="username" value="John" readonly>
+                    <label for="name" id="lFName">Name</label>
+                    <input type="text" class="form-control mx-sm-3" id="name" name="username" value="" readonly>
                 </div>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <div class="input-group form-row col-lg-12">
                     <label for="lName" id="lFName">Last Name</label>
                     <input type="text" class="form-control mx-sm-3" id="lName" name="username" value="Doe" readonly>
                 </div>
-            </div>
+            </div> -->
 
             <div class="form-group">
                 <div class="input-group form-row col-lg-12">
                     <label for="email" id="lFName">Email </label>
-                    <input type="text" class="form-control mx-sm-3" id="email" name="username" value="jdoe@gmail.com" readonly>
+                    <input type="text" class="form-control mx-sm-3" id="email" name="username" value="" readonly>
                 </div>
             </div>
 
             <div class="container form-group">
                 <div class="input-group form-row col-lg-12">
                     <label for="uname" id="lFName">Username</label>
-                    <input type="text" class="form-control mx-sm-3 mb-2" id="uname" name="username" value="jdoe" readonly>
+                    <input type="text" class="form-control mx-sm-3 mb-2" id="uname" name="username" value="" readonly>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="dMode" id="lFName">Dark Mode </label>
-                <span class="mb-3">
+                <label class="switch">
+                    <input type="checkbox" id="switch">
+                    <span class="slider round"></span>
+                </label>
+                <!-- <span class="mb-3">
                     <div class="form-check-inline"></div>
                     <div class="form-check-inline"></div>
                     <div class="form-check-inline"></div>
@@ -86,14 +90,21 @@
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
                         <label class="form-check-label" for="inlineRadio2">No</label>
                     </div>    
-                </span>
+                </span> -->
+
+                <!-- <div class="custom-control custom-switch text-center">
+                    <label class="custom-control-label" for="switch" id="lFName">Dark Mode</label>
+                    <input type="checkbox" class="custom-control-input mb-3" id="switch">
+
+                </div> -->
             </div>
+
 
 
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                    <button class="btn btn-login btn-lg btn-block" id="">Save Preferences</button>
+                    <button class="btn btn-login btn-lg btn-block" type="submit" id="">Save Preferences</button>
                 </div>
             </div>
         </form>
@@ -104,7 +115,34 @@
         </div>
     </div> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-    <script src="axios.js"></script>
+    <!-- <script src="axios.js"></script> -->
+    <script>
+        async function doRequest() {
+            let url = 'http://128.10.25.205:8000/profile/katy';
+            let res = await fetch(url);
+
+            if (res.ok) {
+                let text = await res.text();
+                return text;
+            } else {
+                return `HTTP error: ${res.status}`;
+            }
+        }
+
+        doRequest().then(data => {
+            var json = JSON.parse(data);
+            var name = document.getElementById("name");
+            name.value = json.name;
+            var email = document.getElementById("email");
+            email.value = json.email;
+            var uname = document.getElementById("uname");
+            uname.value = json.user;
+            var dValue = json.dark_mode;
+            var dSwitch = document.getElementById("switch");
+            dSwitch.checked = dValue;
+            console.log(dSwitch.checked);
+        });
+    </script>
 </body>
 
 </html>
