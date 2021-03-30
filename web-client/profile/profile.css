@@ -467,10 +467,18 @@ input:checked+.slider:before {
     border-radius: 34px;
 }
 
+.dark-mode {
+    filter: invert(1) hue-rotate(180deg);
+}
+
 .slider.round:before {
     border-radius: 50%;
 }
 
 h3 {
     color: #7641BD;
+}
+
+.invert {
+    filter: invert(1) hue-rotate(180deg);
 }

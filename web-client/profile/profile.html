@@ -13,11 +13,13 @@
     <link rel="stylesheet" href="profile.css">
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
+    <meta name="color-scheme" content="dark light">
+
     <title>Werk It</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-main bg-main">
+    <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,10 +32,11 @@
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <a href="../dashboard/dashboard.html" class="btn btn-outline-login my-2 my-sm-0" type="submit">Dashboard</a>
+                <a href="../index.html" class="btn btn-outline-login my-2 my-sm-0 " type="submit">Log Out</a>
             </form>
         </div>
     </nav>
-    <div class="login-form">
+    <div class="login-form ">
         <form>
             <div class="text-center" id="container">
                 <h2 class="text-center">Profile</h2>
@@ -131,6 +134,7 @@
         }
 
         doRequest().then(data => {
+
             var json = JSON.parse(data);
             var name = document.getElementById("name");
             name.value = json.name;
@@ -139,6 +143,12 @@
             var uname = document.getElementById("uname");
             uname.value = json.user;
             var dValue = json.dark_mode;
+            if (dValue == true) {
+                document.documentElement.classList.toggle('dark-mode');
+                document.querySelectorAll('.inverted').forEach((result) => {
+                    result.classList.toggle('invert');
+                })
+            }
             var dSwitch = document.getElementById("switch");
             dSwitch.checked = dValue;
             console.log(dSwitch.checked);
