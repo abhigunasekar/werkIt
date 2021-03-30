@@ -10,6 +10,7 @@ import Button from '../components/Button';
 import ExerciseLabel from '../components/ExerciseLabel';
 import ExerciseEditor from './ExerciseEditor';
 
+import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 import { workoutTypeError } from '../components/Alerts';
 
@@ -18,8 +19,8 @@ export default class WorkoutEditor extends Component {
         super(props);
 
         this.state = {
-            name: this.props.route.params?.workout.name,
-            exercises: this.props.route.params?.workout.exercises ?? [],
+            name: /*this.props.route.params?.workout.name*/ '',
+            exercises: /*this.props.route.params?.workout.exercises ?? []*/ [],
             savedExercises: [{name: 'Bench', sets: true, reps: true}, {name: 'Squats', sets: true, reps: true}],
             type: '',
             savedTypes: [{label: 'Lifting', value: 'lifting'}, {label: 'Running', value: 'running'}],
@@ -38,6 +39,9 @@ export default class WorkoutEditor extends Component {
     componentDidMount() {
         //server call to get workout information if the user decided to edit a workout
         // server call to get previously saved types
+        serverMethods.getUserWorkoutTypes(this.props.route.params.username)
+            .then(response => response.json())
+            .then(response => console.log(response));
         // this.setState({ savedtypes: parsed result })
     }
 

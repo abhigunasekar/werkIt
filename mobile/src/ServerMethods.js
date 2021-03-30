@@ -64,3 +64,15 @@ export function getUserData(username) {
     //      console.error(error);
     //   });
 }
+
+export function getUserWorkouts(username) {
+    console.log('getting workouts for: ' + username);
+
+    return fetch('http://' + address + ':8000/' + username + '/workouts');
+}
+
+export function getUserWorkoutTypes(username) {
+    console.log('getting workout types for: ' + username);
+
+    return fetch('http://' + address + ':8000/' + username + '/workoutTypes');
+}

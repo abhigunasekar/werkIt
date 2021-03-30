@@ -22,7 +22,7 @@ export default class Dashboard extends Component{
 
     async componentDidMount() {
         // server call to get workouts related to user
-        serverMethods.getUserData(this.state.username)
+        serverMethods.getUserWorkouts(this.state.username)
             .then(response => response.json())
             .then(response => console.log(response));
         // this.setState({ workouts: response });
@@ -74,7 +74,7 @@ export default class Dashboard extends Component{
                     {workoutList}
                     <Button
                         buttonText='Create New Workout'
-                        onPress={() => this.props.navigation.navigate('WorkoutEditor')}
+                        onPress={() => this.props.navigation.navigate('WorkoutEditor', { username: this.state.username })}
                         style={{marginTop: 20}}
                         purple={true}
                     />
