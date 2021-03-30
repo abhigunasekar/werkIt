@@ -24,10 +24,10 @@ app.use(cookieParser());
 //const lt = require('localtunnel');
 
 
-app.use(express.json());
+//app.use(express.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(bodyParser.json());
-app.use(methodOverride('_method'));
+//app.use(methodOverride('_method'));
 
 // check connection with server
 app.get('/', function(req, res) {
