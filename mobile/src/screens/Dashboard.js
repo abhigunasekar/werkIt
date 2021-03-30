@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useContext, Fragment, Component } from 'react';
 import * as ImagePicker from 'react-native-image-picker';
+// import {launchImageLibrary} from 'react-native-image-picker';
 import { 
     SafeAreaView,
     StyleSheet,
@@ -111,7 +112,7 @@ export default class Dashboard extends Component{
 
     
 
-    chooseImage = (event) => {
+    chooseImage = () => {
         let options = {
           title: 'Select Image',
           customButtons: [
@@ -183,10 +184,7 @@ export default class Dashboard extends Component{
 
     launchImageLibrary = () => {
         let options = {
-          storageOptions: {
-            skipBackup: true,
-            path: 'images',
-          },
+           mediaType: 'photo',
         };
         ImagePicker.launchImageLibrary(options, (response) => {
           console.log('Response = ', response);
