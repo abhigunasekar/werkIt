@@ -141,8 +141,8 @@ export default StyleSheet.create({
     metadataList: {
         flexDirection: 'row',
         alignItems: 'center',
-        margin: 10,
-        width: '100%'
+        padding: 10,
+        borderWidth: 1,
     },
     modalView: {
         margin: '10%',
@@ -150,6 +150,22 @@ export default StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    editorModal: {
+        margin: '10%',
+        marginTop: '30%',
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 20,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {

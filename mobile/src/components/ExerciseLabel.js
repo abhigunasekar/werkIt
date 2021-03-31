@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View, ScrollView } from 'react-native';
 
 import HideableView from './HideableView';
 
@@ -20,18 +20,25 @@ export default class ExerciseLabel extends Component {
             incline: this.props.incline,
             laps: this.props.laps,
         };
-
     }
 
     render() {
+        let counter = 0;
+        let array = [this.state.sets, this.state.reps, this.state.weight, this.state.duration, this.state.distance, this.state.pace, this.state.incline, this.state.laps]
+        array.forEach(element => {
+            if (element) {
+                counter++;
+            }
+        });
+        let width = counter * 110;
         return (
             <Pressable style={{borderColor: '#000000', /*borderWidth: 3,*/ width: '100%', marginBottom: 7}} onPress={() => this.props.edit(this.state)}>
                 <Text>{this.props.name}</Text>
-                <View style={styles.metadataList}>
+                <ScrollView style={{borderWidth: 1, margin: 10, width: width}}horizontal={true} bounces={false} contentContainerStyle={[{width: width}, styles.metadataList]}>
                     <HideableView
                         key='Set'
                         name='Sets: '
-                        value={(this.state.sets != undefined) ? this.state.sets : ''}
+                        value={this.state.sets}
                         update={(e) => {
                             console.log('tried');
                             this.props.edit('Sets', e)
@@ -42,7 +49,7 @@ export default class ExerciseLabel extends Component {
                     <HideableView
                         key='Rep'
                         name='Reps: '
-                        value={(this.state.reps != undefined) ? this.state.reps : ''}
+                        value={this.state.reps}
                         update={(e) => this.props.edit('Reps', e)}
                         maxLength={2}
                         visible={this.state.reps}
@@ -51,7 +58,7 @@ export default class ExerciseLabel extends Component {
                         key='Weight'
                         name='Weight: '
                         style={{width: 60}}
-                        value={(this.state.weight != undefined) ? this.state.weight : ''}
+                        value={this.state.weight}
                         update={(e) => this.props.edit('Weight', e)}
                         maxLength={3}
                         visible={this.state.weight}
@@ -60,7 +67,7 @@ export default class ExerciseLabel extends Component {
                         key='Duration'
                         name='Duration: '
                         style={{width: 60}}
-                        value={(this.state.duration != undefined) ? this.state.duration : ''}
+                        value={this.state.duration}
                         update={(e) => this.props.edit('Duration', e)}
                         maxLength={3}
                         visible={this.state.duration}
@@ -69,7 +76,7 @@ export default class ExerciseLabel extends Component {
                         key='Distance'
                         name='Distance: '
                         style={{width: 60}}
-                        value={(this.state.distance != undefined) ? this.state.distance : ''}
+                        value={this.state.distance}
                         update={(e) => this.props.edit('Duration', e)}
                         //maxLength={ /* add a check for . and set max length based on  */}
                         visible={this.state.distance}
@@ -77,7 +84,7 @@ export default class ExerciseLabel extends Component {
                     <HideableView
                         key='Pace'
                         name='Pace: '
-                        value={(this.state.pace != undefined) ? this.state.pace : ''}
+                        value={this.state.pace}
                         update={(e) => this.props.edit('Pace', e)}
                         maxLength={2}
                         visible={this.state.pace}
@@ -86,7 +93,7 @@ export default class ExerciseLabel extends Component {
                     <HideableView 
                         key='Incline'
                         name='Incline: '
-                        value={(this.state.incline != undefined) ? this.state.incline : ''}
+                        value={this.state.incline}
                         update={(e) => this.props.edit('Incline', e)}
                         maxLength={2}
                         visible={this.state.incline}
@@ -94,12 +101,12 @@ export default class ExerciseLabel extends Component {
                     <HideableView
                         key='Laps'
                         name='Laps: '
-                        value={(this.state.laps != undefined) ? this.state.laps : ''}
+                        value={this.state.laps}
                         update={(e) => this.props.edit('Laps', e)}
                         maxLength={2}
                         visible={this.state.laps}
                     />
-                </View>
+                </ScrollView>
             </Pressable>
         );
     }

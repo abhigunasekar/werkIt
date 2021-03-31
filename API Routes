@@ -72,3 +72,133 @@ status: 204 No Content (successfully reset password)
 status: 401 Unauthorized (user does not exist)
 
 status: 403 Forbidden (password is same as current)	
+
+
+GET ALL USER PROFILE INFO
+-----Request-----
+method: GET
+route: '/profile/{username}'
+
+-----Response-----
+status: 204 No Content (successfully reset password)
+body:
+{
+	"workouts": [<workout ids>],
+	"workoutTypes": [<workout type ids>],
+	"_id": "<id of user>",
+	"name": "<first and last name>",
+	"user": "<username>",
+	"pass": "<password>",
+	"email": "<email>",
+	"dark_mode": <true/false>
+}
+
+
+UPDATING DARK MODE
+-----Request-----
+method: PATCH
+route: '/user/{username}/darkmode'
+body:
+{
+	"dark_mode": true/false
+}
+
+-----Response-----
+status: 200
+
+
+GETTING KNOWN WORKOUT TYPES
+-----Request-----
+method: GET
+route: '/{username}/workoutTypes'
+
+-----Response-----
+status: 200
+body: ["<workout type name"]
+
+
+SAVE NEW WORKOUT TYPE
+-----Request-----
+method: POST
+route: '/{username}/workoutType'
+body:
+	{
+		"name": "<workoutType name>",
+        "exercises": ["<exercise names>"]
+	}
+
+-----Response-----
+status: 200
+
+
+GETTING KNOWN EXERCISES FOR A GIVEN WORKOUT TYPE
+-----Request-----
+method: GET
+route: '/{username}/{workoutType}/exercises'
+
+-----Response-----
+status: 200
+body: ["<exercise name>"]
+
+
+ADDING NEW EXERCISE TO EXISTING WORKOUT TYPE (WIP)
+-----Request-----
+method: PUT
+route: '/{username}/{workoutType}/exercise'
+
+
+-----Response-----
+
+
+SAVE A WORKOUT
+-----Request-----
+method: PUT
+route: '/{username}/workout'
+request Body:
+	{
+		"name": "<exercise name>",
+        "type": "<type>",
+        "exercises": {
+			"e_name": "<exercise name>",
+			"data": {
+				"<data field>": value,
+				...
+			},
+			...
+		}
+	}
+
+-----Response-----
+status: 200
+
+
+GET LIST OF WORKOUTS FOR USER
+-----Request-----
+method: GET
+route: '/{username}/workouts'
+
+-----Response-----
+status: 200
+body: ["<workout name>"]
+
+
+GET WORKOUT WITH EXERCISES FOR USER
+-----Request-----
+method: GET
+route: '/{username}/{workout name}'
+
+-----Response-----
+status: 200
+body: [
+	{
+		"_id": "<exercise id>",
+		"name": "<exercise name>",
+		"data": [
+			{
+				"_id": "<data id>",
+				"field": value,
+				...
+			}
+		]
+	}
+]

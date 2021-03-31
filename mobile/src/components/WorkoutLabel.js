@@ -7,7 +7,6 @@ export default class WorkoutLabel extends Component {
 
         this.state = {
             name: this.props.name,
-            exercises: [],
         }
     }
 
