@@ -80,7 +80,7 @@
         // }
         async function doRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://128.10.25.205:8000/profile/' + user;
+            let url = 'http://127.0.0.1:8000/profile/' + user;
             let res = await fetch(url);
 
             if (res.ok) {

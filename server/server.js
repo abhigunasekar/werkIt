@@ -24,7 +24,7 @@ app.use(cookieParser());
 //const lt = require('localtunnel');
 
 
-app.use(express.json());
+//app.use(express.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(bodyParser.json());
 app.use(methodOverride('_method'));
@@ -36,6 +36,7 @@ app.get('/', function(req, res) {
 });
 
 // create a new account
+// bug fixed??
 app.post('/create_account', urlencodedparser, cors(), (req, res) => {
     console.log("Request to create account");
     console.log(req.body);
@@ -48,7 +49,6 @@ app.post('/create_account', urlencodedparser, cors(), (req, res) => {
             mc.save_new_account_data(name, req.body);
             console.log("Successfully created new user");
             res.status(200).end();
-            //res.redirect('/web-client/dashboard/dashboard.html');
         }
     });
 });
@@ -113,6 +113,16 @@ app.patch('/profile/:username/:field', (req, res) => {
 
 })
 
+// update dark mode
+app.patch('/user/:username/darkmode', (req, res) => {
+  console.log("here");
+  console.log("Updating dark mode for user: " + req.params.username);
+  mc.update_darkmode(req.params.username, req.body.dark_mode).then(user => {
+    console.log("Successfully updated dark mode value to: " + user.dark_mode);
+    res.status(200).end();
+  });
+});
+
 // get known workout types
 app.get('/:username/workoutTypes', (req, res) => {
   console.log("Requesting known workout types");
@@ -123,7 +133,7 @@ app.get('/:username/workoutTypes', (req, res) => {
 });
 
 // set new workout type
-// KNOWN BUG: only connects one exercise to user if multiple are sent (all are saved tho)
+// bug fixed??
 app.post('/:username/workoutType', (req, res) => {
   console.log("Saving new workout type to database for user: %s", req.params.username);
   mc.save_new_workoutType(
@@ -144,11 +154,10 @@ app.get('/:username/:workoutType/exercises', (req, res) => {
 })
 
 // add new exercise to a given workout type
-// KNOWN BUG: changed exercise schema... fix this to match it
 app.put('/:username/:workoutType/exercise', (req, res) => {
   console.log("Adding exercise to workoutType: %s", req.params.workoutType);
-  mc.add_exercise_to_wkoutType(
-    req.params.username, req.params.workoutType, req.body.exercise
+  mc.save_new_exerciseType(
+    req.params.username, req.params.workoutType, req.body.name, req.body.data
   ).then(_ => {
     console.log("Successfully added exercise to workoutType");
     res.status(200).end();
@@ -173,6 +182,20 @@ app.get('/:username/workouts', (req, res) => {
     console.log("Found workouts: " + wkouts);
     res.status(200).json(wkouts);
   });
+})
+
+// get one workout/exercises by name
+app.get('/:username/:workout', (req, res) => {
+  console.log("Getting workout and repective exercises");
+  mc.get_workout_data(req.params.username, req.params.workout).then(wkout => {
+    console.log("Found workout:" + wkout);
+    res.status(200).json(wkout);
+  })
+})
+
+// TODO update workout
+app.patch('/:username/:workout', (req, res) => {
+  
 })
 
 app.listen(port, ip, function() {

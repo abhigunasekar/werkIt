@@ -94,6 +94,19 @@ body:
 }
 
 
+UPDATING DARK MODE
+-----Request-----
+method: PATCH
+route: '/user/{username}/darkmode'
+body:
+{
+	"dark_mode": true/false
+}
+
+-----Response-----
+status: 200
+
+
 GETTING KNOWN WORKOUT TYPES
 -----Request-----
 method: GET
@@ -157,3 +170,35 @@ request Body:
 
 -----Response-----
 status: 200
+
+
+GET LIST OF WORKOUTS FOR USER
+-----Request-----
+method: GET
+route: '/{username}/workouts'
+
+-----Response-----
+status: 200
+body: ["<workout name>"]
+
+
+GET WORKOUT WITH EXERCISES FOR USER
+-----Request-----
+method: GET
+route: '/{username}/{workout name}'
+
+-----Response-----
+status: 200
+body: [
+	{
+		"_id": "<exercise id>",
+		"name": "<exercise name>",
+		"data": [
+			{
+				"_id": "<data id>",
+				"field": value,
+				...
+			}
+		]
+	}
+]
