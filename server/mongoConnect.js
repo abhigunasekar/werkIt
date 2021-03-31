@@ -39,6 +39,7 @@ const wkoutSchema = new mongoose.Schema({
 
 const Workout = mongoose.model('Workout', wkoutSchema);
 
+// TODO fix schema
 const exerciseSchema = new mongoose.Schema({
 	name: String,
 	data: [{
@@ -126,6 +127,12 @@ async function change_password(user, new_pass) {
 			{user: user}, {pass: new_pass}, {new: true}
 			).exec();
 	}
+}
+
+async function update_darkmode(username, mode) {
+	return await User.findOneAndUpdate(
+		{user: username}, {dark_mode: mode}, {new: true}
+		).exec();
 }
 
 async function get_user_obj(username) {
@@ -297,4 +304,5 @@ module.exports = {
 	save_new_workoutType, get_profile_info,
 	get_workout_types, save_new_exerciseType,
 	get_exercises_for_type, get_workouts,
-	get_workout_obj, get_workout_data }
+	get_workout_obj, get_workout_data,
+	update_darkmode }
