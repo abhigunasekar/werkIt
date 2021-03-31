@@ -138,7 +138,19 @@ route: '/{username}/{workoutType}/exercises'
 
 -----Response-----
 status: 200
-body: ["<exercise name>"]
+body: [{
+	"name": "<exercise name>",
+	"data": {
+		"sets": t/f,
+		"reps": t/f,
+		"weight": t/f,
+		"duration": t/f,
+		"distance": t/f,
+		"pace": t/f,
+		"incline": t/f,
+		"laps": t/f
+	}
+}]
 
 
 ADDING NEW EXERCISE TO EXISTING WORKOUT TYPE (WIP)

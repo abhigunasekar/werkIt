@@ -56,7 +56,16 @@ const Exercise = mongoose.model('Exercise', exerciseSchema);
 
 const knownExerciseSchema = new mongoose.Schema({
 	name: String,
-	data: [String]
+	data: {
+		sets: Boolean,
+		reps: Boolean,
+		weight: Boolean,
+		duration: Boolean,
+		distance: Boolean,
+		pace: Boolean,
+		incline: Boolean,
+		laps: Boolean
+	}
 }, { versionKey: false});
 
 const KnownExercise = mongoose.model('KnownExercise', knownExerciseSchema);
@@ -97,13 +106,49 @@ async function get_profile_info(username) {
 async function generate_default_wkoutTypes(username) {
 	await save_new_workoutType(
 		username, "Lifting", [
-			{"name": "Bench", "data": ["sets", "reps", "weight"]},
-			{"name": "Squats", "data": ["sets", "reps", "weight"]}
+			{"name": "Bench", "data": {
+				"sets": true,
+				"reps": true,
+				"weight": true,
+				"duration": false,
+				"distance": false,
+				"pace": false,
+				"incline": false,
+				"laps": false
+			}},
+			{"name": "Squats", "data": {
+				"sets": true,
+				"reps": true,
+				"weight": true,
+				"duration": false,
+				"distance": false,
+				"pace": false,
+				"incline": false,
+				"laps": false
+			}}
 		]);
 	await save_new_workoutType(
 		username, "Cardio", [
-			{"name": "Running", "data": ["duration", "speed", "incline"]},
-			{"name": "Hiking", "data": ["duration", "speed", "incline"]}
+			{"name": "Running", "data": {
+				"sets": false,
+				"reps": false,
+				"weight": false,
+				"duration": true,
+				"distance": false,
+				"pace": true,
+				"incline": true,
+				"laps": false
+			}},
+			{"name": "Hiking", "data": {
+				"sets": false,
+				"reps": false,
+				"weight": false,
+				"duration": true,
+				"distance": false,
+				"pace": true,
+				"incline": true,
+				"laps": false
+			}}
 		]);
 }
 
@@ -154,19 +199,15 @@ async function get_workout_data(username, w_name) {
 	var e_list = new Array;
 	for (var e_id of wkout.exercises) {
 		var e = await Exercise.findById(e_id).exec();
-		console.log("exercise:"+e);
 		e_list.push(e);
 	}
-	console.log("exercise list: " +e_list);
 	return e_list;
 }
 
 async function get_wkoutType_by_name(username, wkoutType) {
 	var user = await get_user_obj(username);
-	console.log("********user:"+user)
 	for (var id of user.workoutTypes) {
 		var type = await WorkoutType.findById(id).exec();
-		console.log("loop type:"+ type);
 		if (type.name == wkoutType) {
 			return type;
 		}
@@ -204,7 +245,6 @@ async function save_new_exerciseType(username, w_name, e_name, data) {
 
 	// gets the workout type and adds exercise to the list
 	var wkout = await get_wkoutType_by_name(username, w_name);
-	console.log("workout:"+wkout);
 	var exercises = wkout.exercises;
 	exercises.push(exercise);
 	await WorkoutType.findByIdAndUpdate(wkout._id, {exercises: exercises}, {new: true}).exec();
@@ -292,7 +332,7 @@ async function get_exercises_for_type(username, wkoutType) {
 	var ex_list = new Array;
 	for (var id of type.exercises) {
 		var ex = await KnownExercise.findById(id).exec();
-		ex_list.push(ex.name);
+		ex_list.push({"name": ex.name, "data": ex.data});
 	}
 	return ex_list;
 }
