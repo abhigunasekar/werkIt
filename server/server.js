@@ -36,7 +36,7 @@ app.get('/', function(req, res) {
 });
 
 // create a new account
-// KNOWN BUG: sometimes gives undefined error???
+// bug fixed??
 app.post('/create_account', urlencodedparser, cors(), (req, res) => {
     console.log("Request to create account");
     console.log(req.body);
@@ -113,6 +113,16 @@ app.patch('/profile/:username/:field', (req, res) => {
 
 })
 
+// update dark mode
+app.patch('/user/:username/darkmode', (req, res) => {
+  console.log("here");
+  console.log("Updating dark mode for user: " + req.params.username);
+  mc.update_darkmode(req.params.username, req.body.dark_mode).then(user => {
+    console.log("Successfully updated dark mode value to: " + user.dark_mode);
+    res.status(200).end();
+  });
+});
+
 // get known workout types
 app.get('/:username/workoutTypes', (req, res) => {
   console.log("Requesting known workout types");
@@ -123,7 +133,7 @@ app.get('/:username/workoutTypes', (req, res) => {
 });
 
 // set new workout type
-// KNOWN BUG: same error as sometimes creates promise rejection???
+// bug fixed??
 app.post('/:username/workoutType', (req, res) => {
   console.log("Saving new workout type to database for user: %s", req.params.username);
   mc.save_new_workoutType(
@@ -175,16 +185,18 @@ app.get('/:username/workouts', (req, res) => {
 })
 
 // get one workout/exercises by name
-// KNOWN BUG: returns id codes intead of names
 app.get('/:username/:workout', (req, res) => {
   console.log("Getting workout and repective exercises");
-  mc.get_workout_obj(req.params.username, req.params.workout).then(wkout => {
+  mc.get_workout_data(req.params.username, req.params.workout).then(wkout => {
     console.log("Found workout:" + wkout);
     res.status(200).json(wkout);
   })
 })
 
 // TODO update workout
+app.patch('/:username/:workout', (req, res) => {
+  
+})
 
 app.listen(port, ip, function() {
     console.log("Server listening on http://%s:%d", ip, port);
