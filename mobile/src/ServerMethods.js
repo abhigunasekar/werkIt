@@ -85,7 +85,6 @@ export function getExercises(username, type) {
 
 export function createExercise(username, type, exercise) {
     console.log('creating a new exercise for type: ' + type);
-
     return fetch('http://' + address + ':8000/' + username + '/' + type + '/exercise', {
         method: 'PUT',
         headers: {

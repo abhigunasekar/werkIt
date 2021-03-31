@@ -24,6 +24,7 @@ export default class ExerciseLabel extends Component {
     }
 
     render() {
+        // change this to hold hideable views in modal
         let counter = 0;
         let array = [this.state.sets, this.state.reps, this.state.weight, this.state.duration, this.state.distance, this.state.pace, this.state.incline, this.state.laps]
         array.forEach(element => {

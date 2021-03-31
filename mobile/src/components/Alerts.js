@@ -75,7 +75,7 @@ export const usernameDoesNotExist = () => {
 export const workoutTypeError = () => {
     Alert.alert(
         '',
-        'Please select a workout type first',
+        'Please select a workout type',
         [
             {
                 text: 'OK'

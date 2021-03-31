@@ -116,13 +116,10 @@ export default class WorkoutEditor extends Component {
         //this.setState({ currExercise: exercise });
     }
 
-    render() {
-        //console.log('render')      
+    createExerciseList() {
         let exerciseList = [];
-        //console.log('array length: ' + exerciseList.length)
         for (let i = 0; i < this.state.exercises.length; i++) {
             let exercise = this.state.exercises[i];
-            //console.log('editor sets: ' + exercise.sets)
             exerciseList.push(
                 <ExerciseLabel
                     key={i}
@@ -140,6 +137,10 @@ export default class WorkoutEditor extends Component {
             );
         }
 
+        return exerciseList;
+    }
+
+    createButtonList() {
         let buttonList = [];
         for (let i = 0; i < this.state.savedExercises.length; i++) {
             let exercise = this.state.savedExercises[i];
@@ -170,7 +171,7 @@ export default class WorkoutEditor extends Component {
                         exercise.laps = true;
                         break;
                 }
-                }
+            }
             buttonList.push(
                 <Button
                     key={i}
@@ -179,7 +180,7 @@ export default class WorkoutEditor extends Component {
                     style={{width: '80%', margin: 5}}
                     orange={true}
                 />
-            )
+            );
         }
         buttonList.push(
             <Button
@@ -191,7 +192,16 @@ export default class WorkoutEditor extends Component {
                 style={{width: '80%', margin: 5}}
                 gray={true}
             />
-        )
+        );
+
+        return buttonList;
+    }
+
+    render() {
+        //console.log('render')      
+        let exerciseList = this.createExerciseList();
+
+        let buttonList = this.createButtonList();
 
         return(
             //add a dropdown menu populated with previously added exercises
@@ -220,7 +230,7 @@ export default class WorkoutEditor extends Component {
                             .then(response => {
                                 console.log(response)
                                 this.setState({ savedExercises: response })
-                            })
+                            });
                     }}
                 />
                 <ScrollView style={styles.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
@@ -254,7 +264,13 @@ export default class WorkoutEditor extends Component {
                                 <ExerciseEditor
                                     type={this.state.type}
                                     dismiss={() => this.setState({ editorVisible: false, modalVisible: false })}
-                                    createExercise={(exercise) => this.createExercise(exercise)}
+                                    createExercise={(exercise) => {
+                                        //serverMethods.createExercise(this.props.route.params.username, this.state.type, exercise);
+                                        // need to parse exercise into { name, data }
+                                        // check exercise to make sure name doesn't already exist
+                                        // check to make sure at least one field is selected
+                                        this.createExercise(exercise);
+                                    }}
                                 />
                             </View>
                         </View>
@@ -294,6 +310,7 @@ export default class WorkoutEditor extends Component {
                         onPress={() => {
                             console.log(this.state.exercises);
                             //check to make sure a name is given
+                            //check to make sure all fields are filled out
                             this.props.navigation.navigate('Dashboard', { workout: this.state });
                         }}
                         orange={true}
