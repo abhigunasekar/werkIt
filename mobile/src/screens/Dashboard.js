@@ -20,11 +20,14 @@ export default class Dashboard extends Component{
         this.createWorkout = this.createWorkout.bind(this);
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         // server call to get workouts related to user
-        serverMethods.getUserData(this.state.username)
+        serverMethods.getUserWorkouts(this.state.username)
             .then(response => response.json())
-            .then(response => console.log(response));
+            .then(response => {
+                console.log(response)
+                this.setState({ workouts: response })
+            });
         // this.setState({ workouts: response });
     }
 
@@ -58,9 +61,8 @@ export default class Dashboard extends Component{
             workoutList.push(
                 <WorkoutLabel
                     key={i}
-                    name={workout.name}
-                    exercises={workout.exercises} // is this necessary lmao
-                    edit={() => this.props.navigation.navigate('WorkoutEditor', { workout: workout })}
+                    name={workout}
+                    edit={() => this.props.navigation.navigate('WorkoutEditor', { workout: workout })} //server call to get exercises given name
                 />
             );
         }
@@ -74,7 +76,7 @@ export default class Dashboard extends Component{
                     {workoutList}
                     <Button
                         buttonText='Create New Workout'
-                        onPress={() => this.props.navigation.navigate('WorkoutEditor')}
+                        onPress={() => this.props.navigation.navigate('WorkoutEditor', { username: this.state.username })}
                         style={{marginTop: 20}}
                         purple={true}
                     />

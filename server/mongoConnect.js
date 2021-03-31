@@ -332,7 +332,7 @@ async function get_exercises_for_type(username, wkoutType) {
 	var ex_list = new Array;
 	for (var id of type.exercises) {
 		var ex = await KnownExercise.findById(id).exec();
-		ex_list.push({"name": ex.name, "data": ex.data});
+		ex_list.push({name: ex.name, data: ex.data});
 	}
 	return ex_list;
 }

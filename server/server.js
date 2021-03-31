@@ -24,7 +24,7 @@ app.use(cookieParser());
 //const lt = require('localtunnel');
 
 
-app.use(express.json());
+//app.use(express.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(bodyParser.json());
 app.use(methodOverride('_method'));
