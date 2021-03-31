@@ -148,7 +148,7 @@ app.post('/:username/workoutType', (req, res) => {
 app.get('/:username/:workoutType/exercises', (req, res) => {
   console.log("Getting exercises for workoutType: %s", req.params.workoutType);
   mc.get_exercises_for_type(req.params.username, req.params.workoutType).then(ex_list => {
-    console.log("Exercises found: " + ex_list);
+    console.log("Exercises found");
     res.status(200).json(ex_list);
   });
 })
