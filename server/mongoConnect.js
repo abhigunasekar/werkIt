@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
 	dark_mode: Boolean,
 	workout_time_per_week: Number,
 	weekly_streak_counter: Number,
+	weekly_plan: {type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan'},
 	workouts: [
 		{type: mongoose.Schema.Types.ObjectId, ref: 'Workout'}
 	],
@@ -79,6 +80,20 @@ const wkoutTypeSchema = new mongoose.Schema({
 
 const WorkoutType = mongoose.model('WorkoutType', wkoutTypeSchema);
 
+const workoutPlanSchema = new mongoose.Schema({
+	name: String,
+	// The following strings should be the name of a workoutType
+	monday: String,
+	tuesday: String,
+	wednesday: String,
+	thursday: String,
+	friday: String,
+	saturday: String,
+	sunday: String
+}, { versionKey: false})
+
+const WorkoutPlan = mongoose.model('WorkoutPlan', workoutPlanSchema);
+
 // Functions called by server
 
 async function save_new_account_data(u_name, req_body) {
@@ -90,7 +105,8 @@ async function save_new_account_data(u_name, req_body) {
 		email: req_body.email,
 		dark_mode: false,
 		workouts: [],
-		workoutTypes: []
+		workoutTypes: [],
+		weekly_plan: null
 	});
 
 	user.save().then(_ => {
@@ -337,6 +353,14 @@ async function get_exercises_for_type(username, wkoutType) {
 	return ex_list;
 }
 
+async function save_workout_plan(username, data) {
+	var user = await get_user_obj(username);
+	var plan = new WorkoutPlan(data);
+	await plan.save();
+	await User.findByIdAndUpdate(
+		user._id, {weekly_plan: plan}, {new: true}).exec();
+}
+
 module.exports = { 
 	save_new_account_data, check_login, 
 	check_user_existence, change_password,
@@ -345,4 +369,4 @@ module.exports = {
 	get_workout_types, save_new_exerciseType,
 	get_exercises_for_type, get_workouts,
 	get_workout_obj, get_workout_data,
-	update_darkmode }
+	update_darkmode, save_workout_plan }

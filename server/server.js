@@ -198,6 +198,15 @@ app.patch('/:username/:workout', (req, res) => {
   
 })
 
+// create weekly plan
+app.post('/:username/plan', (req, res) => {
+  console.log("Saving weekly workout plan");
+  mc.save_workout_plan(req.params.username, req.body).then(_ => {
+    console.log("Successfully saved workout plan");
+    res.status(200).end();
+  })
+})
+
 app.listen(port, ip, function() {
     console.log("Server listening on http://%s:%d", ip, port);
 });

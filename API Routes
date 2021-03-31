@@ -214,3 +214,23 @@ body: [
 		]
 	}
 ]
+
+
+SAVING WORKOUT PLAN
+-----Request-----
+method: GET
+route: '/{username}/plan'
+body:
+{
+	"name": "<plan name>",
+	"monday": "<workout name>",
+	"tuesday": "<workout name>",
+	"wednesday": "<workout name>",
+	"thursday": "<workout name>",
+	"friday": "<workout name>",
+	"saturday": "<workout name>",
+	"sunday": "<workout name>"
+}
+
+-----Response-----
+status: 200
