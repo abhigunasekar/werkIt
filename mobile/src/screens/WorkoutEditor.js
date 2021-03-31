@@ -20,7 +20,7 @@ export default class WorkoutEditor extends Component {
             exercises: /*this.props.route.params?.workout.exercises ?? []*/ [],
             savedExercises: /*[{name: 'Bench', sets: true, reps: true}, {name: 'Squats', sets: true, reps: true}]*/ [],
             type: '',
-            savedTypes: /*[{label: 'Lifting', value: 'lifting'}, {label: 'Running', value: 'running'}]*/ [],
+            savedTypes: /*[{label: 'Lifting', value: 'lifting'}, {label: 'Running', value: 'running'}]*/ [{label: 'Add workout type', value: 'add'}],
             currKey: -1,
             currExercise: '',
             numExercises: 0,
@@ -41,7 +41,7 @@ export default class WorkoutEditor extends Component {
             .then(response => response.json())
             .then(response => {
                 console.log(response)
-                let array = [];
+                let array = this.state.savedTypes;
                 response.map((type) => array.push({label: type, value: type}))
                 this.setState({ savedTypes: array })
             });
@@ -198,7 +198,8 @@ export default class WorkoutEditor extends Component {
     }
 
     render() {
-        //console.log('render')      
+        //console.log('render')  
+        console.log(this.state.savedTypes)    
         let exerciseList = this.createExerciseList();
 
         let buttonList = this.createButtonList();
@@ -224,13 +225,18 @@ export default class WorkoutEditor extends Component {
                     }}
                     dropDownStyle={{backgroundColor: '#fafafa'}}
                     onChangeItem={(item) => {
-                        this.setState({ type: item.value });
-                        serverMethods.getExercises(this.props.route.params.username, item.value)
-                            .then(response => response.json())
-                            .then(response => {
-                                console.log(response)
-                                this.setState({ savedExercises: response })
-                            });
+                        if (item.value === 'add') {
+                            // show a text box, and then submit
+                            // add error checking
+                        } else {
+                            this.setState({ type: item.value });
+                            serverMethods.getExercises(this.props.route.params.username, item.value)
+                                .then(response => response.json())
+                                .then(response => {
+                                    console.log(response)
+                                    this.setState({ savedExercises: response })
+                                });
+                        }
                     }}
                 />
                 <ScrollView style={styles.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
