@@ -89,6 +89,7 @@ export function createExercise(username, type, exercise) {
     return fetch('http://' + address + ':8000/' + username + '/' + type + '/exercise', {
         method: 'PUT',
         headers: {
+            Accept: 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(exercise)
@@ -97,7 +98,7 @@ export function createExercise(username, type, exercise) {
 
 export function createWorkout(username, workout) {
     console.log('creating a new workout for: ' + username);
-    console.log(workout)
+    console.log(JSON.stringify(workout))
     return fetch('http://' + address + ':8000/' + username + '/workout', {
         method: 'POST',
         headers: {

@@ -81,7 +81,6 @@ export default class Dashboard extends Component{
                         purple={true}
                     />
                 </ScrollView>
-
             </View>
         );
     }

@@ -258,8 +258,7 @@ export default class WorkoutEditor extends Component {
                                     dismiss={() => this.setState({ editorVisible: false, modalVisible: false })}
                                     createExercise={(exercise) => {
                                         console.log('wtf is going on')
-                                        let data = {sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps}
-                                        let obj = {name: exercise.name, data: data};
+                                        let obj = {name: exercise.name, data: { sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps }};
                                         serverMethods.createExercise(this.props.route.params.username, this.state.type, obj);
                                         // check exercise to make sure name doesn't already exist
                                         let array = this.state.savedExercises;
@@ -307,8 +306,8 @@ export default class WorkoutEditor extends Component {
                             console.log(this.state.exercises);
                             //check to make sure a name is given
                             //check to make sure all fields are filled out
-                            //server call
-                            this.props.navigation.navigate('Dashboard', { workout: this.state });
+                            serverMethods.createWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
+                            this.props.navigation.navigate('Dashboard');
                         }}
                         orange={true}
                     />
