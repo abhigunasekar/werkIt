@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import { missingNameError } from '../components/Alerts';
 
 import Button from '../components/Button';
 import DayPicker from '../components/DayPicker';
@@ -107,8 +108,12 @@ export default class WorkoutPlanEditor extends Component {
                     <Button
                         buttonText='Submit'
                         onPress={() => {
-                            serverMethods.createWorkoutPlan(this.props.route.params.username, { name: this.state.name, Monday: this.state.monday, Tuesday: this.state.tuesday, Wednesday: this.state.wednesday, Thursday: this.state.thursday, Friday: this.state.friday, Saturday: this.state.saturday, Sunday: this.state.sunday });
-                            this.props.navigation.navigate('WorkoutPlans');
+                            if (this.state.name === '') {
+                                missingNameError();
+                            } else {
+                                serverMethods.createWorkoutPlan(this.props.route.params.username, { name: this.state.name, Monday: this.state.monday, Tuesday: this.state.tuesday, Wednesday: this.state.wednesday, Thursday: this.state.thursday, Friday: this.state.friday, Saturday: this.state.saturday, Sunday: this.state.sunday });
+                                this.props.navigation.navigate('WorkoutPlans');
+                            }
                         }}
                         orange={true}
                     />

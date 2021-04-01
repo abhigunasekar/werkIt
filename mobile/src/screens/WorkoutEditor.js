@@ -364,7 +364,7 @@ export default class WorkoutEditor extends Component {
                             console.log(this.state.exercises);
                             if (this.state.name === '') {
                                 missingNameError();
-                            }else if (this.state.exercises.length === 0) {
+                            } else if (this.state.exercises.length === 0) {
                                 missingExerciseError();
                             } else {
                                 serverMethods.createWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });

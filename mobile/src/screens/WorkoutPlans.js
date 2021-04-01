@@ -4,6 +4,7 @@ import { View, ScrollView, Text } from 'react-native';
 import WorkoutLabel from '../components/WorkoutLabel';
 import Button from '../components/Button';
 
+import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
 export default class WorkoutPlans extends Component {
@@ -17,9 +18,25 @@ export default class WorkoutPlans extends Component {
     }
 
     componentDidMount() {
-        //add server call here to get savedowkrout plans
-        //set listener for focus
-        //dont forget componentwillunmount
+        serverMethods.getUserWorkoutPlans(this.state.username)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                this.setState({ workoutPlans: response })
+            });
+        this.listener = this.props.navigation.addListener('focus', () => {
+            console.log('focus');
+            setTimeout(() => serverMethods.getUserWorkoutPlans(this.state.username)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                this.setState({ workoutPlans: response })
+            }), 100);
+        })
+    }
+
+    componentWillUnmount() {
+        this.listener();
     }
 
     render() {
@@ -31,7 +48,7 @@ export default class WorkoutPlans extends Component {
                 <WorkoutLabel
                     key={i}
                     name={workoutPlan}
-                    edit={() => this.props.navigation.navigate('WorkoutPlanEditor', { workoutPlan: workoutPlan })} //server call to get exercises given name
+                    edit={() => this.props.navigation.navigate('WorkoutPlanEditor', { workoutPlan: workoutPlan })} //server call to get workouts given name
                 />
             );
         }

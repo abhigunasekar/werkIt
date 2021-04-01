@@ -65,6 +65,12 @@ export function getUserData(username) {
     //   });
 }
 
+export function getUserWorkoutPlans(username) {
+    console.log('getting workout plan for: ' + username);
+
+    return fetch('http://' + address + ':8000/' + username + '/workout_plans');
+}
+
 export function getUserWorkouts(username) {
     console.log('getting workouts for: ' + username);
 
