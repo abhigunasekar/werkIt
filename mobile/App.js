@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 // reference this --> https://reactnative.dev/docs/asyncstorage
 
 import MotivationalQuote from './src/screens/MotivationalQuote';
-import LoginStackNavigator from './src/LoginStackNavigator';
+import LoginStackNavigator from './src/stackNavigators/LoginStackNavigator';
 import DrawerNavigator from './src/DrawerNavigator';
 
 export default class App extends Component {

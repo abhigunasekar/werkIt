@@ -4,8 +4,8 @@ import { Pressable } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { FontAwesome } from '@expo/vector-icons';
 
-import Workouts from './screens/Workouts';
-import WorkoutEditor from './screens/WorkoutEditor';
+import Workouts from '../screens/Workouts';
+import WorkoutEditor from '../screens/WorkoutEditor';
 
 const Stack = createStackNavigator();
 
@@ -15,8 +15,6 @@ export default class WorkoutStackNavigator extends Component {
     }
     
     render() {
-        //dashboard.js
-        //workoutplans.js
         return(
             <Stack.Navigator>
                 <Stack.Screen 

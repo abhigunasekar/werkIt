@@ -16,6 +16,12 @@ export default class WorkoutPlans extends Component {
         }
     }
 
+    componentDidMount() {
+        //add server call here to get savedowkrout plans
+        //set listener for focus
+        //dont forget componentwillunmount
+    }
+
     render() {
         console.log(this.state.username);
         let workoutPlanList = [];

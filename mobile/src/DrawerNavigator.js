@@ -3,8 +3,9 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import { NavigationContainer } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import WorkoutStackNavigator from './WorkoutStackNavigator';
-import WorkoutPlanStackNavigator from './WorkoutPlanStackNavigator';
+import DashboardStackNavigator from './stackNavigators/DashboardStackNavigator';
+import WorkoutPlanStackNavigator from './stackNavigators/WorkoutPlanStackNavigator';
+import WorkoutStackNavigator from './stackNavigators/WorkoutStackNavigator';
 import Settings from './screens/Settings';
 
 function CustomDrawerContent(props) {
@@ -32,6 +33,9 @@ export default class DrawerNavigator extends Component {
         return(
             <NavigationContainer>
                 <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} logout={this.props.logout}/>}>  
+                    <Drawer.Screen name='Dashboard'>
+                        {props => <DashboardStackNavigator {...props} username={this.props.username}/>}
+                    </Drawer.Screen>
                     <Drawer.Screen name='Workout Plans'>
                         {props => <WorkoutPlanStackNavigator {...props} username={this.props.username}/>}
                     </Drawer.Screen>

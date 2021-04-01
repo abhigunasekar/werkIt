@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Login from './screens/Login';
-import CreateAccount from './screens/CreateAccount';
-import ChangePassword from './screens/ChangePassword';
+import Login from '../screens/Login';
+import CreateAccount from '../screens/CreateAccount';
+import ChangePassword from '../screens/ChangePassword';
 
 const Stack = createStackNavigator();
 
@@ -12,6 +12,7 @@ export default class StackNavigator extends Component {
     constructor(props) {
         super(props);
     }
+    
     render() {
     return(
         <NavigationContainer>
