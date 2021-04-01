@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const methodOverride = require('method-override')
 const app = express();
+const jsonParser = bodyParser.json();
 const path = require('path');
 var http = require('http');
 var fs = require('fs');
@@ -13,7 +14,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "127.0.0.1";
+const ip = "10.186.158.25";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 
 app.set('views', __dirname + '/views');
@@ -117,7 +118,7 @@ app.patch('/profile/:username/:field', (req, res) => {
 app.patch('/user/:username/darkmode', (req, res) => {
   console.log("here");
   console.log("Updating dark mode for user: " + req.params.username);
-  mc.update_darkmode(req.params.username).then(user => {
+  mc.update_darkmode(req.params.username, req.body.dark_mode).then(user => {
     console.log("Successfully updated dark mode value to: " + user.dark_mode);
     res.status(200).end();
   });
@@ -154,7 +155,7 @@ app.get('/:username/:workoutType/exercises', (req, res) => {
 })
 
 // add new exercise to a given workout type
-app.put('/:username/:workoutType/exercise', (req, res) => {
+app.put('/:username/:workoutType/exercise', jsonParser, (req, res) => {
   console.log("Adding exercise to workoutType: %s", req.params.workoutType);
   mc.save_new_exerciseType(
     req.params.username, req.params.workoutType, req.body.name, req.body.data
@@ -165,7 +166,7 @@ app.put('/:username/:workoutType/exercise', (req, res) => {
 });
 
 // save a new workout
-app.post('/:username/workout', (req, res) => {
+app.post('/:username/workout', jsonParser, (req, res) => {
   console.log("saving new workout");
   console.log(req.body);
   console.log(req.params);
@@ -196,15 +197,6 @@ app.get('/:username/:workout', (req, res) => {
 // TODO update workout
 app.patch('/:username/:workout', (req, res) => {
   
-})
-
-// create weekly plan
-app.post('/:username/plan', (req, res) => {
-  console.log("Saving weekly workout plan");
-  mc.save_workout_plan(req.params.username, req.body).then(_ => {
-    console.log("Successfully saved workout plan");
-    res.status(200).end();
-  })
 })
 
 app.listen(port, ip, function() {
