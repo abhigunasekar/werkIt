@@ -17,7 +17,6 @@ const userSchema = new mongoose.Schema({
 	pass: String,
 	email: String,
 	dark_mode: Boolean,
-	workout_time_per_week: Number,
 	streak_counter: Number,
 	weekly_plan: {type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan'},
 	workouts: [
@@ -210,6 +209,13 @@ async function update_darkmode(username) {
 	return await User.findOneAndUpdate(
 		{user: username}, {dark_mode: mode}, {new: true}
 		).exec();
+}
+
+async function update_profile_field(username, field, data) {
+	var user = await get_user_obj(username);
+	return await User.findByIdAndUpdate(
+		user._id, {[field]: data[field]}, {new: true}
+	).exec();
 }
 
 async function get_user_obj(username) {
@@ -425,4 +431,5 @@ module.exports = {
 	get_exercises_for_type, get_workouts,
 	get_workout_obj, get_workout_data,
 	update_darkmode, save_workout_plan,
-	get_profile_field, get_weekly_goal, get_completed_workouts }
+	get_profile_field, get_weekly_goal, get_completed_workouts, update_profile_field }
+

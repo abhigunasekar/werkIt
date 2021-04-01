@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const methodOverride = require('method-override')
 const app = express();
-const jsonParser = bodyParser.json();
 const path = require('path');
 var http = require('http');
 var fs = require('fs');
@@ -25,7 +24,7 @@ app.use(cookieParser());
 //const lt = require('localtunnel');
 
 
-//app.use(express.json());
+app.use(express.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(bodyParser.json());
 app.use(methodOverride('_method'));
@@ -109,14 +108,17 @@ app.get('/profile/:username', cors(), (req, res) => {
     })
 });
 
-// TODO update one element of user profile info
-app.patch('/profile/:username/:field', (req, res) => {
-
+// update one element of user profile info
+// ONLY use with fields that are not object ids
+app.patch('/profile/:username/:field', jsonParser, (req, res) => {
+  console.log("Updating " + req.params.field + "field for user " + req.params.username);
+  mc.update_profile_field(req.params.username, req.params.field, req.body).then(_ => {
+    res.status(200).end();
+  })
 })
 
 // update dark mode
 app.patch('/user/:username/darkmode', (req, res) => {
-  console.log("here");
   console.log("Updating dark mode for user: " + req.params.username);
   mc.update_darkmode(req.params.username, req.body.dark_mode).then(user => {
     console.log("Successfully updated dark mode value to: " + user.dark_mode);
@@ -144,6 +146,7 @@ app.get('/:username/workoutTypes', (req, res) => {
 
 // set new workout type
 // bug fixed??
+// TODO check if workout type name exists
 app.post('/:username/workoutType', (req, res) => {
   console.log("Saving new workout type to database for user: %s", req.params.username);
   mc.save_new_workoutType(
@@ -164,7 +167,8 @@ app.get('/:username/:workoutType/exercises', (req, res) => {
 })
 
 // add new exercise to a given workout type
-app.put('/:username/:workoutType/exercise', jsonParser, (req, res) => {
+// TODO check if exercise name already exists
+app.put('/:username/:workoutType/exercise', (req, res) => {
   console.log("Adding exercise to workoutType: %s", req.params.workoutType);
   mc.save_new_exerciseType(
     req.params.username, req.params.workoutType, req.body.name, req.body.data
@@ -175,7 +179,7 @@ app.put('/:username/:workoutType/exercise', jsonParser, (req, res) => {
 });
 
 // save a new workout
-app.post('/:username/workout', jsonParser, (req, res) => {
+app.post('/:username/workout', (req, res) => {
   console.log("saving new workout");
   mc.save_workout(req.params.username, req.body.name, req.body.type, req.body.exercises).then(_ => {
     res.status(200).end()

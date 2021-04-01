@@ -8,7 +8,7 @@ import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 import PasswordBox from '../components/PasswordBox';
 
-import { invalidCredentialsAlert, invalidFormAlert } from '../components/Alerts';
+import { invalidCredentialsAlert, invalidFormAlert, missingUsernameError, usernameDoesNotExist } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 
@@ -61,15 +61,21 @@ export default class Login extends Component {
 
     async touchID() {
         // add a server call to validate username
-        let result = await LocalAuthentication.authenticateAsync();
-        if (result.success) {
-            if (this.state.persist) {
-                this.props.persist();
+        let response = await serverMethods.verifyUsername(this.state.username);
+        if (response.status === 200) {
+            let result = await LocalAuthentication.authenticateAsync();
+            if (result.success) {
+                if (this.state.persist) {
+                    this.props.persist();
+                }
+                this.props.login(this.state.username);
+            } else {
+                console.log('TouchID failed')
             }
-            this.props.login(this.state.username);
         } else {
-            console.log('TouchID failed')
+            usernameDoesNotExist();
         }
+        
     }
 
     validForm() {
@@ -91,7 +97,13 @@ export default class Login extends Component {
                             placeholder='Password'
                             onChangeText={(text) => this.setState({ password: text })}
                             value={this.state.password}
-                            biometric={() => this.touchID()}
+                            biometric={() => {
+                                if (this.state.username === '') {
+                                    missingUsernameError();
+                                } else {
+                                    this.touchID();
+                                }
+                            }}
                         />
                         <CheckBox
                             title='Keep me signed in'
