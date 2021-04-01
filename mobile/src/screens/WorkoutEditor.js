@@ -24,8 +24,10 @@ export default class WorkoutEditor extends Component {
             currKey: -1,
             currExercise: '',
             numExercises: 0,
+            newType: '',
             modalVisible: false,
             editorVisible: false,
+            workoutTypeVisible: false,
         };
 
         this.addExercise = this.addExercise.bind(this);
@@ -213,6 +215,8 @@ export default class WorkoutEditor extends Component {
                     onChangeItem={(item) => {
                         if (item.value === 'add') {
                             // show a text box, and then submit
+                            //console.log(this.state.savedTypes[this.state.savedTypes.length - 1])
+                            this.setState({ workoutTypeVisible: true })
                             // add error checking
                         } else {
                             this.setState({ type: item.value });
@@ -225,6 +229,42 @@ export default class WorkoutEditor extends Component {
                         }
                     }}
                 />
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={this.state.workoutTypeVisible}
+                >
+                    <View>
+                        <View style={styles.workoutType}>
+                            <TextBox
+                                placeholder='workout type here'
+                                onChangeText={(text) => this.setState({ newType: text })}
+                                value={this.state.newType}
+                            />
+                            <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                                <Button
+                                    buttonText='Cancel'
+                                    onPress={() => this.setState({ newType: '', workoutTypeVisible: false })}
+                                    gray={true}
+                                />
+                                <Button
+                                    buttonText='Submit'
+                                    onPress={() => {
+                                        if (this.state.newType === '') {
+                                            missingNameError();
+                                        } else {
+                                            serverMethods.createWorkoutType(this.props.route.params.username, { name: this.state.newType, exercises: [] });
+                                            let array = this.state.savedTypes;
+                                            array.unshift({ label: this.state.newType, value: this.state.newType });
+                                            this.setState({ savedTypes: array, workoutTypeVisible: false });
+                                        }
+                                    }}
+                                    orange={true}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
                 <ScrollView style={styles.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
                     {exerciseList}
                     <Modal
