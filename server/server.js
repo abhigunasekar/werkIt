@@ -209,6 +209,14 @@ app.put('/:username/completed', (req, res) => {
   });
 });
 
+// save a workout plan
+app.post('/:username/workout_plan', (req, res) => {
+  console.log("Saving workout plan");
+  mc.save_workout_plan(req.params.username, req.body).then(_ => {
+    res.status(200).end()
+  });
+});
+
 // get json data for histogram
 //app.get('/:username/')
 
