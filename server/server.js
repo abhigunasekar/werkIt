@@ -236,6 +236,15 @@ app.get('/:username/workout_plan/:name', (req, res) => {
   });
 });
 
+// get the name of each workout plan for a user
+app.get('/:username/workout_plans', (req, res) => {
+  console.log("Getting the name of each workout plan");
+  mc.get_all_plan_names(req.params.username).then(names => {
+    console.log("Found all the names")
+    res.status(200).json(names);
+  })
+})
+
 // change active status on workout plan
 app.patch('/:username/workout_plan/:name', (req, res) => {
   console.log("Changing active status for plan: " + req.params.name);

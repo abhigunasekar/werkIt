@@ -402,7 +402,6 @@ async function get_active_plan(user) {
 }
 
 async function save_workout_plan(username, data) {
-	console.log("data:"+data);
 	var user = await get_user_obj(username);
 
 	if (data.active && user.weekly_plan.length > 0) {
@@ -442,7 +441,6 @@ async function get_profile_field(username, field) {
 async function get_weekly_goal(username) {
 	var user = await get_user_obj(username);
 	var goal = 0;
-	console.log("user found:" + user);
 	var plan = await get_active_plan(user);
 	if (plan.Monday.localeCompare("") != 0) {
 		goal++;
@@ -508,6 +506,16 @@ async function get_histogram_data(username) {
 	return hist_obj;
 }
 
+async function get_all_plan_names(username) {
+	var user = await get_user_obj(username);
+	var list = new Array;
+	for (var p_id of user.weekly_plan) {
+		var plan = await WorkoutPlan.findById(p_id).exec();
+		list.push(plan.name);
+	}
+	return list;
+}
+
 async function get_workout_plan(username, plan_name) {
 	var user = await get_user_obj(username);
 	for (var p_id of user.weekly_plan) {
@@ -538,5 +546,6 @@ module.exports = {
 	get_profile_field, get_weekly_goal, 
 	get_completed_workouts, update_profile_field,
 	save_completed_workout, get_histogram_data,
-	get_workout_plan, update_plan_status }
+	get_workout_plan, update_plan_status,
+	get_all_plan_names }
 
