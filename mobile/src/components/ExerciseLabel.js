@@ -28,7 +28,7 @@ export default class ExerciseLabel extends Component {
             paceVisible: this.props.pace,
             inclineVisible: this.props.incline,
             lapsVisible: this.props.laps,
-            modalVisible: true, 
+            modalVisible: true,
         };
 
         this.checkFields = this.checkFields.bind(this);
@@ -76,6 +76,41 @@ export default class ExerciseLabel extends Component {
         // change this to hold hideable views in modal
         //console.log(typeof (this.state.sets))
         console.log(this.state.sets)
+
+        let counter = 0;
+        if (this.state.setsVisible) {
+            counter++;
+        }
+
+        if (this.state.repsVisible) {
+            counter++;
+        }
+
+        if (this.state.weightVisible) {
+            counter++;
+        }
+
+        if (this.state.durationVisible) {
+            counter++;
+        }
+
+        if (this.state.distanceVisible) {
+            counter++;
+        }
+
+        if (this.state.paceVisible) {
+            counter++;
+        }
+
+        if (this.state.inclineVisible) {
+            counter++;
+        }
+
+        if (this.state.lapsVisible) {
+            counter++;
+        }
+        console.log(counter)
+        let width = '' + (9 - counter) + '0%'
         return (
             <View style={{marginBottom: 15}}>
                 <Button
@@ -90,7 +125,7 @@ export default class ExerciseLabel extends Component {
                     visible={this.state.modalVisible}
                 >
                     <View style={styles.centeredView}>
-                        <View style={styles.metadataModal}>
+                        <View style={[styles.metadataModal, {marginTop: width}]}>
                             <ScrollView>
                                 <HideableView
                                     key='Set'

@@ -29,12 +29,13 @@ export default class Dashboard extends Component{
                 this.setState({ workouts: response })
             });
         this.listener = this.props.navigation.addListener('focus', () => {
-            serverMethods.getUserWorkouts(this.state.username)
+            console.log('focus');
+            setTimeout(() => serverMethods.getUserWorkouts(this.state.username)
             .then(response => response.json())
             .then(response => {
                 console.log(response)
                 this.setState({ workouts: response })
-            });
+            }), 100);
         })
         // this.setState({ workouts: response });
     }
@@ -92,13 +93,13 @@ export default class Dashboard extends Component{
                 <ScrollView style={styles.workoutList} contentContainerStyle={{alignItems: 'center'}}>
                     <Text style={{fontSize: 15}}>{(this.state.workouts.length !== 0) ? "" : "Create a new workout to get started!"}</Text>
                     {workoutList}
-                    <Button
-                        buttonText='Create New Workout'
-                        onPress={() => this.props.navigation.navigate('WorkoutEditor', { username: this.state.username })}
-                        style={{marginTop: 20}}
-                        purple={true}
-                    />
                 </ScrollView>
+                <Button
+                    buttonText='Create New Workout'
+                    onPress={() => this.props.navigation.navigate('WorkoutEditor', { username: this.state.username })}
+                    //style={{marginTop: 20}}
+                    purple={true}
+                />
             </View>
         );
     }

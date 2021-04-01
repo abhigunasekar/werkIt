@@ -112,7 +112,7 @@ export function createWorkoutType(username, workoutType) {
     return fetch('http://' + address + ':8000/' + username + '/workoutType', {
         method: 'POST',
         headers: {
-            Accept: 'aaplication/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(workoutType)

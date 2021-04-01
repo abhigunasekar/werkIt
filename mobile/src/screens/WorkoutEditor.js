@@ -9,7 +9,7 @@ import ExerciseEditor from './ExerciseEditor';
 
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
-import { missingNameError, workoutTypeError } from '../components/Alerts';
+import { duplicateExerciseError, missingNameError, workoutTypeError } from '../components/Alerts';
 
 export default class WorkoutEditor extends Component {
     constructor(props) {
@@ -52,14 +52,20 @@ export default class WorkoutEditor extends Component {
     addExercise(exercise) {
         //console.log('add exercise');
         //console.log(exercise);
+        let duplicate = false;
         let newArray = this.state.exercises.map(exercise => exercise);
-        let key = this.state.numExercises;
-        newArray.push({ key: key++, name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps });
+        for (let i = 0; i < newArray.length; i++) {
+            if (newArray[i].name === exercise.name) {
+                duplicateExerciseError();
+                duplicate = true;
+            }
+        }
+        if (!duplicate) {
+            let key = this.state.numExercises;
+            newArray.push({ key: key++, name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps });
 
-        this.setState({ numExercises: key });
-        this.setState({ exercises: newArray });
-        this.setState({ modalVisible: false, editorVisible: false });
-        this.forceUpdate();
+            this.setState({ numExercises: key, exercises: newArray, modalVisible: false, editorVisible: false });
+        }
     }
 
     deleteExercise(exercise) {
@@ -237,14 +243,15 @@ export default class WorkoutEditor extends Component {
                     <View>
                         <View style={styles.workoutType}>
                             <TextBox
-                                placeholder='workout type here'
+                                placeholder='Workout type'
                                 onChangeText={(text) => this.setState({ newType: text })}
                                 value={this.state.newType}
                             />
-                            <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                            <View style={{flexDirection: 'row'}}>
                                 <Button
                                     buttonText='Cancel'
                                     onPress={() => this.setState({ newType: '', workoutTypeVisible: false })}
+                                    style={{marginRight: 30}}
                                     gray={true}
                                 />
                                 <Button
@@ -254,6 +261,7 @@ export default class WorkoutEditor extends Component {
                                             missingNameError();
                                         } else {
                                             serverMethods.createWorkoutType(this.props.route.params.username, { name: this.state.newType, exercises: [] });
+                                            // check workout type to make sure name doesn't already exist
                                             let array = this.state.savedTypes;
                                             array.unshift({ label: this.state.newType, value: this.state.newType });
                                             this.setState({ savedTypes: array, workoutTypeVisible: false });
