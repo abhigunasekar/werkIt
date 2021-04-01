@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js" integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Personalized CSS -->
@@ -16,6 +16,15 @@
     <meta name="color-scheme" content="dark light">
 
     <title>Werk It</title>
+    <script>
+        // function setAction(form) {
+        //     var username = document.getElementById("uname").value;
+        //     var url = "http://128.10.25.205:8000/user/" + username + "/darkmode?_method=PATCH";
+        //     //alert(url);
+        //     //form.method = "patch";
+        //     form.action = url;
+        // }
+    </script>
 </head>
 
 <body>
@@ -37,6 +46,7 @@
         </div>
     </nav>
     <div class="login-form ">
+        <!-- action="" onSubmit="return setAction(this)" id="" method="POST" -->
         <form>
             <div class="text-center" id="container">
                 <h2 class="text-center">Profile</h2>
@@ -107,7 +117,7 @@
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                    <button class="btn btn-login btn-lg btn-block" type="submit" id="">Save Preferences</button>
+                    <button class="btn btn-login btn-lg btn-block" id="submit-btn">Save Preferences</button>
                 </div>
             </div>
         </form>
@@ -122,7 +132,8 @@
     <script>
         async function doRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://127.0.0.1:8000/profile/' + user;
+            //alert(user);
+            let url = 'http://128.10.25.205:8000/profile/' + user;
             let res = await fetch(url);
 
             if (res.ok) {
@@ -132,6 +143,7 @@
                 return `HTTP error: ${res.status}`;
             }
         }
+
 
         doRequest().then(data => {
 
@@ -143,15 +155,53 @@
             var uname = document.getElementById("uname");
             uname.value = json.user;
             var dValue = json.dark_mode;
+            var dSwitch = document.getElementById("switch");
             if (dValue == true) {
                 document.documentElement.classList.toggle('dark-mode');
                 document.querySelectorAll('.inverted').forEach((result) => {
-                    result.classList.toggle('invert');
-                })
+                        result.classList.toggle('invert');
+                    })
+                    //alert(dValue.value);
+                dSwitch.checked = true;
+            } else {
+                dSwitch.checked = false;
             }
-            var dSwitch = document.getElementById("switch");
-            dSwitch.checked = dValue;
+
+            //dSwitch.checked = false;
             console.log(dSwitch.checked);
+        });
+
+        $("#submit-btn").click(function(event) {
+            event.preventDefault();
+            var uname = $("#uname").val();
+            var urlFinal = 'http://128.10.25.205:8000/user/' + uname + '/darkmode?_method=PATCH';
+            //alert(uname);
+            // localStorage.setItem("user", uname);
+            // var profiles = {
+            //     "f_name": fName,
+            //     "l_name": lName,
+            //     "email": email,
+            //     "username": uname,
+            //     "password": password
+            // };
+            $.ajax({
+                    url: urlFinal,
+                    type: 'PATCH',
+                    cache: false,
+                    data: {
+
+                    },
+                    success: function(data, textStatus) {
+                        //alert("successful");
+                        location.reload();
+
+                    },
+                    error: function(jqXHR, textStatus, err) {
+                        // alert('text status ' + textStatus + ', err ' + err)
+                        alert("error");
+                    }
+                })
+                // window.location = "../dashboard/dashboard.html";
         });
     </script>
 </body>
