@@ -14,7 +14,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "10.186.158.25";
+const ip = "127.0.0.1";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 
 app.set('views', __dirname + '/views');
@@ -109,7 +109,7 @@ app.get('/profile/:username', cors(), (req, res) => {
     })
 });
 
-// update one element of user profile info
+// TODO update one element of user profile info
 app.patch('/profile/:username/:field', (req, res) => {
 
 })
@@ -123,6 +123,15 @@ app.patch('/user/:username/darkmode', (req, res) => {
     res.status(200).end();
   });
 });
+
+// get any value in the user profile 
+app.get('/:username/profile/:field', (req, res) => {
+  console.log("Getting " + req.params.field + " field from user profile");
+  mc.get_profile_field(req.params.username, req.params.field).then(val => {
+    console.log("Successfully found value");
+    res.status(200).json({[req.params.field]: val})
+  })
+})
 
 // get known workout types
 app.get('/:username/workoutTypes', (req, res) => {
@@ -168,8 +177,6 @@ app.put('/:username/:workoutType/exercise', jsonParser, (req, res) => {
 // save a new workout
 app.post('/:username/workout', jsonParser, (req, res) => {
   console.log("saving new workout");
-  console.log(req.body);
-  console.log(req.params);
   mc.save_workout(req.params.username, req.body.name, req.body.type, req.body.exercises).then(_ => {
     res.status(200).end()
   });
@@ -191,13 +198,24 @@ app.get('/:username/:workout', (req, res) => {
   mc.get_workout_data(req.params.username, req.params.workout).then(wkout => {
     console.log("Found workout:" + wkout);
     res.status(200).json(wkout);
-  })
-})
+  });
+});
+
+// save a completed workout
+app.put('/:username/completed', (req, res) => {
+  console.log("Saving completed workout");
+  mc.save_completed_workout(req.params.username, req.body).then(_ => {
+    res.status(200).end();
+  });
+});
+
+// get json data for histogram
+//app.get('/:username/')
 
 // TODO update workout
-app.patch('/:username/:workout', (req, res) => {
+// app.patch('/:username/:workout', (req, res) => {
   
-})
+// })
 
 app.listen(port, ip, function() {
     console.log("Server listening on http://%s:%d", ip, port);
