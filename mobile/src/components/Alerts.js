@@ -83,3 +83,39 @@ export const workoutTypeError = () => {
         ]
     )
 }
+
+export const createExerciseError = () => {
+    Alert.alert(
+        '',
+        'Please select at least one field',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const duplicateExerciseError = () => {
+    Alert.alert(
+        '',
+        'The specified exercise already exists',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const missingNameError = () => {
+    Alert.alert(
+        '',
+        'Please specify a name',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
