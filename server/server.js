@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const methodOverride = require('method-override')
 const app = express();
-const jsonParser = bodyParser.json();
 const path = require('path');
 var http = require('http');
 var fs = require('fs');
@@ -169,7 +168,7 @@ app.get('/:username/:workoutType/exercises', (req, res) => {
 
 // add new exercise to a given workout type
 // TODO check if exercise name already exists
-app.put('/:username/:workoutType/exercise', jsonParser, (req, res) => {
+app.put('/:username/:workoutType/exercise', (req, res) => {
   console.log("Adding exercise to workoutType: %s", req.params.workoutType);
   mc.save_new_exerciseType(
     req.params.username, req.params.workoutType, req.body.name, req.body.data
@@ -180,7 +179,7 @@ app.put('/:username/:workoutType/exercise', jsonParser, (req, res) => {
 });
 
 // save a new workout
-app.post('/:username/workout', jsonParser, (req, res) => {
+app.post('/:username/workout', (req, res) => {
   console.log("saving new workout");
   mc.save_workout(req.params.username, req.body.name, req.body.type, req.body.exercises).then(_ => {
     res.status(200).end()

@@ -183,6 +183,22 @@ export default StyleSheet.create({
         shadowRadius: 4,
         elevation: 5  
     },
+    workoutType: {
+        margin: '10%',
+        marginTop: '70%',
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 20,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
     motivationalQuote: {
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
