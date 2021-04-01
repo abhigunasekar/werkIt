@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js" integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g==" crossorigin="anonymous"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <meta name="color-scheme" content="dark light">
@@ -138,7 +139,7 @@
             </div>
             <div>
                 <h2>Workout Streak Counter</h2>
-                <input id="streak" type="number" value="" disabled></input>
+                <input id="streak" type="number" value=""></input>
             </div>
         </div>
         <div></div>
@@ -171,7 +172,11 @@
         doRequest().then(data => {
             var json = JSON.parse(data);
             var streak = document.getElementById('streak');
-            streak.value = json.streak_counter;
+            if (json.streak_counter == null) {
+                streak.value = 0;
+            } else {
+                streak.value = json.streak_counter;
+            }
             var dValue = json.dark_mode;
             // console.log(dValue);
             if (dValue == true) {
@@ -200,14 +205,19 @@
             var date = new Date();
             var day = date.getDay();
             var hour = date.getHours();
-
+            var newVal;
             //actual.value = goal.max;
             // US18, A1: If Progress Bar Full, then streak should be increased by one
             if (actual.getAttribute("value") == actual.getAttribute("max")) {
-                streak.value = streak.value + 1;
-                streak.setAttribute("value", streak.value);
+                newVal = streak.getAttribute("value");
+                newVal = newVal + 1;
+                streak.setAttribute("value", newVal);
                 alert("Congratulations! You have met your weekly goal :)");
+            } else {
+                newVal = streak.value;
             }
+
+
 
             // US18, A2: If New Week, Reset Progress bar to 0
             if ((day == 1) && (hour == 0)) {
@@ -218,6 +228,35 @@
             if (streak.value == 0) {
                 alert("Please Workout More In The Future!!!");
             }
+
+            // Updating Streak Value For a User in Database
+            //event.preventDefault();
+            var uname = localStorage.getItem("user");
+            // /profile/:username/:field
+            var urlFinal = 'http://128.10.25.205:8000/profile/' + uname + '/streak_counter' + '?_method=PATCH';
+            var sCounter = newVal;
+            console.log(sCounter);
+            $.ajax({
+                url: urlFinal,
+                type: 'PATCH',
+                cache: false,
+                data: {
+                    streak_counter: sCounter
+                },
+                success: function(data, textStatus) {
+                    //alert("successful 3");
+
+                    //location.reload();
+
+                },
+                error: function(jqXHR, textStatus, err) {
+                    // alert('text status ' + textStatus + ', err ' + err)
+                    alert("error");
+                }
+            })
+
+
+
 
             //if (actualVal == goalVal) {
 
@@ -232,12 +271,13 @@
             //     streak.value = 0;
             //     //alert("Unfortunate! Please workout more in the upcoming weeks!");
             // }
-            if (avg == 0) {
-                //alert("Please workout more next week!");
-            }
-            if (avg > 3) {
-                //alert("Congratulations! You have surpassed your goals!");
-            }
+            // if (avg == 0) {
+            //     //alert("Please workout more next week!");
+            // }
+            // if (avg > 3) {
+            //     //alert("Congratulations! You have surpassed your goals!");
+            // }
+
         }
     </script>
 </body>

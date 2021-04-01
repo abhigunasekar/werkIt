@@ -27,7 +27,7 @@ app.use(cookieParser());
 
 
 app.use(express.json());
-//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
@@ -57,7 +57,7 @@ app.post('/create_account', urlencodedparser, cors(), (req, res) => {
 });
 
 // log in
-app.post('/login', urlencodedparser, cors(), (req, res) => {
+app.post('/login', (req, res) => {
     console.log("Request to log in");
     mc.check_login(req.body.username, req.body.password).then(exists => {
         if (exists) {
@@ -113,7 +113,7 @@ app.get('/profile/:username', cors(), (req, res) => {
 
 // update one element of user profile info
 // ONLY use with fields that are not object ids
-app.patch('/profile/:username/:field', jsonParser, (req, res) => {
+app.patch('/profile/:username/:field', (req, res) => {
     console.log("Updating " + req.params.field + "field for user " + req.params.username);
     mc.update_profile_field(req.params.username, req.params.field, req.body).then(_ => {
         res.status(200).end();
