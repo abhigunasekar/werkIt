@@ -271,7 +271,6 @@ CHANGING PLAN ACTIVE STATUS
 -----Request-----
 method: PATCH
 route: '/{username}/workout_plan/{plan name}'
-body: { "active": boolean }
 
 -----Response-----
 status: 200
@@ -285,6 +284,27 @@ route: '/{username}/workout_plans'
 -----Response---
 status: 200
 body: ["<workout plan name>"]
+
+
+GETTING CURRENT ACTIVE PLAN
+-----Request-----
+method: GET
+route: '/{username}/active_plan'
+
+-----Response---
+status: 200
+body:
+{
+    "_id": "6065f22658d685114afb5785",
+    "name": "<active plan name>",
+    "Monday": "<workout name>",
+    "Tuesday": "<workout name>",
+    "Wednesday": "<workout name>",
+    "Thursday": "<workout name>",
+    "Friday": "<workout name>",
+    "Saturday": "<workout name>",
+    "Sunday": "<workout name>"
+}
 
 
 ADDING COMPLETED WORKOUT
