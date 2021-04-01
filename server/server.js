@@ -117,7 +117,7 @@ app.patch('/profile/:username/:field', (req, res) => {
 app.patch('/user/:username/darkmode', (req, res) => {
   console.log("here");
   console.log("Updating dark mode for user: " + req.params.username);
-  mc.update_darkmode(req.params.username, req.body.dark_mode).then(user => {
+  mc.update_darkmode(req.params.username).then(user => {
     console.log("Successfully updated dark mode value to: " + user.dark_mode);
     res.status(200).end();
   });
@@ -196,6 +196,15 @@ app.get('/:username/:workout', (req, res) => {
 // TODO update workout
 app.patch('/:username/:workout', (req, res) => {
   
+})
+
+// create weekly plan
+app.post('/:username/plan', (req, res) => {
+  console.log("Saving weekly workout plan");
+  mc.save_workout_plan(req.params.username, req.body).then(_ => {
+    console.log("Successfully saved workout plan");
+    res.status(200).end();
+  })
 })
 
 app.listen(port, ip, function() {
