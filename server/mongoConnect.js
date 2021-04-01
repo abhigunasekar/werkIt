@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
 	email: String,
 	dark_mode: Boolean,
 	streak_counter: Number,
+	active_plan: {type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan'},
 	weekly_plan: [
 		{type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan'}
 	],
@@ -86,7 +87,6 @@ const WorkoutType = mongoose.model('WorkoutType', wkoutTypeSchema);
 
 const workoutPlanSchema = new mongoose.Schema({
 	name: String,
-	active: Boolean,
 	// The following strings should be the name of a workout
 	Monday: String,
 	Tuesday: String,
@@ -120,6 +120,7 @@ async function save_new_account_data(u_name, req_body) {
 		dark_mode: false,
 		workouts: [],
 		workoutTypes: [],
+		active_plan: null,
 		weekly_plan: [],
 		completed_workouts: [],
 		streak_counter: 0
@@ -393,25 +394,11 @@ async function get_exercises_for_type(username, wkoutType) {
 }
 
 async function get_active_plan(user) {
-	for (var p_id of user.weekly_plan) {
-		var plan = await WorkoutPlan.findById(p_id).exec();
-		if (plan.active) {
-			return plan;
-		}
-	}
+	return await WorkoutPlan.findById(user.active_plan).exec();
 }
 
 async function save_workout_plan(username, data) {
 	var user = await get_user_obj(username);
-
-	if (data.active && user.weekly_plan.length > 0) {
-		// deactivate previously active workout plan to set new one to active
-		var prev_active = await get_active_plan(user);
-		await WorkoutPlan.findByIdAndUpdate(
-			prev_active._id, {active: false}, {new: true}
-		).exec().catch();
-	}
-
 	var plan = new WorkoutPlan(data);
 	await plan.save();
 	var plan_list = user.weekly_plan;
@@ -526,11 +513,17 @@ async function get_workout_plan(username, plan_name) {
 	}
 }
 
-async function update_plan_status(username, plan_name, body) {
+async function update_active_plan(username, plan_name) {
+	var user = await get_user_obj(username);
 	var plan = await get_workout_plan(username, plan_name);
-	return await WorkoutPlan.findByIdAndUpdate(
-		plan._id, {"active": body.active}, {new: true}
-	).exec();
+	return await User.findByIdAndUpdate(
+		user._id, {active_plan: plan}, {new: true}
+	).exec()
+}
+
+async function get_active_plan_obj(username) {
+	var user = await get_user_obj(username);
+	return await WorkoutPlan.findById(user.active_plan).exec();
 }
 
 
@@ -546,6 +539,6 @@ module.exports = {
 	get_profile_field, get_weekly_goal, 
 	get_completed_workouts, update_profile_field,
 	save_completed_workout, get_histogram_data,
-	get_workout_plan, update_plan_status,
-	get_all_plan_names }
+	get_workout_plan, update_active_plan,
+	get_all_plan_names, get_active_plan_obj }
 
