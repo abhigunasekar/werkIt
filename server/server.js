@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 
 app.use(express.json());
-//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
@@ -110,7 +110,7 @@ app.get('/profile/:username', cors(), (req, res) => {
 
 // update one element of user profile info
 // ONLY use with fields that are not object ids
-app.patch('/profile/:username/:field', jsonParser, (req, res) => {
+app.patch('/profile/:username/:field', (req, res) => {
   console.log("Updating " + req.params.field + "field for user " + req.params.username);
   mc.update_profile_field(req.params.username, req.params.field, req.body).then(_ => {
     res.status(200).end();
@@ -145,15 +145,18 @@ app.get('/:username/workoutTypes', (req, res) => {
 });
 
 // set new workout type
-// bug fixed??
-// TODO check if workout type name exists
 app.post('/:username/workoutType', (req, res) => {
   console.log("Saving new workout type to database for user: %s", req.params.username);
   mc.save_new_workoutType(
     req.params.username, req.body.name, req.body.exercises
-  ).then(_ => {
-    console.log("Successfully saved new workoutType");
-    res.status(200).end();
+  ).then(saved => {
+    if (saved) {
+      console.log("Successfully saved new workoutType");
+      res.status(200).end();
+    } else {
+      console.log("User already contains workout type with given name");
+      res.status(400).end();
+    }
   })
 })
 
@@ -167,14 +170,18 @@ app.get('/:username/:workoutType/exercises', (req, res) => {
 })
 
 // add new exercise to a given workout type
-// TODO check if exercise name already exists
 app.put('/:username/:workoutType/exercise', (req, res) => {
   console.log("Adding exercise to workoutType: %s", req.params.workoutType);
   mc.save_new_exerciseType(
     req.params.username, req.params.workoutType, req.body.name, req.body.data
-  ).then(_ => {
-    console.log("Successfully added exercise to workoutType");
-    res.status(200).end();
+  ).then(saved => {
+    if (saved) {
+      console.log("Successfully added exercise to workoutType");
+      res.status(200).end();
+    } else {
+      console.log("Exercise within WorkoutType already exists with the name");
+      res.status(400).end();
+    }
   });
 });
 
@@ -197,7 +204,7 @@ app.get('/:username/workouts', (req, res) => {
 })
 
 // get one workout/exercises by name
-app.get('/:username/:workout', (req, res) => {
+app.get('/:username/workout/:workout', (req, res) => {
   console.log("Getting workout and repective exercises");
   mc.get_workout_data(req.params.username, req.params.workout).then(wkout => {
     console.log("Found workout:" + wkout);
@@ -206,15 +213,62 @@ app.get('/:username/:workout', (req, res) => {
 });
 
 // save a completed workout
-app.put('/:username/completed', (req, res) => {
+app.post('/:username/completed', (req, res) => {
   console.log("Saving completed workout");
   mc.save_completed_workout(req.params.username, req.body).then(_ => {
     res.status(200).end();
   });
 });
 
-// get json data for histogram
-//app.get('/:username/')
+// save a workout plan
+app.post('/:username/workout_plan', (req, res) => {
+  console.log("Saving workout plan");
+  mc.save_workout_plan(req.params.username, req.body).then(_ => {
+    res.status(200).end()
+  });
+});
+
+// get a workout plan
+app.get('/:username/workout_plan/:name', (req, res) => {
+  console.log("Getting workout plan with the name: " + req.params.name);
+  mc.get_workout_plan(req.params.username, req.params.name).then(plan => {
+    res.status(200).json(plan);
+  });
+});
+
+// change active status on workout plan
+app.patch('/:username/workout_plan/:name', (req, res) => {
+  console.log("Changing active status for plan: " + req.params.name);
+  mc.update_plan_status(req.params.username, req.params.name, req.body).then(_ => {
+    console.log("Successfully saved active status");
+    res.status(200).end();
+  })
+})
+
+// get progress bar data
+app.get('/:username/progress', (req, res) => {
+  console.log("Getting user progress");
+  mc.get_weekly_goal(req.params.username).then(goal => {
+    console.log("Found goal: " + goal);
+    mc.get_completed_workouts(req.params.username).then(progress => {
+      console.log("Found progress: " + progress);
+      res.status(200).json({
+        expected: goal,
+        actual: progress
+      })
+    });
+  });
+});
+
+
+// get data for histogram
+app.get('/:username/histogram', (req, res) => {
+  console.log("Getting data for histogram");
+  mc.get_histogram_data(req.params.username).then(data => {
+    console.log("data found: " + data);
+    res.status(200).json(data);
+  })
+})
 
 // TODO update workout
 // app.patch('/:username/:workout', (req, res) => {

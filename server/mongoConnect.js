@@ -18,7 +18,9 @@ const userSchema = new mongoose.Schema({
 	email: String,
 	dark_mode: Boolean,
 	streak_counter: Number,
-	weekly_plan: {type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan'},
+	weekly_plan: [
+		{type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan'}
+	],
 	workouts: [
 		{type: mongoose.Schema.Types.ObjectId, ref: 'Workout'}
 	],
@@ -84,14 +86,15 @@ const WorkoutType = mongoose.model('WorkoutType', wkoutTypeSchema);
 
 const workoutPlanSchema = new mongoose.Schema({
 	name: String,
-	// The following strings should be the name of a workoutType
-	monday: String,
-	tuesday: String,
-	wednesday: String,
-	thursday: String,
-	friday: String,
-	saturday: String,
-	sunday: String
+	active: Boolean,
+	// The following strings should be the name of a workout
+	Monday: String,
+	Tuesday: String,
+	Wednesday: String,
+	Thursday: String,
+	Friday: String,
+	Saturday: String,
+	Sunday: String
 }, { versionKey: false});
 
 const WorkoutPlan = mongoose.model('WorkoutPlan', workoutPlanSchema);
@@ -117,7 +120,7 @@ async function save_new_account_data(u_name, req_body) {
 		dark_mode: false,
 		workouts: [],
 		workoutTypes: [],
-		weekly_plan: null,
+		weekly_plan: [],
 		completed_workouts: [],
 		streak_counter: 0
 	});
@@ -271,6 +274,14 @@ async function save_new_exercise(username, w_name, e_name, data) {
 }
 
 async function save_new_exerciseType(username, w_name, e_name, data) {
+
+	var wkout = await get_wkoutType_by_name(username, w_name);
+	for (var e_id of wkout.exercises) {
+		var ex = await KnownExercise.findById(e_id);
+		if (ex.name.localeCompare(e_name) == 0) {
+			return false;
+		}
+	}
 	
 	const exercise = new KnownExercise({
 		name: e_name,
@@ -281,15 +292,22 @@ async function save_new_exerciseType(username, w_name, e_name, data) {
 		if (err) return console.error(err);
 	});
 
-	// gets the workout type and adds exercise to the list
-	var wkout = await get_wkoutType_by_name(username, w_name);
+	// adds exercise to workoutType exercise list
 	var exercises = wkout.exercises;
 	exercises.push(exercise);
 	await WorkoutType.findByIdAndUpdate(wkout._id, {exercises: exercises}, {new: true}).exec();
-
+	return true;
 }
 
 async function save_new_workoutType(username, wt_name, exercises) {
+	
+	var user = await get_user_obj(username);
+	for (var wtype_id of user.workoutTypes) {
+		var wtype = await WorkoutType.findById(wtype_id);
+		if (wtype.name.localeCompare(wt_name) == 0) {
+			return false;
+		}
+	}
 	
 	const workoutType = new WorkoutType({
 		name: wt_name,
@@ -303,7 +321,6 @@ async function save_new_workoutType(username, wt_name, exercises) {
 	// gets the user and add workout type to the list
 	var query = {user: username};
 
-	var user = await get_user_obj(username);
 	new_workouts = user.workoutTypes;
 	new_workouts.push(workoutType);
 	await User.findOneAndUpdate(
@@ -314,7 +331,7 @@ async function save_new_workoutType(username, wt_name, exercises) {
 	for (var e of exercises) {
 		await save_new_exerciseType(username, wt_name, e.name, e.data);
 	}
-
+	return true;
 }
 
 async function save_workout(username, w_name, w_type, exercises) {
@@ -375,12 +392,33 @@ async function get_exercises_for_type(username, wkoutType) {
 	return ex_list;
 }
 
+async function get_active_plan(user) {
+	for (var p_id of user.weekly_plan) {
+		var plan = await WorkoutPlan.findById(p_id).exec();
+		if (plan.active) {
+			return plan;
+		}
+	}
+}
+
 async function save_workout_plan(username, data) {
+	console.log("data:"+data);
 	var user = await get_user_obj(username);
+
+	if (data.active && user.weekly_plan.length > 0) {
+		// deactivate previously active workout plan to set new one to active
+		var prev_active = await get_active_plan(user);
+		await WorkoutPlan.findByIdAndUpdate(
+			prev_active._id, {active: false}, {new: true}
+		).exec().catch();
+	}
+
 	var plan = new WorkoutPlan(data);
 	await plan.save();
+	var plan_list = user.weekly_plan;
+	plan_list.push(plan);
 	await User.findByIdAndUpdate(
-		user._id, {weekly_plan: plan}, {new: true}).exec();
+		user._id, {weekly_plan: plan_list}, {new: true}).exec();
 }
 
 async function save_completed_workout(username, data) {
@@ -401,6 +439,93 @@ async function get_profile_field(username, field) {
 	return user[field];
 }
 
+async function get_weekly_goal(username) {
+	var user = await get_user_obj(username);
+	var goal = 0;
+	console.log("user found:" + user);
+	var plan = await get_active_plan(user);
+	if (plan.Monday.localeCompare("") != 0) {
+		goal++;
+	}
+	if (plan.Tuesday.localeCompare("") != 0) {
+		goal++;
+	}
+	if (plan.Wednesday.localeCompare("") != 0) {
+		goal++;
+	}
+	if (plan.Thursday.localeCompare("") != 0) {
+		goal++;
+	}
+	if (plan.Friday.localeCompare("") != 0) {
+		goal++;
+	}
+	if (plan.Saturday.localeCompare("") != 0) {
+		goal++;
+	}
+	if (plan.Sunday.localeCompare("") != 0) {
+		goal++;
+	}
+	return goal;	// subtract count for name and active
+}
+
+async function get_completed_workouts(username) {
+	var user = await get_user_obj(username);
+	var plan = await get_active_plan(user);
+	var progress = 0;
+	for (var c_id of user.completed_workouts) {
+		// TODO check if within current week
+		var completed = await CompletedWorkout.findById(c_id).exec();
+		if (completed.workout_name.localeCompare(plan.Monday) == 0 ||
+			completed.workout_name.localeCompare(plan.Tuesday) == 0 ||
+			completed.workout_name.localeCompare(plan.Wednesday) == 0 ||
+			completed.workout_name.localeCompare(plan.Thursday) == 0 ||
+			completed.workout_name.localeCompare(plan.Friday) == 0 ||
+			completed.workout_name.localeCompare(plan.Saturday) == 0 ||
+			completed.workout_name.localeCompare(plan.Sunday) == 0) {
+			progress++;
+		}
+	}
+	return progress;
+}
+
+async function get_histogram_data(username) {
+	var user = await get_user_obj(username);
+	var day_arr = ["Monday", "Tuesday", "Wednesday", "Thursday",
+				   "Friday", "Saturday", "Sunday"]
+
+	var hist_obj = new Array;
+	hist_obj.push(["Day", "Workout Time"]);
+	for (var day of day_arr) {
+		var time = 0;
+		for (var id of user.completed_workouts) {
+			var completed = await CompletedWorkout.findById(id).exec();
+			if (completed.day.localeCompare(day) == 0) {
+				time += completed.time;
+			}
+		}
+		hist_obj.push([day, time]);
+	}
+	return hist_obj;
+}
+
+async function get_workout_plan(username, plan_name) {
+	var user = await get_user_obj(username);
+	for (var p_id of user.weekly_plan) {
+		var plan = await WorkoutPlan.findById(p_id).exec();
+		if (plan.name.localeCompare(plan_name) == 0) {
+			return plan;
+		}
+	}
+}
+
+async function update_plan_status(username, plan_name, body) {
+	var plan = await get_workout_plan(username, plan_name);
+	return await WorkoutPlan.findByIdAndUpdate(
+		plan._id, {"active": body.active}, {new: true}
+	).exec();
+}
+
+
 module.exports = { 
 	save_new_account_data, check_login, 
 	check_user_existence, change_password,
@@ -410,4 +535,8 @@ module.exports = {
 	get_exercises_for_type, get_workouts,
 	get_workout_obj, get_workout_data,
 	update_darkmode, save_workout_plan,
-	get_profile_field, update_profile_field }
+	get_profile_field, get_weekly_goal, 
+	get_completed_workouts, update_profile_field,
+	save_completed_workout, get_histogram_data,
+	get_workout_plan, update_plan_status }
+
