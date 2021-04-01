@@ -38,7 +38,7 @@
     <script>
         async function dRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://128.10.25.205:8000/' + user + '/workoutTypes';
+            let url = 'http://128.10.25.205:8000/' + user + '/progress';
             let res = await fetch(url);
 
             if (res.ok) {
@@ -51,7 +51,7 @@
 
         dRequest().then(data => {
             var json = JSON.parse(data);
-            console.log(data);
+            console.log(json);
             // var streak = document.getElementById('streak');
             // streak.value = json.streak_counter;
             // var dValue = json.dark_mode;
