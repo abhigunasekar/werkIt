@@ -52,21 +52,21 @@
         dRequest().then(data => {
             var json = JSON.parse(data);
             var actual = json.actual;
+            var date = new Date();
+            var day = date.getDay();
+            var hour = date.getHours();
             var expected = json.expected;
             var progressBar = document.getElementById('progress');
-            progressBar.setAttribute("value", actual);
-            progressBar.setAttribute("max", expected);
 
-            // var streak = document.getElementById('streak');
-            // streak.value = json.streak_counter;
-            // var dValue = json.dark_mode;
-            // // console.log(dValue);
-            // if (dValue == true) {
-            //     document.documentElement.classList.toggle('dark-mode');
-            //     document.querySelectorAll('.inverted').forEach((result) => {
-            //         result.classList.toggle('invert');
-            //     })
-            // }
+            progressBar.value = actual;
+            progressBar.max = expected;
+            if (actual == 3) {
+                alert("Nice Job! You Completed On Average 3 Workouts This Week");
+            }
+
+            if ((day == 1) && (hour == 0)) {
+                alert("Please Workout More In The Future!!!");
+            }
         });
 
         var chartData;
@@ -85,18 +85,19 @@
         }
 
         chartRequest().then(data => {
-            var json = JSON.parse(data);
-            chartData = json;
-            console.log(chartData);
+            //console.log(data);
+            chartData = JSON.parse(data);
+            //console.log(chartData);
+            google.charts.load('current', {
+                packages: ['corechart', 'bar']
+            });
+            google.charts.setOnLoadCallback(drawBasic);
 
 
         });
 
 
-        google.charts.load('current', {
-            packages: ['corechart', 'bar']
-        });
-        google.charts.setOnLoadCallback(drawBasic);
+
 
         function drawBasic() {
 
@@ -112,13 +113,27 @@
             // ]);
 
             // Testing 1
-            var result = [];
-            var keys = Object.keys(chartData);
-            keys.forEach(function(key) {
-                result.push(chartData[key]);
-            });
+            //var result = [];
+            console.log(chartData);
+            console.log(chartData.Monday);
 
-            var data = google.visualization.arrayToDataTable(result);
+            const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
+            console.log(arr);
+            // var keys = Object.keys(chartData);
+            // keys.forEach(function(key) {
+            //     console.log(chartData[key]);
+            //     result.push([key, chartData[key]]);
+            // });
+
+            // for (var i in chartData) {
+            //     console.log(chartData[i]);
+            //     result.push([i, chartData[i]]);
+            // }
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Day');
+            data.addColumn('number', 'Duration');
+            data.addRows(arr);
 
             //------CONVERSION
             // var result = [];
@@ -285,12 +300,17 @@
             var day = date.getDay();
             var hour = date.getHours();
             var newVal;
+
+            if (actual.getAttribute("value") >= 3) {
+                //alert("Nice Job! You Completed On Average 3 Workouts This Week");
+            }
             //actual.value = goal.max;
             // US18, A1: If Progress Bar Full, then streak should be increased by one
             if (actual.getAttribute("value") == actual.getAttribute("max")) {
                 newVal = streak.getAttribute("value");
                 newVal = newVal + 1;
                 streak.setAttribute("value", newVal);
+
                 alert("Congratulations! You have met your weekly goal :)");
             } else {
                 newVal = streak.value;
