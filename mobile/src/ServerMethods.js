@@ -136,3 +136,15 @@ export function createWorkoutPlan(username, workoutPlan) {
         body: JSON.stringify(workoutPlan)
     })
 }
+
+export function updateWorkoutPlanActiveStatus(username, workoutPlan, bool) {
+    console.log('changing active status of workout: ' + workoutPlan);
+    return fetch('http://' + address + ':8000/' + username + '/workout_plan/' + workoutPlan, {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bool)
+    })
+}

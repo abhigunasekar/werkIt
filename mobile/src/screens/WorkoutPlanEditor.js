@@ -36,7 +36,7 @@ export default class WorkoutPlanEditor extends Component {
             let array = this.state.savedWorkouts;
             response.map((workout) => array.unshift({label: workout, value: workout}))
             array.push({label: 'None', value: ''})
-            this.setState({ savedWorkouts: response })
+            this.setState({ savedWorkouts: array })
         });
     }
 
