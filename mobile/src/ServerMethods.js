@@ -1,4 +1,4 @@
-const address = '10.186.158.25';
+const address = '10.192.17.255';
 
 export async function createAccount(info) {
     console.log('create account');
@@ -122,7 +122,7 @@ export function createWorkoutType(username, workoutType) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(workoutType)
-    })
+    });
 }
 
 export function createWorkoutPlan(username, workoutPlan) {
@@ -134,17 +134,21 @@ export function createWorkoutPlan(username, workoutPlan) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(workoutPlan)
-    })
+    });
 }
 
-export function updateWorkoutPlanActiveStatus(username, workoutPlan, bool) {
+export function getActiveWorkoutPlan(username) {
+    console.log('getting active workout plan for: ' + username);
+    return fetch('http://' + address + ':8000/' + username + '/active_plan');
+}
+
+export function updateActiveWorkoutPlan(username, workoutPlan) {
     console.log('changing active status of workout: ' + workoutPlan);
     return fetch('http://' + address + ':8000/' + username + '/workout_plan/' + workoutPlan, {
         method: 'PATCH',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(bool)
-    })
+        }
+    });
 }

@@ -3,7 +3,10 @@ import { View, Text } from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 
+import Stopwatch from '../components/Stopwatch';
+
 import * as serverMethods from '../ServerMethods';
+import styles from '../styles';
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -13,18 +16,32 @@ export default class Dashboard extends Component {
             username: this.props.username,
             savedWorkoutPlans: [],
             activeWorkoutPlan: '',
+            hr: 0,
+            min: 0,
+            sec: 0,
         }
+
+        this.logTime = this.logTime.bind(this);
+    }
+
+    logTime(hr, min, sec) {
+        this.setState({ hr: parseInt(hr), min: parseInt(min), sec: parseInt(sec)});
     }
 
     componentDidMount() {
         //server call to get current active workout?
+
         serverMethods.getUserWorkoutPlans(this.state.username)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
                 let array = this.state.savedWorkoutPlans;
                 response.map((workoutPlan) => array.push({ label: workoutPlan, value: workoutPlan }))
                 this.setState({ savedWorkoutPlans: array })
+            });
+        serverMethods.getActiveWorkoutPlan(this.state.username)
+            .then(response => response.json())
+            .then(response => {
+                this.setState({ activeWorkoutPlan: response });
             });
     }
 
@@ -37,11 +54,13 @@ export default class Dashboard extends Component {
         today = mm + '-' + dd + '-' + yyyy;
 
         return (
-            <View>
+            <View style={styles.dashboardContainer}>
+                <Text style={{fontSize: 20, margin: 25}}>Welcome {this.state.username}!</Text>
+                <Text style={{marginBottom: 10}}>Your selected workout plan is: </Text>
                 <DropDownPicker
                     items={this.state.savedWorkoutPlans}
                     defaultValue={''}
-                    placeholder='Select an active workout plan'
+                    placeholder={(this.state.activeWorkoutPlan !== '') ? this.state.activeWorkoutPlan.name : 'Select an active workout plan'}
                     containerStyle={{height: 40, width: '50%'}}
                     style={{backgroundColor: '#fafafa'}}
                     itemStyle={{
@@ -49,15 +68,14 @@ export default class Dashboard extends Component {
                     }}
                     dropDownStyle={{backgroundColor: '#fafafa'}}
                     onChangeItem={(item) => {
-                        if (this.state.activeWorkoutPlan !== '') {
-                            serverMethods.updateWorkoutPlanActiveStatus(this.state.username, this.state.activeWorkoutPlan, { active: false });
-                        }
-                        serverMethods.updateWorkoutPlanActiveStatus(this.state.username, item.value, { active: true }); 
+                        serverMethods.updateActiveWorkoutPlan(this.state.username, item.value); 
                         this.setState({ activeWorkoutPlan: item.value });
                     }}
                 />
                 <Text>{today}</Text>
                 <Text>Today is: {day}</Text>
+                <Text>Elapsed time: {this.state.hr} hrs   {this.state.min} min   {this.state.sec} sec</Text>
+                <Stopwatch finish={this.logTime}/>
             </View>
         );
     }
