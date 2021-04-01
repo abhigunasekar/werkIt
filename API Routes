@@ -277,6 +277,16 @@ body: { "active": boolean }
 status: 200
 
 
+GETTING LIST OF NAMES OF ALL WORKOUT PLANS 
+-----Request-----
+method: PATCH
+route: '/{username}/workout_plans'
+
+-----Response---
+status: 200
+body: ["<workout plan name>"]
+
+
 ADDING COMPLETED WORKOUT
 -----Request-----
 method: PUT
