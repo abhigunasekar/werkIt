@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const methodOverride = require('method-override')
 const app = express();
+const jsonParser = bodyParser.json();
 const path = require('path');
 var http = require('http');
 var fs = require('fs');
@@ -110,7 +111,7 @@ app.get('/profile/:username', cors(), (req, res) => {
     })
 });
 
-// update one element of user profile info
+// TODO update one element of user profile info
 app.patch('/profile/:username/:field', (req, res) => {
 
 })
@@ -124,6 +125,16 @@ app.patch('/user/:username/darkmode', urlencodedparser, cors(), (req, res) => {
         res.status(200).end();
     });
 });
+
+// get any value in the user profile 
+app.get('/:username/profile/:field', (req, res) => {
+    console.log("Getting " + req.params.field + " field from user profile");
+    mc.get_profile_field(req.params.username, req.params.field).then(val => {
+        console.log("Successfully found value");
+        res.status(200).json({
+            [req.params.field]: val })
+    })
+})
 
 // get known workout types
 app.get('/:username/workoutTypes', (req, res) => {
@@ -156,7 +167,7 @@ app.get('/:username/:workoutType/exercises', (req, res) => {
 })
 
 // add new exercise to a given workout type
-app.put('/:username/:workoutType/exercise', (req, res) => {
+app.put('/:username/:workoutType/exercise', jsonParser, (req, res) => {
     console.log("Adding exercise to workoutType: %s", req.params.workoutType);
     mc.save_new_exerciseType(
         req.params.username, req.params.workoutType, req.body.name, req.body.data
@@ -167,10 +178,8 @@ app.put('/:username/:workoutType/exercise', (req, res) => {
 });
 
 // save a new workout
-app.post('/:username/workout', (req, res) => {
+app.post('/:username/workout', jsonParser, (req, res) => {
     console.log("saving new workout");
-    console.log(req.body);
-    console.log(req.params);
     mc.save_workout(req.params.username, req.body.name, req.body.type, req.body.exercises).then(_ => {
         res.status(200).end()
     });
@@ -192,22 +201,24 @@ app.get('/:username/:workout', (req, res) => {
     mc.get_workout_data(req.params.username, req.params.workout).then(wkout => {
         console.log("Found workout:" + wkout);
         res.status(200).json(wkout);
-    })
-})
+    });
+});
+
+// save a completed workout
+app.put('/:username/completed', (req, res) => {
+    console.log("Saving completed workout");
+    mc.save_completed_workout(req.params.username, req.body).then(_ => {
+        res.status(200).end();
+    });
+});
+
+// get json data for histogram
+//app.get('/:username/')
 
 // TODO update workout
-app.patch('/:username/:workout', (req, res) => {
+// app.patch('/:username/:workout', (req, res) => {
 
-})
-
-// create weekly plan
-app.post('/:username/plan', (req, res) => {
-    console.log("Saving weekly workout plan");
-    mc.save_workout_plan(req.params.username, req.body).then(_ => {
-        console.log("Successfully saved workout plan");
-        res.status(200).end();
-    })
-})
+// })
 
 app.listen(port, ip, function() {
     console.log("Server listening on http://%s:%d", ip, port);

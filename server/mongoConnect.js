@@ -18,13 +18,16 @@ const userSchema = new mongoose.Schema({
 	email: String,
 	dark_mode: Boolean,
 	workout_time_per_week: Number,
-	weekly_streak_counter: Number,
+	streak_counter: Number,
 	weekly_plan: {type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan'},
 	workouts: [
 		{type: mongoose.Schema.Types.ObjectId, ref: 'Workout'}
 	],
 	workoutTypes: [
 		{type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutType'}
+	],
+	completed_workouts: [
+		{type: mongoose.Schema.Types.ObjectId, ref: "CompletedWorkout"}
 	]
 }, { versionKey: false});
 
@@ -90,9 +93,18 @@ const workoutPlanSchema = new mongoose.Schema({
 	friday: String,
 	saturday: String,
 	sunday: String
-}, { versionKey: false})
+}, { versionKey: false});
 
 const WorkoutPlan = mongoose.model('WorkoutPlan', workoutPlanSchema);
+
+const completedWorkoutSchema = new mongoose.Schema({
+	workout_name: String,
+	day: String,
+	date: Date,
+	time: Number
+}, { versionKey: false});
+
+const CompletedWorkout = mongoose.model("CompletedWorkout", completedWorkoutSchema)
 
 // Functions called by server
 
@@ -106,7 +118,9 @@ async function save_new_account_data(u_name, req_body) {
 		dark_mode: false,
 		workouts: [],
 		workoutTypes: [],
-		weekly_plan: null
+		weekly_plan: null,
+		completed_workouts: [],
+		streak_counter: 0
 	});
 
 	user.save().then(_ => {
@@ -363,6 +377,24 @@ async function save_workout_plan(username, data) {
 		user._id, {weekly_plan: plan}, {new: true}).exec();
 }
 
+async function save_completed_workout(username, data) {
+	var user = await get_user_obj(username);
+	var completed = new CompletedWorkout(data);
+	await completed.save();
+
+	var completed_wkouts = user.completed_workouts;
+	completed_wkouts.push(completed);
+	await User.findByIdAndUpdate(
+		user._id, {completed_workouts: completed_wkouts}, {new: true}
+	).exec();
+
+}
+
+async function get_profile_field(username, field) {
+	var user = await get_user_obj(username);
+	return user[field];
+}
+
 module.exports = { 
 	save_new_account_data, check_login, 
 	check_user_existence, change_password,
@@ -371,4 +403,5 @@ module.exports = {
 	get_workout_types, save_new_exerciseType,
 	get_exercises_for_type, get_workouts,
 	get_workout_obj, get_workout_data,
-	update_darkmode, save_workout_plan }
+	update_darkmode, save_workout_plan,
+	get_profile_field }

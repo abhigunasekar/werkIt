@@ -27,7 +27,11 @@
 
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
+    <style>
+        progress::-webkit-progress-value {
+            background: purple;
+        }
+    </style>
     <title>Werk It</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
@@ -98,13 +102,14 @@
         <div class="inner-container col-lg-4">
             <div>
                 <h2>Weekly Goal</h2>
-                <div class="progress">
-                    <div class="progress-bar w-75" role="progressbar" id="progress" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                <!-- <div class=""></div> -->
+                <!-- <div class="progress-bar w-75" role="progressbar" id="progress" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div> -->
+                <progress value="35" max="100" id="progress"> </progress>
+                <!-- </div> -->
             </div>
             <div>
                 <h2>Workout Streak Counter</h2>
-                <input id="streak" type="number" value="0" disabled></input>
+                <input id="streak" type="number" value="" disabled></input>
             </div>
         </div>
         <div></div>
@@ -150,7 +155,6 @@
         let count = 0;
         let goal = document.getElementById('progress');
         let actual = document.getElementById('progress');
-        let width = document.getElementById('progress');
         let streak = document.getElementById('streak');
         let avg = 0;
 
@@ -160,25 +164,42 @@
         // });
 
         window.onload = function() {
+            var actualVal = actual.getAttribute("value");
+            var goalVal = actual.getAttribute("max");
+            var date = new Date();
+            var day = date.getDay();
+            var hour = date.getHours();
 
-            var actualVal = actual.getAttribute("aria-valuenow");
-            var goalVal = actual.getAttribute("aria-valuemax");
-            // width.setAttribute("class", "progress-bar w-" + actualVal);
-            console.log(actualVal);
-            console.log(goalVal);
+
+            // US18, A1: If Progress Bar Full, then streak should be increased by one
             if (actualVal == goalVal) {
-
-                streak.value = ++count;
-                //alert('Congratulations! You have successfully completed your weekly goal.');
-                actual.setAttribute("aria-valuenow", "0");
-                goal.setAttribute("aria-valuemax", "100");
-
-                width.setAttribute("class", "progress-bar w-0");
+                streak.value = streak.value + 1;
+                streak.setAttribute("value", streak.value);
             }
-            if (actualVal == 0) {
-                streak.value = 0;
-                //alert("Unfortunate! Please workout more in the upcoming weeks!");
+
+            // US18, A2: If New Week, Reset Progress bar to 0
+            if ((day == 1) && (hour == 0)) {
+                actual.setAttribute("value", 0);
             }
+
+            // US18, A3: If Workout Streak Counter is 0, alert user
+            if (streak.value == 0) {
+                alert("Please Workout More In The Future!!!");
+            }
+
+            //if (actualVal == goalVal) {
+
+            //                streak.value = ++count;
+            //alert('Congratulations! You have successfully completed your weekly goal.');
+            //actual.setAttribute("aria-valuenow", "0");
+            //goal.setAttribute("aria-valuemax", "100");
+
+            //width.setAttribute("class", "progress-bar w-0");
+            //          }
+            // if (actualVal == 0) {
+            //     streak.value = 0;
+            //     //alert("Unfortunate! Please workout more in the upcoming weeks!");
+            // }
             if (avg == 0) {
                 //alert("Please workout more next week!");
             }

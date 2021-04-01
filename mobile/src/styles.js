@@ -91,7 +91,7 @@ export default StyleSheet.create({
         width: '80%',
         borderColor: '#6B6767',
         borderTopWidth: 3,
-        marginTop: 7,
+        marginTop: 10,
         padding: 15
     },
     button: {
@@ -164,6 +164,24 @@ export default StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5
+    },
+    metadataModal: {
+        margin: '10%',
+        marginTop: '35%',
+        backgroundColor: "white",
+        borderRadius: 20,
+        paddingTop: 30,
+        paddingBottom: 20,
+        paddingLeft: 30,
+        paddingRight: 30,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5  
     },
     motivationalQuote: {
         backgroundColor: '#FFFFFF',

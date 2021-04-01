@@ -177,7 +177,7 @@
             //     "password": password
             // };
             $.ajax({
-                    url: 'http://127.0.0.1:8000/create_account',
+                    url: 'http://128.10.25.205:8000/create_account',
                     type: 'POST',
                     cache: false,
                     data: {
@@ -191,7 +191,7 @@
                         window.location.href = 'file:///u/riker/u94/agunase/cs307/WerkIt/web-client/dashboard/dashboard.html';
                     },
                     error: function(jqXHR, textStatus, err) {
-                        alert("please enter correct credentials and try again");
+                        alert("error");
                     }
                 })
                 // window.location = "../dashboard/dashboard.html";
