@@ -119,7 +119,8 @@ async function save_new_account_data(u_name, req_body) {
 		workouts: [],
 		workoutTypes: [],
 		weekly_plan: null,
-		completed_workouts: []
+		completed_workouts: [],
+		streak_counter: 0
 	});
 
 	user.save().then(_ => {
