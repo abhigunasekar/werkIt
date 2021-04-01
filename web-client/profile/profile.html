@@ -132,6 +132,7 @@
     <script>
         async function doRequest() {
             let user = localStorage.getItem("user");
+            //alert(user);
             let url = 'http://128.10.25.205:8000/profile/' + user;
             let res = await fetch(url);
 

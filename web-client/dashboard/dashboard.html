@@ -35,6 +35,35 @@
     <title>Werk It</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
+        async function dRequest() {
+            let user = localStorage.getItem("user");
+            let url = 'http://128.10.25.205:8000/' + user + '/workoutTypes';
+            let res = await fetch(url);
+
+            if (res.ok) {
+                let text = await res.text();
+                return text;
+            } else {
+                return `HTTP error: ${res.status}`;
+            }
+        }
+
+        dRequest().then(data => {
+            var json = JSON.parse(data);
+            console.log(data);
+            // var streak = document.getElementById('streak');
+            // streak.value = json.streak_counter;
+            // var dValue = json.dark_mode;
+            // // console.log(dValue);
+            // if (dValue == true) {
+            //     document.documentElement.classList.toggle('dark-mode');
+            //     document.querySelectorAll('.inverted').forEach((result) => {
+            //         result.classList.toggle('invert');
+            //     })
+            // }
+        });
+
+
         google.charts.load('current', {
             packages: ['corechart', 'bar']
         });
@@ -141,6 +170,8 @@
 
         doRequest().then(data => {
             var json = JSON.parse(data);
+            var streak = document.getElementById('streak');
+            streak.value = json.streak_counter;
             var dValue = json.dark_mode;
             // console.log(dValue);
             if (dValue == true) {
@@ -170,11 +201,12 @@
             var day = date.getDay();
             var hour = date.getHours();
 
-
+            //actual.value = goal.max;
             // US18, A1: If Progress Bar Full, then streak should be increased by one
-            if (actualVal == goalVal) {
+            if (actual.getAttribute("value") == actual.getAttribute("max")) {
                 streak.value = streak.value + 1;
                 streak.setAttribute("value", streak.value);
+                alert("Congratulations! You have met your weekly goal :)");
             }
 
             // US18, A2: If New Week, Reset Progress bar to 0
