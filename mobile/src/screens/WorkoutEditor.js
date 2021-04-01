@@ -335,7 +335,7 @@ export default class WorkoutEditor extends Component {
                 <View style={{flexDirection: 'row'}}>
                     <Button
                         buttonText='Cancel'
-                        onPress={() => this.props.navigation.navigate('Dashboard')}
+                        onPress={() => this.props.navigation.navigate('Workouts')}
                         style={{marginRight: 40}}
                         orange={true}
                     />
@@ -355,7 +355,7 @@ export default class WorkoutEditor extends Component {
                                 missingNameError();
                             } else {
                                 serverMethods.createWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
-                                this.props.navigation.navigate('Dashboard');
+                                this.props.navigation.navigate('Workouts');
                             }
                         }}
                         orange={true}

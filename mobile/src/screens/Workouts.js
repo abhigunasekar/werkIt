@@ -7,7 +7,7 @@ import * as serverMethods from '../ServerMethods';
 
 import styles from '../styles';
 
-export default class Dashboard extends Component{
+export default class Workouts extends Component{
     constructor(props) {
         super(props);
 
@@ -86,10 +86,10 @@ export default class Dashboard extends Component{
             );
         }
         return(
-            <View style={styles.dashboardContainer}>
-                <View style={{borderColor: "#000000", borderBottomWidth: 2, marginTop: 10, width: '75%', alignItems: 'center'}}>
+            <View style={styles.workoutsContainer}>
+                {/* <View style={{borderColor: "#000000", borderBottomWidth: 2, marginTop: 10, width: '75%', alignItems: 'center'}}>
                     <Text style={{fontSize: 30}}>Workouts</Text>
-                </View>
+                </View> */}
                 <ScrollView style={styles.workoutList} contentContainerStyle={{alignItems: 'center'}}>
                     <Text style={{fontSize: 15}}>{(this.state.workouts.length !== 0) ? "" : "Create a new workout to get started!"}</Text>
                     {workoutList}
@@ -97,7 +97,7 @@ export default class Dashboard extends Component{
                 <Button
                     buttonText='Create New Workout'
                     onPress={() => this.props.navigation.navigate('WorkoutEditor', { username: this.state.username })}
-                    //style={{marginTop: 20}}
+                    style={{marginTop: 20}}
                     purple={true}
                 />
             </View>

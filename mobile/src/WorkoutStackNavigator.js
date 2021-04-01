@@ -4,7 +4,7 @@ import { Pressable } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { FontAwesome } from '@expo/vector-icons';
 
-import Dashboard from './screens/Dashboard';
+import Workouts from './screens/Workouts';
 import WorkoutEditor from './screens/WorkoutEditor';
 
 const Stack = createStackNavigator();
@@ -18,7 +18,7 @@ export default class StackNavigator extends Component {
         return(
             <Stack.Navigator>
                 <Stack.Screen 
-                    name='Dashboard'
+                    name='Workouts'
                     options={{
                         headerStyle: {
                             backgroundColor: '#7641BD',
@@ -32,7 +32,7 @@ export default class StackNavigator extends Component {
                         </Pressable>
                     }}
                 >
-                    {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username}/>}
+                    {props => <Workouts {...props} logout={this.props.logout} username={this.props.username}/>}
                 </Stack.Screen>
                 <Stack.Screen 
                     name='WorkoutEditor'

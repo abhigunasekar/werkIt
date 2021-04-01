@@ -64,7 +64,7 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 35,
     },
-    dashboardContainer: {
+    workoutsContainer: {
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -77,7 +77,7 @@ export default StyleSheet.create({
     workoutList: {
         height: '75%',
         width: '80%',
-        marginTop: 20,
+        marginTop: 40,
         //  borderColor: '#6B6767',
         //  borderWidth: 3,
         marginBottom: 20,
