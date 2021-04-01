@@ -117,7 +117,7 @@ async function save_new_account_data(u_name, req_body) {
 		dark_mode: false,
 		workouts: [],
 		workoutTypes: [],
-		weekly_plan: null,
+		weekly_plan: [],
 		completed_workouts: [],
 		streak_counter: 0
 	});
@@ -379,8 +379,10 @@ async function save_workout_plan(username, data) {
 	var user = await get_user_obj(username);
 	var plan = new WorkoutPlan(data);
 	await plan.save();
+	var plan_list = user.weekly_plan;
+	plan_list.push(plan);
 	await User.findByIdAndUpdate(
-		user._id, {weekly_plan: plan}, {new: true}).exec();
+		user._id, {weekly_plan: plan_list}, {new: true}).exec();
 }
 
 async function save_completed_workout(username, data) {
@@ -401,6 +403,25 @@ async function get_profile_field(username, field) {
 	return user[field];
 }
 
+async function get_weekly_goal(username) {
+	var user = await get_user_obj(username);
+	var goal = 0;
+	for (var day of user.WorkoutPlan) {
+		goal = goal + 1;
+	}
+	return goal;
+}
+
+async function get_completed_workouts(username) {
+	var user = await get_user_obj(username);
+	var progress = 0;
+	for (var day of user.completed_workouts) {
+		progress = progress + 1;
+	}
+	return progress;
+}
+
+
 module.exports = { 
 	save_new_account_data, check_login, 
 	check_user_existence, change_password,
@@ -410,4 +431,5 @@ module.exports = {
 	get_exercises_for_type, get_workouts,
 	get_workout_obj, get_workout_data,
 	update_darkmode, save_workout_plan,
-	get_profile_field, update_profile_field }
+	get_profile_field, get_weekly_goal, get_completed_workouts, update_profile_field }
+
