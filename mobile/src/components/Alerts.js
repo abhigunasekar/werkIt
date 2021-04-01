@@ -119,3 +119,15 @@ export const missingNameError = () => {
         ]
     )
 }
+
+export const incompleteFormError = () => {
+    Alert.alert(
+        '',
+        'Please fill out every field',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
