@@ -246,3 +246,16 @@ body:
 
 -----Response-----
 status: 200
+
+
+UPDATE ONE ELEMENT OF USER PROFILE
+-----Request-----
+method: PATCH
+route: '/profile/{username}/{field}'
+body:
+{
+	"<field name>": "<field value>"
+}
+
+-----Response-----
+status: 200
