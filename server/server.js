@@ -135,7 +135,7 @@ app.get('/:username/workoutTypes', (req, res) => {
 
 // set new workout type
 // bug fixed??
-app.post('/:username/workoutType', (req, res) => {
+app.post('/:username/workoutType', jsonParser, (req, res) => {
   console.log("Saving new workout type to database for user: %s", req.params.username);
   mc.save_new_workoutType(
     req.params.username, req.body.name, req.body.exercises
