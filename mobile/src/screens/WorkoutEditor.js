@@ -213,7 +213,7 @@ export default class WorkoutEditor extends Component {
                     defaultValue={this.state.type}
                     placeholder='Select a workout type'
                     containerStyle={{height: 40, width: '75%'}}
-                    // style={{backgroundColor: '#fafafa'}}
+                    style={{backgroundColor: '#fafafa'}}
                     itemStyle={{
                         justifyContent: 'flex-start'
                     }}

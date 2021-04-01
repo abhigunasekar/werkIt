@@ -118,3 +118,15 @@ export function createWorkoutType(username, workoutType) {
         body: JSON.stringify(workoutType)
     })
 }
+
+export function createWorkoutPlan(username, workoutPlan) {
+    console.log('creating a new workout plane for: ' + username);
+    return fetch('http://' + address + ':8000/' + username + '/workout_plan', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(workoutPlan)
+    })
+}

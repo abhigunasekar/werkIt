@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import WorkoutStackNavigator from './WorkoutStackNavigator';
+import WorkoutPlanStackNavigator from './WorkoutPlanStackNavigator';
 import Settings from './screens/Settings';
 
 function CustomDrawerContent(props) {
@@ -31,6 +32,9 @@ export default class DrawerNavigator extends Component {
         return(
             <NavigationContainer>
                 <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} logout={this.props.logout}/>}>  
+                    <Drawer.Screen name='Workout Plans'>
+                        {props => <WorkoutPlanStackNavigator {...props} username={this.props.username}/>}
+                    </Drawer.Screen>
                     <Drawer.Screen name='Workouts'>
                         {props => <WorkoutStackNavigator {...props} username={this.props.username}/>}
                     </Drawer.Screen>

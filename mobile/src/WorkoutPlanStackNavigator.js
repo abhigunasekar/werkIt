@@ -4,23 +4,21 @@ import { Pressable } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { FontAwesome } from '@expo/vector-icons';
 
-import Workouts from './screens/Workouts';
-import WorkoutEditor from './screens/WorkoutEditor';
+import WorkoutPlans from './screens/WorkoutPlans';
+import WorkoutPlanEditor from './screens/WorkoutPlanEditor';
 
 const Stack = createStackNavigator();
 
-export default class WorkoutStackNavigator extends Component {
+export default class WorkoutPlanStackNavigator extends Component {
     constructor(props) {
         super(props);
     }
     
     render() {
-        //dashboard.js
-        //workoutplans.js
         return(
             <Stack.Navigator>
                 <Stack.Screen 
-                    name='Workouts'
+                    name='WorkoutPlans'
                     options={{
                         headerStyle: {
                             backgroundColor: '#7641BD',
@@ -34,11 +32,11 @@ export default class WorkoutStackNavigator extends Component {
                         </Pressable>
                     }}
                 >
-                    {props => <Workouts {...props} logout={this.props.logout} username={this.props.username}/>}
+                    {props => <WorkoutPlans {...props} username={this.props.username}/>}
                 </Stack.Screen>
                 <Stack.Screen 
-                    name='WorkoutEditor'
-                    component={WorkoutEditor}
+                    name='WorkoutPlanEditor'
+                    component={WorkoutPlanEditor}
                     options={{
                         gestureEnabled: false,
                         headerLeft: null,
