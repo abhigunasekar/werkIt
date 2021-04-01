@@ -15,6 +15,8 @@ export default class StackNavigator extends Component {
     }
     
     render() {
+        //dashboard.js
+        //workoutplans.js
         return(
             <Stack.Navigator>
                 <Stack.Screen 
