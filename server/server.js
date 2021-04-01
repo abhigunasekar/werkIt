@@ -26,7 +26,7 @@ app.use(cookieParser());
 //const lt = require('localtunnel');
 
 
-//app.use(express.json());
+app.use(express.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(bodyParser.json());
 app.use(methodOverride('_method'));
@@ -111,9 +111,13 @@ app.get('/profile/:username', cors(), (req, res) => {
     })
 });
 
-// TODO update one element of user profile info
-app.patch('/profile/:username/:field', (req, res) => {
-
+// update one element of user profile info
+// ONLY use with fields that are not object ids
+app.patch('/profile/:username/:field', jsonParser, (req, res) => {
+    console.log("Updating " + req.params.field + "field for user " + req.params.username);
+    mc.update_profile_field(req.params.username, req.params.field, req.body).then(_ => {
+        res.status(200).end();
+    })
 })
 
 // update dark mode
@@ -132,7 +136,8 @@ app.get('/:username/profile/:field', (req, res) => {
     mc.get_profile_field(req.params.username, req.params.field).then(val => {
         console.log("Successfully found value");
         res.status(200).json({
-            [req.params.field]: val })
+            [req.params.field]: val
+        })
     })
 })
 
@@ -147,6 +152,7 @@ app.get('/:username/workoutTypes', (req, res) => {
 
 // set new workout type
 // bug fixed??
+// TODO check if workout type name exists
 app.post('/:username/workoutType', (req, res) => {
     console.log("Saving new workout type to database for user: %s", req.params.username);
     mc.save_new_workoutType(
@@ -167,6 +173,7 @@ app.get('/:username/:workoutType/exercises', (req, res) => {
 })
 
 // add new exercise to a given workout type
+// TODO check if exercise name already exists
 app.put('/:username/:workoutType/exercise', jsonParser, (req, res) => {
     console.log("Adding exercise to workoutType: %s", req.params.workoutType);
     mc.save_new_exerciseType(
