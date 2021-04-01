@@ -38,7 +38,6 @@ app.get('/', function(req, res) {
 });
 
 // create a new account
-// bug fixed??
 app.post('/create_account', urlencodedparser, cors(), (req, res) => {
     console.log("Request to create account");
     console.log(req.body);
@@ -191,6 +190,7 @@ app.put('/:username/:workoutType/exercise', (req, res) => {
 });
 
 // save a new workout
+// KNOWN BUG: first workout saved for user get undefined error
 app.post('/:username/workout', (req, res) => {
     console.log("saving new workout");
     mc.save_workout(req.params.username, req.body.name, req.body.type, req.body.exercises).then(_ => {
@@ -247,17 +247,26 @@ app.get('/:username/workout_plans', (req, res) => {
     mc.get_all_plan_names(req.params.username).then(names => {
         console.log("Found all the names")
         res.status(200).json(names);
-    })
-})
+    });
+});
 
 // change active status on workout plan
 app.patch('/:username/workout_plan/:name', (req, res) => {
     console.log("Changing active status for plan: " + req.params.name);
-    mc.update_plan_status(req.params.username, req.params.name, req.body).then(_ => {
+    mc.update_active_plan(req.params.username, req.params.name).then(_ => {
         console.log("Successfully saved active status");
         res.status(200).end();
-    })
-})
+    });
+});
+
+// get the current active workout plan
+app.get('/:username/active_plan', (req, res) => {
+    console.log("Getting the current active workout plan");
+    mc.get_active_plan_obj(req.params.username).then(plan => {
+        console.log("Found active plan");
+        res.status(200).json(plan);
+    });
+});
 
 // get progress bar data
 app.get('/:username/progress', (req, res) => {
