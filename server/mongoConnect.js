@@ -395,7 +395,7 @@ async function get_profile_field(username, field) {
 	return user[field];
 }
 
-async function weekly_goal(username) {
+async function get_weekly_goal(username) {
 	var user = await get_user_obj(username);
 	var goal = 0;
 	for (var day of user.WorkoutPlan) {
@@ -404,7 +404,7 @@ async function weekly_goal(username) {
 	return goal;
 }
 
-async function completed_workouts(username) {
+async function get_completed_workouts(username) {
 	var user = await get_user_obj(username);
 	var progress = 0;
 	for (var day of user.completed_workouts) {
@@ -412,6 +412,7 @@ async function completed_workouts(username) {
 	}
 	return progress;
 }
+
 
 module.exports = { 
 	save_new_account_data, check_login, 
@@ -422,4 +423,4 @@ module.exports = {
 	get_exercises_for_type, get_workouts,
 	get_workout_obj, get_workout_data,
 	update_darkmode, save_workout_plan,
-	get_profile_field, weekly_goal, completed_workouts }
+	get_profile_field, get_weekly_goal, get_completed_workouts }

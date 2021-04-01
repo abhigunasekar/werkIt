@@ -220,13 +220,15 @@ app.post('/:username/workout_plan', (req, res) => {
 // get progress bar data
 app.get('/:username/progress', (req, res) => {
   console.log("Getting user progress");
-  mc.weekly_goal(req.params.username).then(goal => {
+  mc.get_weekly_goal(req.params.username).then(goal => {
     console.log("Found goal: " + goal);
-    res.status(200).json(goal);
-  });
-  mc.completed_workouts(req.params.username).then(progress => {
-    console.log("Found progress: " + progress);
-    res.status(200).json(progress);
+    mc.get_completed_workouts(req.params.username).then(progress => {
+      console.log("Found progress: " + progress);
+    });
+    res.status(200).json({
+      expected: goal,
+      actual: progress
+    })
   });
 });
 
