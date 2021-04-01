@@ -478,8 +478,15 @@ async function get_histogram_data(username) {
 	var day_arr = ["Monday", "Tuesday", "Wednesday", "Thursday",
 				   "Friday", "Saturday", "Sunday"]
 
-	var hist_obj = new Array;
-	hist_obj.push(["Day", "Workout Time"]);
+	var hist_obj = {
+		"Monday": 0,
+		"Tuesday": 0,
+		"Wednesday": 0,
+		"Thursday": 0,
+		"Friday": 0,
+		"Saturday": 0,
+		"Sunday": 0
+	};
 	for (var day of day_arr) {
 		var time = 0;
 		for (var id of user.completed_workouts) {
@@ -488,7 +495,7 @@ async function get_histogram_data(username) {
 				time += completed.time;
 			}
 		}
-		hist_obj.push([day, time]);
+		hist_obj[day] = time;
 	}
 	return hist_obj;
 }
