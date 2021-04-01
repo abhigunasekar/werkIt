@@ -389,6 +389,11 @@ async function save_completed_workout(username, data) {
 
 }
 
+async function get_profile_field(username, field) {
+	var user = await get_user_obj(username);
+	return user[field];
+}
+
 module.exports = { 
 	save_new_account_data, check_login, 
 	check_user_existence, change_password,
@@ -397,4 +402,5 @@ module.exports = {
 	get_workout_types, save_new_exerciseType,
 	get_exercises_for_type, get_workouts,
 	get_workout_obj, get_workout_data,
-	update_darkmode, save_workout_plan }
+	update_darkmode, save_workout_plan,
+	get_profile_field }
