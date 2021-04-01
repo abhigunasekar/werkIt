@@ -72,6 +72,18 @@ export const usernameDoesNotExist = () => {
     )
 }
 
+export const missingUsernameError = () => {
+    Alert.alert(
+        '',
+        'Please enter a username',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
 export const workoutTypeError = () => {
     Alert.alert(
         '',
