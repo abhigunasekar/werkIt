@@ -118,7 +118,7 @@ async function save_new_account_data(u_name, req_body) {
 		dark_mode: false,
 		workouts: [],
 		workoutTypes: [],
-		weekly_plan: null,
+		weekly_plan: [],
 		completed_workouts: [],
 		streak_counter: 0
 	});
@@ -373,8 +373,10 @@ async function save_workout_plan(username, data) {
 	var user = await get_user_obj(username);
 	var plan = new WorkoutPlan(data);
 	await plan.save();
+	var plan_list = user.weekly_plan;
+	plan_list.push(plan);
 	await User.findByIdAndUpdate(
-		user._id, {weekly_plan: plan}, {new: true}).exec();
+		user._id, {weekly_plan: plan_list}, {new: true}).exec();
 }
 
 async function save_completed_workout(username, data) {
