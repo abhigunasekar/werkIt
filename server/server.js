@@ -289,7 +289,7 @@ app.get('/:username/histogram', (req, res) => {
     console.log("Getting data for histogram");
     mc.get_histogram_data(req.params.username).then(data => {
         console.log("data found: " + data);
-        res.status(200).json(data);
+        res.status(200).send(data);
     })
 })
 
