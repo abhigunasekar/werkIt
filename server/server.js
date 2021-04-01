@@ -117,7 +117,7 @@ app.patch('/profile/:username/:field', (req, res) => {
 app.patch('/user/:username/darkmode', (req, res) => {
   console.log("here");
   console.log("Updating dark mode for user: " + req.params.username);
-  mc.update_darkmode(req.params.username, req.body.dark_mode).then(user => {
+  mc.update_darkmode(req.params.username).then(user => {
     console.log("Successfully updated dark mode value to: " + user.dark_mode);
     res.status(200).end();
   });

@@ -190,7 +190,9 @@ async function change_password(user, new_pass) {
 	}
 }
 
-async function update_darkmode(username, mode) {
+async function update_darkmode(username) {
+	var user = await get_user_obj(username);
+	var mode = !user.dark_mode;
 	return await User.findOneAndUpdate(
 		{user: username}, {dark_mode: mode}, {new: true}
 		).exec();

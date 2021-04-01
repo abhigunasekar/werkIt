@@ -98,10 +98,6 @@ UPDATING DARK MODE
 -----Request-----
 method: PATCH
 route: '/user/{username}/darkmode'
-body:
-{
-	"dark_mode": true/false
-}
 
 -----Response-----
 status: 200
