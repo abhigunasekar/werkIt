@@ -29,7 +29,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <title>Werk It</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
+        google.charts.load('current', {
+            packages: ['corechart', 'bar']
+        });
+        google.charts.setOnLoadCallback(drawBasic);
+
+        function drawBasic() {
+
+            var data = google.visualization.arrayToDataTable([
+                ['Day', 'Duration'],
+                ['Monday', 60],
+                ['Tuesday', 50],
+                ['Wednesday', 40],
+                ['Thursday', 30],
+                ['Friday', 20]
+            ]);
+
+            var options = {
+                titleTextStyle: {
+                    fontSize: 20,
+                },
+                title: 'Weekly Workout Time',
+                chartArea: {
+                    width: '60%'
+                },
+                hAxis: {
+                    title: 'Workout Time (in minutes)',
+                    minValue: 0
+                },
+                vAxis: {
+                    title: 'Day'
+                },
+                colors: ['#7641BD']
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
     </script>
 </head>
 
@@ -56,7 +95,7 @@
         </div>
     </nav>
     <div class="container">
-        <div class="inner-container">
+        <div class="inner-container col-lg-4">
             <div>
                 <h2>Weekly Goal</h2>
                 <div class="progress">
@@ -68,7 +107,9 @@
                 <input id="streak" type="number" value="0" disabled></input>
             </div>
         </div>
-        <h1 class="item text-right">Weekly Workout Time</h1>
+        <div></div>
+        <div></div>
+        <div class="col-lg-8" id="chart_div"></div>
     </div>
     <script>
         // document.onkeypress = function(e) {
