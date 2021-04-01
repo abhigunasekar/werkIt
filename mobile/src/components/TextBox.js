@@ -13,6 +13,7 @@ export default class TextBox extends Component {
             <TextInput
                 onChangeText={this.props.onChangeText}
                 onEndEditing={this.props.onEndEditing}
+                textAlign={this.props.textAlign}
                 onKeyPress={this.props.onKeyPress}
                 secureTextEntry={this.props.secureTextEntry}
                 placeholder={this.props.placeholder}
