@@ -9,7 +9,7 @@ import ExerciseEditor from './ExerciseEditor';
 
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
-import { duplicateExerciseError, missingNameError, workoutTypeError } from '../components/Alerts';
+import { duplicateExerciseError, missingNameError, missingExerciseError, workoutTypeError, duplicateExerciseTypeError, duplicateWorkoutTypeError } from '../components/Alerts';
 
 export default class WorkoutEditor extends Component {
     constructor(props) {
@@ -260,11 +260,17 @@ export default class WorkoutEditor extends Component {
                                         if (this.state.newType === '') {
                                             missingNameError();
                                         } else {
-                                            serverMethods.createWorkoutType(this.props.route.params.username, { name: this.state.newType, exercises: [] });
+                                            serverMethods.createWorkoutType(this.props.route.params.username, { name: this.state.newType, exercises: [] })
+                                                .then(response => {
+                                                    if (response.status === 200) {
+                                                        let array = this.state.savedTypes;
+                                                        array.unshift({ label: this.state.newType, value: this.state.newType });
+                                                        this.setState({ savedTypes: array, workoutTypeVisible: false });
+                                                    } else {
+                                                        duplicateWorkoutTypeError();
+                                                    }
+                                                });
                                             // check workout type to make sure name doesn't already exist
-                                            let array = this.state.savedTypes;
-                                            array.unshift({ label: this.state.newType, value: this.state.newType });
-                                            this.setState({ savedTypes: array, workoutTypeVisible: false });
                                         }
                                     }}
                                     orange={true}
@@ -307,12 +313,17 @@ export default class WorkoutEditor extends Component {
                                     createExercise={(exercise) => {
                                         console.log('wtf is going on')
                                         let obj = {name: exercise.name, data: { sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps }};
-                                        serverMethods.createExercise(this.props.route.params.username, this.state.type, obj);
-                                        // check exercise to make sure name doesn't already exist
-                                        let array = this.state.savedExercises;
-                                        array.push(obj);;
-                                        this.setState({ savedExercises: array });
-                                        this.addExercise(exercise);
+                                        serverMethods.createExercise(this.props.route.params.username, this.state.type, obj)
+                                            .then(response => {
+                                                if (response.status === 200) {
+                                                    let array = this.state.savedExercises;
+                                                    array.push(obj);;
+                                                    this.setState({ savedExercises: array });
+                                                    this.addExercise(exercise);
+                                                } else {
+                                                    duplicateExerciseTypeError();
+                                                }
+                                            });
                                     }}
                                 />
                             </View>
@@ -353,6 +364,8 @@ export default class WorkoutEditor extends Component {
                             console.log(this.state.exercises);
                             if (this.state.name === '') {
                                 missingNameError();
+                            }else if (this.state.exercises.length === 0) {
+                                missingExerciseError();
                             } else {
                                 serverMethods.createWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
                                 this.props.navigation.navigate('Workouts');
