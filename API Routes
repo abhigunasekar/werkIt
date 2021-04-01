@@ -230,3 +230,32 @@ body:
 
 -----Response-----
 status: 200
+
+
+ADDING COMPLETED WORKOUT
+-----Request-----
+method: PUT
+route: '/{username}/completed'
+body:
+{
+	"workout_name": "<name of the workout>",
+	"day": "<day of the week>",
+	"date": "MM-DD-YYYY",
+	"time": <duration of workout>
+}
+
+-----Response-----
+status: 200
+
+
+UPDATE ONE ELEMENT OF USER PROFILE
+-----Request-----
+method: PATCH
+route: '/profile/{username}/{field}'
+body:
+{
+	"<field name>": "<field value>"
+}
+
+-----Response-----
+status: 200
