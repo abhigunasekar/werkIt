@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const methodOverride = require('method-override')
 const app = express();
-const jsonParser = bodyParser.json();
 const path = require('path');
 var http = require('http');
 var fs = require('fs');
@@ -25,7 +24,7 @@ app.use(cookieParser());
 //const lt = require('localtunnel');
 
 
-//app.use(express.json());
+app.use(express.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(bodyParser.json());
 app.use(methodOverride('_method'));
@@ -135,7 +134,7 @@ app.get('/:username/workoutTypes', (req, res) => {
 
 // set new workout type
 // bug fixed??
-app.post('/:username/workoutType', jsonParser, (req, res) => {
+app.post('/:username/workoutType', (req, res) => {
   console.log("Saving new workout type to database for user: %s", req.params.username);
   mc.save_new_workoutType(
     req.params.username, req.body.name, req.body.exercises
@@ -155,7 +154,7 @@ app.get('/:username/:workoutType/exercises', (req, res) => {
 })
 
 // add new exercise to a given workout type
-app.put('/:username/:workoutType/exercise', jsonParser, (req, res) => {
+app.put('/:username/:workoutType/exercise', (req, res) => {
   console.log("Adding exercise to workoutType: %s", req.params.workoutType);
   mc.save_new_exerciseType(
     req.params.username, req.params.workoutType, req.body.name, req.body.data
@@ -166,7 +165,7 @@ app.put('/:username/:workoutType/exercise', jsonParser, (req, res) => {
 });
 
 // save a new workout
-app.post('/:username/workout', jsonParser, (req, res) => {
+app.post('/:username/workout', (req, res) => {
   console.log("saving new workout");
   console.log(req.body);
   console.log(req.params);
