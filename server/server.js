@@ -228,8 +228,7 @@ app.get('/:username/progress', (req, res) => {
     console.log("Found progress: " + progress);
     res.status(200).json(progress);
   });
-})
-
+});
 
 
 // get json data for histogram
