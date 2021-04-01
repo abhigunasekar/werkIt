@@ -9,7 +9,7 @@ import ExerciseEditor from './ExerciseEditor';
 
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
-import { workoutTypeError } from '../components/Alerts';
+import { missingNameError, workoutTypeError } from '../components/Alerts';
 
 export default class WorkoutEditor extends Component {
     constructor(props) {
@@ -295,7 +295,6 @@ export default class WorkoutEditor extends Component {
                         buttonText='Delete'
                         onPress={() => {
                             //this.props.deleteExercise(this.state);
-                            this.props.dismiss();
                         }}
                         style={{marginRight: 40}}
                         orange={true}
@@ -304,10 +303,12 @@ export default class WorkoutEditor extends Component {
                         buttonText='Submit'
                         onPress={() => {
                             console.log(this.state.exercises);
-                            //check to make sure a name is given
-                            //check to make sure all fields are filled out
-                            serverMethods.createWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
-                            this.props.navigation.navigate('Dashboard');
+                            if (this.state.name === '') {
+                                missingNameError();
+                            } else {
+                                serverMethods.createWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
+                                this.props.navigation.navigate('Dashboard');
+                            }
                         }}
                         orange={true}
                     />

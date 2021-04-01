@@ -28,15 +28,33 @@ export default class Dashboard extends Component{
                 console.log(response)
                 this.setState({ workouts: response })
             });
+        this.listener = this.props.navigation.addListener('focus', () => {
+            serverMethods.getUserWorkouts(this.state.username)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                this.setState({ workouts: response })
+            });
+        })
         // this.setState({ workouts: response });
     }
 
-    componentDidUpdate(prevProps) {
-        // this will probably need to change after server calls are introduced
-        if (prevProps.route.params?.workout !== this.props.route.params?.workout) {
-            this.createWorkout(this.props.route.params?.workout);
-        }
+    componentWillUnmount() {
+        this.listener();
     }
+
+    // componentDidUpdate(prevProps) {
+    //     // this will probably need to change after server calls are introduced
+    //     console.log('update')
+    //     if (prevProps.isFocused !== this.props.isFocused) {
+    //     serverMethods.getUserWorkouts(this.state.username)
+    //         .then(response => response.json())
+    //         .then(response => {
+    //             console.log(response)
+    //             this.setState({ workouts: response })
+    //         });
+    //     }
+    // }
 
     editWorkout(workout) {
         this.setState({ currWorkout: workout });

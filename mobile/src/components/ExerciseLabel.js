@@ -28,7 +28,7 @@ export default class ExerciseLabel extends Component {
             paceVisible: this.props.pace,
             inclineVisible: this.props.incline,
             lapsVisible: this.props.laps,
-            modalVisible: false,
+            modalVisible: true, 
         };
 
         this.checkFields = this.checkFields.bind(this);
