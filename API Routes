@@ -120,7 +120,19 @@ route: '/{username}/workoutType'
 body:
 	{
 		"name": "<workoutType name>",
-        "exercises": ["<exercise names>"]
+        "exercises": [{
+			"name": "<exercise name>",
+			"data": {
+				"sets": t/f,
+				"reps": t/f,
+				"weight": t/f,
+				"duration": t/f,
+				"distance": t/f,
+				"pace": t/f,
+				"incline": t/f,
+				"laps": t/f
+			}
+		}]
 	}
 
 -----Response-----
@@ -214,11 +226,12 @@ body: [
 
 SAVING WORKOUT PLAN
 -----Request-----
-method: GET
+method: POST
 route: '/{username}/plan'
 body:
 {
 	"name": "<plan name>",
+	"active": boolean,
 	"monday": "<workout name>",
 	"tuesday": "<workout name>",
 	"wednesday": "<workout name>",
@@ -227,6 +240,38 @@ body:
 	"saturday": "<workout name>",
 	"sunday": "<workout name>"
 }
+
+-----Response-----
+status: 200
+
+
+GETTING WORKOUT PLAN
+-----Request-----
+method: GET
+route: '/{username}/workout_plan/{plan name}'
+
+-----Response-----
+status: 200
+body:
+{
+	"_id": <plan id>,
+	"name": "<plan name>",
+	"active": boolean,
+	"monday": "<workout name>",
+	"tuesday": "<workout name>",
+	"wednesday": "<workout name>",
+	"thursday": "<workout name>",
+	"friday": "<workout name>",
+	"saturday": "<workout name>",
+	"sunday": "<workout name>"
+}
+
+
+CHANGING PLAN ACTIVE STATUS 
+-----Request-----
+method: PATCH
+route: '/{username}/workout_plan/{plan name}'
+body: { "active": boolean }
 
 -----Response-----
 status: 200
@@ -259,3 +304,22 @@ body:
 
 -----Response-----
 status: 200
+
+
+GET DATA FOR HISTOGRAM
+-----Request-----
+method: GET
+route: '/{username}/histogram'
+
+-----Response-----
+status: 200
+body: [
+	["Day", "Workout Time"],
+	["Monday", <time>],
+	["Tuesday", <time>],
+	["Wednesday", <time>],
+	["Thursday", <time>],
+	["Friday", <time>],
+	["Saturday", <time>],
+	["Sunday", <time>]
+]
