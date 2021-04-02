@@ -283,12 +283,12 @@
             }
         });
 
-        let counter = document.querySelector('h3');
-        let count = 0;
-        let goal = document.getElementById('progress');
-        let actual = document.getElementById('progress');
-        let streak = document.getElementById('streak');
-        let avg = 0;
+        var counter = document.querySelector('h3');
+        var count = 0;
+        var goal = document.getElementById('progress');
+        var actual = document.getElementById('progress');
+        var streak = document.getElementById('streak');
+        var avg = 0;
 
         // $(document).ready(function() {
         //     var user = localStorage.getItem("user");
@@ -312,9 +312,10 @@
                 newVal = streak.getAttribute("value");
                 newVal = newVal + 1;
                 streak.setAttribute("value", newVal);
-
-                alert("Congratulations! You have met your weekly goal :)");
-            } else {
+                if (actual.value == actual.max) {
+                    alert("Congratulations! You have met your weekly goal :)");
+                }
+             } else {
                 newVal = streak.value;
             }
 
