@@ -26,10 +26,11 @@ export default class App extends Component {
     async componentDidMount() {
         const token = await this.getToken();
         this.setState({ isLoggedIn: token });
-        setTimeout(() => this.setState({ isLoaded: true }), 5000);
+        setTimeout(() => this.setState({ isLoaded: true }), 4000);
     }
 
     persist() {
+        console.log('persist')
         this.setState({ persist: !this.state.persist });
     }
 
@@ -37,6 +38,7 @@ export default class App extends Component {
         if (this.state.persist) {
             // AsyncStorage method to create token???
             try {
+                console.log('tried to set token')
                 await AsyncStorage.setItem('loginToken', user);
             } catch (error) {
                 console.log('setToken error: ' + error);
@@ -49,6 +51,7 @@ export default class App extends Component {
     async logout() {
         // AsyncStorage method to remove token???
         try {
+            console.log('tried to remove token')
             await AsyncStorage.removeItem('loginToken');
         } catch (error) {
             console.log('setToken error: ' + error);
@@ -61,6 +64,7 @@ export default class App extends Component {
         try {
             const loginToken = await AsyncStorage.getItem('loginToken');
             if (loginToken != null) {
+                console.log('token is not null')
                 this.setState({ username: loginToken });
                 return true;
             } else {

@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import Stopwatch from '../components/Stopwatch';
+import Button from '../components/Button';
 
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
@@ -76,6 +77,11 @@ export default class Dashboard extends Component {
                 <Text>Today is: {day}</Text>
                 <Text>Elapsed time: {this.state.hr} hrs   {this.state.min} min   {this.state.sec} sec</Text>
                 <Stopwatch finish={this.logTime}/>
+                <Button
+                    buttonText='Logout'
+                    onPress={() => this.props.logout()}
+                    orange={true}
+                />
             </View>
         );
     }

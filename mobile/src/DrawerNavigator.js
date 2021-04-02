@@ -16,7 +16,10 @@ function CustomDrawerContent(props) {
                 label='Logout'
                 icon={() => <MaterialCommunityIcons name="logout" color='#FB963C' size={26} />}
                 labelStyle={{color: '#FB963C'}}
-                onPress={() => props.logout()}
+                onPress={() => {
+                    props.navigation.closeDrawer();
+                    setTimeout(() => props.logout(), 500);
+                }}
             />
         </DrawerContentScrollView>
       );    
@@ -32,9 +35,9 @@ export default class DrawerNavigator extends Component {
     render() {
         return(
             <NavigationContainer>
-                <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} logout={this.props.logout}/>}>  
+                <Drawer.Navigator initialRouteName='Dashboard' drawerContent={props => <CustomDrawerContent {...props} logout={this.props.logout}/>}>  
                     <Drawer.Screen name='Dashboard'>
-                        {props => <DashboardStackNavigator {...props} username={this.props.username}/>}
+                        {props => <DashboardStackNavigator {...props} logout={this.props.logout} username={this.props.username}/>}
                     </Drawer.Screen>
                     <Drawer.Screen name='Workout Plans'>
                         {props => <WorkoutPlanStackNavigator {...props} username={this.props.username}/>}

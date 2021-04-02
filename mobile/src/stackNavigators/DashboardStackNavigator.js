@@ -32,7 +32,7 @@ export default class DashboardStackNavigator extends Component {
                         </Pressable>
                     }}
                 >
-                    {props => <Dashboard {...props} username={this.props.username}/>}
+                    {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username}/>}
                 </Stack.Screen>
             </Stack.Navigator>
         );

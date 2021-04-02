@@ -94,6 +94,9 @@ export default StyleSheet.create({
         marginTop: 10,
         padding: 15
     },
+    dashboardContainer: {
+        alignItems: 'center',
+    },
     button: {
         alignItems: 'center',
         borderWidth: 2,
