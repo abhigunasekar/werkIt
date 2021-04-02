@@ -29,6 +29,23 @@
 
     <title>Login</title>
 
+    <script type="text/javascript" src="../loading/loading.js">
+    </script>
+    <script>
+        window.onload = function() {
+            checkNetworkConnection();
+            document.getElementById("We're Werking on it...").hidden = false;
+            document.getElementById("We're Werking on it text").hidden = false;
+        };
+        window.onclick = function() {
+            if (!checkNetworkConnectionCaller()) {
+                event.preventDefault();
+                // document.getElementById("We're Werking on it...").hidden = false;
+                // document.getElementById("We're Werking on it...").hidden = true;
+            }
+        };
+    </script>
+
 </head>
 
 <body>
@@ -78,6 +95,10 @@
                 </div>
             </div>
         </form>
+    </div>
+    <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+    <div id="We're Werking on it text" hidden="true">
+        One moment, We're Werking on Your Network Connection...
     </div>
     <script>
         $("#submit-btn").click(function(event) {
