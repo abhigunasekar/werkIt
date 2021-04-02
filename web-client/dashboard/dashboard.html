@@ -73,7 +73,7 @@
 
         async function chartRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://128.10.25.205:8000/' + user + '/histogram';
+            let url = 'http://10.184.11.114:8000/' + user + '/histogram';
             let res = await fetch(url);
 
             if (res.ok) {
