@@ -38,7 +38,7 @@
     <script>
         async function dRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://128.10.25.205:8000/' + user + '/progress';
+            let url = 'http://10.184.11.114:8000/' + user + '/progress';
             let res = await fetch(url);
 
             if (res.ok) {
@@ -158,7 +158,7 @@
         // }
         async function doRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://128.10.25.205:8000/profile/' + user;
+            let url = 'http://10.184.11.114:8000/profile/' + user;
             let res = await fetch(url);
 
             if (res.ok) {
@@ -233,7 +233,7 @@
             //event.preventDefault();
             var uname = localStorage.getItem("user");
             // /profile/:username/:field
-            var urlFinal = 'http://128.10.25.205:8000/profile/' + uname + '/streak_counter' + '?_method=PATCH';
+            var urlFinal = 'http://10.184.11.114:8000/profile/' + uname + '/streak_counter' + '?_method=PATCH';
             var sCounter = newVal;
             console.log(sCounter);
             $.ajax({
