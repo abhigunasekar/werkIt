@@ -57,7 +57,8 @@
             var hour = date.getHours();
             var expected = json.expected;
             var progressBar = document.getElementById('progress');
-
+            var streak = document.getElementById('streak');
+            
             progressBar.value = actual;
             progressBar.max = expected;
             console.log('actual = ' + actual);
@@ -65,7 +66,7 @@
                 alert("Nice Job! You Completed On Average 3 Workouts This Week");
             }
 
-            if ((day == 1) && (hour == 0)) {
+            if (streak.value == 0) {
                 alert("Please Workout More In The Future!!!");
             }
         });
