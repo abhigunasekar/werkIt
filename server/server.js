@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "10.184.11.114";
+const ip = "10.0.0.48";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 

@@ -134,7 +134,7 @@
         async function doRequest() {
             let user = localStorage.getItem("user");
             //alert(user);
-            let url = 'http://10.184.11.114:8000/profile/' + user;
+            let url = 'http://10.0.0.48:8000/profile/' + user;
             let res = await fetch(url);
 
             if (res.ok) {
@@ -175,7 +175,7 @@
         $("#submit-btn").click(function(event) {
             event.preventDefault();
             var uname = $("#uname").val();
-            var urlFinal = 'http://10.184.11.114:8000/user/' + uname + '/darkmode?_method=PATCH';
+            var urlFinal = 'http://10.0.0.48:8000/user/' + uname + '/darkmode?_method=PATCH';
             //alert(uname);
             // localStorage.setItem("user", uname);
             // var profiles = {
