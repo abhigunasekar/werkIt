@@ -60,6 +60,7 @@
 
             progressBar.value = actual;
             progressBar.max = expected;
+            console.log('actual = ' + actual);
             if (actual == 3) {
                 alert("Nice Job! You Completed On Average 3 Workouts This Week");
             }
@@ -233,7 +234,7 @@
             </div>
             <div>
                 <h2>Workout Streak Counter</h2>
-                <input id="streak" type="number" value=""></input>
+                <input id="streak" type="number" value="" disabled></input>
             </div>
         </div>
         <div></div>
