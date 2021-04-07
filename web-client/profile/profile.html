@@ -14,6 +14,8 @@
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <meta name="color-scheme" content="dark light">
+    <script src="https://kit.fontawesome.com/83e160a4ed.js" crossorigin="anonymous"></script>
+
 
     <title>Werk It</title>
     <script>
@@ -68,10 +70,11 @@
                 </div>
             </div> -->
 
-            <div class="form-group">
-                <div class="input-group form-row col-lg-12">
+            <div class="form-group edit-box">
+                <div class="input-group form-row col-lg-12 edit-field">
                     <label for="email" id="lFName">Email </label>
-                    <input type="text" class="form-control mx-sm-3" id="email" name="username" value="" readonly>
+                    <input type="text" class="edit-input form-control mx-sm-3" id="email" name="username" value="" readonly>
+                    <i class="fas fa-pen edit-pen"></i>
                 </div>
             </div>
 
@@ -131,6 +134,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <!-- <script src="axios.js"></script> -->
     <script>
+        var emailEdit = document.getElementById('email-pen');
+        emailEdit.addEventListener('onclick', emailEditable);
+
+        function emailEditable() {
+
+        }
+
         async function doRequest() {
             let user = localStorage.getItem("user");
             //alert(user);

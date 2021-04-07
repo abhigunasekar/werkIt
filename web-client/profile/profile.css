@@ -482,3 +482,30 @@ h3 {
 .invert {
     filter: invert(1) hue-rotate(180deg);
 }
+
+#email-pen {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #7641BD;
+    color: whitesmoke;
+    border: none;
+}
+
+#email-pen:active {
+    width: 40px;
+    border-radius: 50%;
+    border: none;
+}
+
+#email-pen:focus {
+    width: 40px;
+    border-radius: 50%;
+    border: none;
+}
+
+#email-pen:hover {
+    width: 40px;
+    border-radius: 50%;
+    border: none;
+}
