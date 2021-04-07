@@ -1,36 +1,116 @@
 import React, { Component } from 'react';
-import { Pressable, Text, View, ScrollView } from 'react-native';
+import { Pressable, Text, View, ScrollView, Modal } from 'react-native';
 
 import HideableView from './HideableView';
+import Button from './Button';
 
 import styles from '../styles';
+import { invalidFormAlert } from './Alerts';
 
 export default class ExerciseLabel extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            name: this.props.name,
-            sets: this.props.sets,
-            reps: this.props.reps,
-            weight: this.props.weight,
-            duration: this.props.duration,
-            distance: this.props.distance,
-            pace: this.props.pace,
-            incline: this.props.incline,
-            laps: this.props.laps,
+            sets: typeof (this.props.sets) !== 'string' ? '' : this.props.sets,
+            reps: typeof (this.props.reps) !== 'string' ? '' : this.props.reps,
+            weight: typeof (this.props.weight) !== 'string' ? '' : this.props.weight,
+            duration: typeof (this.props.duration) !== 'string' ? '' : this.props.duration,
+            distance: typeof (this.props.distance) !== 'string' ? '' : this.props.distance,
+            pace: typeof (this.props.pace) !== 'string' ? '' : this.props.pace,
+            incline: typeof (this.props.incline) !== 'string' ? '' : this.props.incline,
+            laps: typeof (this.props.laps) !== 'string' ? '' : this.props.laps,
+            setsVisible: this.props.sets,
+            repsVisible: this.props.reps,
+            weightVisible: this.props.weight,
+            durationVisible: this.props.duration,
+            distanceVisible: this.props.distance,
+            paceVisible: this.props.pace,
+            inclineVisible: this.props.incline,
+            lapsVisible: this.props.laps,
+            modalVisible: true,
         };
+
+        this.checkFields = this.checkFields.bind(this);
+    }
+
+    checkFields() {
+        let valid = false;
+
+        if (this.state.setsVisible) {
+            valid = (this.state.sets !== '');
+        }
+
+        if (this.state.repsVisible) {
+            valid = (this.state.reps !== '');
+        }
+
+        if (this.state.weightVisible) {
+            valid = (this.state.weight !== '');
+        }
+
+        if (this.state.durationVisible) {
+            valid = (this.state.duration !== '');
+        }
+
+        if (this.state.distanceVisible) {
+            valid = (this.state.distance !== '');
+        }
+
+        if (this.state.paceVisible) {
+            valid = (this.state.pace !== '');
+        }
+
+        if (this.state.inclineVisible) {
+            valid = (this.state.incline !== '');
+        }
+
+        if (this.state.lapsVisible) {
+            valid = (this.state.laps !== '');
+        }
+
+        return valid;
     }
 
     render() {
+        // change this to hold hideable views in modal
+        //console.log(typeof (this.state.sets))
+        console.log(this.state.sets)
+
         let counter = 0;
-        let array = [this.state.sets, this.state.reps, this.state.weight, this.state.duration, this.state.distance, this.state.pace, this.state.incline, this.state.laps]
-        array.forEach(element => {
-            if (element) {
-                counter++;
-            }
-        });
-        let width = counter * 110;
+        if (this.state.setsVisible) {
+            counter++;
+        }
+
+        if (this.state.repsVisible) {
+            counter++;
+        }
+
+        if (this.state.weightVisible) {
+            counter++;
+        }
+
+        if (this.state.durationVisible) {
+            counter++;
+        }
+
+        if (this.state.distanceVisible) {
+            counter++;
+        }
+
+        if (this.state.paceVisible) {
+            counter++;
+        }
+
+        if (this.state.inclineVisible) {
+            counter++;
+        }
+
+        if (this.state.lapsVisible) {
+            counter++;
+        }
+        console.log(counter)
+        let width = '' + (9 - counter) + '0%'
         return (
             <Pressable style={{borderColor: '#000000', /*borderWidth: 3,*/ width: '100%', marginBottom: 7}} onPress={() => this.props.edit(this.state)}>
                 <Text>{this.props.name}</Text>

@@ -9,7 +9,7 @@ import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 import PasswordBox from '../components/PasswordBox';
 
-import { invalidCredentialsAlert, invalidFormAlert } from '../components/Alerts';
+import { invalidCredentialsAlert, invalidFormAlert, missingUsernameError, usernameDoesNotExist } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
 import styles from '../styles';
 /* import { Style } from 'radium/lib';

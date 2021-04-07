@@ -6,6 +6,7 @@ import TextBox from '../components/TextBox';
 import HideableView from '../components/HideableView';
 
 import styles from '../styles';
+import { createExerciseError, missingNameError } from '../components/Alerts';
 import Button from '../components/Button';
 
 export default class ExerciseEditor extends Component {

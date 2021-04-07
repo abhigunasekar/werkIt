@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { Pressable } from 'react-native';
+
 import { createStackNavigator } from '@react-navigation/stack';
+import { FontAwesome } from '@expo/vector-icons';
 
 import Dashboard from './screens/Dashboard';
 import WorkoutEditor from './screens/WorkoutEditor';
-
-import Button from './components/Button';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,10 @@ export default class StackNavigator extends Component {
                         headerTitleStyle: {
                             color: '#FFFFFF',
                         },
+                        headerLeft: () => 
+                        <Pressable style={{marginLeft: 17}} onPress={() => this.props.navigation.openDrawer()}>
+                            <FontAwesome name="home" size={24} color="white" />
+                        </Pressable>
                     }}
                 >
                     {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username}/>}

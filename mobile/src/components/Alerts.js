@@ -72,10 +72,70 @@ export const usernameDoesNotExist = () => {
     )
 }
 
+export const missingUsernameError = () => {
+    Alert.alert(
+        '',
+        'Please enter a username',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
 export const workoutTypeError = () => {
     Alert.alert(
         '',
-        'Please select a workout type first',
+        'Please select a workout type',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const createExerciseError = () => {
+    Alert.alert(
+        '',
+        'Please select at least one field',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const duplicateExerciseError = () => {
+    Alert.alert(
+        '',
+        'The specified exercise already exists',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const missingNameError = () => {
+    Alert.alert(
+        '',
+        'Please specify a name',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const incompleteFormError = () => {
+    Alert.alert(
+        '',
+        'Please fill out every field',
         [
             {
                 text: 'OK'

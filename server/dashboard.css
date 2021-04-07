@@ -1,12 +1,13 @@
 html {
     scroll-behavior: smooth;
 }
+
 body {
     margin: 0;
     padding-bottom: 0;
 }
 
-nav #logo{
+nav #logo {
     background-color: white;
     color: white;
     width: 100%;
@@ -19,19 +20,21 @@ nav #logo{
     background-color: #fff;
 }
 
-/* Modify the backgorund color */ 
-.navbar-custom { 
-    background-color: #fff; 
-} 
+
+/* Modify the backgorund color */
+
+.navbar-custom {
+    background-color: #fff;
+}
 
 .navbar-main {
     background-color: #7641BD;
-    color:#fff;
+    color: #fff;
 }
 
 .bg-main {
     background-color: #7641BD;
-    color:#fff;
+    color: #fff;
     font-size: 20px;
     padding-left: 15px;
 }
@@ -40,46 +43,55 @@ nav #logo{
     font-weight: bold;
     color: whitesmoke;
 }
+
 #exercise:hover {
     font-weight: bold;
     color: whitesmoke;
 }
+
 #features:hover {
     font-weight: bold;
     color: whitesmoke;
 }
+
 #signup:hover {
     font-weight: bold;
     color: whitesmoke;
 }
+
 #login:hover {
     font-weight: bold;
     color: whitesmoke;
 }
-.navbar-right { 
-    margin-left: auto; 
-} 
+
+.navbar-right {
+    margin-left: auto;
+}
+
 .bolded {
     color: #7641BD;
-    font-weight:900;
-    
+    font-weight: 900;
 }
+
 .section-head {
     font-weight: bolder;
 }
+
 h4 {
     font-weight: 400;
     line-height: 2.5rem;
 }
-.btn-outline-login:hover{        
+
+.btn-outline-login:hover {
     font-size: 16px;
     font-weight: bold;
-    background:#ffffff;
+    background: #ffffff;
     border-color: #7641BD;
     font-weight: bold;
-    color:  #7641BD;
+    color: #7641BD;
     /* min-width: 50px; */
 }
+
 .btn-outline-login {
     background: #7641BD;
     border-color: #7641BD;
@@ -87,17 +99,19 @@ h4 {
     font-weight: bold;
     color: #fff;
 }
-.custom-toggler.navbar-toggler { 
-    border-color: whitesmoke; 
-} 
-.custom-toggler .navbar-toggler-icon { 
-    background-image: url( 
-"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255,255,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E"); 
-} 
-.jumbotron{
-    margin-top: -30px;
-    
+
+.custom-toggler.navbar-toggler {
+    border-color: whitesmoke;
 }
+
+.custom-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255,255,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.jumbotron {
+    margin-top: -30px;
+}
+
 .jumbotron-hero {
     background-color: #ffffff;
 }
@@ -106,9 +120,11 @@ h4 {
     margin-top: -20px;
     background-color: #fff;
 }
+
 .jumbotron-about {
     background-color: #7641BD;
 }
+
 .about-us-descript {
     color: #fff;
     line-height: 35px;
@@ -120,15 +136,17 @@ h4 {
     font-weight: 300;
     margin-bottom: 3%;
 }
+
 .heading {
-    color:  #7641BD;
+    color: #7641BD;
 }
+
 .lead {
-    font-size:xx-large;
+    font-size: xx-large;
     font-weight: 400;
 }
 
-.btn-signup{        
+.btn-signup {
     font-size: 32px;
     font-weight: bold;
     background: #FB963C;
@@ -137,22 +155,22 @@ h4 {
     min-width: 140px;
 }
 
-.btn-signup:hover, .btn:focus {
+.btn-signup:hover,
+.btn:focus {
     background: #ffffff;
     border-color: #FB963C;
     color: #FB963C;
 }
 
-.btn-learn:hover{        
-
+.btn-learn:hover {
     font-weight: bold;
     background: #FB963C;
     border-color: #FB963C;
     color: #ffffff;
-
 }
 
-.btn-learn, .btn:focus {
+.btn-learn,
+.btn:focus {
     font-size: 16px;
     background: #ffffff;
     border-color: #FB963C;
@@ -161,8 +179,9 @@ h4 {
 }
 
 .jumbotron-about img {
-    width:max-content;
+    width: max-content;
 }
+
 .improve-health-text {
     color: #fff;
     font-weight: 400;
@@ -173,9 +192,11 @@ h4 {
     font-size: 1500%;
     margin: 5%;
 }
+
 .jumbotron-about h4 {
     color: #fff;
 }
+
 mark {
     background-color: #FB963C;
 }
@@ -188,7 +209,7 @@ h4 {
     margin-bottom: 30px;
 }
 
-#feature-section{
+#feature-section {
     margin-bottom: 0%;
 }
 
@@ -208,3 +229,6 @@ h4 {
 #primary-color {
     color: #7641BD;
 }
+
+
+/* For Chrome or Safari */

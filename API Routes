@@ -98,10 +98,6 @@ UPDATING DARK MODE
 -----Request-----
 method: PATCH
 route: '/user/{username}/darkmode'
-body:
-{
-	"dark_mode": true/false
-}
 
 -----Response-----
 status: 200
@@ -124,7 +120,19 @@ route: '/{username}/workoutType'
 body:
 	{
 		"name": "<workoutType name>",
-        "exercises": ["<exercise names>"]
+        "exercises": [{
+			"name": "<exercise name>",
+			"data": {
+				"sets": t/f,
+				"reps": t/f,
+				"weight": t/f,
+				"duration": t/f,
+				"distance": t/f,
+				"pace": t/f,
+				"incline": t/f,
+				"laps": t/f
+			}
+		}]
 	}
 
 -----Response-----
@@ -138,7 +146,19 @@ route: '/{username}/{workoutType}/exercises'
 
 -----Response-----
 status: 200
-body: ["<exercise name>"]
+body: [{
+	"name": "<exercise name>",
+	"data": {
+		"sets": t/f,
+		"reps": t/f,
+		"weight": t/f,
+		"duration": t/f,
+		"distance": t/f,
+		"pace": t/f,
+		"incline": t/f,
+		"laps": t/f
+	}
+}]
 
 
 ADDING NEW EXERCISE TO EXISTING WORKOUT TYPE (WIP)
@@ -201,4 +221,135 @@ body: [
 			}
 		]
 	}
+]
+
+
+SAVING WORKOUT PLAN
+-----Request-----
+method: POST
+route: '/{username}/plan'
+body:
+{
+	"name": "<plan name>",
+	"active": boolean,
+	"monday": "<workout name>",
+	"tuesday": "<workout name>",
+	"wednesday": "<workout name>",
+	"thursday": "<workout name>",
+	"friday": "<workout name>",
+	"saturday": "<workout name>",
+	"sunday": "<workout name>"
+}
+
+-----Response-----
+status: 200
+
+
+GETTING WORKOUT PLAN
+-----Request-----
+method: GET
+route: '/{username}/workout_plan/{plan name}'
+
+-----Response-----
+status: 200
+body:
+{
+	"_id": <plan id>,
+	"name": "<plan name>",
+	"active": boolean,
+	"monday": "<workout name>",
+	"tuesday": "<workout name>",
+	"wednesday": "<workout name>",
+	"thursday": "<workout name>",
+	"friday": "<workout name>",
+	"saturday": "<workout name>",
+	"sunday": "<workout name>"
+}
+
+
+CHANGING PLAN ACTIVE STATUS 
+-----Request-----
+method: PATCH
+route: '/{username}/workout_plan/{plan name}'
+
+-----Response-----
+status: 200
+
+
+GETTING LIST OF NAMES OF ALL WORKOUT PLANS 
+-----Request-----
+method: PATCH
+route: '/{username}/workout_plans'
+
+-----Response---
+status: 200
+body: ["<workout plan name>"]
+
+
+GETTING CURRENT ACTIVE PLAN
+-----Request-----
+method: GET
+route: '/{username}/active_plan'
+
+-----Response---
+status: 200
+body:
+{
+    "_id": "6065f22658d685114afb5785",
+    "name": "<active plan name>",
+    "Monday": "<workout name>",
+    "Tuesday": "<workout name>",
+    "Wednesday": "<workout name>",
+    "Thursday": "<workout name>",
+    "Friday": "<workout name>",
+    "Saturday": "<workout name>",
+    "Sunday": "<workout name>"
+}
+
+
+ADDING COMPLETED WORKOUT
+-----Request-----
+method: PUT
+route: '/{username}/completed'
+body:
+{
+	"workout_name": "<name of the workout>",
+	"day": "<day of the week>",
+	"date": "MM-DD-YYYY",
+	"time": <duration of workout>
+}
+
+-----Response-----
+status: 200
+
+
+UPDATE ONE ELEMENT OF USER PROFILE
+-----Request-----
+method: PATCH
+route: '/profile/{username}/{field}'
+body:
+{
+	"<field name>": "<field value>"
+}
+
+-----Response-----
+status: 200
+
+
+GET DATA FOR HISTOGRAM
+-----Request-----
+method: GET
+route: '/{username}/histogram'
+
+-----Response-----
+status: 200
+body: [
+	["Day", "Workout Time"],
+	["Monday", <time>],
+	["Tuesday", <time>],
+	["Wednesday", <time>],
+	["Thursday", <time>],
+	["Friday", <time>],
+	["Saturday", <time>],
+	["Sunday", <time>]
 ]
