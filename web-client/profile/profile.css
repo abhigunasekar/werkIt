@@ -509,3 +509,56 @@ h3 {
     border-radius: 50%;
     border: none;
 }
+
+.edit-field {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-input {
+    border: none;
+    font-size: inherit;
+    background: inherit;
+    color: inherit;
+}
+
+.edit-input:focus {
+    outline: none;
+    background-color: white;
+    color: #545454;
+}
+
+.edit-pen {
+    font-size: 1em;
+    position: relative;
+    top: 5px;
+    cursor: pointer;
+}
+
+.hide {
+    visibility: hidden !important;
+}
+
+.editing-style {
+    background: #E9F5FA;
+    color: #f1f1f1;
+    box-shadow: -2px 0px 0px #0081C6;
+}
+
+.pen-style {
+    width: 2em;
+    height: 2em;
+    background-color: #7641BD;
+    color: whitesmoke;
+    border-radius: 50%;
+    box-shadow: 0 5px rgb(202, 202, 202);
+}
+
+.pen-style:active {
+    box-shadow: 0 5px rgb(202, 202, 202);
+    transform: translateY(4px);
+}
+
+input {
+    background: #F1F1F1;
+}
