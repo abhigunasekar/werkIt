@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DashboardStackNavigator from './stackNavigators/DashboardStackNavigator';
 import WorkoutPlanStackNavigator from './stackNavigators/WorkoutPlanStackNavigator';
 import WorkoutStackNavigator from './stackNavigators/WorkoutStackNavigator';
+import Friends from './screens/Friends';
 import Settings from './screens/Settings';
 
 function CustomDrawerContent(props) {
@@ -44,6 +45,9 @@ export default class DrawerNavigator extends Component {
                     </Drawer.Screen>
                     <Drawer.Screen name='Workouts'>
                         {props => <WorkoutStackNavigator {...props} username={this.props.username}/>}
+                    </Drawer.Screen>
+                    <Drawer.Screen name='Friends'>
+                        {props => <Friends {...props} username={this.props.username}/>}
                     </Drawer.Screen>
                     <Drawer.Screen name='Settings'>
                         {props => <Settings {...props} logout={this.props.logout}/>}
