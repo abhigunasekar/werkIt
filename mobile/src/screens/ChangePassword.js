@@ -19,6 +19,7 @@ export default class ChangePassword extends Component {
             newPassword: '',
             matchingCredentials: false,
             passwordChanged: false,
+            confirmation: false,
         }
 
         this.checkUsername = this.checkUsername.bind(this);
@@ -44,7 +45,6 @@ export default class ChangePassword extends Component {
         } else {
             invalidFormAlert();
         }
-
     }
 
     passwordHandler(e) {
@@ -59,6 +59,9 @@ export default class ChangePassword extends Component {
     }
 
     render() {
+        //do this part in steps
+        //i.e. this.state.step1
+        // this.state.step1 && this.state.step2
         if (!this.state.matchingCredentials) {
             return (
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -85,6 +88,55 @@ export default class ChangePassword extends Component {
                             <Button
                                 buttonText='Next'
                                 onPress={() => this.checkUsername()}
+                                gray={true}
+                            />
+                            </View>
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            );
+        } else if (!this.state.confirmation) {
+            return (
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                    <View style={styles.changePasswordContainer}>
+                        <View style={styles.changePasswordForm}>
+                            <Text style={{fontSize: 16, color: '#535c68', fontWeight: 'bold', marginBottom: 50}}>Check your email for a 6-digit confirmation code</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <TextBox
+                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
+                                    textAlign='center'
+                                />
+                                <TextBox
+                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
+                                    textAlign='center'
+                                />
+                                <TextBox
+                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
+                                    textAlign='center'
+                                />
+                                <TextBox
+                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
+                                    textAlign='center'
+                                />
+                                <TextBox
+                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
+                                    textAlign='center'
+                                />
+                                <TextBox
+                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
+                                    textAlign='center'
+                                />
+                            </View>
+                            <View style={{flexDirection: 'row', marginTop: 30}}>
+                            <Button 
+                                buttonText='Go back'
+                                onPress={() => this.props.navigation.navigate('Login')}
+                                style={{marginRight: 45}}
+                                purple={true}
+                            /> 
+                            <Button
+                                buttonText='Next'
+                                onPress={() => console.log('submit confirmation code')}
                                 gray={true}
                             />
                             </View>

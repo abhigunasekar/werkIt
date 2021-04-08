@@ -54,8 +54,8 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#FFFFFF',
-        height: '45%',
-        width: '75%',
+        height: '60%',
+        width: '85%',
         borderRadius: 7,
     },
     changePasswordText: {
