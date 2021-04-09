@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "128.10.25.205";
+const ip = "127.0.0.1";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -32,7 +32,7 @@ app.use(methodOverride('_method'));
 
 
 // check connection with server
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     console.log("Got GET request")
     res.status(200).end();
 });
@@ -289,7 +289,7 @@ app.get('/:username/histogram', (req, res) => {
     console.log("Getting data for histogram");
     mc.get_histogram_data(req.params.username).then(data => {
         console.log("data found: " + data);
-        res.status(200).json(data);
+        res.status(200).send(data);
     })
 })
 
@@ -298,6 +298,6 @@ app.get('/:username/histogram', (req, res) => {
 
 // })
 
-app.listen(port, ip, function() {
+app.listen(port, ip, function () {
     console.log("Server listening on http://%s:%d", ip, port);
 });

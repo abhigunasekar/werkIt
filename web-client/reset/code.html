@@ -42,7 +42,7 @@
         //     }
         // }
     </script>
-    <title>Reset Password</title>
+    <title>Verification</title>
 
 </head>
 
@@ -52,7 +52,7 @@
             <!-- Header -->
             <div class="text-center" id="container">
                 <a href="../login/login.html"><i class="health-icon fas fa-running"></i></a>
-                <h2>Reset Password</h2>
+                <h2>Enter Your Code</h2>
             </div>
             <hr>
 
@@ -61,17 +61,17 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i
                             class="animate__animated animate__slideInLeft fas fa-user-shield"></i></span>
-                    <input type="text" class="form-control" name="username" id="user" placeholder="Username" required="required">
+                    <input type="text" class="form-control" name="username" id="user" placeholder="Enter the 6-digit code from email" required="required">
                 </div>
             </div>
 
             <!-- Email -->
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
                     <input type="email" class="form-control" name="email" placeholder="Email" required="required">
                 </div>
-            </div>
+            </div> -->
 
             <!-- Password -->
             <!-- <div class="form-group">
@@ -92,8 +92,7 @@
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                    <button type="submit" id="reset" class="button btn btn-signup btn-lg btn-block">Reset
-                        Password</button>
+                    <button type="submit" id="reset" class="button btn btn-signup btn-lg btn-block">Verify</button>
                 </div>
 
             </div>
@@ -112,7 +111,7 @@
 
         $btn.on('click', function(event) {
             event.preventDefault();
-            window.location.href = 'http://agunase.github.io/werkIt/web-client/reset/code.html';
+            window.location.href = 'http://agunase.github.io/werkIt/web-client/reset/changepassword.html';
         });
     </script>
 </body>

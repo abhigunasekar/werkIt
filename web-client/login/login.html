@@ -29,6 +29,24 @@
 
     <title>Login</title>
 
+    <script type="text/javascript" src="../loading/loading.js">
+    </script>
+    <script>
+        // Loading Symbol -- Please Uncomment Before Sprint Review
+        // window.onload = function () {
+        //     checkNetworkConnection();
+        //     document.getElementById("We're Werking on it...").hidden = false;
+        //     document.getElementById("We're Werking on it text").hidden = false;
+        // };
+        // window.onclick = function () {
+        //     if (!checkNetworkConnectionCaller()) {
+        //         event.preventDefault();
+        //         // document.getElementById("We're Werking on it...").hidden = false;
+        //         // document.getElementById("We're Werking on it...").hidden = true;
+        //     }
+        // };
+    </script>
+
 </head>
 
 <body>
@@ -79,6 +97,10 @@
             </div>
         </form>
     </div>
+    <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+    <div id="We're Werking on it text" hidden="true">
+        One moment, We're Werking on Your Network Connection...
+    </div>
     <script>
         $("#submit-btn").click(function(event) {
             event.preventDefault();
@@ -93,7 +115,7 @@
             //     "password": password
             // };
             $.ajax({
-                    url: 'http://128.10.25.205:8000/login',
+                    url: 'http://127.0.0.1:8000/login',
                     type: 'POST',
                     cache: false,
                     data: {
@@ -101,7 +123,11 @@
                         password: password
                     },
                     success: function(data, textStatus) {
-                        window.location.href = 'file:///u/riker/u94/agunase/cs307/WerkIt/web-client/dashboard/dashboard.html';
+                        // Dashboard Redirect
+                        // window.location.href = 'http://agunase.github.io/werkIt/web-client/dashboard/dashboard.html';
+                        // Motivational Quotes Redirect
+                        window.location.href = 'http://agunase.github.io/werkIt/web-client/quote/quote.html';
+
 
                     },
                     error: function(jqXHR, textStatus, err) {

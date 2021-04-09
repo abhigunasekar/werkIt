@@ -1,0 +1,1 @@
+"We cannot access the internet. Please check your network connectivity."
