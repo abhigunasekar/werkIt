@@ -7,13 +7,20 @@
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js" integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js"
+        integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g=="
+        crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <meta name="color-scheme" content="dark light">
 
 
@@ -38,7 +45,7 @@
     <script>
         async function dRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://10.0.0.48:8000/' + user + '/progress';
+            let url = 'http://127.0.0.1:8000/' + user + '/progress';
             let res = await fetch(url);
 
             if (res.ok) {
@@ -58,7 +65,7 @@
             var expected = json.expected;
             var progressBar = document.getElementById('progress');
             var streak = document.getElementById('streak');
-            
+
             progressBar.value = actual;
             progressBar.max = expected;
             console.log('actual = ' + actual);
@@ -75,7 +82,7 @@
 
         async function chartRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://10.0.0.48:8000/' + user + '/histogram';
+            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
             let res = await fetch(url);
 
             if (res.ok) {
@@ -205,9 +212,11 @@
 <body>
     <!-- Links Navbar -->
     <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
-        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <!-- <a class="navbar-brand navbar-main bg-main" text-center justify-content-center id="about" href="index.html">About</a> -->
 
         <div class="collapse navbar-collapse navbar-main bg-main " id="navbarTogglerDemo03">
@@ -254,7 +263,7 @@
         // }
         async function doRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://10.0.0.48:8000/profile/' + user;
+            let url = 'http://127.0.0.1:8000/profile/' + user;
             let res = await fetch(url);
 
             if (res.ok) {
@@ -296,7 +305,7 @@
         //     alert(user);
         // });
 
-        window.onload = function() {
+        window.onload = function () {
             var actualVal = actual.getAttribute("value");
             var goalVal = actual.getAttribute("max");
             var date = new Date();
@@ -316,7 +325,7 @@
                 if (actual.value == actual.max) {
                     alert("Congratulations! You have met your weekly goal :)");
                 }
-             } else {
+            } else {
                 newVal = streak.value;
             }
 
@@ -336,7 +345,7 @@
             //event.preventDefault();
             var uname = localStorage.getItem("user");
             // /profile/:username/:field
-            var urlFinal = 'http://10.0.0.48:8000/profile/' + uname + '/streak_counter' + '?_method=PATCH';
+            var urlFinal = 'http://127.0.0.1:8000/profile/' + uname + '/streak_counter' + '?_method=PATCH';
             var sCounter = newVal;
             console.log(sCounter);
             $.ajax({
@@ -346,13 +355,13 @@
                 data: {
                     streak_counter: sCounter
                 },
-                success: function(data, textStatus) {
+                success: function (data, textStatus) {
                     //alert("successful 3");
 
                     //location.reload();
 
                 },
-                error: function(jqXHR, textStatus, err) {
+                error: function (jqXHR, textStatus, err) {
                     // alert('text status ' + textStatus + ', err ' + err)
                     alert("error");
                 }
