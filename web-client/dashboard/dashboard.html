@@ -268,11 +268,12 @@
         doRequest().then(data => {
             var json = JSON.parse(data);
             var streak = document.getElementById('streak');
-            if (json.streak_counter == null) {
-                streak.value = 0;
-            } else {
-                streak.value = json.streak_counter;
-            }
+            console.log(json);
+            // if (json.streak_counter == 0) {
+            //     streak.value = 0;
+            // } else {
+            streak.value = 0;
+            //}
             var dValue = json.dark_mode;
             // console.log(dValue);
             if (dValue == true) {

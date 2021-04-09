@@ -14,6 +14,8 @@
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <meta name="color-scheme" content="dark light">
+    <script src="https://kit.fontawesome.com/83e160a4ed.js" crossorigin="anonymous"></script>
+
 
     <title>Werk It</title>
     <script>
@@ -54,10 +56,13 @@
             </div>
             <hr>
 
-            <div class="form-group panel panel-primary">
+            <div class="container form-group panel panel-primary">
                 <div class="input-group form-row col-lg-12">
                     <label for="name" id="lFName">Name</label>
                     <input type="text" class="form-control mx-sm-3" id="name" name="username" value="" readonly>
+                    <div class='pen-style text-center'>
+                        <i class="fas fa-pen edit-pen" id="name-edit"></i>
+                    </div>
                 </div>
             </div>
 
@@ -68,21 +73,45 @@
                 </div>
             </div> -->
 
-            <div class="form-group">
-                <div class="input-group form-row col-lg-12">
+            <!-- Original -->
+            <div class="container form-group">
+
+                <div class="input-group form-row col-lg-12 ">
                     <label for="email" id="lFName">Email </label>
-                    <input type="text" class="form-control mx-sm-3" id="email" name="username" value="" readonly>
+                    <input type="text" class=" form-control mx-sm-3" id="email" name="username" value="" readonly>
+                    <div class='pen-style text-center'>
+                        <i class="fas fa-pen edit-pen" id="email-edit"></i>
+                    </div>
+
                 </div>
             </div>
+
+            <!-- New Version -->
+            <!-- <div class="form-group edit-box">
+                <label for="email" id="lFName">Email </label>
+
+                <div class="input-group form-row col-lg-12 edit-field">
+
+                    <input type="text" class="edit-input form-control mx-sm-3" id="email" name="username" value="" readonly>
+                    <div class='pen-style text-center'>
+                        <i class="fas fa-pen edit-pen"></i>
+
+                    </div>
+
+                </div>
+            </div> -->
 
             <div class="container form-group">
                 <div class="input-group form-row col-lg-12">
                     <label for="uname" id="lFName">Username</label>
                     <input type="text" class="form-control mx-sm-3 mb-2" id="uname" name="username" value="" readonly>
+                    <div class='pen-style text-center'>
+                        <i class="fas fa-pen edit-pen" id="uname-edit"></i>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="container form-group">
                 <label for="dMode" id="lFName">Dark Mode </label>
                 <label class="switch">
                     <input type="checkbox" id="switch">
@@ -131,6 +160,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <!-- <script src="axios.js"></script> -->
     <script>
+        // Referenced Styling from https://codepen.io/jovincroninwilesmith/pen/jPBxQx/
+        var $ep = $('#email-edit');
+        var $ei = $('#email');
+        var $up = $('#uname-edit');
+        var $ui = $('#uname');
+        var $np = $('#name-edit');
+        var $ni = $('#name');
+
+
+        $np.on('click', function() {
+            $ni.prop('readonly', false).focus();
+
+        });
+
+
+        $ep.on('click', function() {
+            $ei.prop('readonly', false).focus();
+
+        });
+
+
+        $up.on('click', function() {
+            $ui.prop('readonly', false).focus();
+
+        });
+
+        $('input').focusout(function() {
+            $('input').prop('readonly', true).focusout();
+        });
+
         async function doRequest() {
             let user = localStorage.getItem("user");
             //alert(user);
