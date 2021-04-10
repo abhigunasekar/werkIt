@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const mc = require('./mongoConnect')
+const utils = require('./utils')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const methodOverride = require('method-override')
@@ -13,7 +14,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "127.0.0.1";
+const ip = utils.get_ip();
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -300,4 +301,9 @@ app.get('/:username/histogram', (req, res) => {
 
 app.listen(port, ip, function () {
     console.log("Server listening on http://%s:%d", ip, port);
+    if (ip.localeCompare("127.0.0.1") == 0) {
+        console.log("WARNING - the mobile app development will not work on the localhost.\n" +
+                    "Make sure your network connection is private and restart the server " +
+                    "if you would like to work on the mobile development.")
+    }
 });
