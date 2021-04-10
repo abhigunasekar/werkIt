@@ -244,6 +244,16 @@ async function get_workout_obj(username, w_name) {
     }
 }
 
+async function get_plan_obj(username, p_name) {
+    var user = await get_user_obj(username);
+    for (var plan_id of user.weekly_plan) {
+        var plan = await WorkoutPlan.findById(plan_id).exec();
+        if (plan.name == p_name) {
+            return plan;
+        }
+    }
+}
+
 async function get_workout_data(username, w_name) {
     var wkout = await get_workout_obj(username, w_name);
     var e_list = new Array;
@@ -401,6 +411,15 @@ async function get_exercises_for_type(username, wkoutType) {
     return ex_list;
 }
 
+async function get_exercise_obj(type_obj, exercise) {
+    for (var ex_id of type_obj.exercises) {
+        var ex_obj = await KnownExercise.findById(ex_id).exec();
+        if (ex_obj.name.localeCompare(exercise) == 0) {
+            return ex_obj;
+        }
+    }
+}
+
 async function get_active_plan(user) {
     return await WorkoutPlan.findById(user.active_plan).exec();
 }
@@ -458,7 +477,7 @@ async function get_weekly_goal(username) {
     if (plan.Sunday.localeCompare("") != 0) {
         goal++;
     }
-    return goal; // subtract count for name and active
+    return goal;
 }
 
 async function get_completed_workouts(username) {
@@ -542,6 +561,60 @@ async function get_active_plan_obj(username) {
     return await WorkoutPlan.findById(user.active_plan).exec();
 }
 
+async function remove_workout(username, wkout) {
+    var user = await get_user_obj(username);
+    var wkout_obj = await get_workout_obj(username, wkout);
+    var wkout_list = user.workouts;
+    var index = wkout_list.indexOf(wkout_obj._id);
+    wkout_list.splice(index, 1);
+    await User.findByIdAndUpdate(
+        user._id, {workouts: wkout_list}, {new: true}
+    ).exec();
+    return await Workout.findByIdAndDelete(wkout_obj._id).exec();
+}
+
+async function remove_plan(username, plan) {
+    var user = await get_user_obj(username);
+    var plan_obj = await get_plan_obj(username, plan);
+    var plan_list = user.weekly_plan;
+    var index = plan_list.indexOf(plan_obj._id);
+    plan_list.splice(index, 1);
+    await User.findByIdAndUpdate(
+        user._id, {weekly_plan: plan_list}, {new: true}
+    ).exec();
+    var a_plan_obj = await WorkoutPlan.findById(user.active_plan).exec();
+    if (a_plan_obj.name.localeCompare(plan) == 0) {
+        await User.findByIdAndUpdate(
+            user._id, {active_plan: null}, {new: true}
+        ).exec();
+    }
+    return await WorkoutPlan.findByIdAndDelete(plan_obj._id).exec();
+}
+
+async function remove_type(username, type) {
+    var user = await get_user_obj(username);
+    var type_obj = await get_wkoutType_by_name(username, type);
+    var type_list = user.workoutTypes;
+    var index = type_list.indexOf(type_obj._id);
+    type_list.splice(index, 1);
+    await User.findByIdAndUpdate(
+        user._id, {workoutTypes: type_list}, {new: true}
+    ).exec();
+    return await WorkoutType.findByIdAndDelete(type_obj._id).exec();
+}
+
+async function remove_exercise(username, wkout_type, exercise) {
+    var type_obj = await get_wkoutType_by_name(username, wkout_type);
+    var ex_obj = await get_exercise_obj(type_obj, exercise);
+    var ex_list = type_obj.exercises;
+    var index = ex_list.indexOf(ex_obj._id);
+    ex_list.splice(index, 1);
+    await WorkoutType.findByIdAndUpdate(
+        type_obj._id, {exercises: ex_list}, {new: true}
+    ).exec();
+    return await KnownExercise.findByIdAndDelete(ex_obj._id).exec();
+}
+
 
 module.exports = {
     save_new_account_data,
@@ -569,5 +642,9 @@ module.exports = {
     get_workout_plan,
     update_active_plan,
     get_all_plan_names,
-    get_active_plan_obj
+    get_active_plan_obj,
+    remove_workout,
+    remove_plan,
+    remove_type,
+    remove_exercise
 }
