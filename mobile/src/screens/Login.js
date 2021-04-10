@@ -109,7 +109,7 @@ export default class Login extends Component {
                             title='Keep me signed in'
                             checked={this.state.persist}
                             containerStyle={{
-                                alignSelf: 'left',
+                                // alignSelf: 'left',
                                 marginLeft: 25,
                                 marginTop: -10,
                                 backgroundColor: '#FFFFFF',
