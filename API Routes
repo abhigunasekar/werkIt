@@ -353,3 +353,94 @@ body: [
 	["Saturday", <time>],
 	["Sunday", <time>]
 ]
+
+
+EDIT WORKOUT
+-----Request-----
+method: PATCH
+route: '/{username}/{workout}/edit_workout'
+body:
+	{
+		"name": "<exercise name>",
+        "type": "<type>",
+        "exercises": {
+			"e_name": "<exercise name>",
+			"data": {
+				"<data field>": value,
+				...
+			},
+			...
+		}
+	}
+
+-----Response-----
+status: 200
+
+
+DELETE WORKOUT
+-----Request-----
+method: DELETE
+route: '/{username}/{workout}/rm_wkout'
+
+-----Response-----
+status: 200
+
+
+DELETE WORKOUT PLAN
+-----Request-----
+method: DELETE
+route: '/{username}/{plan}/rm_plan'
+
+-----Response-----
+status: 200
+
+
+DELETE WORKOUT TYPE
+-----Request-----
+method: DELETE
+route: '/{username}/{type}/rm_type'
+
+-----Response-----
+status: 200
+
+
+DELETE EXERCISE FROM WORKOUT TYPE
+-----Request-----
+method: DELETE
+route: '/{username}/{type}/{exercise}/rm_ex'
+
+-----Response-----
+status: 200
+
+
+EDIT WORKOUT PLAN
+-----Request-----
+method: PATCH
+route: '/{username}/{plan}/edit_plan'
+body:
+	{
+		"name": "<plan name>",
+		"monday": "<workout name>",
+		"tuesday": "<workout name>",
+		"wednesday": "<workout name>",
+		"thursday": "<workout name>",
+		"friday": "<workout name>",
+		"saturday": "<workout name>",
+		"sunday": "<workout name>"
+	}
+
+-----Response-----
+status: 200
+
+
+EDIT WORKOUT TYPE NAME
+-----Request-----
+method: PATCH
+route: '/{username}/{type}/edit_workoutType'
+body:
+	{
+		"name": "<new type name>"
+	}
+
+-----Response-----
+status: 200

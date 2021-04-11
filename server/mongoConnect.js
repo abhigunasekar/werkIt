@@ -583,10 +583,12 @@ async function remove_plan(username, plan) {
         user._id, {weekly_plan: plan_list}, {new: true}
     ).exec();
     var a_plan_obj = await WorkoutPlan.findById(user.active_plan).exec();
-    if (a_plan_obj.name.localeCompare(plan) == 0) {
-        await User.findByIdAndUpdate(
-            user._id, {active_plan: null}, {new: true}
-        ).exec();
+    if (a_plan_obj != null) {
+        if (a_plan_obj.name.localeCompare(plan) == 0) {
+            await User.findByIdAndUpdate(
+                user._id, {active_plan: null}, {new: true}
+            ).exec();
+        }
     }
     return await WorkoutPlan.findByIdAndDelete(plan_obj._id).exec();
 }
@@ -613,6 +615,37 @@ async function remove_exercise(username, wkout_type, exercise) {
         type_obj._id, {exercises: ex_list}, {new: true}
     ).exec();
     return await KnownExercise.findByIdAndDelete(ex_obj._id).exec();
+}
+
+async function update_workout(username, wkout, new_wkout_obj) {
+    await remove_workout(username, wkout);
+    return await save_workout(
+        username, new_wkout_obj.name, 
+        new_wkout_obj.type, new_wkout_obj.exercises
+    );
+}
+
+async function update_type_name(username, old_type, new_type) {
+    var type_obj = await get_wkoutType_by_name(username, old_type);
+    return await WorkoutType.findByIdAndUpdate(
+        type_obj._id, {name: new_type}, {new: true}
+    ).exec();
+}
+
+async function update_plan(username, plan, new_plan_data) {
+    var active_plan = await get_active_plan_obj(username);
+    var update_ap = false;
+    if (active_plan != null) {
+        if (active_plan.name.localeCompare(plan) == 0) {
+            update_ap = true;
+        }
+    }
+    await remove_plan(username, plan);
+    await save_workout_plan(username, new_plan_data);
+    if (update_ap) {
+        await update_active_plan(username, new_plan_data.name);
+    }
+    return true;
 }
 
 
@@ -646,5 +679,8 @@ module.exports = {
     remove_workout,
     remove_plan,
     remove_type,
-    remove_exercise
+    remove_exercise,
+    update_workout,
+    update_type_name,
+    update_plan
 }
