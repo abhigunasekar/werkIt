@@ -7,7 +7,7 @@ import PasswordBox from '../components/PasswordBox';
 
 import { mismatchPasswordAlert, invalidFormAlert, usernameDoesNotExist } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
-import styles from '../styles';
+import styles from '../light';
 
 export default class ChangePassword extends Component {
     constructor() {

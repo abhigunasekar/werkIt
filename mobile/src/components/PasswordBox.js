@@ -4,7 +4,7 @@ import { CheckBox } from 'react-native-elements';
 
 import Button from './Button';
 
-import styles from '../styles';
+import styles from '../light';
 
 export default class PasswordBox extends Component {
     constructor(props) {

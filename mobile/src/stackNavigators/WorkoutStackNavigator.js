@@ -20,34 +20,27 @@ export default class WorkoutStackNavigator extends Component {
                 <Stack.Screen 
                     name='Workouts'
                     options={{
-                        headerStyle: {
-                            backgroundColor: '#7641BD',
-                        },
-                        headerTitleStyle: {
-                            color: '#FFFFFF',
-                        },
+                        headerStyle: { backgroundColor: '#7641BD' },
+                        headerTitleStyle: { color: '#FFFFFF' },
                         headerLeft: () => 
                         <Pressable style={{marginLeft: 17}} onPress={() => this.props.navigation.openDrawer()}>
-                            <FontAwesome name="home" size={24} color="white" />
+                            <FontAwesome name="home" size={24} color='#FFFFFF' />
                         </Pressable>
                     }}
                 >
-                    {props => <Workouts {...props} logout={this.props.logout} username={this.props.username}/>}
+                    {props => <Workouts {...props} logout={this.props.logout} username={this.props.username} darkmode={this.props.darkmode}/>}
                 </Stack.Screen>
                 <Stack.Screen 
                     name='WorkoutEditor'
-                    component={WorkoutEditor}
                     options={{
                         gestureEnabled: false,
                         headerLeft: null,
-                        headerStyle: {
-                            backgroundColor: '#FB963C',
-                        },
-                        headerTitleStyle: {
-                            color: '#FFFFFF',
-                        },
+                        headerStyle: { backgroundColor: '#FB963C' },
+                        headerTitleStyle: { color: '#FFFFFF' },
                     }}
-                />
+                >
+                    {props => <WorkoutEditor {...props} darkmode={this.props.darkmode}/>}
+                </Stack.Screen>
             </Stack.Navigator>
         );
     }

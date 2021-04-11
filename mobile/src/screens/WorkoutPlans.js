@@ -5,7 +5,8 @@ import WorkoutLabel from '../components/WorkoutLabel';
 import Button from '../components/Button';
 
 import * as serverMethods from '../ServerMethods';
-import styles from '../styles';
+import light from '../light';
+import dark from '../dark';
 
 export default class WorkoutPlans extends Component {
     constructor(props) {
@@ -14,6 +15,7 @@ export default class WorkoutPlans extends Component {
         this.state = {
             username: this.props.username,
             workoutPlans: [],
+            style: this.props.darkmode ? dark : light
         }
     }
 
@@ -53,15 +55,17 @@ export default class WorkoutPlans extends Component {
             );
         }
         return(
-            <View style={styles.workoutsContainer}>
-                <ScrollView style={styles.workoutList} contentContainerStyle={{alignItems: 'center'}}>
-                    <Text style={{fontSize: 15}}>{(this.state.workoutPlans.length !== 0) ? "" : "Create a new workout plan to get started!"}</Text>
+            <View style={this.state.style.workoutsContainer}>
+                <ScrollView style={this.state.style.workoutList} contentContainerStyle={{alignItems: 'center'}}>
+                    <Text style={[{fontSize: 15}, this.state.style.text]}>{(this.state.workoutPlans.length !== 0) ? "" : "Create a new workout plan to get started!"}</Text>
                     {workoutPlanList}
                 </ScrollView>
                 <Button
                     buttonText='Create New Workout Plan'
                     onPress={() => this.props.navigation.navigate('WorkoutPlanEditor', { username: this.state.username })}
-                    style={{marginTop: 20}}
+                    //maybe add a thing to make sure there are enough workouts?
+                    darkmode={this.props.darkmode}
+                    style={{marginBottom: 20}}
                     purple={true}
                 />
             </View>

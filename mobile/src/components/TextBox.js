@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TextInput } from 'react-native';
 
-import styles from '../styles';
+import styles from '../light';
 
 export default class TextBox extends Component {
     constructor(props) {
@@ -17,6 +17,8 @@ export default class TextBox extends Component {
                 onKeyPress={this.props.onKeyPress}
                 secureTextEntry={this.props.secureTextEntry}
                 placeholder={this.props.placeholder}
+                placeholderTextColor={this.props.darkmode ? '#FFFFFF' : '#C7C7CD'}
+                color={this.props.darkmode ? '#FFFFFF' : '#000000'}
                 keyboardType={this.props.keyboardType}
                 maxLength={this.props.maxLength}
                 style={[ styles.textBox, this.props.style ]}

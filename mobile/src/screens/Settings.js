@@ -8,7 +8,7 @@ export default class Settings extends Component {
         super(props);
 
         this.state = {
-            darkMode = false,
+            darkMode: false,
         }
     }
 
@@ -17,9 +17,9 @@ export default class Settings extends Component {
             <View style={{alignItems: 'center', paddingTop: 300}}>
                 <Text>NOT YET IMPLEMENTED</Text>
                 <Switch
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={this.state.darkMode ? "#f5dd4b" : "#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
+                    trackColor={{ true: "#3E3E3E" }}
+                    thumbColor={this.state.darkMode ? "#7641BD" : "#3E3E3E"}
+                    ios_backgroundColor="#7641BD"
                     onValueChange={() => this.setState({ darkMode: !this.state.darkMode })}
                     value={this.state.darkMode}
                 />

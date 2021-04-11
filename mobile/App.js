@@ -15,6 +15,7 @@ export default class App extends Component {
             isLoggedIn: false,
             persist: false,
             username: '',
+            darkmode: true,
         };
 
         this.login = this.login.bind(this);
@@ -66,6 +67,7 @@ export default class App extends Component {
             if (loginToken != null) {
                 console.log('token is not null')
                 this.setState({ username: loginToken });
+                //server call for dark mode?
                 return true;
             } else {
                 return false;
@@ -76,6 +78,7 @@ export default class App extends Component {
     }
 
     render() {
+        // pass style down based on preference
         if (!this.state.isLoaded) {
             return (
                 <MotivationalQuote />
@@ -88,7 +91,7 @@ export default class App extends Component {
             }
             else {
                 return (
-                    <DrawerNavigator logout={this.logout} username={this.state.username}/>
+                    <DrawerNavigator logout={this.logout} username={this.state.username} darkmode={this.state.darkmode}/>
                 );
             }
         }

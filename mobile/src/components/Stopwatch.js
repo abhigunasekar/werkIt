@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
 import Button from './Button';
-import styles from '../styles';
+import styles from '../light';
 
 export default class Stopwatch extends Component {
     constructor(props) {
@@ -75,12 +75,14 @@ export default class Stopwatch extends Component {
                         buttonText='Start'
                         onPress={() => this.startStopwatch()}
                         style={{marginRight: 50}}
+                        darkmode={this.props.darkmode}
                         purple={true}
                     />
                     <Button
                         buttonText='Stop'
                         onPress={() => this.stopStopwatch()}
                         style={{marginRight: 50}}
+                        darkmode={this.props.darkmode}
                         purple={true}
                     />
                     <Button
@@ -89,6 +91,7 @@ export default class Stopwatch extends Component {
                             this.props.finish(this.state.hr, this.state.min, this.state.sec);
                             this.setState({ hr: '00', min: '00', sec: '00' });
                         }}
+                        darkmode={this.props.darkmode}
                         purple={true}
                     />
                 </View>

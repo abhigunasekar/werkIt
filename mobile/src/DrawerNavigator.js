@@ -9,10 +9,13 @@ import WorkoutStackNavigator from './stackNavigators/WorkoutStackNavigator';
 import Friends from './screens/Friends';
 import Settings from './screens/Settings';
 
+import dark from './dark';
+import light from './light';
+
 function CustomDrawerContent(props) {
     return (
-        <DrawerContentScrollView {...props}>
-            <DrawerItemList {...props} />
+        <DrawerContentScrollView {...props} style={props.drawerStyle}>
+            <DrawerItemList {...props} labelStyle={props.drawerItemStyle} />
             <DrawerItem
                 label='Logout'
                 icon={() => <MaterialCommunityIcons name="logout" color='#FB963C' size={26} />}
@@ -31,26 +34,31 @@ const Drawer = createDrawerNavigator();
 export default class DrawerNavigator extends Component {
     constructor(props) {
         super(props);
+
+        console.log('drawer: ' + this.props.darkmode)
+        this.state = {
+            style: this.props.darkmode ? dark : light,
+        }
     }
 
     render() {
         return(
             <NavigationContainer>
-                <Drawer.Navigator initialRouteName='Dashboard' drawerContent={props => <CustomDrawerContent {...props} logout={this.props.logout}/>}>  
+                <Drawer.Navigator initialRouteName='Dashboard' drawerContent={props => <CustomDrawerContent {...props} drawerStyle={this.state.style.drawer} drawerItemStyle={this.state.style.drawerItem} logout={this.props.logout}/>}>  
                     <Drawer.Screen name='Dashboard'>
-                        {props => <DashboardStackNavigator {...props} logout={this.props.logout} username={this.props.username}/>}
+                        {props => <DashboardStackNavigator {...props} logout={this.props.logout} username={this.props.username} darkmode={this.props.darkmode}/>}
                     </Drawer.Screen>
                     <Drawer.Screen name='Workout Plans'>
-                        {props => <WorkoutPlanStackNavigator {...props} username={this.props.username}/>}
+                        {props => <WorkoutPlanStackNavigator {...props} username={this.props.username} darkmode={this.props.darkmode}/>}
                     </Drawer.Screen>
                     <Drawer.Screen name='Workouts'>
-                        {props => <WorkoutStackNavigator {...props} username={this.props.username}/>}
+                        {props => <WorkoutStackNavigator {...props} username={this.props.username} darkmode={this.props.darkmode}/>}
                     </Drawer.Screen>
                     <Drawer.Screen name='Friends'>
-                        {props => <Friends {...props} username={this.props.username}/>}
+                        {props => <Friends {...props} username={this.props.username} darkmode={this.props.darkmode}/>}
                     </Drawer.Screen>
                     <Drawer.Screen name='Settings'>
-                        {props => <Settings {...props} logout={this.props.logout}/>}
+                        {props => <Settings {...props} logout={this.props.logout} darkmode={this.props.darkmode}/>}
                     </Drawer.Screen>
                 </Drawer.Navigator>
             </NavigationContainer>

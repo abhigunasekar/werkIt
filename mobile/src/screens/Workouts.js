@@ -5,7 +5,8 @@ import Button from '../components/Button';
 import WorkoutLabel from '../components/WorkoutLabel';
 import * as serverMethods from '../ServerMethods';
 
-import styles from '../styles';
+import light from '../light';
+import dark from '../dark/';
 
 export default class Workouts extends Component{
     constructor(props) {
@@ -15,6 +16,7 @@ export default class Workouts extends Component{
             username: this.props.username,
             workouts: [],
             currWorkout: '',
+            style: this.props.darkmode ? dark : light
         };
 
         this.createWorkout = this.createWorkout.bind(this);
@@ -86,18 +88,19 @@ export default class Workouts extends Component{
             );
         }
         return(
-            <View style={styles.workoutsContainer}>
+            <View style={this.state.style.workoutsContainer}>
                 {/* <View style={{borderColor: "#000000", borderBottomWidth: 2, marginTop: 10, width: '75%', alignItems: 'center'}}>
                     <Text style={{fontSize: 30}}>Workouts</Text>
                 </View> */}
-                <ScrollView style={styles.workoutList} contentContainerStyle={{alignItems: 'center'}}>
-                    <Text style={{fontSize: 15}}>{(this.state.workouts.length !== 0) ? "" : "Create a new workout to get started!"}</Text>
+                <ScrollView style={this.state.style.workoutList} contentContainerStyle={{alignItems: 'center'}}>
+                    <Text style={[{fontSize: 15}, this.state.style.text]}>{(this.state.workouts.length !== 0) ? "" : "Create a new workout to get started!"}</Text>
                     {workoutList}
                 </ScrollView>
                 <Button
                     buttonText='Create New Workout'
                     onPress={() => this.props.navigation.navigate('WorkoutEditor', { username: this.state.username })}
-                    style={{marginTop: 20}}
+                    style={{marginBottom: 20}}
+                    darkmode={this.props.darkmode}
                     purple={true}
                 />
             </View>

@@ -12,6 +12,7 @@ const Stack = createStackNavigator();
 export default class DashboardStackNavigator extends Component {
     constructor(props) {
         super(props);
+        console.log('dashboard: ' + this.props.darkmode)
     }
 
     render() {
@@ -20,19 +21,15 @@ export default class DashboardStackNavigator extends Component {
                 <Stack.Screen 
                     name='Dashboard'
                     options={{
-                        headerStyle: {
-                            backgroundColor: '#7641BD',
-                        },
-                        headerTitleStyle: {
-                            color: '#FFFFFF',
-                        },
+                        headerStyle: { backgroundColor: '#7641BD' },
+                        headerTitleStyle: { color: '#FFFFFF' },
                         headerLeft: () => 
                         <Pressable style={{marginLeft: 17}} onPress={() => this.props.navigation.openDrawer()}>
-                            <FontAwesome name="home" size={24} color="white" />
+                            <FontAwesome name="home" size={24} color='#FFFFFF'/>
                         </Pressable>
                     }}
                 >
-                    {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username}/>}
+                    {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username} darkmode={this.props.darkmode}/>}
                 </Stack.Screen>
             </Stack.Navigator>
         );

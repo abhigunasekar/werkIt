@@ -6,12 +6,18 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import WorkoutPlans from '../screens/WorkoutPlans';
 import WorkoutPlanEditor from '../screens/WorkoutPlanEditor';
+import light from '../light';
+import dark from '../dark';
 
 const Stack = createStackNavigator();
 
 export default class WorkoutPlanStackNavigator extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            style: this.props.darkmode ? dark : light,
+        }
     }
     
     render() {
@@ -20,34 +26,27 @@ export default class WorkoutPlanStackNavigator extends Component {
                 <Stack.Screen 
                     name='WorkoutPlans'
                     options={{
-                        headerStyle: {
-                            backgroundColor: '#7641BD',
-                        },
-                        headerTitleStyle: {
-                            color: '#FFFFFF',
-                        },
+                        headerStyle: { backgroundColor: '#7641BD' },
+                        headerTitleStyle: { color: '#FFFFFF' },
                         headerLeft: () => 
                         <Pressable style={{marginLeft: 17}} onPress={() => this.props.navigation.openDrawer()}>
-                            <FontAwesome name="home" size={24} color="white" />
+                            <FontAwesome name="home" size={24} color='#FFFFFF'/>
                         </Pressable>
                     }}
                 >
-                    {props => <WorkoutPlans {...props} username={this.props.username}/>}
+                    {props => <WorkoutPlans {...props} username={this.props.username} darkmode={this.props.darkmode}/>}
                 </Stack.Screen>
                 <Stack.Screen 
                     name='WorkoutPlanEditor'
-                    component={WorkoutPlanEditor}
                     options={{
                         gestureEnabled: false,
                         headerLeft: null,
-                        headerStyle: {
-                            backgroundColor: '#FB963C',
-                        },
-                        headerTitleStyle: {
-                            color: '#FFFFFF',
-                        },
+                        headerStyle: { backgroundColor: '#FB963C' },
+                        headerTitleStyle: { color: '#FFFFFF' },
                     }}
-                />
+                >
+                    {props => <WorkoutPlanEditor {...props} darkmode={this.props.darkmode}/>}   
+                </Stack.Screen>
             </Stack.Navigator>
         );
     }

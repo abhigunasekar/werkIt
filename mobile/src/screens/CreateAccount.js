@@ -6,7 +6,7 @@ import TextBox from '../components/TextBox';
 import PasswordBox from '../components/PasswordBox';
 
 import * as serverMethods from '../ServerMethods';
-import styles from '../styles';
+import styles from '../light';
 
 import { invalidEmailAlert, mismatchPasswordAlert, invalidFormAlert, usernameAlreadyExists } from '../components/Alerts';
 
