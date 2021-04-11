@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 import TextBox from './TextBox';
 
-import styles from '../styles';
+import styles from '../light';
 
 export default class HideableView extends Component {
     constructor(props) {

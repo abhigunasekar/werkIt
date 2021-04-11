@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 // reference this --> https://reactnative.dev/docs/asyncstorage
 
 import MotivationalQuote from './src/screens/MotivationalQuote';
-import LoginStackNavigator from './src/LoginStackNavigator';
+import LoginStackNavigator from './src/stackNavigators/LoginStackNavigator';
 import DrawerNavigator from './src/DrawerNavigator';
 
 export default class App extends Component {
@@ -15,6 +15,7 @@ export default class App extends Component {
             isLoggedIn: false,
             persist: false,
             username: '',
+            darkmode: true,
         };
 
         this.login = this.login.bind(this);
@@ -26,10 +27,11 @@ export default class App extends Component {
     async componentDidMount() {
         const token = await this.getToken();
         this.setState({ isLoggedIn: token });
-        setTimeout(() => this.setState({ isLoaded: true }), 5000);
+        setTimeout(() => this.setState({ isLoaded: true }), 4000);
     }
 
     persist() {
+        console.log('persist')
         this.setState({ persist: !this.state.persist });
     }
 
@@ -37,6 +39,7 @@ export default class App extends Component {
         if (this.state.persist) {
             // AsyncStorage method to create token???
             try {
+                console.log('tried to set token')
                 await AsyncStorage.setItem('loginToken', user);
             } catch (error) {
                 console.log('setToken error: ' + error);
@@ -49,6 +52,7 @@ export default class App extends Component {
     async logout() {
         // AsyncStorage method to remove token???
         try {
+            console.log('tried to remove token')
             await AsyncStorage.removeItem('loginToken');
         } catch (error) {
             console.log('setToken error: ' + error);
@@ -61,7 +65,9 @@ export default class App extends Component {
         try {
             const loginToken = await AsyncStorage.getItem('loginToken');
             if (loginToken != null) {
+                console.log('token is not null')
                 this.setState({ username: loginToken });
+                //server call for dark mode?
                 return true;
             } else {
                 return false;
@@ -72,6 +78,7 @@ export default class App extends Component {
     }
 
     render() {
+        // pass style down based on preference
         if (!this.state.isLoaded) {
             return (
                 <MotivationalQuote />
@@ -84,7 +91,7 @@ export default class App extends Component {
             }
             else {
                 return (
-                    <DrawerNavigator logout={this.logout} username={this.state.username}/>
+                    <DrawerNavigator logout={this.logout} username={this.state.username} darkmode={this.state.darkmode}/>
                 );
             }
         }
