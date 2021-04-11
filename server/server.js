@@ -38,6 +38,7 @@ app.get('/', function (req, res) {
 });
 
 // create a new account
+// TODO check/do not allow username "user"
 app.post('/create_account', urlencodedparser, cors(), (req, res) => {
     console.log("Request to create account");
     console.log(req.body);
@@ -283,7 +284,6 @@ app.get('/:username/progress', (req, res) => {
     });
 });
 
-
 // get data for histogram
 app.get('/:username/histogram', (req, res) => {
     console.log("Getting data for histogram");
@@ -292,11 +292,6 @@ app.get('/:username/histogram', (req, res) => {
         res.status(200).send(data);
     });
 });
-
-// TODO update workout
-// app.patch('/:username/:workout', (req, res) => {
-
-// })
 
 // delete workout
 app.delete('/:username/:workout/rm_wkout', (req, res) => {
@@ -332,6 +327,33 @@ app.delete('/:username/:type/:exercise/rm_ex', (req, res) => {
                 " for user " + req.params.username);
     mc.remove_exercise(req.params.username, req.params.type, req.params.exercise).then(_ => {
         console.log("Exercise successfully removed");
+        res.status(200).end();
+    });
+});
+
+// edit workout
+app.patch('/:username/:workout/edit_workout', (req, res) => {
+    console.log("Updating workout " + req.params.workout + " for user " + req.params.username);
+    mc.update_workout(req.params.username, req.params.workout, req.body).then(_ => {
+        console.log("Successfully updated workout");
+        res.status(200).end();
+    });
+});
+
+// edit workout plan
+app.patch('/:username/:plan/edit_plan', (req, res) => {
+    console.log("Updating workout plan " + req.params.workout + " for user " + req.params.username);
+    mc.update_plan(req.params.username, req.params.plan, req.body).then(_ => {
+        console.log("Successfully updated workout");
+        res.status(200).end();
+    });
+});
+
+// edit workout type name
+app.patch('/:username/:type/edit_workoutType', (req, res) => {
+    console.log("Updating workout type " + req.params.type + " for user " + req.params.username);
+    mc.update_type_name(req.params.username, req.params.type, req.body.name).then(_ => {
+        console.log("Successfully updated workout type");
         res.status(200).end();
     });
 });
