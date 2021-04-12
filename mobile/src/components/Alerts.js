@@ -120,10 +120,46 @@ export const duplicateExerciseError = () => {
     )
 }
 
+export const duplicateWorkoutTypeError = () => {
+    Alert.alert(
+        '',
+        'The specified workout type already exists',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const duplicateExerciseTypeError = () => {
+    Alert.alert(
+        '',
+        'The specified exercise type already exists',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
 export const missingNameError = () => {
     Alert.alert(
         '',
         'Please specify a name',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const missingExerciseError = () => {
+    Alert.alert(
+        '',
+        'Please add at least one exercise',
         [
             {
                 text: 'OK'

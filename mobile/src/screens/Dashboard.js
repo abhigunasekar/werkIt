@@ -1,104 +1,90 @@
-import React, { Component } from 'react'
-import { View, ScrollView, Text } from 'react-native'
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
 
+import DropDownPicker from 'react-native-dropdown-picker';
+
+import Stopwatch from '../components/Stopwatch';
 import Button from '../components/Button';
-import WorkoutLabel from '../components/WorkoutLabel';
+
 import * as serverMethods from '../ServerMethods';
+import light from '../light';
+import dark from '../dark';
 
-import styles from '../styles';
-
-export default class Dashboard extends Component{
+export default class Dashboard extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             username: this.props.username,
-            workouts: [],
-            currWorkout: '',
-        };
+            savedWorkoutPlans: [],
+            activeWorkoutPlan: '',
+            hr: 0,
+            min: 0,
+            sec: 0,
+            style: this.props.darkmode ? dark : light
+        }
 
-        this.createWorkout = this.createWorkout.bind(this);
+        this.logTime = this.logTime.bind(this);
+    }
+
+    logTime(hr, min, sec) {
+        this.setState({ hr: parseInt(hr), min: parseInt(min), sec: parseInt(sec)});
     }
 
     componentDidMount() {
-        // server call to get workouts related to user
-        serverMethods.getUserWorkouts(this.state.username)
+        //server call to get current active workout?
+
+        serverMethods.getUserWorkoutPlans(this.state.username)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
-                this.setState({ workouts: response })
+                let array = this.state.savedWorkoutPlans;
+                response.map((workoutPlan) => array.push({ label: workoutPlan, value: workoutPlan }))
+                this.setState({ savedWorkoutPlans: array })
             });
-        this.listener = this.props.navigation.addListener('focus', () => {
-            console.log('focus');
-            setTimeout(() => serverMethods.getUserWorkouts(this.state.username)
+        serverMethods.getActiveWorkoutPlan(this.state.username)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
-                this.setState({ workouts: response })
-            }), 100);
-        })
-        // this.setState({ workouts: response });
-    }
-
-    componentWillUnmount() {
-        this.listener();
-    }
-
-    // componentDidUpdate(prevProps) {
-    //     // this will probably need to change after server calls are introduced
-    //     console.log('update')
-    //     if (prevProps.isFocused !== this.props.isFocused) {
-    //     serverMethods.getUserWorkouts(this.state.username)
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             console.log(response)
-    //             this.setState({ workouts: response })
-    //         });
-    //     }
-    // }
-
-    editWorkout(workout) {
-        this.setState({ currWorkout: workout });
-        //find current workout in the this.state.workouts
-    }
-
-    createWorkout(workout) {
-        if (workout.name !== undefined) {
-            //server call to add new workout to database (maybe do this in workout editor?)
-        let newArray = this.state.workouts.map(workout => workout);
-        newArray.push({ name: workout.name, exercises: workout.exercises });
-
-        this.setState({ workouts: newArray });
-        }
+                this.setState({ activeWorkoutPlan: response });
+            });
     }
 
     render() {
-        console.log(this.state.username);
-        let workoutList = [];
-        for (let i = 0; i < this.state.workouts.length; i++) {
-            let workout = this.state.workouts[i];
-            workoutList.push(
-                <WorkoutLabel
-                    key={i}
-                    name={workout}
-                    edit={() => this.props.navigation.navigate('WorkoutEditor', { workout: workout })} //server call to get exercises given name
+        let today = new Date();
+        let day = today.getDay();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = today.getFullYear();
+        today = mm + '-' + dd + '-' + yyyy;
+
+        return (
+            <View style={this.state.style.dashboardContainer}>
+                <Text style={[this.state.style.text, {fontSize: 20, margin: 25}]}>Welcome {this.state.username}!</Text>
+                <Text style={[this.state.style.text, {marginBottom: 10}]}>Your selected workout plan is: </Text>
+                <DropDownPicker
+                    items={this.state.savedWorkoutPlans}
+                    defaultValue={''}
+                    placeholder={(this.state.activeWorkoutPlan !== '') ? this.state.activeWorkoutPlan.name : 'Select an active workout plan'}
+                    containerStyle={{height: 40, width: '50%'}}
+                    style={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
+                    itemStyle={{
+                        justifyContent: 'flex-start'
+                    }}
+                    labelStyle={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}
+                    dropDownStyle={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
+                    onChangeItem={(item) => {
+                        serverMethods.updateActiveWorkoutPlan(this.state.username, item.value); 
+                        this.setState({ activeWorkoutPlan: item.value });
+                    }}
                 />
-            );
-        }
-        return(
-            <View style={styles.dashboardContainer}>
-                <View style={{borderColor: "#000000", borderBottomWidth: 2, marginTop: 10, width: '75%', alignItems: 'center'}}>
-                    <Text style={{fontSize: 30}}>Workouts</Text>
-                </View>
-                <ScrollView style={styles.workoutList} contentContainerStyle={{alignItems: 'center'}}>
-                    <Text style={{fontSize: 15}}>{(this.state.workouts.length !== 0) ? "" : "Create a new workout to get started!"}</Text>
-                    {workoutList}
-                </ScrollView>
+                <Text>{today}</Text>
+                <Text>Today is: {day}</Text>
+                <Text>Elapsed time: {this.state.hr} hrs   {this.state.min} min   {this.state.sec} sec</Text>
+                <Stopwatch finish={this.logTime} darkmode={this.props.darkmode}/>
                 <Button
-                    buttonText='Create New Workout'
-                    onPress={() => this.props.navigation.navigate('WorkoutEditor', { username: this.state.username })}
-                    //style={{marginTop: 20}}
-                    purple={true}
+                    buttonText='Logout'
+                    darkmode={this.props.darkmode}
+                    onPress={() => this.props.logout()}
+                    orange={true}
                 />
             </View>
         );

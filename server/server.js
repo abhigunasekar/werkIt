@@ -38,6 +38,7 @@ app.get('/', function (req, res) {
 });
 
 // create a new account
+// TODO check/do not allow username "user"
 app.post('/create_account', urlencodedparser, cors(), (req, res) => {
     console.log("Request to create account");
     console.log(req.body);
@@ -106,7 +107,7 @@ app.get('/profile/:username', cors(), (req, res) => {
     mc.get_profile_info(req.params.username).then(user => {
         console.log(user);
         res.status(200).json(user);
-    })
+    });
 });
 
 // update one element of user profile info
@@ -115,8 +116,8 @@ app.patch('/profile/:username/:field', (req, res) => {
     console.log("Updating " + req.params.field + "field for user " + req.params.username);
     mc.update_profile_field(req.params.username, req.params.field, req.body).then(_ => {
         res.status(200).end();
-    })
-})
+    });
+});
 
 // update dark mode
 app.patch('/user/:username/darkmode', urlencodedparser, cors(), (req, res) => {
@@ -135,7 +136,7 @@ app.get('/:username/profile/:field', (req, res) => {
         console.log("Successfully found value");
         res.status(200).json({
             [req.params.field]: val
-        })
+        });
     })
 })
 
@@ -161,8 +162,8 @@ app.post('/:username/workoutType', (req, res) => {
             console.log("User already contains workout type with given name");
             res.status(400).end();
         }
-    })
-})
+    });
+});
 
 // get exercises given a workout type
 app.get('/:username/:workoutType/exercises', (req, res) => {
@@ -171,7 +172,7 @@ app.get('/:username/:workoutType/exercises', (req, res) => {
         console.log("Exercises found");
         res.status(200).json(ex_list);
     });
-})
+});
 
 // add new exercise to a given workout type
 app.put('/:username/:workoutType/exercise', (req, res) => {
@@ -194,7 +195,7 @@ app.put('/:username/:workoutType/exercise', (req, res) => {
 app.post('/:username/workout', (req, res) => {
     console.log("saving new workout");
     mc.save_workout(req.params.username, req.body.name, req.body.type, req.body.exercises).then(_ => {
-        res.status(200).end()
+        res.status(200).end();
     });
 });
 
@@ -229,7 +230,7 @@ app.post('/:username/completed', (req, res) => {
 app.post('/:username/workout_plan', (req, res) => {
     console.log("Saving workout plan");
     mc.save_workout_plan(req.params.username, req.body).then(_ => {
-        res.status(200).end()
+        res.status(200).end();
     });
 });
 
@@ -245,7 +246,7 @@ app.get('/:username/workout_plan/:name', (req, res) => {
 app.get('/:username/workout_plans', (req, res) => {
     console.log("Getting the name of each workout plan");
     mc.get_all_plan_names(req.params.username).then(names => {
-        console.log("Found all the names")
+        console.log("Found all the names");
         res.status(200).json(names);
     });
 });
@@ -278,11 +279,10 @@ app.get('/:username/progress', (req, res) => {
             res.status(200).json({
                 expected: goal,
                 actual: progress
-            })
+            });
         });
     });
 });
-
 
 // get data for histogram
 app.get('/:username/histogram', (req, res) => {
@@ -290,13 +290,74 @@ app.get('/:username/histogram', (req, res) => {
     mc.get_histogram_data(req.params.username).then(data => {
         console.log("data found: " + data);
         res.status(200).send(data);
-    })
-})
+    });
+});
 
-// TODO update workout
-// app.patch('/:username/:workout', (req, res) => {
+// delete workout
+app.delete('/:username/:workout/rm_wkout', (req, res) => {
+    console.log("Removing workout " + req.params.workout + " for user " + req.params.username);
+    mc.remove_workout(req.params.username, req.params.workout).then(_ => {
+        console.log("Workout successfully removed");
+        res.status(200).end();
+    });
+});
 
-// })
+// delete workout plan
+app.delete('/:username/:plan/rm_plan', (req, res) => {
+    console.log("Removing workout plan " + req.params.plan + " for user " + req.params.username);
+    mc.remove_plan(req.params.username, req.params.plan).then(_ => {
+        console.log("Workout plan successfully removed");
+        res.status(200).end();
+    });
+});
+
+// delete workout type
+app.delete('/:username/:type/rm_type', (req, res) => {
+    console.log("Removing workout type " + req.params.type + " for user " + req.params.username);
+    mc.remove_type(req.params.username, req.params.type).then(_ => {
+        console.log("Workout plan successfully removed");
+        res.status(200).end();
+    });
+});
+
+// delete known exercise from workout type
+app.delete('/:username/:type/:exercise/rm_ex', (req, res) => {
+    console.log("Removing exercise " + req.params.exercise +
+                " for workout type " + req.params.type +
+                " for user " + req.params.username);
+    mc.remove_exercise(req.params.username, req.params.type, req.params.exercise).then(_ => {
+        console.log("Exercise successfully removed");
+        res.status(200).end();
+    });
+});
+
+// edit workout
+app.patch('/:username/:workout/edit_workout', (req, res) => {
+    console.log("Updating workout " + req.params.workout + " for user " + req.params.username);
+    mc.update_workout(req.params.username, req.params.workout, req.body).then(_ => {
+        console.log("Successfully updated workout");
+        res.status(200).end();
+    });
+});
+
+// edit workout plan
+app.patch('/:username/:plan/edit_plan', (req, res) => {
+    console.log("Updating workout plan " + req.params.workout + " for user " + req.params.username);
+    mc.update_plan(req.params.username, req.params.plan, req.body).then(_ => {
+        console.log("Successfully updated workout");
+        res.status(200).end();
+    });
+});
+
+// edit workout type name
+app.patch('/:username/:type/edit_workoutType', (req, res) => {
+    console.log("Updating workout type " + req.params.type + " for user " + req.params.username);
+    mc.update_type_name(req.params.username, req.params.type, req.body.name).then(_ => {
+        console.log("Successfully updated workout type");
+        res.status(200).end();
+    });
+});
+
 
 app.listen(port, ip, function () {
     console.log("Server listening on http://%s:%d", ip, port);

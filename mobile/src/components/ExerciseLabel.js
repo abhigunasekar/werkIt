@@ -4,7 +4,7 @@ import { Pressable, Text, View, ScrollView, Modal } from 'react-native';
 import HideableView from './HideableView';
 import Button from './Button';
 
-import styles from '../styles';
+import styles from '../light';
 import { invalidFormAlert } from './Alerts';
 
 export default class ExerciseLabel extends Component {

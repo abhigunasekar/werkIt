@@ -5,7 +5,7 @@ import SelectMultiple from 'react-native-select-multiple';
 import TextBox from '../components/TextBox';
 import HideableView from '../components/HideableView';
 
-import styles from '../styles';
+import styles from '../light';
 import { createExerciseError, missingNameError } from '../components/Alerts';
 import Button from '../components/Button';
 

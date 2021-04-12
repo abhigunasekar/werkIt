@@ -1,72 +1,37 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
-    loginContainer: {
-        backgroundColor: '#7641BD',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
+    drawer: {
+        backgroundColor: '#3E3E3E'
     },
-    loginForm: {
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 7,
-        height: '60%',
-        width: '75%',
-        flexDirection: 'column',
-        justifyContent: 'center',
+    drawerItem: {
+        color: '#FFFFFF',
     },
-    loginText: {
-        fontSize: 35,
-        color: '#7641BD',
-        fontWeight: 'bold',
-        marginBottom: 30,
+    headerStyle: {
+        //backgroundColor: '#3E3E3E'
+        backgroundColor: '#472278'
     },
-    createAccountContainer: {
-        backgroundColor: '#FB963C',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    createAccountForm: {
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
-        height: '80%',
-        width: '75%',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        borderRadius: 7
-    },
-    createAccountText: {
-        fontSize: 30,
-        color: '#FB963C',
-        fontWeight: 'bold',
-        marginBottom: 40,
-    },
-    changePasswordContainer: {
-        backgroundColor: '#535c68',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-
-    },
-    changePasswordForm: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#FFFFFF',
-        height: '45%',
-        width: '75%',
-        borderRadius: 7,
-    },
-    changePasswordText: {
-        fontSize: 25,
-        color: '#535c68',
-        fontWeight: 'bold',
-        marginBottom: 35,
+    headerTitleStyle: {
+        //color: '#7641BD'
+        color: '#FFFFFF'
     },
     dashboardContainer: {
         alignItems: 'center',
+        backgroundColor: '#3E3E3E',
+        height: '100%',
+    },
+    workoutPlanEditorContainer: {
+        backgroundColor: '#3E3E3E',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingTop: 20,
+        height: '100%',
+    },
+    workoutsContainer: {
+        alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#3E3E3E',
+        height: '100%'
     },
     motivationalQuote: {
         width: '100%',
@@ -77,7 +42,7 @@ export default StyleSheet.create({
     workoutList: {
         height: '75%',
         width: '80%',
-        marginTop: 20,
+        marginTop: 40,
         //  borderColor: '#6B6767',
         //  borderWidth: 3,
         marginBottom: 20,
@@ -85,6 +50,8 @@ export default StyleSheet.create({
     workoutEditorContainer: {
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#3E3E3E',
+        height: '100%'
     },
     exerciseList: {
         height: '70%',
@@ -100,7 +67,7 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 35,
         justifyContent: 'center',
-        padding: 7
+        padding: 7,
     },
     textBox: {
         borderColor: '#6B6767',
@@ -136,7 +103,7 @@ export default StyleSheet.create({
     modalView: {
         margin: '10%',
         marginTop: '35%',
-        backgroundColor: "white",
+        backgroundColor: "#3E3E3E",
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
@@ -152,7 +119,7 @@ export default StyleSheet.create({
     editorModal: {
         margin: '10%',
         marginTop: '30%',
-        backgroundColor: "white",
+        backgroundColor: "#3E3E3E",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -168,7 +135,7 @@ export default StyleSheet.create({
     metadataModal: {
         margin: '10%',
         marginTop: '35%',
-        backgroundColor: "white",
+        backgroundColor: "#3E3E3E",
         borderRadius: 20,
         paddingTop: 30,
         paddingBottom: 20,
@@ -186,7 +153,7 @@ export default StyleSheet.create({
     workoutType: {
         margin: '10%',
         marginTop: '70%',
-        backgroundColor: "white",
+        backgroundColor: "#3E3E3E",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -199,9 +166,27 @@ export default StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
+    friendsContainer: {
+        backgroundColor: '#3E3E3E',
+        alignItems: 'center',
+        height: '100%'
+    },
+    friendsHeader: {
+        backgroundColor: '#7641BD',
+        paddingTop: 30,
+        borderBottomWidth: 2,
+        width: '100%',
+        alignItems: 'center',
+        paddingBottom: 15,
+        marginBottom: 30,
+        flexDirection: 'row'
+    },
     motivationalQuote: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#3E3E3E',
         alignItems: 'center',
         paddingTop: 300
+    },
+    text: {
+        color: '#FFFFFF'
     },
 })

@@ -4,12 +4,12 @@ import { Pressable } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { FontAwesome } from '@expo/vector-icons';
 
-import Dashboard from './screens/Dashboard';
-import WorkoutEditor from './screens/WorkoutEditor';
+import Workouts from '../screens/Workouts';
+import WorkoutEditor from '../screens/WorkoutEditor';
 
 const Stack = createStackNavigator();
 
-export default class StackNavigator extends Component {
+export default class WorkoutStackNavigator extends Component {
     constructor(props) {
         super(props);
     }
@@ -18,36 +18,29 @@ export default class StackNavigator extends Component {
         return(
             <Stack.Navigator>
                 <Stack.Screen 
-                    name='Dashboard'
+                    name='Workouts'
                     options={{
-                        headerStyle: {
-                            backgroundColor: '#7641BD',
-                        },
-                        headerTitleStyle: {
-                            color: '#FFFFFF',
-                        },
+                        headerStyle: { backgroundColor: '#7641BD' },
+                        headerTitleStyle: { color: '#FFFFFF' },
                         headerLeft: () => 
                         <Pressable style={{marginLeft: 17}} onPress={() => this.props.navigation.openDrawer()}>
-                            <FontAwesome name="home" size={24} color="white" />
+                            <FontAwesome name="home" size={24} color='#FFFFFF' />
                         </Pressable>
                     }}
                 >
-                    {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username}/>}
+                    {props => <Workouts {...props} logout={this.props.logout} username={this.props.username} darkmode={this.props.darkmode}/>}
                 </Stack.Screen>
                 <Stack.Screen 
                     name='WorkoutEditor'
-                    component={WorkoutEditor}
                     options={{
                         gestureEnabled: false,
                         headerLeft: null,
-                        headerStyle: {
-                            backgroundColor: '#FB963C',
-                        },
-                        headerTitleStyle: {
-                            color: '#FFFFFF',
-                        },
+                        headerStyle: { backgroundColor: '#FB963C' },
+                        headerTitleStyle: { color: '#FFFFFF' },
                     }}
-                />
+                >
+                    {props => <WorkoutEditor {...props} darkmode={this.props.darkmode}/>}
+                </Stack.Screen>
             </Stack.Navigator>
         );
     }

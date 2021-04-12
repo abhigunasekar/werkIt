@@ -10,7 +10,7 @@ import PasswordBox from '../components/PasswordBox';
 
 import { invalidCredentialsAlert, invalidFormAlert, missingUsernameError, usernameDoesNotExist } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
-import styles from '../styles';
+import styles from '../light';
 
 //https://docs.expo.io/versions/latest/sdk/local-authentication/
 
@@ -145,6 +145,10 @@ export default class Login extends Component {
                             <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ color: '#FB963C', marginRight: 15 }}>Create Account</Text>
                             <Text onPress={() => this.props.navigation.navigate('ChangePassword')} style={{ color: '#535c68' }}>Forgot Password?</Text>
                         </View>
+                        <Button
+                            onPress={() => this.props.login()}
+                            gray
+                        />
                     </View>
                 </View>
             </TouchableWithoutFeedback>
