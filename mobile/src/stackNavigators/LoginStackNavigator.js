@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Login from './screens/Login';
-import CreateAccount from './screens/CreateAccount';
-import ChangePassword from './screens/ChangePassword';
-import Dashboard from './screens/Dashboard'
+import Login from '../screens/Login';
+import CreateAccount from '../screens/CreateAccount';
+import ChangePassword from '../screens/ChangePassword';
+import Dashboard from '../screens/Dashboard'
 
 const Stack = createStackNavigator();
 
@@ -29,6 +29,11 @@ export default class StackNavigator extends Component {
                     name='Dashboard'
                 >
                     {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username}/>}
+                </Stack.Screen>
+                <Stack.Screen 
+                    name='Login'
+                >
+                    {props => <Login {...props} login={this.props.login} persist={this.props.persist}/>}
                 </Stack.Screen>
                 <Stack.Screen 
                     name='CreateAccount'

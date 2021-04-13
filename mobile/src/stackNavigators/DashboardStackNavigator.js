@@ -4,7 +4,7 @@ import { Pressable } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { FontAwesome } from '@expo/vector-icons';
 
-
+import Login from '../screens/Login';
 import Dashboard from '../screens/Dashboard';
 
 const Stack = createStackNavigator();
