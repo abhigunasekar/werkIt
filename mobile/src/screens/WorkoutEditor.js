@@ -49,12 +49,14 @@ export default class WorkoutEditor extends Component {
                 response.map((type) => array.unshift({label: type, value: type}))
                 this.setState({ savedTypes: array })
             });
-        serverMethods.getWorkout(this.props.route.params.username, this.state.name)
-            .then(response => response.json())
-            .then(response => {
-                console.log(response);
-                //funny logic needed here
-            })
+        if (this.state.name !== '') {
+            serverMethods.getWorkout(this.props.route.params.username, this.state.name)
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response);
+                    //funny logic needed here
+                });
+        }
     }
 
     addExercise(exercise) {
@@ -372,9 +374,7 @@ export default class WorkoutEditor extends Component {
                             onPress={() => {
                                 //this.props.deleteExercise(this.state);
                                 console.log('time to delete');
-                                serverMethods.deleteWorkout(this.props.route.params.username, this.state.name)
-                                    .then(response => response.json())
-                                    .then(response => console.log('haha' + response));
+                                serverMethods.deleteWorkout(this.props.route.params.username, this.state.name);
                                 this.props.navigation.navigate('Workouts');
                             }}
                             style={{marginRight: 40}}
@@ -384,7 +384,6 @@ export default class WorkoutEditor extends Component {
                         <Button
                             buttonText='Submit'
                             onPress={() => {
-                                console.log(this.state.exercises);
                                 if (this.state.name === '') {
                                     missingNameError();
                                 } else if (this.state.exercises.length === 0) {
