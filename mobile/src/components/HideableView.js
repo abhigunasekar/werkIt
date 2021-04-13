@@ -23,6 +23,7 @@ export default class HideableView extends Component {
                         textAlign='right'
                         keyboardType='number-pad'
                         maxLength={this.props.maxLength}
+                        defaultValue={this.props.defaultValue}
                         value={this.props.value}
                     />
                 </View>

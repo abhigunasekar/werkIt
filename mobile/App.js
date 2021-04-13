@@ -89,14 +89,13 @@ export default class App extends Component {
     }
 
     updateDarkmode() {
-        console.log('tried to update darkmode')
         this.setState({ darkmode: !this.state.darkmode });
+        //maybe i don't need to force update?
         this.forceUpdate();
     }
 
     render() {
         // pass style down based on preference
-        console.log('render app');
         if (!this.state.isLoaded) {
             return (
                 <MotivationalQuote />

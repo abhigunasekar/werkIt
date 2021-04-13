@@ -12,14 +12,14 @@ export default class ExerciseLabel extends Component {
         super(props);
 
         this.state = {
-            sets: typeof (this.props.sets) !== 'string' ? '' : this.props.sets,
-            reps: typeof (this.props.reps) !== 'string' ? '' : this.props.reps,
-            weight: typeof (this.props.weight) !== 'string' ? '' : this.props.weight,
-            duration: typeof (this.props.duration) !== 'string' ? '' : this.props.duration,
-            distance: typeof (this.props.distance) !== 'string' ? '' : this.props.distance,
-            pace: typeof (this.props.pace) !== 'string' ? '' : this.props.pace,
-            incline: typeof (this.props.incline) !== 'string' ? '' : this.props.incline,
-            laps: typeof (this.props.laps) !== 'string' ? '' : this.props.laps,
+            sets: ((typeof (this.props.sets) === 'boolean') || (this.props.sets === undefined)) ? '' : this.props.sets.toString(),
+            reps: ((typeof (this.props.reps) === 'boolean') || (this.props.reps === undefined)) ? '' : this.props.reps.toString(),
+            weight: ((typeof (this.props.weight) === 'boolean') || (this.props.weight === undefined)) ? '' : this.props.weight.toString(),
+            duration: ((typeof (this.props.duration) === 'boolean') || (this.props.duration === undefined)) ? '' : this.props.duration.toString(),
+            distance: ((typeof (this.props.distance) === 'boolean') || (this.props.distance === undefined)) ? '' : this.props.distance.toString(),
+            pace: ((typeof (this.props.pace) === 'boolean') || (this.props.pace === undefined)) ? '' : this.props.pace.toString(),
+            incline: ((typeof (this.props.incline) === 'boolean') || (this.props.incline === undefined)) ? '' : this.props.incline.toString(),
+            laps: ((typeof (this.props.laps) === 'boolean') || (this.props.laps === undefined)) ? '' : this.props.laps.toString(),
             setsVisible: this.props.sets,
             repsVisible: this.props.reps,
             weightVisible: this.props.weight,
@@ -28,7 +28,7 @@ export default class ExerciseLabel extends Component {
             paceVisible: this.props.pace,
             inclineVisible: this.props.incline,
             lapsVisible: this.props.laps,
-            modalVisible: true,
+            modalVisible: this.props.modalVisible,
         };
 
         this.checkFields = this.checkFields.bind(this);
@@ -75,7 +75,8 @@ export default class ExerciseLabel extends Component {
     render() {
         // change this to hold hideable views in modal
         //console.log(typeof (this.state.sets))
-        console.log(this.state.sets)
+        console.log('sets: ' + this.state.sets)
+        console.log('visible: ' + this.state.modalVisible)
 
         let counter = 0;
         if (this.state.setsVisible) {
@@ -109,7 +110,6 @@ export default class ExerciseLabel extends Component {
         if (this.state.lapsVisible) {
             counter++;
         }
-        console.log(counter)
         let width = '' + (9 - counter) + '0%'
         return (
             <View style={{marginBottom: 15}}>
@@ -131,6 +131,7 @@ export default class ExerciseLabel extends Component {
                                     key='Set'
                                     name='Sets: '
                                     value={this.state.sets}
+                                    defaultValue={this.state.sets}
                                     update={(e) => {
                                         console.log('tried');
                                         this.props.edit('Sets', e);
@@ -143,6 +144,7 @@ export default class ExerciseLabel extends Component {
                                     key='Rep'
                                     name='Reps: '
                                     value={this.state.reps}
+                                    defaultValue={this.state.reps}
                                     update={(e) => {
                                         this.props.edit('Reps', e);
                                         this.setState({ reps: e });
@@ -154,6 +156,7 @@ export default class ExerciseLabel extends Component {
                                     key='Weight'
                                     name='Weight: '
                                     value={this.state.weight}
+                                    defaultValue={this.state.weight}
                                     update={(e) => {
                                         this.props.edit('Weight', e);
                                         this.setState({ weight: e })
@@ -165,6 +168,7 @@ export default class ExerciseLabel extends Component {
                                     key='Duration'
                                     name='Duration: '
                                     value={this.state.duration}
+                                    defaultValue={this.state.duration}
                                     update={(e) => {
                                         this.props.edit('Duration', e);
                                         this.setState({ duration: e });
@@ -177,6 +181,7 @@ export default class ExerciseLabel extends Component {
                                     name='Distance: '
                                     style={{width: 60}}
                                     value={this.state.distance}
+                                    defaultValue={this.state.distance}
                                     update={(e) => {
                                         this.props.edit('Duration', e);
                                         this.setState({ distance: e });
@@ -188,6 +193,7 @@ export default class ExerciseLabel extends Component {
                                     key='Pace'
                                     name='Pace: '
                                     value={this.state.pace}
+                                    defaultValue={this.state.pace}
                                     update={(e) => {
                                         this.props.edit('Pace', e);
                                         this.setState({ pace: e });
@@ -200,6 +206,7 @@ export default class ExerciseLabel extends Component {
                                     key='Incline'
                                     name='Incline: '
                                     value={this.state.incline}
+                                    defaultValue={this.state.incline}
                                     update={(e) => {
                                         this.props.edit('Incline', e);
                                         this.setState({ incline: e });
@@ -211,6 +218,7 @@ export default class ExerciseLabel extends Component {
                                     key='Laps'
                                     name='Laps: '
                                     value={this.state.laps}
+                                    defaultValue={this.state.laps}
                                     update={(e) => {
                                         this.props.edit('Laps', e);
                                         this.setState({ laps: e });
@@ -219,6 +227,11 @@ export default class ExerciseLabel extends Component {
                                     visible={this.state.lapsVisible}
                                 />
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 15, borderTopWidth: 2}}>
+                                    <Button
+                                        buttonText='Cancel'
+                                        onPress={() => this.setState({ modalVisible: false })}
+                                        gray={true}
+                                    />
                                     <Button
                                         buttonText='Delete'
                                         onPress={() => {

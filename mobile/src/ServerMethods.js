@@ -180,3 +180,51 @@ export function deleteWorkout(username, workout) {
         method: 'DELETE',
     });
 }
+
+export function deleteWorkoutPlan(username, workoutPlan) {
+    return fetch('http://' + address + ':8000/' + username + '/' + workoutPlan + '/rm_plan', {
+        method: 'DELETE',
+    })
+}
+
+export function deleteWorkoutType(username, workoutType) {
+    return fetch('http://' + address + ':8000/' + username + '/' + workoutType + '/rm_type', {
+        method: 'DELETE',
+    })
+}
+
+export function editWorkout(username, workout) {
+    console.log('editing workout: ' + workout.name);
+    return fetch('http://' + address + ':8000/' + username + '/' + workout.name + '/edit_workout', {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(workout)  
+    })
+}
+
+export function editWorkoutPlan(username, workoutPlan) {
+    console.log('editing workout plan: ' + workoutPlan.name)
+    return fetch('http://' + address + ':8000/' + username + '/' + workoutPlan.name + '/edit_plan', {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(workoutPlan)
+    })
+}
+
+// this one is sus
+export function editWorkoutType(username, workoutType, newName) {
+    return fetch('http://' + address + ':8000/' + username + '/' + workoutType + '/edit_workoutType', {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(newName)
+    });
+}
