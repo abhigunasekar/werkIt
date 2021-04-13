@@ -203,6 +203,18 @@ async function check_user_existence(username) {
     return await User.exists({ user: username });
 }
 
+// async function validate_email(username, email) {
+//     var exists = await check_user_existence(username);
+//     if (exists) {
+//         console.log("Username exists")
+//         var user = await get_user_obj(username);
+//         if (user.email.localeCompare(email) == 0) {
+//             return true;
+//         }
+//     }
+//     return exists;
+// }
+
 async function change_password(user, new_pass) {
     if (!(await check_user_existence(user))) {
         // User does not exist
@@ -255,13 +267,7 @@ async function get_plan_obj(username, p_name) {
 }
 
 async function get_workout_data(username, w_name) {
-    var wkout = await get_workout_obj(username, w_name);
-    var e_list = new Array;
-    for (var e_id of wkout.exercises) {
-        var e = await Exercise.findById(e_id).exec();
-        e_list.push(e);
-    }
-    return e_list;
+    return await get_workout_obj(username, w_name);
 }
 
 async function get_wkoutType_by_name(username, wkoutType) {
@@ -683,4 +689,5 @@ module.exports = {
     update_workout,
     update_type_name,
     update_plan
+    // validate_email
 }
