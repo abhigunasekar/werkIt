@@ -44,7 +44,7 @@ export default class DrawerNavigator extends Component {
     render() {
         return(
             <NavigationContainer>
-                <Drawer.Navigator initialRouteName='Dashboard' drawerContent={props => <CustomDrawerContent {...props} drawerStyle={this.state.style.drawer} drawerItemStyle={this.state.style.drawerItem} logout={this.props.logout}/>}>  
+                <Drawer.Navigator initialRouteName='Dashboard' drawerContent={props => <CustomDrawerContent {...props} drawerStyle={this.props.darkmode ? dark.drawer : light.drawer} drawerItemStyle={this.props.darkmode ? dark.drawerItem : light.drawerItem} logout={this.props.logout}/>}>  
                     <Drawer.Screen name='Dashboard'>
                         {props => <DashboardStackNavigator {...props} logout={this.props.logout} username={this.props.username} darkmode={this.props.darkmode}/>}
                     </Drawer.Screen>
@@ -58,7 +58,7 @@ export default class DrawerNavigator extends Component {
                         {props => <Friends {...props} username={this.props.username} darkmode={this.props.darkmode}/>}
                     </Drawer.Screen>
                     <Drawer.Screen name='Settings'>
-                        {props => <Settings {...props} logout={this.props.logout} darkmode={this.props.darkmode}/>}
+                        {props => <Settings {...props} username={this.props.username} logout={this.props.logout} darkmode={this.props.darkmode} updateDarkmode={this.props.updateDarkmode}/>}
                     </Drawer.Screen>
                 </Drawer.Navigator>
             </NavigationContainer>

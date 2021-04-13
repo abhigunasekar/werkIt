@@ -205,7 +205,7 @@ export default class WorkoutEditor extends Component {
 
         return(
             //add a dropdown menu populated with previously added exercises
-            <View style={this.state.style.workoutEditorContainer}>
+            <View style={this.props.darkmode ? dark.workoutEditorContainer : light.workoutEditorContainer}>
                 {/* <Text style={{marginTop: 15, fontSize: 20}}>{this.state.workoutName}</Text> */}
                 <TextBox
                     placeholder='Workout Name'
@@ -246,7 +246,7 @@ export default class WorkoutEditor extends Component {
                     visible={this.state.workoutTypeVisible}
                 >
                     <View>
-                        <View style={this.state.style.workoutType}>
+                        <View style={this.props.darkmode ? dark.workoutType : light.workoutType}>
                             <TextBox
                                 placeholder='Workout type'
                                 onChangeText={(text) => this.setState({ newType: text })}
@@ -287,7 +287,7 @@ export default class WorkoutEditor extends Component {
                         </View>
                     </View>
                 </Modal>
-                <ScrollView style={this.state.style.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
+                <ScrollView style={this.props.darkmode ? dark.exerciseList : light.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
                     {exerciseList}
                     <Modal
                         animationType='slide'
@@ -298,8 +298,8 @@ export default class WorkoutEditor extends Component {
                             this.setState({ modalVisible: !this.state.modalVisible});
                         }}
                         >
-                        <View style={this.state.style.centeredView}>
-                            <View style={this.state.style.modalView}>
+                        <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                            <View style={this.props.darkmode ? dark.modalView : light.modalView}>
                                 {buttonList}
                             </View>
                         </View>
@@ -313,8 +313,8 @@ export default class WorkoutEditor extends Component {
                             this.setState({ editorVisible: !this.state.editorVisible});
                         }}
                         >
-                        <View style={this.state.style.centeredView}>
-                            <View style={this.state.style.editorModal}>
+                        <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                            <View style={this.props.darkmode ? dark.modalView : light.modalView}>
                                 <ExerciseEditor
                                     type={this.state.type}
                                     dismiss={() => this.setState({ editorVisible: false, modalVisible: false })}

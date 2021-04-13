@@ -21,7 +21,6 @@ export default class Dashboard extends Component {
             hr: 0,
             min: 0,
             sec: 0,
-            style: this.props.darkmode ? dark : light
         }
 
         this.logTime = this.logTime.bind(this);
@@ -56,10 +55,12 @@ export default class Dashboard extends Component {
         let yyyy = today.getFullYear();
         today = mm + '-' + dd + '-' + yyyy;
 
+        // {workout_name: , day: , date: , time: }
+
         return (
-            <View style={this.state.style.dashboardContainer}>
-                <Text style={[this.state.style.text, {fontSize: 20, margin: 25}]}>Welcome {this.state.username}!</Text>
-                <Text style={[this.state.style.text, {marginBottom: 10}]}>Your selected workout plan is: </Text>
+            <View style={this.props.darkmode ? dark.dashboardContainer : light.dashboardContainer}>
+                <Text style={[this.props.darkmode ? dark.text : light.text, {fontSize: 20, margin: 25}]}>Welcome {this.state.username}!</Text>
+                <Text style={[this.props.darkmode ? dark.text : light.text, {marginBottom: 10}]}>Your selected workout plan is: </Text>
                 <DropDownPicker
                     items={this.state.savedWorkoutPlans}
                     defaultValue={''}

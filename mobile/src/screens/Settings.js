@@ -3,12 +3,14 @@ import { View, Text, Switch } from 'react-native';
 
 import Button from '../components/Button';
 
+import * as serverMethods from '../ServerMethods';
+
 export default class Settings extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            darkMode: false,
+            darkMode: this.props.darkmode,
         }
     }
 
@@ -20,7 +22,13 @@ export default class Settings extends Component {
                     trackColor={{ true: "#3E3E3E" }}
                     thumbColor={this.state.darkMode ? "#7641BD" : "#3E3E3E"}
                     ios_backgroundColor="#7641BD"
-                    onValueChange={() => this.setState({ darkMode: !this.state.darkMode })}
+                    onValueChange={() => {
+                        serverMethods.updateDarkmode(this.props.username);
+                        this.props.updateDarkmode();
+                        this.setState({ darkMode: !this.state.darkMode })
+                    }}
+                    //add server call to update status of darkmode
+                    //potentially need to pass down a function to update darkmode in App.js
                     value={this.state.darkMode}
                 />
                 <Button

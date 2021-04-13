@@ -152,3 +152,24 @@ export function updateActiveWorkoutPlan(username, workoutPlan) {
         }
     });
 }
+
+export function getUserField(username, field) {
+    console.log('getting field: ' + field);
+    return fetch('http://' + address + ':8000/' + username + '/profile/' + field);
+}
+
+export function updateDarkmode(username) {
+    console.log('switching darkmode preferences for: ' + username);
+    return fetch('http://' + address + ':8000/user/' + username + '/darkmode', {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
+}
+
+export function getWorkout(username, workout) {
+    console.log('getting workout with name: ' + workout);
+    return fetch('http://' + address + ':8000/' + username + '/workout/' + workout);
+}
