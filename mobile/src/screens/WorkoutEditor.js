@@ -29,12 +29,16 @@ export default class WorkoutEditor extends Component {
             modalVisible: false,
             editorVisible: false,
             workoutTypeVisible: false,
-            edit: this.props.route.params.edit
+            edit: this.props.route.params.edit,
+            editWorkoutType: false,
+            edited: false,
+            oldType: '',
         };
 
         this.addExercise = this.addExercise.bind(this);
         this.deleteExercise = this.deleteExercise.bind(this);
         this.editExercise = this.editExercise.bind(this);
+
     }
 
     componentDidMount() {
@@ -219,7 +223,10 @@ export default class WorkoutEditor extends Component {
 
     render() {
         //console.log('render')  
-        console.log('workout name is: ' + this.state.name)    
+        //console.log('workout name is: ' + this.state.name)  
+        console.log('type is: ' + this.state.type)  
+        console.log('newType is: ' + this.state.newType)
+        console.log(this.state.savedTypes)
         let exerciseList = this.createExerciseList();
 
         let buttonList = this.createButtonList();
@@ -246,19 +253,20 @@ export default class WorkoutEditor extends Component {
                         labelStyle={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}
                         dropDownStyle={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
                         onChangeItem={(item) => {
+                            console.log(item.value)
                             if (item.value === 'add') {
                                 // show a text box, and then submit
                                 //console.log(this.state.savedTypes[this.state.savedTypes.length - 1])
                                 this.setState({ workoutTypeVisible: true })
                                 // add error checking
                             } else {
-                                this.setState({ type: item.value });
+                                if (item.value !== null) {
                                 serverMethods.getExercises(this.props.route.params.username, item.value)
                                     .then(response => response.json())
                                     .then(response => {
-                                        //console.log(response)
-                                        this.setState({ savedExercises: response })
+                                        this.setState({ savedExercises: response, type: item.value, newType: item.value, workoutTypeVisible: true, editWorkoutType: true })
                                     });
+                                }
                             }
                         }}
                     />
@@ -271,34 +279,71 @@ export default class WorkoutEditor extends Component {
                             <View style={this.props.darkmode ? dark.workoutType : light.workoutType}>
                                 <TextBox
                                     placeholder='Workout type'
-                                    onChangeText={(text) => this.setState({ newType: text })}
+                                    onChangeText={(text) => this.setState({ newType: text, edited: true })}
                                     darkmode={this.props.darkmode}
                                     value={this.state.newType}
+                                    defaultValue={this.state.newType}
                                 />
                                 <View style={{flexDirection: 'row'}}>
                                     <Button
                                         buttonText='Cancel'
-                                        onPress={() => this.setState({ newType: '', workoutTypeVisible: false })}
-                                        style={{marginRight: 30}}
+                                        onPress={() => this.setState({ newType: '', type: 'add', workoutTypeVisible: false, editWorkoutType: false, edited: false })}
+                                        style={{marginRight: this.state.editWorkoutType ? 15 : 30}}
                                         darkmode={this.props.darkmode}
                                         gray={true}
                                     />
                                     <Button
-                                        buttonText='Submit'
+                                        buttonText='Delete'
+                                        onPress={() => {
+                                            console.log('deleting')
+                                            let array = this.state.savedTypes;
+                                            for (let i = 0; i < array.length; i++) {
+                                                if (array[i].value === this.state.newType) {
+                                                    console.log('splice')
+                                                    array.splice(i, 1);
+                                                }
+                                            }
+                                            serverMethods.deleteWorkoutType(this.props.route.params.username, this.state.newType)
+                                            .then(response => {
+                                                console.log(response.status)
+                                                //check to make sure things were deleted?
+                                            });
+                                            this.setState({ savedTypes: array, newType: '', type: 'add', workoutTypeVisible: false, editWorkoutType: false, edited: false })
+                                        }}
+                                        style={{marginRight: 15}}
+                                        gray={this.state.editWorkoutType}
+                                    />
+                                    <Button
+                                        buttonText={(!this.state.editWorkoutType || this.state.edited) ? 'Save' : 'Select'}
                                         onPress={() => {
                                             if (this.state.newType === '') {
                                                 missingNameError();
                                             } else {
-                                                serverMethods.createWorkoutType(this.props.route.params.username, { name: this.state.newType, exercises: [] })
-                                                    .then(response => {
-                                                        if (response.status === 200) {
-                                                            let array = this.state.savedTypes;
-                                                            array.unshift({ label: this.state.newType, value: this.state.newType });
-                                                            this.setState({ savedTypes: array, workoutTypeVisible: false });
-                                                        } else {
-                                                            duplicateWorkoutTypeError();
+                                                if (this.state.editWorkoutType) {
+                                                    let array = this.state.savedTypes;
+                                                    if (this.state.edited) {
+                                                        console.log('changes made')
+                                                        serverMethods.editWorkoutType(this.props.route.params.username, this.state.oldType, { name: this.state.newType, exercises: this.state.savedExercises });                                                        for (let i = 0; i < array.length; i++) {
+                                                            if (array[i].value === this.state.type) {
+                                                                console.log('found')
+                                                                array[i] = { label: this.state.newType, value: this.state.newType };
+                                                            }
                                                         }
-                                                    });
+                                                    }
+
+                                                    this.setState({ savedTypes: array, type: this.state.newType, newType: '', workoutTypeVisible: false, editWorkoutType: false, edited: false });
+                                                } else {
+                                                    serverMethods.createWorkoutType(this.props.route.params.username, { name: this.state.newType, exercises: [] })
+                                                        .then(response => {
+                                                            if (response.status === 200) {
+                                                                let array = this.state.savedTypes;
+                                                                array.unshift({ label: this.state.newType, value: this.state.newType });
+                                                                this.setState({ savedTypes: array, type: this.state.newType, newType: '', workoutTypeVisible: false, editWorkoutType: false, edited: false, savedExercises: [] });
+                                                            } else {
+                                                                duplicateWorkoutTypeError();
+                                                            }
+                                                        });
+                                                }
                                                 // check workout type to make sure name doesn't already exist
                                             }
                                         }}

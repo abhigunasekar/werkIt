@@ -188,6 +188,7 @@ export function deleteWorkoutPlan(username, workoutPlan) {
 }
 
 export function deleteWorkoutType(username, workoutType) {
+    console.log('deleting workout type: ' + workoutType)
     return fetch('http://' + address + ':8000/' + username + '/' + workoutType + '/rm_type', {
         method: 'DELETE',
     })
