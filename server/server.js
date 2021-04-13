@@ -87,6 +87,22 @@ app.get('/user/:username', (req, res) => {
     });
 });
 
+// check validity of username/email and send email for resetting password
+// app.post('/user/:username/email', (req, res) => {
+//     console.log("Checking validity of username and email (in process to reset password)")
+//     mc.validate_email(req.params.username, req.body.email).then(exists => {
+//         if (exists) {
+//             console.log("")
+//             mc.send_email(req.params.username, req.body.email).then(_ => {
+//                 res.status(200).end();
+//             });
+//         } else {
+//             console.log("Invalid credentials");
+//             res.status(400).end();
+//         }
+//     });
+// });
+
 // reset password
 app.patch('/user/:username/profile', (req, res) => {
     mc.change_password(req.params.username, req.body.password).then(_ => {
@@ -211,7 +227,7 @@ app.get('/:username/workouts', (req, res) => {
 
 // get one workout/exercises by name
 app.get('/:username/workout/:workout', (req, res) => {
-    console.log("Getting workout and repective exercises");
+    console.log("Getting workout and respective exercises");
     mc.get_workout_data(req.params.username, req.params.workout).then(wkout => {
         console.log("Found workout:" + wkout);
         res.status(200).json(wkout);
