@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Modal, Text, Pressable } from 'react-native';
+import { View, ScrollView, Modal, Text, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import TextBox from '../components/TextBox';
@@ -17,7 +17,7 @@ export default class WorkoutEditor extends Component {
         super(props);
 
         this.state = {
-            name: /*this.props.route.params?.workout.name*/ '',
+            name: this.props.route.params.workout === undefined ? '' : this.props.route.params.workout,
             exercises: /*this.props.route.params?.workout.exercises ?? []*/ [],
             savedExercises: /*[{name: 'Bench', sets: true, reps: true}, {name: 'Squats', sets: true, reps: true}]*/ [],
             type: '',
@@ -49,6 +49,12 @@ export default class WorkoutEditor extends Component {
                 response.map((type) => array.unshift({label: type, value: type}))
                 this.setState({ savedTypes: array })
             });
+        serverMethods.getWorkout(this.props.route.params.username, this.state.name)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+                //funny logic needed here
+            })
     }
 
     addExercise(exercise) {
@@ -198,195 +204,202 @@ export default class WorkoutEditor extends Component {
 
     render() {
         //console.log('render')  
-        //console.log(this.state.savedTypes)    
+        console.log('workout name is: ' + this.state.name)    
         let exerciseList = this.createExerciseList();
 
         let buttonList = this.createButtonList();
 
         return(
             //add a dropdown menu populated with previously added exercises
-            <View style={this.props.darkmode ? dark.workoutEditorContainer : light.workoutEditorContainer}>
-                {/* <Text style={{marginTop: 15, fontSize: 20}}>{this.state.workoutName}</Text> */}
-                <TextBox
-                    placeholder='Workout Name'
-                    onChangeText={(text) => this.setState({ name: text })}
-                    style={{marginTop: 20, alignItems: 'center'}}
-                    darkmode={this.props.darkmode}
-                    value={this.state.name}
-                />
-                <DropDownPicker
-                    items={this.state.savedTypes}
-                    defaultValue={this.state.type}
-                    placeholder='Select a workout type'
-                    containerStyle={{height: 40, width: '75%'}}
-                    style={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
-                    itemStyle={{justifyContent: 'flex-start'}}
-                    labelStyle={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}
-                    dropDownStyle={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
-                    onChangeItem={(item) => {
-                        if (item.value === 'add') {
-                            // show a text box, and then submit
-                            //console.log(this.state.savedTypes[this.state.savedTypes.length - 1])
-                            this.setState({ workoutTypeVisible: true })
-                            // add error checking
-                        } else {
-                            this.setState({ type: item.value });
-                            serverMethods.getExercises(this.props.route.params.username, item.value)
-                                .then(response => response.json())
-                                .then(response => {
-                                    //console.log(response)
-                                    this.setState({ savedExercises: response })
-                                });
-                        }
-                    }}
-                />
-                <Modal
-                    animationType='slide'
-                    transparent={true}
-                    visible={this.state.workoutTypeVisible}
-                >
-                    <View>
-                        <View style={this.props.darkmode ? dark.workoutType : light.workoutType}>
-                            <TextBox
-                                placeholder='Workout type'
-                                onChangeText={(text) => this.setState({ newType: text })}
-                                darkmode={this.props.darkmode}
-                                value={this.state.newType}
-                            />
-                            <View style={{flexDirection: 'row'}}>
-                                <Button
-                                    buttonText='Cancel'
-                                    onPress={() => this.setState({ newType: '', workoutTypeVisible: false })}
-                                    style={{marginRight: 30}}
-                                    darkmode={this.props.darkmode}
-                                    gray={true}
-                                />
-                                <Button
-                                    buttonText='Submit'
-                                    onPress={() => {
-                                        if (this.state.newType === '') {
-                                            missingNameError();
-                                        } else {
-                                            serverMethods.createWorkoutType(this.props.route.params.username, { name: this.state.newType, exercises: [] })
-                                                .then(response => {
-                                                    if (response.status === 200) {
-                                                        let array = this.state.savedTypes;
-                                                        array.unshift({ label: this.state.newType, value: this.state.newType });
-                                                        this.setState({ savedTypes: array, workoutTypeVisible: false });
-                                                    } else {
-                                                        duplicateWorkoutTypeError();
-                                                    }
-                                                });
-                                            // check workout type to make sure name doesn't already exist
-                                        }
-                                    }}
-                                    darkmode={this.props.darkmode}
-                                    orange={true}
-                                />
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
-                <ScrollView style={this.props.darkmode ? dark.exerciseList : light.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
-                    {exerciseList}
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <View style={this.props.darkmode ? dark.workoutEditorContainer : light.workoutEditorContainer}>
+                    {/* <Text style={{marginTop: 15, fontSize: 20}}>{this.state.workoutName}</Text> */}
+                    <TextBox
+                        placeholder='Workout Name'
+                        onChangeText={(text) => this.setState({ name: text })}
+                        style={{marginTop: 20, alignItems: 'center'}}
+                        darkmode={this.props.darkmode}
+                        value={this.state.name}
+                    />
+                    <DropDownPicker
+                        items={this.state.savedTypes}
+                        defaultValue={this.state.type}
+                        placeholder='Select a workout type'
+                        containerStyle={{height: 40, width: '75%'}}
+                        style={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
+                        itemStyle={{justifyContent: 'flex-start'}}
+                        labelStyle={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}
+                        dropDownStyle={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
+                        onChangeItem={(item) => {
+                            if (item.value === 'add') {
+                                // show a text box, and then submit
+                                //console.log(this.state.savedTypes[this.state.savedTypes.length - 1])
+                                this.setState({ workoutTypeVisible: true })
+                                // add error checking
+                            } else {
+                                this.setState({ type: item.value });
+                                serverMethods.getExercises(this.props.route.params.username, item.value)
+                                    .then(response => response.json())
+                                    .then(response => {
+                                        //console.log(response)
+                                        this.setState({ savedExercises: response })
+                                    });
+                            }
+                        }}
+                    />
                     <Modal
                         animationType='slide'
                         transparent={true}
-                        visible={this.state.modalVisible}
-                        onRequestClose={() => {
-                            Alert.alert("Modal has been closed.");
-                            this.setState({ modalVisible: !this.state.modalVisible});
-                        }}
-                        >
-                        <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
-                            <View style={this.props.darkmode ? dark.modalView : light.modalView}>
-                                {buttonList}
-                            </View>
-                        </View>
-                    </Modal>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.state.editorVisible}
-                        onRequestClose={() => {
-                            Alert.alert("Modal has been closed.");
-                            this.setState({ editorVisible: !this.state.editorVisible});
-                        }}
-                        >
-                        <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
-                            <View style={this.props.darkmode ? dark.modalView : light.modalView}>
-                                <ExerciseEditor
-                                    type={this.state.type}
-                                    dismiss={() => this.setState({ editorVisible: false, modalVisible: false })}
-                                    createExercise={(exercise) => {
-                                        console.log('wtf is going on')
-                                        let obj = {name: exercise.name, data: { sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps }};
-                                        serverMethods.createExercise(this.props.route.params.username, this.state.type, obj)
-                                            .then(response => {
-                                                if (response.status === 200) {
-                                                    let array = this.state.savedExercises;
-                                                    array.push(obj);;
-                                                    this.setState({ savedExercises: array });
-                                                    this.addExercise(exercise);
-                                                } else {
-                                                    duplicateExerciseTypeError();
-                                                }
-                                            });
-                                    }}
+                        visible={this.state.workoutTypeVisible}
+                    >
+                        <View>
+                            <View style={this.props.darkmode ? dark.workoutType : light.workoutType}>
+                                <TextBox
+                                    placeholder='Workout type'
+                                    onChangeText={(text) => this.setState({ newType: text })}
+                                    darkmode={this.props.darkmode}
+                                    value={this.state.newType}
                                 />
+                                <View style={{flexDirection: 'row'}}>
+                                    <Button
+                                        buttonText='Cancel'
+                                        onPress={() => this.setState({ newType: '', workoutTypeVisible: false })}
+                                        style={{marginRight: 30}}
+                                        darkmode={this.props.darkmode}
+                                        gray={true}
+                                    />
+                                    <Button
+                                        buttonText='Submit'
+                                        onPress={() => {
+                                            if (this.state.newType === '') {
+                                                missingNameError();
+                                            } else {
+                                                serverMethods.createWorkoutType(this.props.route.params.username, { name: this.state.newType, exercises: [] })
+                                                    .then(response => {
+                                                        if (response.status === 200) {
+                                                            let array = this.state.savedTypes;
+                                                            array.unshift({ label: this.state.newType, value: this.state.newType });
+                                                            this.setState({ savedTypes: array, workoutTypeVisible: false });
+                                                        } else {
+                                                            duplicateWorkoutTypeError();
+                                                        }
+                                                    });
+                                                // check workout type to make sure name doesn't already exist
+                                            }
+                                        }}
+                                        darkmode={this.props.darkmode}
+                                        orange={true}
+                                    />
+                                </View>
                             </View>
                         </View>
                     </Modal>
-                    <Button
-                        buttonText='Add exercise'
-                        style={{width: 225}}
-                        onPress={() => {
-                            //add a check to make sure workout type has been set
-                            if (this.state.type === '') {
-                                workoutTypeError();
-                            } else {
-                                this.setState({ modalVisible: true });
-                            }
-                        }}
-                        darkmode={this.props.darkmode}
-                        orange={true}
-                    />
-                </ScrollView>
-                <View style={{flexDirection: 'row', marginBottom: 20}}>
-                    <Button
-                        buttonText='Cancel'
-                        onPress={() => this.props.navigation.navigate('Workouts')}
-                        style={{marginRight: 40}}
-                        darkmode={this.props.darkmode}
-                        orange={true}
-                    />
-                    <Button
-                        buttonText='Delete'
-                        onPress={() => {
-                            //this.props.deleteExercise(this.state);
-                        }}
-                        style={{marginRight: 40}}
-                        darkmode={this.props.darkmode}
-                        orange={true}
-                    />
-                    <Button
-                        buttonText='Submit'
-                        onPress={() => {
-                            console.log(this.state.exercises);
-                            if (this.state.name === '') {
-                                missingNameError();
-                            } else if (this.state.exercises.length === 0) {
-                                missingExerciseError();
-                            } else {
-                                serverMethods.createWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
+                    <ScrollView style={this.props.darkmode ? dark.exerciseList : light.exerciseList} contentContainerStyle={{alignItems: 'center'}}>
+                        {exerciseList}
+                        <Modal
+                            animationType='slide'
+                            transparent={true}
+                            visible={this.state.modalVisible}
+                            onRequestClose={() => {
+                                Alert.alert("Modal has been closed.");
+                                this.setState({ modalVisible: !this.state.modalVisible});
+                            }}
+                            >
+                            <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                                <View style={this.props.darkmode ? dark.modalView : light.modalView}>
+                                    {buttonList}
+                                </View>
+                            </View>
+                        </Modal>
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={this.state.editorVisible}
+                            onRequestClose={() => {
+                                Alert.alert("Modal has been closed.");
+                                this.setState({ editorVisible: !this.state.editorVisible});
+                            }}
+                            >
+                            <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                                <View style={this.props.darkmode ? dark.modalView : light.modalView}>
+                                    <ExerciseEditor
+                                        type={this.state.type}
+                                        dismiss={() => this.setState({ editorVisible: false, modalVisible: false })}
+                                        createExercise={(exercise) => {
+                                            console.log('wtf is going on')
+                                            let obj = {name: exercise.name, data: { sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps }};
+                                            serverMethods.createExercise(this.props.route.params.username, this.state.type, obj)
+                                                .then(response => {
+                                                    if (response.status === 200) {
+                                                        let array = this.state.savedExercises;
+                                                        array.push(obj);;
+                                                        this.setState({ savedExercises: array });
+                                                        this.addExercise(exercise);
+                                                    } else {
+                                                        duplicateExerciseTypeError();
+                                                    }
+                                                });
+                                        }}
+                                    />
+                                </View>
+                            </View>
+                        </Modal>
+                        <Button
+                            buttonText='Add exercise'
+                            style={{width: 225}}
+                            onPress={() => {
+                                //add a check to make sure workout type has been set
+                                if (this.state.type === '') {
+                                    workoutTypeError();
+                                } else {
+                                    this.setState({ modalVisible: true });
+                                }
+                            }}
+                            darkmode={this.props.darkmode}
+                            orange={true}
+                        />
+                    </ScrollView>
+                    <View style={{flexDirection: 'row', marginBottom: 20}}>
+                        <Button
+                            buttonText='Cancel'
+                            onPress={() => this.props.navigation.navigate('Workouts')}
+                            style={{marginRight: 40}}
+                            darkmode={this.props.darkmode}
+                            orange={true}
+                        />
+                        <Button
+                            buttonText='Delete'
+                            onPress={() => {
+                                //this.props.deleteExercise(this.state);
+                                console.log('time to delete');
+                                serverMethods.deleteWorkout(this.props.route.params.username, this.state.name)
+                                    .then(response => response.json())
+                                    .then(response => console.log('haha' + response));
                                 this.props.navigation.navigate('Workouts');
-                            }
-                        }}
-                        darkmode={this.props.darkmode}
-                        orange={true}
-                    />
+                            }}
+                            style={{marginRight: 40}}
+                            darkmode={this.props.darkmode}
+                            orange={true}
+                        />
+                        <Button
+                            buttonText='Submit'
+                            onPress={() => {
+                                console.log(this.state.exercises);
+                                if (this.state.name === '') {
+                                    missingNameError();
+                                } else if (this.state.exercises.length === 0) {
+                                    missingExerciseError();
+                                } else {
+                                    serverMethods.createWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
+                                    this.props.navigation.navigate('Workouts');
+                                }
+                            }}
+                            darkmode={this.props.darkmode}
+                            orange={true}
+                        />
+                    </View>
                 </View>
-            </View>
+            </TouchableWithoutFeedback>
         );
     }
 }

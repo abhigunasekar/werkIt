@@ -173,3 +173,10 @@ export function getWorkout(username, workout) {
     console.log('getting workout with name: ' + workout);
     return fetch('http://' + address + ':8000/' + username + '/workout/' + workout);
 }
+
+export function deleteWorkout(username, workout) {
+    console.log('deleting workout: ' + workout);
+    return fetch('http://' + address + ':8000/' + username + '/' + workout + '/rm_wkout', {
+        method: 'DELETE',
+    });
+}

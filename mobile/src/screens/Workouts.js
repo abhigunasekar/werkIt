@@ -82,7 +82,7 @@ export default class Workouts extends Component{
                 <WorkoutLabel
                     key={i}
                     name={workout}
-                    edit={() => this.props.navigation.navigate('WorkoutEditor', { workout: workout })} //server call to get exercises given name
+                    edit={() => this.props.navigation.navigate('WorkoutEditor', { username: this.state.username, workout: workout })} //server call to get exercises given name
                 />
             );
         }
