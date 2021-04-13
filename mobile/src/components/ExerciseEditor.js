@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { TouchableWithoutFeedback, View, Text, Keyboard } from 'react-native';
 import SelectMultiple from 'react-native-select-multiple';
 
-import TextBox from '../components/TextBox';
-import HideableView from '../components/HideableView';
+import TextBox from './TextBox';
+import HideableView from './HideableView';
 
-import styles from '../light';
-import { createExerciseError, missingNameError } from '../components/Alerts';
-import Button from '../components/Button';
+import light from '../light';
+import dark from '../dark';
+import { createExerciseError, missingNameError } from './Alerts';
+import Button from './Button';
 
 export default class ExerciseEditor extends Component {
     constructor(props) {
@@ -35,16 +36,17 @@ export default class ExerciseEditor extends Component {
                         placeholder='Name'
                         onChangeText={(text) => this.setState({ name: text })}
                         style={{width: '100%'}}
+                        darkmode={this.props.darkmode}
                         value={this.state.name}
                     />
-                    <Text>Select all that apply:</Text>
+                    <Text style={this.props.darkmode ? dark.text : light.text}>Select all that apply:</Text>
                     <SelectMultiple
                         items={['Sets', 'Reps', 'Weight', 'Duration', 'Distance', 'Pace', 'Incline', 'Laps']}
                         selectedItems={this.state.selectedFields}
                         style={{marginTop: 10}}
-                        rowStyle={{padding: 10}}
-                        checkboxStyle={{width: 20, height: 20}}
-                        labelStyle={{marginLeft: 5}}
+                        rowStyle={{padding: 10, backgroundColor: this.props.darkmode ? '#3E3E3E' : '#FFFFFF'}}
+                        checkboxStyle={{width: 20, height: 20, backgroundColor: this.props.darkmode ? '#FFFFFF' : '#000000'}}
+                        labelStyle={{marginLeft: 5, color: this.props.darkmode ? '#FFFFFF' : '#000000'}}
                         onSelectionsChange={(items) => this.setState({ selectedFields: items })}
 
                     />
@@ -106,6 +108,7 @@ export default class ExerciseEditor extends Component {
                             buttonText='Cancel'
                             onPress={() => this.props.dismiss()}
                             style={{width: '35%', marginRight: 20}}
+                            darkmode={this.props.darkmode}
                             orange={true}
                         />
                         {/* <Button
@@ -162,6 +165,7 @@ export default class ExerciseEditor extends Component {
                                 }
                             }}
                             style={{width: '35%', marginLeft: 20}}
+                            darkmode={this.props.darkmode}
                             orange={true}
                         />
                     </View>

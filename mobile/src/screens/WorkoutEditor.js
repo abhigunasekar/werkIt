@@ -5,7 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import TextBox from '../components/TextBox';
 import Button from '../components/Button';
 import ExerciseLabel from '../components/ExerciseLabel';
-import ExerciseEditor from './ExerciseEditor';
+import ExerciseEditor from '../components/ExerciseEditor';
 
 import * as serverMethods from '../ServerMethods';
 import light from '../light';
@@ -29,10 +29,10 @@ export default class WorkoutEditor extends Component {
             modalVisible: false,
             editorVisible: false,
             workoutTypeVisible: false,
+            exerciseVisible: false,
             edit: this.props.route.params.edit,
             editWorkoutType: false,
             edited: false,
-            oldType: '',
         };
 
         this.addExercise = this.addExercise.bind(this);
@@ -42,7 +42,6 @@ export default class WorkoutEditor extends Component {
     }
 
     componentDidMount() {
-        //console.log('didMount')
         //server call to get workout information if the user decided to edit a workout
         // server call to get previously saved types
         serverMethods.getUserWorkoutTypes(this.props.route.params.username)
@@ -57,9 +56,9 @@ export default class WorkoutEditor extends Component {
             serverMethods.getWorkout(this.props.route.params.username, this.state.name)
                 .then(response => response.json())
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
                     response.exercises.map((exercise) => {
-                        this.addExercise(true, { name: exercise.name, sets: exercise.data[0].sets, reps: exercise.data[0].reps, weight: exercise.data[0].weight, duration: exercise.data[0].duration, distance: exercise.data[0].distance, pace: exercise.data[0].pace, incline: exercise.data[0].incline, laps: exercise.data[0].laps });
+                        this.addExercise({ name: exercise.name, sets: exercise.data[0].sets, reps: exercise.data[0].reps, weight: exercise.data[0].weight, duration: exercise.data[0].duration, distance: exercise.data[0].distance, pace: exercise.data[0].pace, incline: exercise.data[0].incline, laps: exercise.data[0].laps });
                     });
                     this.setState({ type: response.type }, () => {
                         serverMethods.getExercises(this.props.route.params.username, response.type)
@@ -73,11 +72,11 @@ export default class WorkoutEditor extends Component {
         }
     }
 
-    addExercise(edit, exercise) {
+    addExercise(exercise) {
         //console.log('add exercise');
-        console.log(exercise);
+        //console.log(exercise);
         let duplicate = false;
-        let newArray = this.state.exercises.map(exercise => exercise);
+        let newArray = this.state.exercises;
         for (let i = 0; i < newArray.length; i++) {
             if (newArray[i].name === exercise.name) {
                 duplicateExerciseError();
@@ -88,11 +87,7 @@ export default class WorkoutEditor extends Component {
             let key = this.state.numExercises;
             newArray.push({ key: key++, name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps });
 
-            // if (!edit) {
-                 this.setState({ numExercises: key, exercises: newArray, modalVisible: false, editorVisible: false });
-            // } else {
-            //    this.setState({ numExercises: key, exercises: newArray });
-            //}
+            this.setState({ numExercises: key, exercises: newArray, modalVisible: false, editorVisible: false, exerciseVisible: false });
         }
     }
 
@@ -106,13 +101,11 @@ export default class WorkoutEditor extends Component {
         }
 
         this.setState({ exercises: newArray });
-        this.setState({ currExercise: '' });
     }
 
     editExercise(name, field, val) {
         for (let i = 0; i < this.state.exercises.length; i++) {
             if (name === this.state.exercises[i].name) {
-                //this.setState({ currKey: this.state.exercises[i].key });
                 let array = this.state.exercises.slice();
                 switch(field) {
                     case 'Sets':
@@ -140,16 +133,12 @@ export default class WorkoutEditor extends Component {
                         array[i].laps = val;
                         break;
                 }
-                //array[i] = { key: this.state.exercises[i].key, name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline };
                 this.setState({ exercises: array });
             }
         }
-
-        //this.setState({ currExercise: exercise });
     }
 
     createExerciseList() {
-        //console.log('exerciselist')
         let exerciseList = [];
         for (let i = 0; i < this.state.exercises.length; i++) {
             let exercise = this.state.exercises[i];
@@ -176,17 +165,17 @@ export default class WorkoutEditor extends Component {
     }
 
     createButtonList() {
-        //console.log('buttonlist')
-        console.log(this.state.savedExercises)
         let buttonList = [];
         for (let i = 0; i < this.state.savedExercises.length; i++) {
             let exercise = this.state.savedExercises[i];
-            console.log(exercise.name)
             buttonList.push(
                 <Button
                     key={i}
                     buttonText={exercise.name}
-                    onPress={() => this.addExercise(false, { name: exercise.name, sets: exercise.data.sets, reps: exercise.data.reps, weight: exercise.data.weight, duration: exercise.data.duration, distance: exercise.data.distance, pace: exercise.data.pace, incline: exercise.data.incline, laps: exercise.data.laps })}
+                    onPress={() =>  {
+                        //hahahaha
+                        this.setState({ exerciseVisible: true, currExercise: exercise });
+                    }}
                     style={{width: '80%', margin: 5}}
                     darkmode={this.props.darkmode}
                     orange={true}
@@ -224,9 +213,7 @@ export default class WorkoutEditor extends Component {
     render() {
         //console.log('render')  
         //console.log('workout name is: ' + this.state.name)  
-        console.log('type is: ' + this.state.type)  
-        console.log('newType is: ' + this.state.newType)
-        console.log(this.state.savedTypes)
+
         let exerciseList = this.createExerciseList();
 
         let buttonList = this.createButtonList();
@@ -252,6 +239,7 @@ export default class WorkoutEditor extends Component {
                         itemStyle={{justifyContent: 'flex-start'}}
                         labelStyle={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}
                         dropDownStyle={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
+                        arrowColor={this.props.darkmode ? '#FFFFFF' : '#000000'}
                         onChangeItem={(item) => {
                             console.log(item.value)
                             if (item.value === 'add') {
@@ -261,11 +249,11 @@ export default class WorkoutEditor extends Component {
                                 // add error checking
                             } else {
                                 if (item.value !== null) {
-                                serverMethods.getExercises(this.props.route.params.username, item.value)
-                                    .then(response => response.json())
-                                    .then(response => {
-                                        this.setState({ savedExercises: response, type: item.value, newType: item.value, workoutTypeVisible: true, editWorkoutType: true })
-                                    });
+                                    serverMethods.getExercises(this.props.route.params.username, item.value)
+                                        .then(response => response.json())
+                                        .then(response => {
+                                            this.setState({ savedExercises: response, type: item.value, newType: item.value, workoutTypeVisible: true, editWorkoutType: true })
+                                        });
                                 }
                             }
                         }}
@@ -295,11 +283,9 @@ export default class WorkoutEditor extends Component {
                                     <Button
                                         buttonText='Delete'
                                         onPress={() => {
-                                            console.log('deleting')
                                             let array = this.state.savedTypes;
                                             for (let i = 0; i < array.length; i++) {
                                                 if (array[i].value === this.state.newType) {
-                                                    console.log('splice')
                                                     array.splice(i, 1);
                                                 }
                                             }
@@ -311,6 +297,7 @@ export default class WorkoutEditor extends Component {
                                             this.setState({ savedTypes: array, newType: '', type: 'add', workoutTypeVisible: false, editWorkoutType: false, edited: false })
                                         }}
                                         style={{marginRight: 15}}
+                                        darkmode={this.props.darkmode}
                                         gray={this.state.editWorkoutType}
                                     />
                                     <Button
@@ -322,10 +309,8 @@ export default class WorkoutEditor extends Component {
                                                 if (this.state.editWorkoutType) {
                                                     let array = this.state.savedTypes;
                                                     if (this.state.edited) {
-                                                        console.log('changes made')
-                                                        serverMethods.editWorkoutType(this.props.route.params.username, this.state.oldType, { name: this.state.newType, exercises: this.state.savedExercises });                                                        for (let i = 0; i < array.length; i++) {
+                                                        serverMethods.editWorkoutType(this.props.route.params.username, this.state.type, { name: this.state.newType, exercises: this.state.savedExercises });                                                        for (let i = 0; i < array.length; i++) {
                                                             if (array[i].value === this.state.type) {
-                                                                console.log('found')
                                                                 array[i] = { label: this.state.newType, value: this.state.newType };
                                                             }
                                                         }
@@ -367,7 +352,42 @@ export default class WorkoutEditor extends Component {
                             >
                             <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
                                 <View style={this.props.darkmode ? dark.modalView : light.modalView}>
-                                    {buttonList}
+                                    {this.state.exerciseVisible ?
+                                        <View style={{alignItems: 'center'}}>
+                                            <Text style={[this.props.darkmode ? dark.text : light.text, {marginBottom: 20, fontSize: 20}]}>{this.state.currExercise.name}</Text>
+                                            <View style={{flexDirection: 'row'}}>
+                                                <Button
+                                                    buttonText='Cancel'
+                                                    onPress={() => this.setState({ exerciseVisible: false })}
+                                                    style={{marginRight: 15}}
+                                                    darkmode={this.props.darkmode}
+                                                    gray={true}
+                                                />
+                                                <Button
+                                                    buttonText='Delete'
+                                                    onPress={() => {
+                                                        let array = this.state.savedExercises;
+                                                        for (let i = 0; i < array.length; i++) {
+                                                            if (array[i].name === this.state.currExercise.name) {
+                                                                array.splice(i, 1);
+                                                            }
+                                                        }
+                                                        serverMethods.deleteExercise(this.props.route.params.username, this.state.type, this.state.currExercise.name)
+                                                        this.setState({ savedExercises: array, exerciseVisible: false })
+                                                    }}
+                                                    style={{marginRight: 15}}
+                                                    darkmode={this.props.darkmode}
+                                                    gray={true}
+                                                />
+                                                <Button
+                                                    buttonText='Select'
+                                                    onPress={() => this.addExercise({ name: this.state.currExercise.name, sets: this.state.currExercise.data.sets, reps: this.state.currExercise.data.reps, weight: this.state.currExercise.data.weight, duration: this.state.currExercise.data.duration, distance: this.state.currExercise.data.distance, pace: this.state.currExercise.data.pace, incline: this.state.currExercise.data.incline, laps: this.state.currExercise.data.laps })}
+                                                    darkmode={this.props.darkmode}
+                                                    orange={true}
+                                                />
+                                            </View>
+                                        </View> : buttonList
+                                    }
                                 </View>
                             </View>
                         </Modal>
@@ -379,14 +399,14 @@ export default class WorkoutEditor extends Component {
                                 Alert.alert("Modal has been closed.");
                                 this.setState({ editorVisible: !this.state.editorVisible});
                             }}
-                            >
+                        >
                             <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
                                 <View style={this.props.darkmode ? dark.modalView : light.modalView}>
                                     <ExerciseEditor
                                         type={this.state.type}
                                         dismiss={() => this.setState({ editorVisible: false, modalVisible: false })}
                                         createExercise={(exercise) => {
-                                            console.log('wtf is going on')
+                                            //console.log('wtf is going on')
                                             let obj = {name: exercise.name, data: { sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps }};
                                             serverMethods.createExercise(this.props.route.params.username, this.state.type, obj)
                                                 .then(response => {
@@ -400,6 +420,7 @@ export default class WorkoutEditor extends Component {
                                                     }
                                                 });
                                         }}
+                                        darkmode={this.props.darkmode}
                                     />
                                 </View>
                             </View>
@@ -431,7 +452,7 @@ export default class WorkoutEditor extends Component {
                             buttonText='Delete'
                             onPress={() => {
                                 //this.props.deleteExercise(this.state);
-                                console.log('time to delete');
+                                //console.log('time to delete');
                                 serverMethods.deleteWorkout(this.props.route.params.username, this.state.name);
                                 this.props.navigation.navigate('Workouts');
                             }}

@@ -17,7 +17,7 @@ export default class TextBox extends Component {
                 onKeyPress={this.props.onKeyPress}
                 secureTextEntry={this.props.secureTextEntry}
                 placeholder={this.props.placeholder}
-                placeholderTextColor={this.props.darkmode ? '#FFFFFF' : '#C7C7CD'}
+                placeholderTextColor={this.props.darkmode ? '#777777' : '#C7C7CD'}
                 color={this.props.darkmode ? '#FFFFFF' : '#000000'}
                 keyboardType={this.props.keyboardType}
                 maxLength={this.props.maxLength}

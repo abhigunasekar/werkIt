@@ -228,11 +228,6 @@ export default class ExerciseLabel extends Component {
                                 />
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 15, borderTopWidth: 2}}>
                                     <Button
-                                        buttonText='Cancel'
-                                        onPress={() => this.setState({ modalVisible: false })}
-                                        gray={true}
-                                    />
-                                    <Button
                                         buttonText='Delete'
                                         onPress={() => {
                                             this.props.delete(this.props.name);

@@ -72,6 +72,7 @@ export default class Dashboard extends Component {
                     }}
                     labelStyle={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}
                     dropDownStyle={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
+                    arrowColor={this.props.darkmode ? '#FFFFFF' : '#000000'}
                     onChangeItem={(item) => {
                         serverMethods.updateActiveWorkoutPlan(this.state.username, item.value); 
                         this.setState({ activeWorkoutPlan: item.value });
