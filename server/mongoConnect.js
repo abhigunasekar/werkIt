@@ -215,6 +215,10 @@ async function check_user_existence(username) {
 //     return exists;
 // }
 
+// async function send_email(username, email) {
+
+// }
+
 async function change_password(user, new_pass) {
     if (!(await check_user_existence(user))) {
         // User does not exist
@@ -267,7 +271,14 @@ async function get_plan_obj(username, p_name) {
 }
 
 async function get_workout_data(username, w_name) {
-    return await get_workout_obj(username, w_name);
+    var wkout = await get_workout_obj(username, w_name);
+    var e_list = new Array;
+    for (var e_id of wkout.exercises) {
+        var e = await Exercise.findById(e_id).exec();
+        e_list.push(e);
+    }
+    var type_obj = await WorkoutType.findById(wkout.type).exec();
+    return {type: type_obj.name, exercises: e_list};
 }
 
 async function get_wkoutType_by_name(username, wkoutType) {
