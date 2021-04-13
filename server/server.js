@@ -89,15 +89,15 @@ app.get('/user/:username', (req, res) => {
 
 // check validity of username/email and send email for resetting password
 // app.post('/user/:username/email', (req, res) => {
-//     console.log("Checking validity of username and email (in process to reset password)")
-//     mc.validate_email(req.params.username, req.body.email).then(exists => {
-//         if (exists) {
+//     console.log("Sending email (in process to reset password)")
+//     mc.send_email(req.params.username, req.body.email).then(sent => {
+//         if (sent) {
 //             console.log("")
 //             mc.send_email(req.params.username, req.body.email).then(_ => {
 //                 res.status(200).end();
 //             });
 //         } else {
-//             console.log("Invalid credentials");
+//             console.log("Invalid username or email");
 //             res.status(400).end();
 //         }
 //     });
@@ -208,6 +208,7 @@ app.put('/:username/:workoutType/exercise', (req, res) => {
 
 // save a new workout
 // KNOWN BUG: first workout saved for user get undefined error
+// "cannot read property exercises of undefined"
 app.post('/:username/workout', (req, res) => {
     console.log("saving new workout");
     mc.save_workout(req.params.username, req.body.name, req.body.type, req.body.exercises).then(_ => {
