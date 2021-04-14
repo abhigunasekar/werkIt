@@ -142,6 +142,7 @@ export default class WorkoutEditor extends Component {
         let exerciseList = [];
         for (let i = 0; i < this.state.exercises.length; i++) {
             let exercise = this.state.exercises[i];
+            // does this one need darkmode
             exerciseList.push(
                 <ExerciseLabel
                     key={i}
@@ -156,6 +157,7 @@ export default class WorkoutEditor extends Component {
                     laps={exercise.laps}
                     edit={(field, val) => this.editExercise(exercise.name, field, val)}
                     delete={(exercise) => this.deleteExercise(exercise)}
+                    darkmode={this.props.darkmode}
                     modalVisible={(exercise.sets || exercise.reps || exercise.weight || exercise.duration || exercise.distance || exercise.pace || exercise.incline || exercise.laps)}
                 />
             );

@@ -4,7 +4,8 @@ import { Pressable, Text, View, ScrollView, Modal } from 'react-native';
 import HideableView from './HideableView';
 import Button from './Button';
 
-import styles from '../light';
+import light from '../light';
+import dark from '../dark';
 import { invalidFormAlert } from './Alerts';
 
 export default class ExerciseLabel extends Component {
@@ -117,6 +118,7 @@ export default class ExerciseLabel extends Component {
                     buttonText={this.props.name}
                     onPress={() => this.setState({ modalVisible: true })}
                     style={{width: 225}}
+                    darkmode={this.props.darkmode}
                     orange={true}
                 />
                 <Modal
@@ -124,8 +126,8 @@ export default class ExerciseLabel extends Component {
                     transparent={true}
                     visible={this.state.modalVisible}
                 >
-                    <View style={styles.centeredView}>
-                        <View style={[styles.metadataModal, {marginTop: width}]}>
+                    <View style={light.centeredView}>
+                        <View style={[this.props.darkmode ? dark.metadataModal : light.metadataModal, {marginTop: width}]}>
                             <ScrollView>
                                 <HideableView
                                     key='Set'
@@ -138,6 +140,7 @@ export default class ExerciseLabel extends Component {
                                         this.setState({ sets: e });
                                     }}
                                     maxLength={2}
+                                    darkmode={this.props.darkmode}
                                     visible={this.state.setsVisible}
                                 />
                                 <HideableView
@@ -150,6 +153,7 @@ export default class ExerciseLabel extends Component {
                                         this.setState({ reps: e });
                                     }}
                                     maxLength={2}
+                                    darkmode={this.props.darkmode}
                                     visible={this.state.repsVisible}
                                 />
                                 <HideableView
@@ -162,6 +166,7 @@ export default class ExerciseLabel extends Component {
                                         this.setState({ weight: e })
                                     }}
                                     maxLength={3}
+                                    darkmode={this.props.darkmode}
                                     visible={this.state.weightVisible}
                                 />
                                 <HideableView
@@ -174,6 +179,7 @@ export default class ExerciseLabel extends Component {
                                         this.setState({ duration: e });
                                     }}
                                     maxLength={3}
+                                    darkmode={this.props.darkmode}
                                     visible={this.state.durationVisible}
                                 />
                                 <HideableView
@@ -187,6 +193,7 @@ export default class ExerciseLabel extends Component {
                                         this.setState({ distance: e });
                                     }}
                                     //maxLength={ /* add a check for . and set max length based on  */}
+                                    darkmode={this.props.darkmode}
                                     visible={this.state.distanceVisible}
                                 />
                                 <HideableView
@@ -199,6 +206,7 @@ export default class ExerciseLabel extends Component {
                                         this.setState({ pace: e });
                                     }}
                                     maxLength={2}
+                                    darkmode={this.props.darkmode}
                                     visible={this.state.paceVisible}
                                 />
                                 {/* This is not in planning doc */}
@@ -212,6 +220,7 @@ export default class ExerciseLabel extends Component {
                                         this.setState({ incline: e });
                                     }}
                                     maxLength={2}
+                                    darkmode={this.props.darkmode}
                                     visible={this.state.inclineVisible}
                                 />
                                 <HideableView
@@ -224,6 +233,7 @@ export default class ExerciseLabel extends Component {
                                         this.setState({ laps: e });
                                     }}
                                     maxLength={2}
+                                    darkmode={this.props.darkmode}
                                     visible={this.state.lapsVisible}
                                 />
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 15, borderTopWidth: 2}}>
@@ -233,6 +243,7 @@ export default class ExerciseLabel extends Component {
                                             this.props.delete(this.props.name);
                                             this.setState({ modalVisible: false });
                                         }}
+                                        darkmode={this.props.darkmode}
                                         gray={true}
                                     />
                                     <Button
@@ -244,6 +255,7 @@ export default class ExerciseLabel extends Component {
                                                 invalidFormAlert();
                                             }
                                         }} //error checking that all boxes are filled
+                                        darkmode={this.props.darkmode}
                                         orange={true}
                                     />
                                 </View>
