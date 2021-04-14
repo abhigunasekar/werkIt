@@ -30,6 +30,9 @@ const userSchema = new mongoose.Schema({
     ],
     completed_workouts: [
         { type: mongoose.Schema.Types.ObjectId, ref: "CompletedWorkout" }
+    ],
+    friends_list: [
+        { type: mongoose.Schema.Types.ObjectId, ref: "ConnectedFriends"}
     ]
 }, { versionKey: false });
 
@@ -107,6 +110,14 @@ const completedWorkoutSchema = new mongoose.Schema({
 }, { versionKey: false });
 
 const CompletedWorkout = mongoose.model("CompletedWorkout", completedWorkoutSchema)
+
+const friends = new mongoose.Schema({
+    friend_name: String,
+    friend_goal: Number,
+    friend_streak_counter: Number
+}, { versionKey: false });
+
+const ConnectedFriends = mongoose.model("ConnectedFriends", friends)
 
 // Functions called by server
 
