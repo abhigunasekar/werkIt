@@ -7,20 +7,13 @@
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js"
-        integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g=="
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js" integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g==" crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <meta name="color-scheme" content="dark light">
 
 
@@ -79,7 +72,9 @@
         });
 
         var chartData;
+        var pieData;
 
+        // Bar Chart for Workout-Time
         async function chartRequest() {
             let user = localStorage.getItem("user");
             let url = 'http://127.0.0.1:8000/' + user + '/histogram';
@@ -101,6 +96,32 @@
                 packages: ['corechart', 'bar']
             });
             google.charts.setOnLoadCallback(drawBasic);
+
+
+        });
+
+        // Pie-Chart for Workout Time
+        async function pieRequest() {
+            let user = localStorage.getItem("user");
+            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let res = await fetch(url);
+
+            if (res.ok) {
+                let text = await res.text();
+                return text;
+            } else {
+                return `HTTP error: ${res.status}`;
+            }
+        }
+
+        pieRequest().then(data => {
+            //console.log(data);
+            pieData = JSON.parse(data);
+            //console.log(chartData);
+            google.charts.load('current', {
+                'packages': ['corechart']
+            });
+            google.charts.setOnLoadCallback(drawPie);
 
 
         });
@@ -128,61 +149,12 @@
 
             const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
             console.log(arr);
-            // var keys = Object.keys(chartData);
-            // keys.forEach(function(key) {
-            //     console.log(chartData[key]);
-            //     result.push([key, chartData[key]]);
-            // });
 
-            // for (var i in chartData) {
-            //     console.log(chartData[i]);
-            //     result.push([i, chartData[i]]);
-            // }
 
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Day');
             data.addColumn('number', 'Duration');
             data.addRows(arr);
-
-            //------CONVERSION
-            // var result = [];
-            // var keys = Object.keys(chartData);
-            // keys.forEach(function(key) {
-            //     result.push(json[key]);
-            // });
-
-            // var data = google.visualization.arrayToDataTable(result);
-            // for (var i in chartData)
-            //     result.push([i, chartData[i]]);
-
-            // // var data = google.visualization.arrayToDataTable(chartData);
-            // var data = new google.visualization.DataTable();
-            // data.addColumn('string', 'Day');
-            // data.addColumn('number', 'Slices');
-            // data.addRows(result);
-            // console.log(data);
-
-            // TESTING ----
-            //     for (int i = 0; i < chartData.length(); i++) {
-            //         JSONObject
-            //     }
-
-            // //----
-            // var data = new google.visualization.DataTable();
-            // data.addColumn('string', 'Day');
-            // data.addColumn('number', 'Duration');
-
-
-            // chartData.forEach(function(row) {
-            //     console.log(row);
-            //     data.addRow([
-            //         'Monday',
-            //         row.time
-            //     ]);
-            // });
-
-            // data.addColumn('string', 'Day');
-            // data.addColumn('number', 'Duration');
 
             var options = {
                 titleTextStyle: {
@@ -206,18 +178,104 @@
 
             chart.draw(data, options);
         }
+
+        function drawBasic() {
+
+            // var data = google.visualization.arrayToDataTable([
+            //     ['Day', 'Duration', ],
+            //     ['Monday', 20],
+            //     ['Tuesday', 0],
+            //     ['Wednesday', 0],
+            //     ['Thursday', 60],
+            //     ['Friday', 30],
+            //     ['Saturday', 0],
+            //     ['Sunday', 0],
+            // ]);
+
+            // Testing 1
+            //var result = [];
+            console.log(chartData);
+            console.log(chartData.Monday);
+
+            const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
+            console.log(arr);
+
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Day');
+            data.addColumn('number', 'Duration');
+            data.addRows(arr);
+
+            var options = {
+                titleTextStyle: {
+                    fontSize: 20,
+                },
+                title: 'Weekly Workout Time',
+                chartArea: {
+                    width: '60%'
+                },
+                hAxis: {
+                    title: 'Workout Time (in minutes)',
+                    minValue: 0
+                },
+                vAxis: {
+                    title: 'Day'
+                },
+                colors: ['#7641BD']
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+
+        function drawPie() {
+            console.log(pieData);
+            console.log(pieData.Monday);
+
+            const arr = Object.keys(pieData).map((key) => [key, pieData[key]]);
+            console.log(arr);
+
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Day');
+            data.addColumn('number', 'Duration');
+            data.addRows(arr);
+
+            var options = {
+                titleTextStyle: {
+                    fontSize: 20,
+                },
+                is3D: true,
+                title: '',
+                chartArea: {
+                    width: '100%'
+                },
+                'width': 400,
+                'height': 300
+                    // hAxis: {
+                    //     title: 'Workout Time (in minutes)',
+                    //     minValue: 0
+                    // },
+                    // vAxis: {
+                    //     title: 'Day'
+                    // },
+                    // colors: ['#7641BD']
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('pie_div'));
+
+            chart.draw(data, options);
+        }
     </script>
 </head>
 
 <body>
     <!-- Links Navbar -->
     <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
-        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
-            aria-label="Toggle navigation">
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <!-- <a class="navbar-brand navbar-main bg-main" text-center justify-content-center id="about" href="index.html">About</a> -->
 
         <div class="collapse navbar-collapse navbar-main bg-main " id="navbarTogglerDemo03">
             <ul class="navbar-nav mx-auto mt-2 mt-lg-0 navbar-center">
@@ -237,30 +295,22 @@
         <div class="inner-container col-lg-4">
             <div>
                 <h2>Weekly Goal</h2>
-                <!-- <div class=""></div> -->
-                <!-- <div class="progress-bar w-75" role="progressbar" id="progress" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div> -->
                 <progress value="" max="" id="progress"> </progress>
-                <!-- </div> -->
             </div>
             <div>
                 <h2>Workout Streak Counter</h2>
                 <input id="streak" type="number" value="" disabled></input>
             </div>
+            <div id="pie-container">
+                <h5>Weekly Workout Time Per Day</h5>
+                <div id="pie_div"></div>
+            </div>
         </div>
         <div></div>
         <div></div>
-        <div class="col-lg-8" id="chart_div"></div>
+        <div class="col-lg-8 text-right" id="chart_div"></div>
     </div>
     <script>
-        // document.onkeypress = function(e) {
-        //     e = e || window.event;
-        //     if (e.keyCode === 13) {
-        //         document.documentElement.classList.toggle('dark-mode');
-        //         document.querySelectorAll('.inverted').forEach((result) => {
-        //             result.classList.toggle('invert');
-        //         })
-        //     }
-        // }
         async function doRequest() {
             let user = localStorage.getItem("user");
             let url = 'http://127.0.0.1:8000/profile/' + user;
@@ -278,13 +328,8 @@
             var json = JSON.parse(data);
             var streak = document.getElementById('streak');
             console.log(json);
-            // if (json.streak_counter == 0) {
-            //     streak.value = 0;
-            // } else {
             streak.value = 0;
-            //}
             var dValue = json.dark_mode;
-            // console.log(dValue);
             if (dValue == true) {
                 document.documentElement.classList.toggle('dark-mode');
                 document.querySelectorAll('.inverted').forEach((result) => {
@@ -305,7 +350,7 @@
         //     alert(user);
         // });
 
-        window.onload = function () {
+        window.onload = function() {
             var actualVal = actual.getAttribute("value");
             var goalVal = actual.getAttribute("max");
             var date = new Date();
@@ -355,13 +400,13 @@
                 data: {
                     streak_counter: sCounter
                 },
-                success: function (data, textStatus) {
+                success: function(data, textStatus) {
                     //alert("successful 3");
 
                     //location.reload();
 
                 },
-                error: function (jqXHR, textStatus, err) {
+                error: function(jqXHR, textStatus, err) {
                     // alert('text status ' + textStatus + ', err ' + err)
                     alert("error");
                 }
