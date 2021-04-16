@@ -18,6 +18,8 @@ export default class Dashboard extends Component {
             username: this.props.username,
             savedWorkoutPlans: [],
             activeWorkoutPlan: '',
+            workout: '',
+            day: '',
             hr: 0,
             min: 0,
             sec: 0,
@@ -27,7 +29,34 @@ export default class Dashboard extends Component {
     }
 
     logTime(hr, min, sec) {
-        this.setState({ hr: parseInt(hr), min: parseInt(min), sec: parseInt(sec)});
+        this.setState({ hr: parseInt(hr), min: parseInt(min), sec: parseInt(sec) });
+    }
+
+    updateWorkout() {
+        let date = new Date();
+            switch(date.getDay()) {
+                case 0:
+                    this.setState({ workout: this.state.activeWorkoutPlan.Sunday, day: 'Sunday' });
+                    break;
+                case 1:
+                    this.setState({ workout: this.state.activeWorkoutPlan.Monday, day: 'Monday' });
+                    break;
+                case 2:
+                    this.setState({ workout: this.state.activeWorkoutPlan.Tuesday, day: 'Tuesday' });
+                    break;
+                case 3:
+                    this.setState({ workout: this.state.activeWorkoutPlan.Wednesday, day: 'Wednesday' });
+                    break;
+                case 4:
+                    this.setState({ workout: this.state.activeWorkoutPlan.Thursday, day: 'Tuesday' });
+                    break;
+                case 5:
+                    this.setState({ workout: this.state.activeWorkoutPlan.Friday, day: 'Friday' });
+                    break;
+                case 6:
+                    this.setState({ workout: this.state.activeWorkoutPlan.Saturday, day: 'Saturday' });
+                    break;
+            }
     }
 
     componentDidMount() {
@@ -44,12 +73,13 @@ export default class Dashboard extends Component {
             .then(response => response.json())
             .then(response => {
                 this.setState({ activeWorkoutPlan: response });
+                this.updateWorkout();
             });
     }
 
     render() {
         let today = new Date();
-        let day = today.getDay();
+        //let day = today.getDay();
         let dd = String(today.getDate()).padStart(2, '0');
         let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
         let yyyy = today.getFullYear();
@@ -61,6 +91,7 @@ export default class Dashboard extends Component {
             <View style={this.props.darkmode ? dark.dashboardContainer : light.dashboardContainer}>
                 <Text style={[this.props.darkmode ? dark.text : light.text, {fontSize: 20, margin: 25}]}>Welcome {this.state.username}!</Text>
                 <Text style={[this.props.darkmode ? dark.text : light.text, {marginBottom: 10}]}>Your selected workout plan is: </Text>
+                <Text>Todays workout is: {this.state.workout}</Text>
                 <DropDownPicker
                     items={this.state.savedWorkoutPlans}
                     defaultValue={''}
@@ -79,9 +110,15 @@ export default class Dashboard extends Component {
                     }}
                 />
                 <Text>{today}</Text>
-                <Text>Today is: {day}</Text>
+                <Text>Today is: {this.state.day}</Text>
                 <Text>Elapsed time: {this.state.hr} hrs   {this.state.min} min   {this.state.sec} sec</Text>
                 <Stopwatch finish={this.logTime} darkmode={this.props.darkmode}/>
+                <Button
+                    buttonText='LMFAO'
+                    onPress={() => this.props.navigation.navigate('Workout Tracker', { workout: this.state.workout })}
+                    darkmode={this.props.darkmode}
+                    gray={true}
+                />
                 <Button
                     buttonText='Logout'
                     darkmode={this.props.darkmode}

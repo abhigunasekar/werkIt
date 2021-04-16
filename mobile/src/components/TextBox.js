@@ -24,6 +24,7 @@ export default class TextBox extends Component {
                 style={[ styles.textBox, this.props.style ]}
                 defaultValue={this.props.defaultValue}
                 value={this.props.value}
+                editable={this.props.editable}
             />
         );
     }

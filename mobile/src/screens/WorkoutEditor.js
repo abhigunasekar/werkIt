@@ -4,7 +4,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 import TextBox from '../components/TextBox';
 import Button from '../components/Button';
-import ExerciseLabel from '../components/ExerciseLabel';
+import ExerciseButton from '../components/ExerciseButton';
 import ExerciseEditor from '../components/ExerciseEditor';
 
 import * as serverMethods from '../ServerMethods';
@@ -144,7 +144,7 @@ export default class WorkoutEditor extends Component {
             let exercise = this.state.exercises[i];
             // does this one need darkmode
             exerciseList.push(
-                <ExerciseLabel
+                <ExerciseButton
                     key={i}
                     name={exercise.name}
                     sets={exercise.sets}

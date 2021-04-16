@@ -45,10 +45,10 @@ export default class ExerciseEditor extends Component {
                         selectedItems={this.state.selectedFields}
                         style={{marginTop: 10}}
                         rowStyle={{padding: 10, backgroundColor: this.props.darkmode ? '#3E3E3E' : '#FFFFFF'}}
-                        checkboxStyle={{width: 20, height: 20, backgroundColor: this.props.darkmode ? '#FFFFFF' : '#000000'}}
+                        checkboxStyle={{width: 20, height: 20, backgroundColor: this.props.darkmode ? '#3E3E3E' : '#FFFFFF'}}
+                        selectedCheckboxStyle={{backgroundColor: this.props.darkmode ? '#FFFFFF' : null }}
                         labelStyle={{marginLeft: 5, color: this.props.darkmode ? '#FFFFFF' : '#000000'}}
                         onSelectionsChange={(items) => this.setState({ selectedFields: items })}
-
                     />
                     {/* <HideableView
                         name='Sets: '

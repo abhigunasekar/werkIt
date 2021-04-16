@@ -49,6 +49,7 @@ export default class WorkoutPlans extends Component {
                 <WorkoutLabel
                     key={i}
                     name={workoutPlan}
+                    darkmode={this.props.darkmode}
                     edit={() => this.props.navigation.navigate('WorkoutPlanEditor', { workoutPlan: workoutPlan })} //server call to get workouts given name
                 />
             );
