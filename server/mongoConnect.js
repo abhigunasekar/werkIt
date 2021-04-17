@@ -401,7 +401,7 @@ async function save_workout(username, w_name, w_type, exercises) {
     var user = await get_profile_info(username);
     new_workouts = user.workouts;
     new_workouts.push(workout);
-    User.findOneAndUpdate(query, { workouts: new_workouts }).exec();
+    await User.findOneAndUpdate(query, { workouts: new_workouts }).exec();
 
     // add list of exercises to the workout
     for (var e of exercises) {
