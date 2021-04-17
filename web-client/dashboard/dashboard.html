@@ -155,10 +155,10 @@
         function drawGeoChart() {
             var data = google.visualization.arrayToDataTable([
                 ['State', 'Location Scale'],
-                ['US-IL', 300],
-                ['US-IN', 300],
-                ['US-IA', 300],
-                ['US-RI', 300],
+                ['US-IL', 'You'],
+                ['US-IN', 'Friend 1'],
+                ['US-IA', 'Friend 2'],
+                ['US-RI', 'Friend 3'],
 
             ]);
             var geochart = new google.visualization.GeoChart(document.getElementById('geo_div'));
@@ -168,6 +168,7 @@
                 width: 556,
                 height: 347,
                 region: "US",
+                defaultColor: '#7641bd',
                 resolution: "provinces"
             });
         }
@@ -201,10 +202,13 @@
         function drawLineChart() {
             var data = google.visualization.arrayToDataTable([
                 ['Number of Workouts', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
-                ['Jan', 1, 2, 3, 4],
-                ['Feb', 4, 5, 6, 5],
-                ['Mar', 7, 8, 9, 6],
-                ['Apr', 10, 11, 12, 7],
+                ['Mon', 1, 2, 3, 4],
+                ['Tue', 4, 5, 6, 5],
+                ['Wed', 7, 8, 9, 6],
+                ['Thur', 10, 11, 12, 7],
+                ['Fri', 10, 11, 12, 7],
+                ['Sat', 10, 11, 12, 7],
+                ['Sun', 10, 11, 12, 7]
 
             ]);
             var geochart = new google.visualization.GeoChart(document.getElementById('curve_chart'));
@@ -230,6 +234,60 @@
             chart.draw(data, options);
         }
 
+
+        //-------------COLUMN CHART
+        // Line-Chart for Workouts of user vs friends
+        async function colRequest() {
+            let user = localStorage.getItem("user");
+            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let res = await fetch(url);
+
+            if (res.ok) {
+                let text = await res.text();
+                return text;
+            } else {
+                return `HTTP error: ${res.status}`;
+            }
+        }
+
+        colRequest().then(data => {
+            //console.log(data);
+            //chartData = JSON.parse(data);
+            //console.log(chartData);
+            google.charts.load('current', {
+                'packages': ['bar']
+            });
+            google.charts.setOnLoadCallback(drawColChart);
+
+        });
+
+        function drawColChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Workout Type', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
+                ['Type 1', 10, 5, 15, 30],
+                ['Type 2', 20, 10, 20, 20],
+                ['Type 3', 30, 15, 25, 10],
+                ['Type 4', 40, 20, 30, 4],
+
+            ]);
+
+            var options = {
+                titleTextStyle: {
+                    fontSize: 15,
+                },
+                title: 'Number of Workouts by Workout Types',
+                Subtitles: 'Comparison for current year (2021)',
+                width: '500',
+                height: '300',
+                chartArea: {
+                    left: 30,
+                    top: 30
+                }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
 
         function drawBasic() {
 
@@ -407,7 +465,9 @@
                 <h5>Weekly Workout Time Per Day</h5>
                 <div id="pie_div"></div>
             </div>
-
+            <div>
+                <div id="columnchart_material" style=""></div>
+            </div>
         </div>
 
         <div class="inner-container col-lg-6">
@@ -427,6 +487,7 @@
             <div id="">
                 <div class="text-left" id="curve_chart"></div>
             </div>
+
         </div>
 
 
