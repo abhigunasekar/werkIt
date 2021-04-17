@@ -69,6 +69,7 @@ export default class Dashboard extends Component {
                 response.map((workoutPlan) => array.push({ label: workoutPlan, value: workoutPlan }))
                 this.setState({ savedWorkoutPlans: array })
             });
+        // what happens if the user doesn't have an active workout plan
         serverMethods.getActiveWorkoutPlan(this.state.username)
             .then(response => response.json())
             .then(response => {
@@ -112,7 +113,7 @@ export default class Dashboard extends Component {
                 <Text>{today}</Text>
                 <Text>Today is: {this.state.day}</Text>
                 <Text>Elapsed time: {this.state.hr} hrs   {this.state.min} min   {this.state.sec} sec</Text>
-                <Stopwatch finish={this.logTime} darkmode={this.props.darkmode}/>
+                <Stopwatch finish={this.logTime} darkmode={this.props.darkmode} start={() => this.props.navigation.navigate('Workout Tracker', { workout: this.state.workout })}/>
                 <Button
                     buttonText='LMFAO'
                     onPress={() => this.props.navigation.navigate('Workout Tracker', { workout: this.state.workout })}

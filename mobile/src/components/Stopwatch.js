@@ -22,7 +22,7 @@ export default class Stopwatch extends Component {
 
     startStopwatch() {
         if (!this.state.runStopwatch) {
-            this.setState({ runStopwatch: true }, () => this.cycle());
+            this.setState({ hr: '00', min: '00', sec: '00', runStopwatch: true }, () => this.cycle());
         }
     }
 
@@ -73,7 +73,10 @@ export default class Stopwatch extends Component {
                 <View style={{flexDirection: 'row', marginTop: 10}}>
                     <Button
                         buttonText='Start'
-                        onPress={() => this.startStopwatch()}
+                        onPress={() => {
+                            this.startStopwatch()
+                            this.props.start();
+                        }}
                         style={{marginRight: 50}}
                         darkmode={this.props.darkmode}
                         purple={true}
@@ -89,7 +92,7 @@ export default class Stopwatch extends Component {
                         buttonText='Finish'
                         onPress={() => {
                             this.props.finish(this.state.hr, this.state.min, this.state.sec);
-                            this.setState({ hr: '00', min: '00', sec: '00' });
+                            this.stopStopwatch();
                         }}
                         darkmode={this.props.darkmode}
                         purple={true}
