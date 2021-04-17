@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../screens/Login';
 import CreateAccount from '../screens/CreateAccount';
 import ChangePassword from '../screens/ChangePassword';
+import Dashboard from '../screens/Dashboard';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,19 @@ export default class StackNavigator extends Component {
             <Stack.Navigator
                 screenOptions={{ headerShown: false }}
             >
+                <Stack.Screen 
+                    name='Dashboard'
+                    options={{
+                        headerStyle: { backgroundColor: '#7641BD' },
+                        headerTitleStyle: { color: '#FFFFFF' },
+                        headerLeft: () => 
+                        <Pressable style={{marginLeft: 17}} onPress={() => this.props.navigation.openDrawer()}>
+                            <FontAwesome name="home" size={24} color='#FFFFFF'/>
+                        </Pressable>
+                    }}
+                >
+                    {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username} darkmode={this.props.darkmode}/>}
+                </Stack.Screen>
                 <Stack.Screen 
                     name='Login'
                 >

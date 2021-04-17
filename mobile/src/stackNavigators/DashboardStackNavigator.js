@@ -6,6 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 
 import Dashboard from '../screens/Dashboard';
+import Login from '../screens/Login';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,11 @@ export default class DashboardStackNavigator extends Component {
                     }}
                 >
                     {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username} darkmode={this.props.darkmode}/>}
+                </Stack.Screen>
+                <Stack.Screen 
+                    name='Login'
+                >
+                    {props => <Login {...props} login={this.props.login} persist={this.props.persist}/>}
                 </Stack.Screen>
             </Stack.Navigator>
         );

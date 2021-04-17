@@ -83,7 +83,10 @@ export default class Dashboard extends Component {
                 <Button
                     buttonText='Logout'
                     darkmode={this.props.darkmode}
-                    onPress={() => this.props.logout()}
+                    onPress={() => {
+                        this.props.logout();
+                        this.props.navigation.navigate('Login');
+                    } }
                     orange={true}
                 />
             </View>
