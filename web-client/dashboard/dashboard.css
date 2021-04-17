@@ -241,6 +241,7 @@ h4 {
 .container {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     margin-top: 3%;
 }
 
@@ -260,4 +261,10 @@ h2 {
 
 .progress-bar {
     background-color: #7641BD;
+}
+
+h5 {
+    margin-top: 20%;
+    margin-bottom: 10%;
+    font-weight: bold;
 }
