@@ -56,7 +56,8 @@ export default class WorkoutEditor extends Component {
             serverMethods.getWorkout(this.props.route.params.username, this.state.name)
                 .then(response => response.json())
                 .then(response => {
-                    //console.log(response);
+                    console.log('----------------------------------------------')
+                    console.log(response);
                     response.exercises.map((exercise) => {
                         this.addExercise({ name: exercise.name, sets: exercise.data[0].sets, reps: exercise.data[0].reps, weight: exercise.data[0].weight, duration: exercise.data[0].duration, distance: exercise.data[0].distance, pace: exercise.data[0].pace, incline: exercise.data[0].incline, laps: exercise.data[0].laps });
                     });
@@ -85,7 +86,7 @@ export default class WorkoutEditor extends Component {
         }
         if (!duplicate) {
             let key = this.state.numExercises;
-            newArray.push({ key: key++, name: exercise.name, sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps });
+            newArray.push({ key: key++, name: exercise.name, data: { sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps }});
 
             this.setState({ numExercises: key, exercises: newArray, modalVisible: false, editorVisible: false, exerciseVisible: false });
         }
@@ -142,23 +143,25 @@ export default class WorkoutEditor extends Component {
         let exerciseList = [];
         for (let i = 0; i < this.state.exercises.length; i++) {
             let exercise = this.state.exercises[i];
+            console.log('exercise list')
+            console.log(exercise)
             // does this one need darkmode
             exerciseList.push(
                 <ExerciseButton
                     key={i}
                     name={exercise.name}
-                    sets={exercise.sets}
-                    reps={exercise.reps}
-                    weight={exercise.weight}
-                    duration={exercise.duration}
-                    distance={exercise.distance}
-                    pace={exercise.pace}
-                    incline={exercise.incline}
-                    laps={exercise.laps}
+                    sets={exercise.data.sets}
+                    reps={exercise.data.reps}
+                    weight={exercise.data.weight}
+                    duration={exercise.data.duration}
+                    distance={exercise.data.distance}
+                    pace={exercise.data.pace}
+                    incline={exercise.data.incline}
+                    laps={exercise.data.laps}
                     edit={(field, val) => this.editExercise(exercise.name, field, val)}
                     delete={(exercise) => this.deleteExercise(exercise)}
                     darkmode={this.props.darkmode}
-                    modalVisible={(exercise.sets || exercise.reps || exercise.weight || exercise.duration || exercise.distance || exercise.pace || exercise.incline || exercise.laps)}
+                    modalVisible={(exercise.data.sets || exercise.data.reps || exercise.data.weight || exercise.data.duration || exercise.data.distance || exercise.data.pace || exercise.data.incline || exercise.data.laps)}
                 />
             );
         }

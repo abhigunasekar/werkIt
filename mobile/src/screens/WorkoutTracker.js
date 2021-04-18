@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text } from 'react-native';
-import SelectMultiple from 'react-native-select-multiple';
 
 import Button from '../components/Button';
 import ExerciseLabel from '../components/ExerciseLabel';
+import Stopwatch from '../components/Stopwatch';
+import { incompleteWorkoutError } from '../components/Alerts';
+
 import * as serverMethods from '../ServerMethods';
+import dark from '../dark';
+import light from '../light';
 
 export default class WorkoutTracker extends Component {
     constructor(props) {
@@ -15,8 +19,18 @@ export default class WorkoutTracker extends Component {
             exercises: [],
             time: '',
             finished: [],
+            hr: 0,
+            min: 0,
+            sec: 0,
         }
+
+        this.updateTime = this.updateTime.bind(this);
     }
+
+    updateTime(hr, min, sec) {
+        this.setState({ hr: parseInt(hr), min: parseInt(min), sec: parseInt(sec) });
+    }
+
 
     componentDidMount() {
         //server call to get information about the workout
@@ -55,9 +69,10 @@ export default class WorkoutTracker extends Component {
         console.log('num exercises: ' + this.state.exercises.length)
         console.log('num finished: ' + this.state.finished.length)
         return(
-            <View style={{alignItems: 'center', height: '100%'}}>
-                <Text>Workout Tracker</Text>
-                <Text>Todays workout: {this.state.workout}</Text>
+            <View style={this.props.darkmode ? dark.workoutTrackerContainer : light.workoutTrackerContainer}>
+                {/* put stopwatch here */}
+                <Stopwatch updateTime={this.updateTime} darkmode={this.props.darkmode}/>
+                <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000' , fontWeight: 'bold', fontSize: 20}}>{this.state.workout}</Text>
                 <ScrollView style={{width: '85%', borderWidth: 1}} contentContainerStyle={{borderWidth: 3, alignItems: 'center'}}>
                     {this.state.exercises}
                 </ScrollView>
@@ -73,9 +88,10 @@ export default class WorkoutTracker extends Component {
                         buttonText='Submit'
                         onPress={() => {
                             if (this.state.exercises.length !== this.state.finished.length) {
-                                console.log('lmfao');
+                                //do we know what happens if "finish anyway"
+                                incompleteWorkoutError(() => this.props.navigation.navigate('Dashboard'));
                             } else {
-                                console.log('success');
+                                this.props.navigation.navigate('Dashboard'/*, format for time here */);
                             }
                         }}
                         darkmode={this.props.darkmode}

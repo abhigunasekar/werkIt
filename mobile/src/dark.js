@@ -20,6 +20,11 @@ export default StyleSheet.create({
         backgroundColor: '#3E3E3E',
         height: '100%',
     },
+    workoutTrackerContainer: {
+        alignItems: 'center',
+        backgroundColor: '#3E3E3E',
+        height: '100%'
+    },
     workoutPlanEditorContainer: {
         backgroundColor: '#3E3E3E',
         alignItems: 'center',

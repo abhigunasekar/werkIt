@@ -111,6 +111,10 @@ export default StyleSheet.create({
         alignItems: 'center',
         height: '100%'
     },
+    workoutTrackerContainer: {
+        alignItems: 'center',
+        height: '100%'
+    },
     button: {
         alignItems: 'center',
         borderWidth: 2,

@@ -58,6 +58,7 @@ export default class ExerciseLabel extends Component {
                         this.setState({ completed: true });
                     }
                 }}
+                containerStyle={{backgroundColor: this.props.darkmode ? '#7E7E7E' : '#FFFFFF'}}
                 title={
                     <View style={{flexDirection: 'row', marginLeft: 7}}>
                         <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', fontWeight: 'bold'}}>{this.props.name}</Text>

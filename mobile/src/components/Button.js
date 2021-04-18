@@ -34,7 +34,7 @@ export default class Button extends Component {
             return (
                 <Pressable
                     onPress={() => this.props.onPress()}
-                    style={({ pressed }) => [ this.props.darkmode ? { backgroundColor: pressed ? '#3E3E3E' : '#535C68' , borderColor: '#535C68' } : { backgroundColor: pressed ? '#535C68' : '#FFFFFF' , borderColor: '#535C68' }, this.props.darkmode ? dark.button : light.button, this.props.style ]}
+                    style={({ pressed }) => [ this.props.darkmode ? { backgroundColor: pressed ? '#7E7E7E' : '#535C68' , borderColor: '#535C68' } : { backgroundColor: pressed ? '#535C68' : '#FFFFFF' , borderColor: '#535C68' }, this.props.darkmode ? dark.button : light.button, this.props.style ]}
                 >
                     {({ pressed }) => <Text style={this.props.darkmode ? { color: pressed ? '#535C68' : '#FFFFFF' } : { color: pressed ? '#FFFFFF' : '#535C68' }}>{this.props.buttonText}</Text> }
                 </Pressable>
