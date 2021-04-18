@@ -33,18 +33,18 @@
     </script>
     <script>
         // Loading Symbol -- Please Uncomment Before Sprint Review
-        // window.onload = function () {
-        //     checkNetworkConnection();
-        //     document.getElementById("We're Werking on it...").hidden = false;
-        //     document.getElementById("We're Werking on it text").hidden = false;
-        // };
-        // window.onclick = function () {
-        //     if (!checkNetworkConnectionCaller()) {
-        //         event.preventDefault();
-        //         // document.getElementById("We're Werking on it...").hidden = false;
-        //         // document.getElementById("We're Werking on it...").hidden = true;
-        //     }
-        // };
+        window.onload = function () {
+            checkNetworkConnection();
+            document.getElementById("We're Werking on it...").hidden = false;
+            document.getElementById("We're Werking on it text").hidden = false;
+        };
+        window.onclick = function () {
+            if (!checkNetworkConnectionCaller()) {
+                event.preventDefault();
+                // document.getElementById("We're Werking on it...").hidden = false;
+                // document.getElementById("We're Werking on it...").hidden = true;
+            }
+        };
     </script>
 
 </head>
