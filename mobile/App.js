@@ -24,7 +24,6 @@ export default class App extends Component {
         this.logout = this.logout.bind(this);
         this.persist = this.persist.bind(this);
         this.getToken = this.getToken.bind(this);
-        this.getQuote = this.getQuote.bind(this);
     }
 
     async componentDidMount() {
@@ -80,45 +79,12 @@ export default class App extends Component {
         }
     }
 
-    async getQuote() {
-        const proxyUrl = 'https://desolate-inlet-19096.herokuapp.com/'
-        const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
-        try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            return data['quoteText'];
-            // console.log(data);
-            // If Author is blank, add 'Unknown'
-            // if (data.quoteAuthor === '') {
-            //     authorText.innerText = 'Unknown';
-            // } else {
-            //     authorText.innerText = data.quoteAuthor;
-            // }
-            // Reduce font size for long quotes
-            /* if (data.quoteText.length > 120) {
-                quoteText.classList.add('long-quote');
-            } else {
-                quoteText.classList.remove('long-quote');
-            } */
-            // quoteText.innerText = data;
-            // this.setState({ quote: data['quoteText'] });
-            // this.setState({ quoteWait: false });
-            // Stop loader and show quot
-        } catch (error) {
-            console.log(error);
-        }
-
-        
-    }
-
     render() {
 
         // pass style down based on preference
         if (!this.state.isLoaded) {
-            const resultq = this.getQuote();
-            // console.log(this.state.quote);
             return (
-                <MotivationalQuote quote={resultq}/>
+                <MotivationalQuote />
             );
         } else {
             if (!this.state.isLoggedIn) {
