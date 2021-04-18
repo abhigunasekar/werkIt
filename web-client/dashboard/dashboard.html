@@ -126,8 +126,168 @@
 
         });
 
+        // Geo-Chart for Location
+        async function geoRequest() {
+            let user = localStorage.getItem("user");
+            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let res = await fetch(url);
+
+            if (res.ok) {
+                let text = await res.text();
+                return text;
+            } else {
+                return `HTTP error: ${res.status}`;
+            }
+        }
+
+        geoRequest().then(data => {
+            //console.log(data);
+            //chartData = JSON.parse(data);
+            //console.log(chartData);
+            google.charts.load('current', {
+                packages: ['geochart'],
+            });
+            google.charts.setOnLoadCallback(drawGeoChart);
 
 
+        });
+
+        function drawGeoChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['State', 'Location Scale'],
+                ['US-IL', 'You'],
+                ['US-IN', 'Friend 1'],
+                ['US-IA', 'Friend 2'],
+                ['US-RI', 'Friend 3'],
+
+            ]);
+            var geochart = new google.visualization.GeoChart(document.getElementById('geo_div'));
+
+            geochart.draw(data, {
+                title: 'Location of Friends',
+                width: 556,
+                height: 347,
+                region: "US",
+                defaultColor: '#7641bd',
+                resolution: "provinces"
+            });
+        }
+
+
+        // Line-Chart for Workouts of user vs friends
+        async function lineRequest() {
+            let user = localStorage.getItem("user");
+            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let res = await fetch(url);
+
+            if (res.ok) {
+                let text = await res.text();
+                return text;
+            } else {
+                return `HTTP error: ${res.status}`;
+            }
+        }
+
+        lineRequest().then(data => {
+            //console.log(data);
+            //chartData = JSON.parse(data);
+            //console.log(chartData);
+            google.charts.load('current', {
+                'packages': ['corechart']
+            });
+            google.charts.setOnLoadCallback(drawLineChart);
+
+        });
+
+        function drawLineChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Number of Workouts', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
+                ['Mon', 1, 2, 3, 4],
+                ['Tue', 4, 5, 6, 5],
+                ['Wed', 7, 8, 9, 6],
+                ['Thur', 10, 11, 12, 7],
+                ['Fri', 10, 11, 12, 7],
+                ['Sat', 10, 11, 12, 7],
+                ['Sun', 10, 11, 12, 7]
+
+            ]);
+            var geochart = new google.visualization.GeoChart(document.getElementById('curve_chart'));
+
+            var options = {
+                titleTextStyle: {
+                    fontSize: 15,
+                },
+                title: 'Comparison of Workouts between You and Your friends',
+                curveType: 'function',
+                legend: {
+                    position: 'bottom'
+                },
+                width: '700',
+                height: '400',
+                chartArea: {
+                    left: 30,
+                    top: 30
+                }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+            chart.draw(data, options);
+        }
+
+
+        //-------------COLUMN CHART
+        // Line-Chart for Workouts of user vs friends
+        async function colRequest() {
+            let user = localStorage.getItem("user");
+            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let res = await fetch(url);
+
+            if (res.ok) {
+                let text = await res.text();
+                return text;
+            } else {
+                return `HTTP error: ${res.status}`;
+            }
+        }
+
+        colRequest().then(data => {
+            //console.log(data);
+            //chartData = JSON.parse(data);
+            //console.log(chartData);
+            google.charts.load('current', {
+                'packages': ['bar']
+            });
+            google.charts.setOnLoadCallback(drawColChart);
+
+        });
+
+        function drawColChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Workout Type', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
+                ['Type 1', 10, 5, 15, 30],
+                ['Type 2', 20, 10, 20, 20],
+                ['Type 3', 30, 15, 25, 10],
+                ['Type 4', 40, 20, 30, 4],
+
+            ]);
+
+            var options = {
+                titleTextStyle: {
+                    fontSize: 15,
+                },
+                title: 'Number of Workouts by Workout Types',
+                Subtitles: 'Comparison for current year (2021)',
+                width: '500',
+                height: '300',
+                chartArea: {
+                    left: 30,
+                    top: 30
+                }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
 
         function drawBasic() {
 
@@ -171,7 +331,7 @@
                 vAxis: {
                     title: 'Day'
                 },
-                colors: ['#7641BD']
+                colors: ['#7641BD'],
             };
 
             var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
@@ -292,7 +452,7 @@
         </div>
     </nav>
     <div class="container">
-        <div class="inner-container col-lg-4">
+        <div class="inner-container col-lg-6">
             <div>
                 <h2>Weekly Goal</h2>
                 <progress value="" max="" id="progress"> </progress>
@@ -301,14 +461,36 @@
                 <h2>Workout Streak Counter</h2>
                 <input id="streak" type="number" value="" disabled></input>
             </div>
-            <div id="pie-container">
+            <div id="">
                 <h5>Weekly Workout Time Per Day</h5>
                 <div id="pie_div"></div>
             </div>
+            <div>
+                <div id="columnchart_material" style=""></div>
+            </div>
         </div>
-        <div></div>
-        <div></div>
-        <div class="col-lg-8 text-right" id="chart_div"></div>
+
+        <div class="inner-container col-lg-6">
+            <div id="">
+                <div class="text-right" id="chart_div"></div>
+            </div>
+            <div style="color:white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda, recusandae quasi culpa est molestiae, unde aut eum mollitia non quidem omnis reiciendis tempore neque facilis laudantium quam amet illum deleniti.</div>
+
+            <div id="">
+                <div></div>
+                <h4 class="text-center font-weight-bold">Location of Friends</h4>
+                <div class="text-left" id="geo_div"></div>
+            </div>
+            <div style="color:white">
+                <div class="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel in pariatur veniam nam, incidunt repudiandae hic odio architecto quos aut autem, expedita earum numquam praesentium quasi saepe soluta maiores obcaecati?</div>
+            </div>
+            <div id="">
+                <div class="text-left" id="curve_chart"></div>
+            </div>
+
+        </div>
+
+
     </div>
     <script>
         async function doRequest() {
