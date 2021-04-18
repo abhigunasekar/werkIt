@@ -36,7 +36,7 @@ export default class Workouts extends Component{
             .then(response => {
                 console.log(response)
                 this.setState({ workouts: response })
-            }), 100);
+            }), 100); // why is there a timeout here
         })
         // this.setState({ workouts: response });
     }
