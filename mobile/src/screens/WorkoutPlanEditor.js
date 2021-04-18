@@ -25,12 +25,12 @@ export default class WorkoutPlanEditor extends Component {
             saturday: '',
             sunday: '',
             savedWorkouts: [],
-            style: this.props.darkmode ? dark : light,
         }
     }
 
     componentDidMount() {
         console.log('mounted')
+        //server call to get workout plan information if user decides to edit the workout plan
         serverMethods.getUserWorkouts(this.props.route.params.username)
         .then(response => response.json())
         .then(response => {
@@ -45,7 +45,7 @@ export default class WorkoutPlanEditor extends Component {
     render() {
         return(
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <View style={this.state.style.workoutPlanEditorContainer}>
+                <View style={this.props.darkmode ? dark.workoutPlanEditorContainer : light.workoutPlanEditorContainer}>
                     <TextBox
                         placeholder='Workout Plan Name'
                         value={this.state.name}

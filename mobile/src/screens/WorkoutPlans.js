@@ -15,7 +15,6 @@ export default class WorkoutPlans extends Component {
         this.state = {
             username: this.props.username,
             workoutPlans: [],
-            style: this.props.darkmode ? dark : light
         }
     }
 
@@ -50,14 +49,15 @@ export default class WorkoutPlans extends Component {
                 <WorkoutLabel
                     key={i}
                     name={workoutPlan}
+                    darkmode={this.props.darkmode}
                     edit={() => this.props.navigation.navigate('WorkoutPlanEditor', { workoutPlan: workoutPlan })} //server call to get workouts given name
                 />
             );
         }
         return(
-            <View style={this.state.style.workoutsContainer}>
-                <ScrollView style={this.state.style.workoutList} contentContainerStyle={{alignItems: 'center'}}>
-                    <Text style={[{fontSize: 15}, this.state.style.text]}>{(this.state.workoutPlans.length !== 0) ? "" : "Create a new workout plan to get started!"}</Text>
+            <View style={this.props.darkmode ? dark.workoutsContainer : light.workoutsContainer}>
+                <ScrollView style={this.props.darkmode ? dark.workoutList : light.workoutList} contentContainerStyle={{alignItems: 'center'}}>
+                    <Text style={[{fontSize: 15}, this.props.darkmode ? dark.text : light.text]}>{(this.state.workoutPlans.length !== 0) ? "" : "Create a new workout plan to get started!"}</Text>
                     {workoutPlanList}
                 </ScrollView>
                 <Button

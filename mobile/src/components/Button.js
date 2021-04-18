@@ -9,10 +9,6 @@ import dark from '../dark';
 export default class Button extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            style: this.props.darkmode ? dark : light
-        }
     }
 
     render() {
@@ -20,7 +16,7 @@ export default class Button extends Component {
             return (
                 <Pressable
                     onPress={() => this.props.onPress()}
-                    style={({ pressed }) => [ this.props.darkmode ? { backgroundColor: pressed ? '#3E3E3E' : '#7641BD' , borderColor: '#7641BD' } : { backgroundColor: pressed ? '#7641BD' : '#FFFFFF' , borderColor: '#7641BD' }, this.state.style.button, this.props.style ]}
+                    style={({ pressed }) => [ this.props.darkmode ? { backgroundColor: pressed ? '#3E3E3E' : '#7641BD' , borderColor: '#7641BD' } : { backgroundColor: pressed ? '#7641BD' : '#FFFFFF' , borderColor: '#7641BD' }, this.props.darkmode ? dark.button : light.button, this.props.style ]}
                 >
                     {({ pressed }) => <Text style={this.props.darkmode ? { color: pressed ? '#7641BD' : '#FFFFFF'} : { color: pressed ? '#FFFFFF' : '#7641BD' }}>{this.props.buttonText}</Text> }
                 </Pressable>
@@ -29,7 +25,7 @@ export default class Button extends Component {
             return (
                 <Pressable
                     onPress={() => this.props.onPress()}
-                    style={({ pressed }) => [ this.props.darkmode ? { backgroundColor: pressed ? '#3E3E3E' : '#FB963C' , borderColor: '#FB963C' } : { backgroundColor: pressed ? '#FB963C' : '#FFFFFF' , borderColor: '#FB963C' }, this.state.style.button, this.props.style ]}
+                    style={({ pressed }) => [ this.props.darkmode ? { backgroundColor: pressed ? '#3E3E3E' : '#FB963C' , borderColor: '#FB963C' } : { backgroundColor: pressed ? '#FB963C' : '#FFFFFF' , borderColor: '#FB963C' }, this.props.darkmode ? dark.button : light.button, this.props.style ]}
                 >
                     {({ pressed }) => <Text style={this.props.darkmode ? { color: pressed ? '#FB963C' : '#FFFFFF' } : { color: pressed ? '#FFFFFF' : '#FB963C' }}>{this.props.buttonText}</Text> }
                 </Pressable>
@@ -38,7 +34,7 @@ export default class Button extends Component {
             return (
                 <Pressable
                     onPress={() => this.props.onPress()}
-                    style={({ pressed }) => [ this.props.darkmode ? { backgroundColor: pressed ? '#3E3E3E' : '#535C68' , borderColor: '#535C68' } : { backgroundColor: pressed ? '#535C68' : '#FFFFFF' , borderColor: '#535C68' }, this.state.style.button, this.props.style ]}
+                    style={({ pressed }) => [ this.props.darkmode ? { backgroundColor: pressed ? '#7E7E7E' : '#535C68' , borderColor: '#535C68' } : { backgroundColor: pressed ? '#535C68' : '#FFFFFF' , borderColor: '#535C68' }, this.props.darkmode ? dark.button : light.button, this.props.style ]}
                 >
                     {({ pressed }) => <Text style={this.props.darkmode ? { color: pressed ? '#535C68' : '#FFFFFF' } : { color: pressed ? '#FFFFFF' : '#535C68' }}>{this.props.buttonText}</Text> }
                 </Pressable>
