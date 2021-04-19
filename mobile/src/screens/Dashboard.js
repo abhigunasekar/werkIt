@@ -10,11 +10,23 @@ import light from '../light';
 import dark from '../dark';
 
 const styles = StyleSheet.create({
-    titleText: {
-      fontFamily: "Avenir-Heavy",
-      fontSize: 20
+    lightTextHeader: {
+        color: 'black',
+        fontFamily: "Avenir-Heavy",
+        fontSize: 20
     },
-    baseText: {
+    darkTextHeader: {
+        color: 'white',
+        fontFamily: "Avenir-Heavy",
+        fontSize: 20
+    },
+    lightTextBase: {
+        color: 'black',
+        fontFamily: "Avenir-HeavyOblique",
+        fontSize: 20
+    },
+    darkTextBase: {
+        color: 'white',
         fontFamily: "Avenir-HeavyOblique",
         fontSize: 20
     }
@@ -231,8 +243,8 @@ export default class Dashboard extends Component {
                     />
                 }
                 <Text></Text>
-                <Text style={styles.titleText}>Your upcoming workout is/are:</Text>
-                <Text style={styles.baseText}>{(this.nextUpcomingWorkout(this.state) === '' || this.nextUpcomingWorkout(this.state) === undefined) ? 'You have no upcoming workout this week' : this.nextUpcomingWorkout(this.state)}</Text>
+                <Text style={[this.props.darkmode ? styles.darkTextHeader : styles.lightTextHeader]}>Your upcoming workout is/are:</Text>
+                <Text style={[this.props.darkmode ? styles.darkTextBase : styles.lightTextBase]}>{(this.nextUpcomingWorkout(this.state) === '' || this.nextUpcomingWorkout(this.state) === undefined) ? 'You have no upcoming workout this week' : this.nextUpcomingWorkout(this.state)}</Text>
 
             </View>
         );
