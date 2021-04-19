@@ -5,17 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js"
-        integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g=="
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js" integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="profile.css">
     <!-- Favicon -->
@@ -39,22 +32,19 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
-        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
-            aria-label="Toggle navigation">
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse navbar-main bg-main " id="navbarTogglerDemo03">
             <ul class="navbar-nav mx-auto mt-2 mt-lg-0 navbar-center">
                 <li class="navbar-brand mr-0 ">
-                    <a class="nav-link navbar-main bg-main" id="about" href="#">User Profile</a>
+                    <option class="nav-link navbar-main bg-main" id="about" value="US-AL">User Profile</option>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <a href="../dashboard/dashboard.html" class="btn btn-outline-login my-2 my-sm-0"
-                    type="submit">Dashboard</a>
-                <a href="../index.html" class="btn btn-outline-login my-2 my-sm-0 " type="submit">Log Out</a>
+                <option href="../dashboard/dashboard.html" class="btn btn-outline-login my-2 my-sm-0" type="submit">Dashboard</option>
+                <option href="../index.html" class="btn btn-outline-login my-2 my-sm-0 " type="submit">Log Out</option>
             </form>
         </div>
     </nav>
@@ -120,6 +110,67 @@
                     </div>
                 </div>
             </div>
+            <div class="container form-group">
+                <div class="input-group form-row col-lg-12 ">
+                    <label for="uname" id="lFName">Location</label>
+                    <!-- <label type="button" for="loc" class="btn btn-login dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+                    <!-- Your Location -->
+                    <!-- </label> -->
+                    <select id="uname" value="US-IN" class="btn btn-login" aria-labelledby="">
+                        <option id="US-AL"  value="US-AL">US-AL</option>
+                        <option id="US-AK" value="US-AK">US-AK</option>
+                        <option id="US-AZ" value="US-AZ">US-AZ</option>
+                        <option id="US-AR" value="US-AR">US-AR</option>
+                        <option value="US-CA">US-CA</option>
+                        <option  value="US-CO">US-CO</option>
+                        <option  value="US-CT">US-CT</option>
+                        <option  value="US-DE">US-DE</option>
+                        <option  value="US-DC">US-DC</option>
+                        <option  value="US-FL">US-FL</option>
+                        <option  value="US-GA">US-GA</option>
+                        <option  value="US-HI">US-HI</option>
+                        <option  value="US-ID">US-ID</option>
+                        <option  value="US-IL">US-IL</option>
+                        <option  value="US-IN">US-IN</option>
+                        <option  value="US-IA">US-IA</option>
+                        <option  value="US-KS">US-KS</option>
+                        <option  value="US-KY">US-KY</option>
+                        <option  value="US-LA">US-LA</option>
+                        <option  value="US-ME">US-ME</option>
+                        <option  value="US-MT">US-MT</option>
+                        <option  value="US-NE">US-NE</option>
+                        <option  value="US-NV">US-NV</option>
+                        <option  value="US-NH">US-NH</option>
+                        <option  value="US-NJ">US-NJ</option>
+                        <option  value="US-NM">US-NM</option>
+                        <option  value="US-NY">US-NY</option>
+                        <option  value="US-NC">US-NC</option>
+                        <option  value="US-ND">US-ND</option>
+                        <option  value="US-OH">US-OH</option>
+                        <option  value="US-OK">US-OK</option>
+                        <option  value="US-OR">US-OR</option>
+                        <option  value="US-MD">US-MD</option>
+                        <option  value="US-MA">US-MA</option>
+                        <option  value="US-MI">US-MI</option>
+                        <option  value="US-MN">US-MN</option>
+                        <option  value="US-MO">US-MO</option>
+                        <option  value="US-PA">US-PA</option>
+                        <option  value="US-RI">US-RI</option>
+                        <option  value="US-SC">US-SC</option>
+                        <option  value="US-SD">US-SD</option>
+                        <option  value="US-TN">US-TN</option>
+                        <option  value="US-TX">US-TX</option>
+                        <option  value="US-UT">US-UT</option>
+                        <option  value="US-VT">US-VT</option>
+                        <option  value="US-VA">US-VA</option>
+                        <option  value="US-WA">US-WA</option>
+                        <option  value="US-WV">US-WV</option>
+                        <option  value="US-WI">US-WI</option>
+                        <option  value="US-WY">US-WY</option>
+
+                    </select>
+                </div>
+            </div>
 
             <div class="container form-group">
                 <label for="dMode" id="lFName">Dark Mode </label>
@@ -179,24 +230,24 @@
         var $ni = $('#name');
 
 
-        $np.on('click', function () {
+        $np.on('click', function() {
             $ni.prop('readonly', false).focus();
 
         });
 
 
-        $ep.on('click', function () {
+        $ep.on('click', function() {
             $ei.prop('readonly', false).focus();
 
         });
 
 
-        $up.on('click', function () {
+        $up.on('click', function() {
             $ui.prop('readonly', false).focus();
 
         });
 
-        $('input').focusout(function () {
+        $('input').focusout(function() {
             $('input').prop('readonly', true).focusout();
         });
 
@@ -229,9 +280,9 @@
             if (dValue == true) {
                 document.documentElement.classList.toggle('dark-mode');
                 document.querySelectorAll('.inverted').forEach((result) => {
-                    result.classList.toggle('invert');
-                })
-                //alert(dValue.value);
+                        result.classList.toggle('invert');
+                    })
+                    //alert(dValue.value);
                 dSwitch.checked = true;
             } else {
                 dSwitch.checked = false;
@@ -241,7 +292,7 @@
             console.log(dSwitch.checked);
         });
 
-        $("#submit-btn").click(function (event) {
+        $("#submit-btn").click(function(event) {
             event.preventDefault();
             var uname = $("#uname").val();
             var urlFinal = 'http://127.0.0.1:8000/user/' + uname + '/darkmode?_method=PATCH';
@@ -255,23 +306,23 @@
             //     "password": password
             // };
             $.ajax({
-                url: urlFinal,
-                type: 'PATCH',
-                cache: false,
-                data: {
+                    url: urlFinal,
+                    type: 'PATCH',
+                    cache: false,
+                    data: {
 
-                },
-                success: function (data, textStatus) {
-                    //alert("successful");
-                    location.reload();
+                    },
+                    success: function(data, textStatus) {
+                        //alert("successful");
+                        location.reload();
 
-                },
-                error: function (jqXHR, textStatus, err) {
-                    // alert('text status ' + textStatus + ', err ' + err)
-                    alert("error");
-                }
-            })
-            // window.location = "../dashboard/dashboard.html";
+                    },
+                    error: function(jqXHR, textStatus, err) {
+                        // alert('text status ' + textStatus + ', err ' + err)
+                        alert("error");
+                    }
+                })
+                // window.location = "../dashboard/dashboard.html";
         });
     </script>
 </body>
