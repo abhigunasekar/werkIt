@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "127.0.0.1";
+const ip = "10.0.0.48";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -310,6 +310,34 @@ app.get('/:username/histogram', (req, res) => {
     });
 });
 
+// get data for geochart
+app.get('/:username/geochart', (req, res) => {
+    console.log("Getting data for geochart");
+    mc.get_geochart_data(req.params.username).then(data => {
+        console.log("data found: " + data);
+        res.status(200).send(data);
+    });
+});
+
+// get data for line chart
+app.get('/:username/line_chart', (req, res) => {
+    console.log("Getting data for line chart");
+    mc.get_line_chart_data(req.params.username).then(data => {
+        console.log("data found: " + data);
+        res.status(200).send(data);
+    });
+});
+
+// get data for column chart
+app.get('/:username/col_chart', (req, res) => {
+    console.log("Getting data for column chart");
+    mc.get_col_chart_data(req.params.username).then(data => {
+        console.log("data found: " + data);
+        res.status(200).send(data);
+    });
+});
+
+
 // delete workout
 app.delete('/:username/:workout/rm_wkout', (req, res) => {
     console.log("Removing workout " + req.params.workout + " for user " + req.params.username);
@@ -374,6 +402,29 @@ app.patch('/:username/:type/edit_workoutType', (req, res) => {
         res.status(200).end();
     });
 });
+
+// add a friend
+app.post('/:username/add_friend', (req, res) => {
+    console.log("Adding friend " + req.body.friend_user + " for user " + req.params.username);
+    mc.add_friend(req.params.username, req.body.friend_user).then(exists => {
+        if (exists) {
+            console.log("Successfully saved friend");
+            res.status(200).end();
+        } else {
+            console.log("Friend requested does not exist");
+            res.status(400).end();
+        }
+    });
+});
+
+// get list of friends
+app.get('/:username/friends', (req, res) => {
+    console.log("Getting friends for user " + req.params.username);
+    mc.get_friends(req.params.username).then(friends => {
+        console.log("Successfully found friends");
+        res.status(200).json(friends);
+    })
+})
 
 
 app.listen(port, ip, function () {

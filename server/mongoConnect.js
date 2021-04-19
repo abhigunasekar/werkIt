@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
     user: String,
     pass: String,
     email: String,
+    loc: String,
     dark_mode: Boolean,
     streak_counter: Number,
     active_plan: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' },
@@ -106,13 +107,15 @@ const completedWorkoutSchema = new mongoose.Schema({
     workout_name: String,
     day: String,
     date: Date,
-    time: Number
+    time: Number,
+    type_name: String
 }, { versionKey: false });
 
 const CompletedWorkout = mongoose.model("CompletedWorkout", completedWorkoutSchema)
 
 const friends = new mongoose.Schema({
     friend_name: String,
+    friend_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     friend_goal: Number,
     friend_streak_counter: Number
 }, { versionKey: false });
@@ -128,6 +131,7 @@ async function save_new_account_data(u_name, req_body) {
         user: req_body.username,
         pass: req_body.password,
         email: req_body.email,
+        loc: null,
         dark_mode: false,
         workouts: [],
         workoutTypes: [],
@@ -556,6 +560,89 @@ async function get_histogram_data(username) {
     return hist_obj;
 }
 
+async function get_geochart_data(username) {
+    var user = await get_user_obj(username);
+    var geo_obj = {
+        You: user.loc
+    };
+    for (var f_id of user.friends_list) {
+        var friend = await ConnectedFriends.findById(f_id).exec();
+        var f_user = await User.findById(friend.friend_id).exec();
+        geo_obj[friend.friend_name] = f_user.loc;
+    }
+    return geo_obj;
+}
+
+async function get_line_chart_data(username) {
+    var user = await get_user_obj(username);
+    var chart_obj = {
+        'People': ['You'],
+        'Monday': [],
+        'Tuesday': [],
+        'Wednesday': [],
+        'Thursday': [],
+        'Friday': [],
+        'Saturday': [],
+        'Sunday': []
+    };
+    var person_num = 0;
+    for (var completed_id of user.completed_workouts) {
+        var c_obj = await CompletedWorkout.findById(completed_id).exec();
+        var time = chart_obj[c_obj.day][person_num]
+        if (time == null) {
+            chart_obj[c_obj.day][person_num] = c_obj.time;
+        } else {
+            time += c_obj.time;
+            chart_obj[c_obj.day][person_num] = time;
+        }
+    }
+    for (var f_id of user.friends_list) {
+        person_num++;
+        var f_obj = await ConnectedFriends.findById(f_id).exec();
+        var f_user_obj = await User.findById(f_obj.friend_id).exec();
+        var people = chart_obj['People'];
+        people[person_num] = f_obj.friend_name;
+        console.log("freind:" + f_user_obj.name);
+        for (var c_id of f_user_obj.completed_workouts) {
+            var c_obj = await CompletedWorkout.findById(c_id).exec();
+            var time = chart_obj[c_obj.day][person_num]
+            if (time == null) {
+                chart_obj[c_obj.day][person_num] = c_obj.time;
+            } else {
+                time += c_obj.time;
+                chart_obj[c_obj.day][person_num] = time;
+            }
+        }
+    }
+    for (var day in chart_obj) {
+        if (day.localeCompare("People") == 0) {
+            continue;
+        }
+        for (var i = 0; i < chart_obj["People"].length; i++) {
+            if (chart_obj[day][i] == null) {
+                chart_obj[day][i] = 0;
+            }
+        }
+    }
+    return chart_obj;
+}
+
+async function get_col_chart_data(username) {
+    var user = await get_user_obj(username);
+    var chart_obj = {};
+    for (var c_id of user.completed_workouts) {
+        var c_obj = await CompletedWorkout.findById(c_id).exec();
+        var num = chart_obj[c_obj.type_name];
+        if (num == null) {
+            chart_obj[c_obj.type_name] = 1;
+        } else {
+            num++;
+            chart_obj[c_obj.type_name] = num;
+        }
+    }
+    return chart_obj;
+}
+
 async function get_all_plan_names(username) {
     var user = await get_user_obj(username);
     var list = new Array;
@@ -581,7 +668,7 @@ async function update_active_plan(username, plan_name) {
     var plan = await get_workout_plan(username, plan_name);
     return await User.findByIdAndUpdate(
         user._id, { active_plan: plan }, { new: true }
-    ).exec()
+    ).exec();
 }
 
 async function get_active_plan_obj(username) {
@@ -676,6 +763,41 @@ async function update_plan(username, plan, new_plan_data) {
     return true;
 }
 
+async function add_friend(username, f_user) {
+    if (!(await check_user_existence(f_user))) {
+        return false;
+    }
+    var user = await get_user_obj(username);
+    var friend_obj = await get_user_obj(f_user);
+    const friend = new ConnectedFriends({
+        friend_name: friend_obj.name,
+        friend_id: friend_obj,
+        friend_goal: 0,
+        friend_streak_counter: 0
+    });
+
+    friend.save(function(err, friend) {
+        if (err) return console.error(err);
+    });
+
+    var friends = user.friends_list;
+    friends.push(friend);
+    await User.findByIdAndUpdate(
+        user._id, {friends_list: friends}, {new: true}
+    ).exec();
+    return true;
+}
+
+async function get_friends(username) {
+    var user = await get_user_obj(username);
+    var friends = new Array;
+    for (var id of user.friends_list) {
+        var f = await ConnectedFriends.findById(id).exec();
+        friends.push(f.friend_name);
+    }
+    return friends;
+}
+
 
 module.exports = {
     save_new_account_data,
@@ -710,6 +832,11 @@ module.exports = {
     remove_exercise,
     update_workout,
     update_type_name,
-    update_plan
+    update_plan,
+    add_friend,
+    get_friends,
+    get_geochart_data,
+    get_line_chart_data,
+    get_col_chart_data
     // validate_email
 }
