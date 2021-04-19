@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
     user: String,
     pass: String,
     email: String,
+    loc: String,
     dark_mode: Boolean,
     streak_counter: Number,
     active_plan: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' },
@@ -129,6 +130,7 @@ async function save_new_account_data(u_name, req_body) {
         user: req_body.username,
         pass: req_body.password,
         email: req_body.email,
+        loc: null,
         dark_mode: false,
         workouts: [],
         workoutTypes: [],
@@ -702,6 +704,16 @@ async function add_friend(username, f_user) {
     return true;
 }
 
+async function get_friends(username) {
+    var user = await get_user_obj(username);
+    var friends = new Array;
+    for (var id of user.friends_list) {
+        var f = await ConnectedFriends.findById(id).exec();
+        friends.push(f.friend_name);
+    }
+    return friends;
+}
+
 
 module.exports = {
     save_new_account_data,
@@ -737,6 +749,7 @@ module.exports = {
     update_workout,
     update_type_name,
     update_plan,
-    add_friend
+    add_friend,
+    get_friends
     // validate_email
 }

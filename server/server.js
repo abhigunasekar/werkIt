@@ -389,6 +389,15 @@ app.post('/:username/add_friend', (req, res) => {
     });
 });
 
+// get list of friends
+app.get('/:username/friends', (req, res) => {
+    console.log("Getting friends for user " + req.params.username);
+    mc.get_friends(req.params.username).then(friends => {
+        console.log("Successfully found friends");
+        res.status(200).json(friends);
+    })
+})
+
 
 app.listen(port, ip, function () {
     console.log("Server listening on http://%s:%d", ip, port);
