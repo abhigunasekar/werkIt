@@ -59,6 +59,17 @@ export default class Friends extends Component {
                 <ScrollView style={{width: '80%', height: '70%'}} contentContainerStyle={{alignItems: 'center'}}>
                     {(friendsList.length === 0) ? <Text style={this.props.darkmode ? dark.text : light.text}>Add some friends!</Text> : friendsList}
                 </ScrollView>
+                 <Button 
+                    buttonText="Send Workout Plan"
+                    style={{marginLeft: -25, marginBottom: -25}}
+                    darkmode={this.props.darkmode}
+                    purple={true}
+                />
+                <Button
+                    onPress={this.props.send}
+                    style={{marginBottom: 75, marginLeft: 175}}
+                    send={true}
+                />
             </View>
         );
     }
