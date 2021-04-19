@@ -113,6 +113,7 @@ const CompletedWorkout = mongoose.model("CompletedWorkout", completedWorkoutSche
 
 const friends = new mongoose.Schema({
     friend_name: String,
+    friend_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     friend_goal: Number,
     friend_streak_counter: Number
 }, { versionKey: false });
@@ -581,7 +582,7 @@ async function update_active_plan(username, plan_name) {
     var plan = await get_workout_plan(username, plan_name);
     return await User.findByIdAndUpdate(
         user._id, { active_plan: plan }, { new: true }
-    ).exec()
+    ).exec();
 }
 
 async function get_active_plan_obj(username) {
@@ -676,6 +677,31 @@ async function update_plan(username, plan, new_plan_data) {
     return true;
 }
 
+async function add_friend(username, f_user) {
+    if (!(await check_user_existence(f_user))) {
+        return false;
+    }
+    var user = await get_user_obj(username);
+    var friend_obj = await get_user_obj(f_user);
+    const friend = new ConnectedFriends({
+        friend_name: friend_obj.name,
+        friend_id: friend_obj,
+        friend_goal: 0,
+        friend_streak_counter: 0
+    });
+
+    friend.save(function(err, friend) {
+        if (err) return console.error(err);
+    });
+
+    var friends = user.friends_list;
+    friends.push(friend);
+    await User.findByIdAndUpdate(
+        user._id, {friends_list: friends}, {new: true}
+    ).exec();
+    return true;
+}
+
 
 module.exports = {
     save_new_account_data,
@@ -710,6 +736,7 @@ module.exports = {
     remove_exercise,
     update_workout,
     update_type_name,
-    update_plan
+    update_plan,
+    add_friend
     // validate_email
 }
