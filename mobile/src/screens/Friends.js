@@ -14,7 +14,6 @@ export default class Friends extends Component {
 
         this.state = {
             friends: [],
-            style: this.props.darkmode ? dark : light
         };
     }
     
@@ -35,12 +34,12 @@ export default class Friends extends Component {
         }
 
         return (
-            <View style={this.state.style.friendsContainer}>
-                <View style={this.state.style.friendsHeader}>
-                    <Pressable style={{marginLeft: 17, marginRight: 105}} onPress={() => this.props.navigation.openDrawer()}>
+            <View style={this.props.darkmode ? dark.friendsContainer : light.friendsContainer}>
+                <View style={this.props.darkmode ? dark.friendsHeader : light.friendsHeader}>
+                    <Pressable style={{marginLeft: 17, marginRight: 85}} onPress={() => this.props.navigation.openDrawer()}>
                             <FontAwesome name="home" size={24} color="white" />
                         </Pressable>
-                    <Text style={{color: '#FFFFFF'}}>FRIENDS LIST</Text>
+                    <Text style={{color: '#FFFFFF', fontWeight: 'bold', fontSize: 24}}>Friends List</Text>
                 </View>
                 {/* search box */}
                 <View style={{flexDirection: 'row', marginBottom: 20}}>
@@ -58,7 +57,7 @@ export default class Friends extends Component {
                 />
                 </View>
                 <ScrollView style={{width: '80%', height: '70%'}} contentContainerStyle={{alignItems: 'center'}}>
-                    {(friendsList.length === 0) ? <Text style={this.state.style.text}>Add some friends!</Text> : friendsList}
+                    {(friendsList.length === 0) ? <Text style={this.props.darkmode ? dark.text : light.text}>Add some friends!</Text> : friendsList}
                 </ScrollView>
             </View>
         );

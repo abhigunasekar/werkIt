@@ -9,25 +9,30 @@ export default class Stopwatch extends Component {
         super(props);
 
         this.state = {
+            //set state for running value to initially be "true"
+            //pass down a function from workoutTracker that changes value to false when finished
             hr: '00',
             min: '00',
             sec: '00',
             runStopwatch: false,
         }
 
-        this.startStopwatch = this.startStopwatch.bind(this);
-        this.stopStopwatch = this.stopStopwatch.bind(this);
+        this.stopwatch = this.stopwatch.bind(this);
         this.cycle = this.cycle.bind(this);
     }
 
-    startStopwatch() {
-        if (!this.state.runStopwatch) {
-            this.setState({ runStopwatch: true }, () => this.cycle());
-        }
+    componentDidMount() {
+        this.stopwatch();
     }
 
-    stopStopwatch() {
-        if (this.state.runStopwatch) {
+    componentWillUnmount() {
+        this.setState({ runStopwatch: false, hr: '00', min: '00', sec:'00' });
+    }
+
+    stopwatch() {
+        if (!this.state.runStopwatch) {
+            this.setState({ runStopwatch: true }, () => this.cycle());
+        } else {
             this.setState({ runStopwatch: false });
         }
     }
@@ -60,41 +65,22 @@ export default class Stopwatch extends Component {
               hr = '0' + hr;
             }
 
-            this.setState({ hr: hr, min: min, sec: sec });
-        
+            this.setState({ hr: hr, min: min, sec: sec }, () => this.props.updateTime(this.state.hr, this.state.min, this.state.sec));
             setTimeout(() => this.cycle(), 1000);
         }
     }
 
     render() {
         return(
-            <View style={{alignItems: 'center'}}>
-                <Text style={{borderWidth: 3, padding: '1%', margin: 20, fontSize: 30}}>{this.state.hr}:{this.state.min}:{this.state.sec}</Text>
-                <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <Button
-                        buttonText='Start'
-                        onPress={() => this.startStopwatch()}
-                        style={{marginRight: 50}}
-                        darkmode={this.props.darkmode}
-                        purple={true}
-                    />
-                    <Button
-                        buttonText='Stop'
-                        onPress={() => this.stopStopwatch()}
-                        style={{marginRight: 50}}
-                        darkmode={this.props.darkmode}
-                        purple={true}
-                    />
-                    <Button
-                        buttonText='Finish'
-                        onPress={() => {
-                            this.props.finish(this.state.hr, this.state.min, this.state.sec);
-                            this.setState({ hr: '00', min: '00', sec: '00' });
-                        }}
-                        darkmode={this.props.darkmode}
-                        purple={true}
-                    />
-                </View>
+            <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                <Text style={{borderColor: this.props.darkmode ? '#FFFFFF' : '#000000', borderWidth: 3, padding: '1%', margin: 20, fontSize: 30, color: this.props.darkmode ? '#FFFFFF' : '#000000'}}>{this.state.hr}:{this.state.min}:{this.state.sec}</Text>
+                <Button
+                    buttonText={this.state.runStopwatch ? 'PAUSE' : 'START'}
+                    onPress={() => this.stopwatch()}
+                    style={{marginLeft: 30}}
+                    darkmode={this.props.darkmode}
+                    gray={true}
+                />
             </View>
         );
     }

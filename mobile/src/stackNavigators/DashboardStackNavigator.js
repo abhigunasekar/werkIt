@@ -4,8 +4,10 @@ import { Pressable } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { FontAwesome } from '@expo/vector-icons';
 
+import Stopwatch from '../components/Stopwatch';
 
 import Dashboard from '../screens/Dashboard';
+import WorkoutTracker from '../screens/WorkoutTracker';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +32,17 @@ export default class DashboardStackNavigator extends Component {
                     }}
                 >
                     {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username} darkmode={this.props.darkmode}/>}
+                </Stack.Screen>
+                <Stack.Screen
+                    name='Workout Tracker'
+                    options={{
+                        gestureEnabled: false,
+                        headerLeft: null,
+                        headerStyle: { backgroundColor: '#7641BD' },
+                        headerTitleStyle: { color: '#FFFFFF' },
+                    }}
+                >
+                    {props => <WorkoutTracker {...props} username={this.props.username} darkmode={this.props.darkmode}/>}
                 </Stack.Screen>
             </Stack.Navigator>
         );

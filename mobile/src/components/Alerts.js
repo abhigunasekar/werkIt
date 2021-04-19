@@ -179,3 +179,20 @@ export const incompleteFormError = () => {
         ]
     )
 }
+
+export const incompleteWorkoutError = (navigate) => {
+    Alert.alert(
+        '',
+        'You haven\'t finished every exercise yet!',
+        [
+            {
+                text: 'Finish anyway',
+                onPress: () => navigate(),
+                style: 'destructive'
+            },
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
