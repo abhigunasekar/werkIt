@@ -602,7 +602,6 @@ async function get_line_chart_data(username) {
         var f_user_obj = await User.findById(f_obj.friend_id).exec();
         var people = chart_obj['People'];
         people[person_num] = f_obj.friend_name;
-        console.log("freind:" + f_user_obj.name);
         for (var c_id of f_user_obj.completed_workouts) {
             var c_obj = await CompletedWorkout.findById(c_id).exec();
             var time = chart_obj[c_obj.day][person_num]
@@ -765,10 +764,18 @@ async function update_plan(username, plan, new_plan_data) {
 
 async function add_friend(username, f_user) {
     if (!(await check_user_existence(f_user))) {
-        return false;
+        return 1;
     }
     var user = await get_user_obj(username);
     var friend_obj = await get_user_obj(f_user);
+
+    for (var f_id of user.friends_list) {
+        var f_obj = await ConnectedFriends.findById(f_id).exec();
+        if (f_obj.friend_name.localeCompare(friend_obj.name) == 0) {
+            return 2;
+        }
+    }
+
     const friend = new ConnectedFriends({
         friend_name: friend_obj.name,
         friend_id: friend_obj,
@@ -785,7 +792,7 @@ async function add_friend(username, f_user) {
     await User.findByIdAndUpdate(
         user._id, {friends_list: friends}, {new: true}
     ).exec();
-    return true;
+    return 0;
 }
 
 async function get_friends(username) {

@@ -242,13 +242,14 @@ export function getFriends(username) {
     })
 }
 
-export function addFriend(username, friend_username) {
+export function addFriend(username, newFriend) {
+    console.log("adding friend");
     return fetch('http://' + address + ':8000/' + username + '/add_friend', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type' : 'application/json'
         },
-        body: {"friend_user": friend_username}
+        body: JSON.stringify(newFriend)
     });
 }
