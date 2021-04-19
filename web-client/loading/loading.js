@@ -3,7 +3,19 @@
 
 var mostRecentNetworkStatus = 1;
 
+function pageload() {
+    checkNetworkConnection();
+    document.getElementById("We're Werking on it...").hidden = false;
+    document.getElementById("We're Werking on it text").hidden = false;
+}
 
+function pageclick() {
+    if (!checkNetworkConnectionCaller()) {
+        event.preventDefault();
+        // document.getElementById("We're Werking on it...").hidden = false;
+        // document.getElementById("We're Werking on it...").hidden = true;
+    }
+}
 
 function checkNetworkConnection() {
     const checkOnlineStatus = async() => {

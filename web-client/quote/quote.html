@@ -19,6 +19,17 @@
         <script src="https://kit.fontawesome.com/83e160a4ed.js" crossorigin="anonymous"></script>
         <title>Werk It</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <script type="text/javascript" src="../loading/loading.js"></script>
+
+        <script>
+            window.onload = function () {
+                pageload();
+            };
+
+            window.onclick = function () {
+                pageclick();
+            };
+        </script>
 
     </head>
 </head>
@@ -53,6 +64,10 @@
     </div>
     <!-- Script -->
     <script src="quote.js"></script>
+    <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+    <div id="We're Werking on it text" hidden="true">
+        One moment, We're Werking on Your Network Connection...
+    </div>
 </body>
 
 </html>

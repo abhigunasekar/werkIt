@@ -38,6 +38,7 @@
         // }
         // Loading Symbol -- Please Uncomment Before Sprint Review
         window.onload = function () {
+            initialize();
             checkNetworkConnection();
             document.getElementById("We're Werking on it...").hidden = false;
             document.getElementById("We're Werking on it text").hidden = false;
@@ -53,7 +54,7 @@
 
 </head>
 
-<body onload=initialize()>
+<body>
     <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
             data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
@@ -189,6 +190,10 @@
                 <div class="col-sm-12 text-center">
                     <p></p>
                     <button class="btn btn-login btn-lg btn-block" id="submit-btn">Save Preferences</button>
+                </div>
+                <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+                <div id="We're Werking on it text" hidden="true">
+                    One moment, We're Werking on Your Network Connection...
                 </div>
             </div>
         </form>

@@ -35,6 +35,8 @@
     </style>
     <title>Werk It</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="../loading/loading.js"></script>
+    
     <script>
         async function dRequest() {
             let user = localStorage.getItem("user");
@@ -310,6 +312,10 @@
         <div></div>
         <div class="col-lg-8 text-right" id="chart_div"></div>
     </div>
+    <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+    <div id="We're Werking on it text" hidden="true">
+        One moment, We're Werking on Your Network Connection...
+    </div>
     <script>
         async function doRequest() {
             let user = localStorage.getItem("user");
@@ -351,6 +357,7 @@
         // });
 
         window.onload = function() {
+            pageload();
             var actualVal = actual.getAttribute("value");
             var goalVal = actual.getAttribute("max");
             var date = new Date();
@@ -415,6 +422,7 @@
 
 
 
+
             //if (actualVal == goalVal) {
 
             //                streak.value = ++count;
@@ -435,6 +443,10 @@
             //     //alert("Congratulations! You have surpassed your goals!");
             // }
 
+        }
+
+        window.onclick = function () {
+            pageclick();
         }
     </script>
 </body>
