@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "10.0.0.48";
+const ip = "127.0.0.1";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -32,7 +32,7 @@ app.use(methodOverride('_method'));
 
 
 // check connection with server
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     console.log("Got GET request")
     res.status(200).end();
 });
@@ -368,8 +368,8 @@ app.delete('/:username/:type/rm_type', (req, res) => {
 // delete known exercise from workout type
 app.delete('/:username/:type/:exercise/rm_ex', (req, res) => {
     console.log("Removing exercise " + req.params.exercise +
-                " for workout type " + req.params.type +
-                " for user " + req.params.username);
+        " for workout type " + req.params.type +
+        " for user " + req.params.username);
     mc.remove_exercise(req.params.username, req.params.type, req.params.exercise).then(_ => {
         console.log("Exercise successfully removed");
         res.status(200).end();
@@ -427,6 +427,6 @@ app.get('/:username/friends', (req, res) => {
 })
 
 
-app.listen(port, ip, function () {
+app.listen(port, ip, function() {
     console.log("Server listening on http://%s:%d", ip, port);
 });

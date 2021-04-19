@@ -7,20 +7,13 @@
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js"
-        integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g=="
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js" integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g==" crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <meta name="color-scheme" content="dark light">
 
 
@@ -136,7 +129,7 @@
         // Geo-Chart for Location
         async function geoRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let url = 'http://127.0.0.1:8000/' + user + '/geochart';
             let res = await fetch(url);
 
             if (res.ok) {
@@ -149,7 +142,7 @@
 
         geoRequest().then(data => {
             //console.log(data);
-            //chartData = JSON.parse(data);
+            geoData = JSON.parse(data);
             //console.log(chartData);
             google.charts.load('current', {
                 packages: ['geochart'],
@@ -159,15 +152,48 @@
 
         });
 
-        function drawGeoChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['State', 'Location Scale'],
-                ['US-IL', 'You'],
-                ['US-IN', 'Friend 1'],
-                ['US-IA', 'Friend 2'],
-                ['US-RI', 'Friend 3'],
+        //------------------------------------------------------------------------------------------------------------------
 
-            ]);
+        // const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
+        //     console.log(arr);
+
+
+        //     var data = new google.visualization.DataTable();
+        //     data.addColumn('string', 'Day');
+        //     data.addColumn('number', 'Duration');
+        //     data.addRows(arr);
+
+        //     var options = {
+        //         titleTextStyle: {
+        //             fontSize: 20,
+        //         },
+        //         title: 'Weekly Workout Time',
+        //         chartArea: {
+        //             width: '60%'
+        //         },
+        //         hAxis: {
+        //             title: 'Workout Time (in minutes)',
+        //             minValue: 0
+        //         },
+        //         vAxis: {
+        //             title: 'Day'
+        //         },
+        //         colors: ['#7641BD'],
+        //     };
+
+        //     var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+        //     chart.draw(data, options);
+
+        function drawGeoChart() {
+            var data = new google.visualization.DataTable();
+            const arr = Object.keys(geoData).map((key) => [geoData[key], key]);
+            console.log(arr);
+
+            data.addColumn('string', 'State');
+            data.addColumn('string', 'Name');
+            data.addRows(arr);
+
             var geochart = new google.visualization.GeoChart(document.getElementById('geo_div'));
 
             geochart.draw(data, {
@@ -184,7 +210,7 @@
         // Line-Chart for Workouts of user vs friends
         async function lineRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let url = 'http://127.0.0.1:8000/' + user + '/line_chart';
             let res = await fetch(url);
 
             if (res.ok) {
@@ -197,7 +223,7 @@
 
         lineRequest().then(data => {
             //console.log(data);
-            //chartData = JSON.parse(data);
+            chartData = JSON.parse(data);
             //console.log(chartData);
             google.charts.load('current', {
                 'packages': ['corechart']
@@ -207,18 +233,50 @@
         });
 
         function drawLineChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Number of Workouts', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
-                ['Mon', 1, 2, 3, 4],
-                ['Tue', 4, 5, 6, 5],
-                ['Wed', 7, 8, 9, 6],
-                ['Thur', 10, 11, 12, 7],
-                ['Fri', 10, 11, 12, 7],
-                ['Sat', 10, 11, 12, 7],
-                ['Sun', 10, 11, 12, 7]
+            // var data = google.visualization.arrayToDataTable([
+            //     ['Number of Workouts', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
+            //     ['Mon', 1, 2, 3, 4],
+            //     ['Tue', 4, 5, 6, 5],
+            //     ['Wed', 7, 8, 9, 6],
+            //     ['Thur', 10, 11, 12, 7],
+            //     ['Fri', 10, 11, 12, 7],
+            //     ['Sat', 10, 11, 12, 7],
+            //     ['Sun', 10, 11, 12, 7]
 
-            ]);
-            //var geochart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+            // ]);
+            var data = new google.visualization.DataTable();
+            var array = [];
+            data.addColumn('string', 'Day');
+            /// loop to add columns
+            for (var people in chartData['People']) {
+                console.log(people);
+                data.addColumn('number', people);
+            }
+            console.log(chartData);
+            for (var key in chartData) {
+                console.log(key);
+                if (key.localeCompare('People') == 0) {
+                    continue;
+                }
+                array.push(key);
+                console.log(chartData);
+                console.log(chartData[key]);
+                for (var time of chartData[key]) {
+                    array.push(time);
+                }
+                console.log(array);
+                data.addRows(array);
+                console.log(array);
+                array = [];
+
+            }
+
+            //const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
+
+
+            //data.addColumn('string', 'Workout Type');
+            //data.addColumn('number', 'Workouts Completed');
+            // data.addRows(array);
 
             var options = {
                 titleTextStyle: {
@@ -246,7 +304,7 @@
         // Line-Chart for Workouts of user vs friends
         async function colRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let url = 'http://127.0.0.1:8000/' + user + '/col_chart';
             let res = await fetch(url);
 
             if (res.ok) {
@@ -259,7 +317,7 @@
 
         colRequest().then(data => {
             //console.log(data);
-            //chartData = JSON.parse(data);
+            chartData = JSON.parse(data);
             //console.log(chartData);
             google.charts.load('current', {
                 'packages': ['bar']
@@ -269,21 +327,27 @@
         });
 
         function drawColChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Workout Type', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
-                ['Type 1', 10, 5, 15, 30],
-                ['Type 2', 20, 10, 20, 20],
-                ['Type 3', 30, 15, 25, 10],
-                ['Type 4', 40, 20, 30, 4],
+            // var data = google.visualization.arrayToDataTable([
+            //     ['Workout Type', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
+            //     ['Type 1', 10, 5, 15, 30],
+            //     ['Type 2', 20, 10, 20, 20],
+            //     ['Type 3', 30, 15, 25, 10],
+            //     ['Type 4', 40, 20, 30, 4],
 
-            ]);
+            // ]);
+            var data = new google.visualization.DataTable();
+            const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
+            console.log(arr);
+
+            data.addColumn('string', 'Workout Type');
+            data.addColumn('number', 'Workouts Completed');
+            data.addRows(arr);
 
             var options = {
                 titleTextStyle: {
                     fontSize: 15,
                 },
                 title: 'Number of Workouts by Workout Types',
-                Subtitles: 'Comparison for current year (2021)',
                 width: '500',
                 height: '300',
                 chartArea: {
@@ -420,14 +484,14 @@
                 },
                 'width': 400,
                 'height': 300
-                // hAxis: {
-                //     title: 'Workout Time (in minutes)',
-                //     minValue: 0
-                // },
-                // vAxis: {
-                //     title: 'Day'
-                // },
-                // colors: ['#7641BD']
+                    // hAxis: {
+                    //     title: 'Workout Time (in minutes)',
+                    //     minValue: 0
+                    // },
+                    // vAxis: {
+                    //     title: 'Day'
+                    // },
+                    // colors: ['#7641BD']
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('pie_div'));
@@ -440,9 +504,7 @@
 <body>
     <!-- Links Navbar -->
     <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
-        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
-            aria-label="Toggle navigation">
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -483,9 +545,7 @@
             <div id="">
                 <div class="text-right" id="chart_div"></div>
             </div>
-            <div style="color:white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda, recusandae
-                quasi culpa est molestiae, unde aut eum mollitia non quidem omnis reiciendis tempore neque facilis
-                laudantium quam amet illum deleniti.</div>
+            <div style="color:white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda, recusandae quasi culpa est molestiae, unde aut eum mollitia non quidem omnis reiciendis tempore neque facilis laudantium quam amet illum deleniti.</div>
 
             <div id="">
                 <div></div>
@@ -493,9 +553,7 @@
                 <div class="text-left" id="geo_div"></div>
             </div>
             <div style="color:white">
-                <div class="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel in pariatur veniam nam,
-                    incidunt repudiandae hic odio architecto quos aut autem, expedita earum numquam praesentium quasi
-                    saepe soluta maiores obcaecati?</div>
+                <div class="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel in pariatur veniam nam, incidunt repudiandae hic odio architecto quos aut autem, expedita earum numquam praesentium quasi saepe soluta maiores obcaecati?</div>
             </div>
             <div id="">
                 <div class="text-left" id="curve_chart"></div>
@@ -545,7 +603,7 @@
         //     alert(user);
         // });
 
-        window.onload = function () {
+        window.onload = function() {
             var actualVal = actual.getAttribute("value");
             var goalVal = actual.getAttribute("max");
             var date = new Date();
@@ -595,13 +653,13 @@
                 data: {
                     streak_counter: sCounter
                 },
-                success: function (data, textStatus) {
+                success: function(data, textStatus) {
                     //alert("successful 3");
 
                     //location.reload();
 
                 },
-                error: function (jqXHR, textStatus, err) {
+                error: function(jqXHR, textStatus, err) {
                     // alert('text status ' + textStatus + ', err ' + err)
                     alert("error");
                 }
