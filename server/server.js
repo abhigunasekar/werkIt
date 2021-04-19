@@ -310,6 +310,34 @@ app.get('/:username/histogram', (req, res) => {
     });
 });
 
+// get data for geochart
+app.get('/:username/geochart', (req, res) => {
+    console.log("Getting data for geochart");
+    mc.get_geochart_data(req.params.username).then(data => {
+        console.log("data found: " + data);
+        res.status(200).send(data);
+    });
+});
+
+// get data for line chart
+app.get('/:username/line_chart', (req, res) => {
+    console.log("Getting data for line chart");
+    mc.get_line_chart_data(req.params.username).then(data => {
+        console.log("data found: " + data);
+        res.status(200).send(data);
+    });
+});
+
+// get data for column chart
+app.get('/:username/col_chart', (req, res) => {
+    console.log("Getting data for column chart");
+    mc.get_col_chart_data(req.params.username).then(data => {
+        console.log("data found: " + data);
+        res.status(200).send(data);
+    });
+});
+
+
 // delete workout
 app.delete('/:username/:workout/rm_wkout', (req, res) => {
     console.log("Removing workout " + req.params.workout + " for user " + req.params.username);
