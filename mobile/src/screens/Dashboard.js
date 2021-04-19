@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -8,29 +8,6 @@ import Button from '../components/Button';
 import * as serverMethods from '../ServerMethods';
 import light from '../light';
 import dark from '../dark';
-
-const styles = StyleSheet.create({
-    lightTextHeader: {
-        color: 'black',
-        fontFamily: "Avenir-Heavy",
-        fontSize: 20
-    },
-    darkTextHeader: {
-        color: 'white',
-        fontFamily: "Avenir-Heavy",
-        fontSize: 20
-    },
-    lightTextBase: {
-        color: 'black',
-        fontFamily: "Avenir-HeavyOblique",
-        fontSize: 20
-    },
-    darkTextBase: {
-        color: 'white',
-        fontFamily: "Avenir-HeavyOblique",
-        fontSize: 20
-    }
-  });
   
 export default class Dashboard extends Component {
     constructor(props) {
@@ -243,8 +220,8 @@ export default class Dashboard extends Component {
                     />
                 }
                 <Text></Text>
-                <Text style={[this.props.darkmode ? styles.darkTextHeader : styles.lightTextHeader]}>Your upcoming workout is/are:</Text>
-                <Text style={[this.props.darkmode ? styles.darkTextBase : styles.lightTextBase]}>{(this.nextUpcomingWorkout(this.state) === '' || this.nextUpcomingWorkout(this.state) === undefined) ? 'You have no upcoming workout this week' : this.nextUpcomingWorkout(this.state)}</Text>
+                <Text style={[this.props.darkmode ? dark.darkTextHeader : light.lightTextHeader]}>Your upcoming workout is/are:</Text>
+                <Text style={[this.props.darkmode ? dark.darkTextBase : light.lightTextBase]}>{(this.nextUpcomingWorkout(this.state) === '' || this.nextUpcomingWorkout(this.state) === undefined) ? 'You have no upcoming workout this week' : this.nextUpcomingWorkout(this.state)}</Text>
 
             </View>
         );
