@@ -58,8 +58,9 @@ export default class WorkoutEditor extends Component {
                 .then(response => {
                     console.log('----------------------------------------------')
                     console.log(response);
+                    console.log('----------------------------------------------')
                     response.exercises.map((exercise) => {
-                        this.addExercise({ name: exercise.name, sets: exercise.data[0].sets, reps: exercise.data[0].reps, weight: exercise.data[0].weight, duration: exercise.data[0].duration, distance: exercise.data[0].distance, pace: exercise.data[0].pace, incline: exercise.data[0].incline, laps: exercise.data[0].laps });
+                        this.addExercise({ name: exercise.name, sets: exercise.data.sets, reps: exercise.data.reps, weight: exercise.data.weight, duration: exercise.data.duration, distance: exercise.data.distance, pace: exercise.data.pace, incline: exercise.data.incline, laps: exercise.data.laps });
                     });
                     this.setState({ type: response.type }, () => {
                         serverMethods.getExercises(this.props.route.params.username, response.type)
@@ -105,33 +106,35 @@ export default class WorkoutEditor extends Component {
     }
 
     editExercise(name, field, val) {
+        console.log('edit')
+        //console.log(this.state.exercises)
         for (let i = 0; i < this.state.exercises.length; i++) {
             if (name === this.state.exercises[i].name) {
-                let array = this.state.exercises.slice();
+                let array = this.state.exercises;
                 switch(field) {
                     case 'Sets':
-                        array[i].sets = val;
+                        array[i].data.sets = val;
                         break;
                     case 'Reps':
-                        array[i].reps = val;
+                        array[i].data.reps = val;
                         break;
                     case 'Weight':
-                        array[i].weight = val;
+                        array[i].data.weight = val;
                         break;
                     case 'Duration':
-                        array[i].duration = val;
+                        array[i].data.duration = val;
                         break;
                     case 'Distance':
-                        array[i].distance = val;
+                        array[i].data.distance = val;
                         break;
                     case 'Pace':
-                        array[i].pace = val;
+                        array[i].data.pace = val;
                         break;
                     case 'Incline':
-                        array[i].incline = val;
+                        array[i].data.incline = val;
                         break;
                     case 'Laps':
-                        array[i].laps = val;
+                        array[i].data.laps = val;
                         break;
                 }
                 this.setState({ exercises: array });
@@ -143,8 +146,8 @@ export default class WorkoutEditor extends Component {
         let exerciseList = [];
         for (let i = 0; i < this.state.exercises.length; i++) {
             let exercise = this.state.exercises[i];
-            console.log('exercise list')
-            console.log(exercise)
+            //console.log('exercise list')
+            //console.log(exercise)
             // does this one need darkmode
             exerciseList.push(
                 <ExerciseButton
@@ -217,7 +220,8 @@ export default class WorkoutEditor extends Component {
 
     render() {
         //console.log('render')  
-        //console.log('workout name is: ' + this.state.name)  
+        //console.log('workout name is: ' + this.state.name)
+        console.log(this.state.exercises);
 
         let exerciseList = this.createExerciseList();
 
