@@ -33,6 +33,7 @@
             background: purple;
         }
     </style>
+
     <title>Werk It</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
@@ -338,7 +339,7 @@
                     fontSize: 15,
                 },
                 width: '500',
-                height: '300',
+                height: '400',
                 colors: ['#7641bd'],
                 chartArea: {
                     left: 30,
@@ -505,8 +506,10 @@
         <div class="collapse navbar-collapse navbar-main bg-main " id="navbarTogglerDemo03">
             <ul class="navbar-nav mx-auto mt-2 mt-lg-0 navbar-center">
                 <li class="navbar-brand mr-0 ">
-                    <a class="nav-link navbar-main bg-main " id="about" href="#">Dashboard</a>
+                    <a class="nav-link navbar-main bg-main " id="about" href="#">Dashboard <i class="fa fa-trophy" aria-hidden="true"><span id="challenge"></span></i>
+                    </a>
                 </li>
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <a href="../profile/profile.html" class="btn btn-outline-login my-2 my-sm-0 " type="submit">Profile</a>
@@ -516,6 +519,7 @@
 
         </div>
     </nav>
+
     <div class="container">
         <!-- <div class="inner-container col-lg-6"> -->
         <div class="item col-lg-6">
@@ -697,6 +701,8 @@
             // }
 
         }
+        var trophy = document.getElementById('challenge');
+        trophy.innerHTML = " " + 1;
     </script>
 </body>
 
