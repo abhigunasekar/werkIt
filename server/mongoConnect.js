@@ -48,17 +48,19 @@ const wkoutSchema = new mongoose.Schema({
 
 const Workout = mongoose.model('Workout', wkoutSchema);
 
-// TODO fix schema
 const exerciseSchema = new mongoose.Schema({
     name: String,
-    data: [{
+    data: {
         sets: Number,
         reps: Number,
         weight: Number,
         duration: Number,
         speed: Number,
-        laps: Number
-    }]
+        laps: Number,
+        distance: Number,
+        incline: Number,
+        pace: Number
+    }
 }, { versionKey: false });
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);
