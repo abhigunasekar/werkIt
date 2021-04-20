@@ -196,3 +196,27 @@ export const incompleteWorkoutError = (navigate) => {
         ]
     )
 }
+
+export const friendExistsError = (friend_name) => {
+    Alert.alert(
+        '',
+        'You are already friends with ' + friend_name + '!',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const friendDNEError = (friend_name) => {
+    Alert.alert(
+        '',
+        'The username ' + friend_name + ' does not exist!  Friend not added.',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}

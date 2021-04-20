@@ -1,4 +1,4 @@
-const address = '10.192.30.111';
+const address = '10.0.0.48';
 
 export async function createAccount(info) {
     console.log('create account');
@@ -200,9 +200,9 @@ export function deleteExercise(username, workoutType, exercise) {
     })
 }
 
-export function editWorkout(username, workout) {
+export function editWorkout(username, oldName, workout) {
     console.log('editing workout: ' + workout.name);
-    return fetch('http://' + address + ':8000/' + username + '/' + workout.name + '/edit_workout', {
+    return fetch('http://' + address + ':8000/' + username + '/' + oldName + '/edit_workout', {
         method: 'PATCH',
         headers: {
             Accept: 'application/json',
@@ -212,9 +212,9 @@ export function editWorkout(username, workout) {
     })
 }
 
-export function editWorkoutPlan(username, workoutPlan) {
+export function editWorkoutPlan(username, oldName, workoutPlan) {
     console.log('editing workout plan: ' + workoutPlan.name)
-    return fetch('http://' + address + ':8000/' + username + '/' + workoutPlan.name + '/edit_plan', {
+    return fetch('http://' + address + ':8000/' + username + '/' + oldName + '/edit_plan', {
         method: 'PATCH',
         headers: {
             Accept: 'application/json',
@@ -233,5 +233,23 @@ export function editWorkoutType(username, workoutType, newName) {
             'Content-Type' : 'application/json'
         },
         body: JSON.stringify(newName)
+    });
+}
+
+export function getFriends(username) {
+    return fetch('http://' + address + ':8000/' + username + '/friends', {
+        method: 'GET'
+    })
+}
+
+export function addFriend(username, newFriend) {
+    console.log("adding friend");
+    return fetch('http://' + address + ':8000/' + username + '/add_friend', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(newFriend)
     });
 }

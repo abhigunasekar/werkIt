@@ -43,14 +43,14 @@ export default class WorkoutTracker extends Component {
                     <ExerciseLabel
                         key={key++}
                         name={exercise.name}
-                        sets={exercise.data[0].sets}
-                        reps={exercise.data[0].reps}
-                        weight={exercise.data[0].weight}
-                        duration={exercise.data[0].duration}
-                        distance={exercise.data[0].distance}
-                        pace={exercise.data[0].pace}
-                        incline={exercise.data[0].incline}
-                        laps={exercise.data[0].laps}
+                        sets={exercise.data.sets}
+                        reps={exercise.data.reps}
+                        weight={exercise.data.weight}
+                        duration={exercise.data.duration}
+                        distance={exercise.data.distance}
+                        pace={exercise.data.pace}
+                        incline={exercise.data.incline}
+                        laps={exercise.data.laps}
                         darkmode={this.props.darkmode}
                         complete={(name) => {
                             let array = this.state.finished;
