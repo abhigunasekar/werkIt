@@ -406,13 +406,16 @@ app.patch('/:username/:type/edit_workoutType', (req, res) => {
 // add a friend
 app.post('/:username/add_friend', (req, res) => {
     console.log("Adding friend " + req.body.friend_user + " for user " + req.params.username);
-    mc.add_friend(req.params.username, req.body.friend_user).then(exists => {
-        if (exists) {
+    mc.add_friend(req.params.username, req.body.friend_user).then(rc => {
+        if (rc == 0) {
             console.log("Successfully saved friend");
             res.status(200).end();
-        } else {
+        } else if (rc == 1){
             console.log("Friend requested does not exist");
             res.status(400).end();
+        } else {
+            console.log("User is already friends with requested friend");
+            res.status(401).end();
         }
     });
 });

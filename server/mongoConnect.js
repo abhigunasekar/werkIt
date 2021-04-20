@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     loc: String,
     dark_mode: Boolean,
     streak_counter: Number,
+    challenges_won: Number,
     active_plan: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' },
     weekly_plan: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' }
@@ -34,6 +35,14 @@ const userSchema = new mongoose.Schema({
     ],
     friends_list: [
         { type: mongoose.Schema.Types.ObjectId, ref: "ConnectedFriends"}
+    ],
+    plan_requests: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends' },
+        { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' }
+    ],
+    challenges: [
+        Number,
+        { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends'}
     ]
 }, { versionKey: false });
 
@@ -49,17 +58,19 @@ const wkoutSchema = new mongoose.Schema({
 
 const Workout = mongoose.model('Workout', wkoutSchema);
 
-// TODO fix schema
 const exerciseSchema = new mongoose.Schema({
     name: String,
-    data: [{
+    data: {
         sets: Number,
         reps: Number,
         weight: Number,
         duration: Number,
         speed: Number,
-        laps: Number
-    }]
+        laps: Number,
+        distance: Number,
+        incline: Number,
+        pace: Number
+    }
 }, { versionKey: false });
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);
@@ -138,7 +149,10 @@ async function save_new_account_data(u_name, req_body) {
         active_plan: null,
         weekly_plan: [],
         completed_workouts: [],
-        streak_counter: 0
+        streak_counter: 0,
+        challenges_won: 0,
+        plan_requests: [],
+        challenges: []
     });
 
     user.save().then(_ => {
@@ -409,7 +423,7 @@ async function save_workout(username, w_name, w_type, exercises) {
 
     // add list of exercises to the workout
     for (var e of exercises) {
-        await save_new_exercise(username, w_name, e.e_name, e.data);
+        await save_new_exercise(username, w_name, e.name, e.data);
     }
 }
 
@@ -602,7 +616,6 @@ async function get_line_chart_data(username) {
         var f_user_obj = await User.findById(f_obj.friend_id).exec();
         var people = chart_obj['People'];
         people[person_num] = f_obj.friend_name;
-        console.log("freind:" + f_user_obj.name);
         for (var c_id of f_user_obj.completed_workouts) {
             var c_obj = await CompletedWorkout.findById(c_id).exec();
             var time = chart_obj[c_obj.day][person_num]
@@ -765,10 +778,18 @@ async function update_plan(username, plan, new_plan_data) {
 
 async function add_friend(username, f_user) {
     if (!(await check_user_existence(f_user))) {
-        return false;
+        return 1;
     }
     var user = await get_user_obj(username);
     var friend_obj = await get_user_obj(f_user);
+
+    for (var f_id of user.friends_list) {
+        var f_obj = await ConnectedFriends.findById(f_id).exec();
+        if (f_obj.friend_name.localeCompare(friend_obj.name) == 0) {
+            return 2;
+        }
+    }
+
     const friend = new ConnectedFriends({
         friend_name: friend_obj.name,
         friend_id: friend_obj,
@@ -785,7 +806,7 @@ async function add_friend(username, f_user) {
     await User.findByIdAndUpdate(
         user._id, {friends_list: friends}, {new: true}
     ).exec();
-    return true;
+    return 0;
 }
 
 async function get_friends(username) {

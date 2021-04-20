@@ -28,12 +28,12 @@ export default class WorkoutPlans extends Component {
         this.listener = this.props.navigation.addListener('focus', () => {
             console.log('focus');
             setTimeout(() => serverMethods.getUserWorkoutPlans(this.state.username)
-            .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                this.setState({ workoutPlans: response })
-            }), 100);
-        })
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response)
+                    this.setState({ workoutPlans: response })
+                }), 300);
+        });
     }
 
     componentWillUnmount() {
@@ -50,7 +50,7 @@ export default class WorkoutPlans extends Component {
                     key={i}
                     name={workoutPlan}
                     darkmode={this.props.darkmode}
-                    edit={() => this.props.navigation.navigate('WorkoutPlanEditor', { workoutPlan: workoutPlan })} //server call to get workouts given name
+                    edit={() => this.props.navigation.navigate('WorkoutPlanEditor', { username: this.state.username, workoutPlan: workoutPlan, edit: true })} //server call to get workouts given name
                 />
             );
         }
