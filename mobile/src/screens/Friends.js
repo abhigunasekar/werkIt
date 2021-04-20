@@ -5,7 +5,9 @@ import { FontAwesome } from '@expo/vector-icons';
 import Button from '../components/Button';
 import Textbox from '../components/TextBox';
 import * as serverMethods from '../ServerMethods';
-import { friendExistsError, friendDNEError } from '../components/Alerts';
+import { friendExistsError, friendDNEError, workout_plan_sent, challenge_sent } from '../components/Alerts';
+import DropDownPicker from 'react-native-dropdown-picker';
+import TextBox from '../components/TextBox';
 
 import light from '../light';
 import dark from '../dark';
@@ -18,7 +20,13 @@ export default class Friends extends Component {
             username: this.props.username,
             friends: [],
             new_friend: '',
-            modalVisible: false,
+            current_friend_selected: '',
+            modalVisible1: false,
+            modalVisibleSendPlan: false,
+            modalVisibleSendChallenge: false,
+            savedWorkoutPlans: [],
+            challenges: 0,
+            workout_to_send: ''
         };
 
         this.check_friend = this.check_friend.bind(this);
@@ -33,7 +41,24 @@ export default class Friends extends Component {
                 console.log("friends res:" + response);
                 this.setState({ friends: response });
             });
-        
+        serverMethods.getUserWorkoutPlans(this.state.username)
+            .then(response => response.json())
+            .then(response => {
+                let array = [];
+                response.map((workoutPlan) => array.push({ label: workoutPlan, value: workoutPlan }))
+                this.setState({ savedWorkoutPlans: array })
+        });
+        this.listener = this.props.navigation.addListener('focus', () =>
+            serverMethods.getUserWorkoutPlans(this.state.username)
+                .then(response => response.json())
+                .then(response => {
+                    let array = [];
+                    response.map((workoutPlan) => array.push({ label: workoutPlan, value: workoutPlan }))
+                    this.setState({ savedWorkoutPlans: array })
+                }));
+    }
+    componentWillUnmount() {
+        this.listener();
     }
 
     check_friend() {
@@ -71,8 +96,8 @@ export default class Friends extends Component {
             friendsList.push(
                 <Button
                     key={i}
-                    buttonText={this.state.friends[i]}
-                    onPress={() => this.setState({ modalVisible: true })}
+                    buttonText={this.state.friends[i].name}
+                    onPress={() => this.setState({ current_friend_selected:this.state.friends[i].username, modalVisible1: true })}
                     darkmode={this.props.darkmode}
                     purple={true}
                 />
@@ -107,29 +132,106 @@ export default class Friends extends Component {
                 <Modal
                     animationType='slide'
                     transparent={true}
-                    visible={this.state.modalVisible}
+                    visible={this.state.modalVisible1}
                 >
                     <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
                         <View style={this.props.darkmode ? dark.modalView : light.modalView}>
+                            <Text>Current friend selected: {this.state.current_friend_selected}</Text>
                             <Button
                                 buttonText='Send workout plan'
-                                onPress={() => this.setState({ modalVisible: false })}
+                                onPress={() => this.setState({ modalVisible1: false, modalVisibleSendPlan: true })}
                                 darkmode={this.props.darkmode}
                                 purple
                             />
                             <Button
                                 buttonText='Send fitness challenge'
-                                onPress={() => this.setState({ modalVisible: false })}
+                                onPress={() => this.setState({ modalVisible1: false, modalVisibleSendChallenge: true})}
                                 darkmode={this.props.darkmode}
                                 purple
                             />
                             <Button
                                 buttonText='Cancel'
-                                onPress={() => this.setState({ modalVisible: false })}
+                                onPress={() => this.setState({ modalVisible1: false })}
                                 darkmode={this.props.darkmode}
                                 gray
                             />
+                        </View>
+                    </View>
+                </Modal>
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={this.state.modalVisibleSendPlan}
+                >
+                    <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                        <View style={this.props.darkmode ? dark.modalView : light.modalView}>
+                            <DropDownPicker
+                                items={this.state.savedWorkoutPlans}
+                                defaultValue={''}
+                                placeholder='Select a workout to send'
+                                containerStyle={{height: 40, width: '80%'}}
+                                style={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
+                                itemStyle={{justifyContent: 'flex-start'}}
+                                labelStyle={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}
+                                dropDownStyle={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
+                                arrowColor={this.props.darkmode ? '#FFFFFF' : '#000000'}
+                                onChangeItem={(item) => this.setState({ workout_to_send:item.value })}
+                            />
+                            <Button
+                                buttonText='Send'
+                                darkmode={this.props.darkmode}
+                                purple
+                                onPress={() => {
+                                    var request = {type: 'plan', plan: this.state.workout_to_send, friend: this.state.current_friend_selected}
+                                    serverMethods.sendRequest(this.state.username, request)
+                                        .then(response => {
+                                            this.setState({ modalVisibleSendPlan: false })})
+                                }}
 
+                            />
+                            <Button
+                                buttonText='Cancel'
+                                onPress={() => this.setState({ modalVisibleSendPlan: false })}
+                                darkmode={this.props.darkmode}
+                                purple
+                            />
+                        </View>
+                    </View>
+                </Modal>
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={this.state.modalVisibleSendChallenge}
+                >
+                    <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                        <View style={this.props.darkmode ? dark.modalView : light.modalView}>
+                            <Text>Enter the number of workouts for friend to complete:</Text>
+                            <TextBox
+                                keyboardType='number-pad'
+                                style={{marginTop: 20, alignItems: 'center'}}
+                                style={[{width: 40, height: 40}, this.props.style]}
+                                darkmode={this.props.darkmode}
+                                value={this.state.name}
+                                maxLength={2}
+                                editable={this.props.editable}
+                                onChangeText={(text) => this.setState({ challenges: text })}
+                            />
+                            <Button
+                                buttonText='Send'
+                                darkmode={this.props.darkmode}
+                                purple
+                                onPress={() => {
+                                    var request = {type: 'challenge', num: parseInt(this.state.challenges), friend: this.state.current_friend_selected}
+                                    serverMethods.sendRequest(this.state.username, request)
+                                        .then(() => this.setState({ modalVisibleSendChallenge: false }))
+                                }}
+                            />
+                            <Button
+                                buttonText='Cancel'
+                                onPress={() => this.setState({ modalVisibleSendChallenge: false })}
+                                darkmode={this.props.darkmode}
+                                purple
+                            />
                         </View>
                     </View>
                 </Modal>

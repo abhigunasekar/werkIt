@@ -220,3 +220,27 @@ export const friendDNEError = (friend_name) => {
         ]
     )
 }
+
+export const workout_plan_sent = (friend_name) => {
+    Alert.alert(
+        '',
+        'Successfully sent workout plan to ' + friend_name + ' !',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const challenge_sent = (friend_name) => {
+    Alert.alert(
+        '',
+        'Successfully sent fitness challenge to ' + friend_name + ' !',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
