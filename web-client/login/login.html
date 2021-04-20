@@ -7,13 +7,18 @@
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <!-- Bootstrap CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
     <!-- Learned Bootstrap From -->
     <!--  https://getbootstrap.com/-->
@@ -64,7 +69,8 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required="required">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username"
+                        required="required">
                 </div>
             </div>
 
@@ -72,7 +78,8 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                        required="required">
                 </div>
             </div>
 
@@ -80,7 +87,8 @@
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
                     <p></p>
-                    <button type="submit" id="submit-btn" type="submit" class="btn btn-login btn-lg btn-block">Login</button>
+                    <button type="submit" id="submit-btn" type="submit"
+                        class="btn btn-login btn-lg btn-block">Login</button>
                 </div>
 
             </div>
@@ -102,7 +110,7 @@
         One moment, We're Werking on Your Network Connection...
     </div>
     <script>
-        $("#submit-btn").click(function(event) {
+        $("#submit-btn").click(function (event) {
             event.preventDefault();
             var uname = $("#username").val();
             localStorage.setItem("user", uname);
@@ -115,27 +123,27 @@
             //     "password": password
             // };
             $.ajax({
-                    url: 'http://127.0.0.1:8000/login',
-                    type: 'POST',
-                    cache: false,
-                    data: {
-                        username: uname,
-                        password: password
-                    },
-                    success: function(data, textStatus) {
-                        // Dashboard Redirect
-                        // window.location.href = 'http://agunase.github.io/werkIt/web-client/dashboard/dashboard.html';
-                        // Motivational Quotes Redirect
-                        window.location.href = 'http://agunase.github.io/werkIt/web-client/quote/quote.html';
-                        //window.location.href = 'file:///u/riker/u94/agunase/cs307/WerkIt/web-client/quote/quote.html';
+                url: 'http://127.0.0.1:8000/login',
+                type: 'POST',
+                cache: false,
+                data: {
+                    username: uname,
+                    password: password
+                },
+                success: function (data, textStatus) {
+                    // Dashboard Redirect
+                    // window.location.href = 'http://agunase.github.io/werkIt/web-client/dashboard/dashboard.html';
+                    // Motivational Quotes Redirect
+                    //window.location.href = 'http://agunase.github.io/werkIt/web-client/quote/quote.html';
+                    window.location.href = 'file:///Users/abhishekgunasekar/Desktop/werkIt/web-client/quote/quote.html';
 
-                    },
-                    error: function(jqXHR, textStatus, err) {
-                        // alert('text status ' + textStatus + ', err ' + err)
-                        alert("please enter correct credentials and try again");
-                    }
-                })
-                // window.location = "../dashboard/dashboard.html";
+                },
+                error: function (jqXHR, textStatus, err) {
+                    // alert('text status ' + textStatus + ', err ' + err)
+                    alert("please enter correct credentials and try again");
+                }
+            })
+            // window.location = "../dashboard/dashboard.html";
         });
     </script>
 </body>
