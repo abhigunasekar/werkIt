@@ -61,7 +61,7 @@
 
             progressBar.value = actual;
             progressBar.max = expected;
-            console.log('actual = ' + actual);
+            //console.log('actual = ' + actual);
             if (actual == 3) {
                 alert("Nice Job! You Completed On Average 3 Workouts This Week");
             }
@@ -188,7 +188,7 @@
         function drawGeoChart() {
             var data = new google.visualization.DataTable();
             const arr = Object.keys(geoData).map((key) => [geoData[key], key]);
-            console.log(arr);
+            //console.log(arr);
 
             data.addColumn('string', 'State');
             data.addColumn('string', 'Name');
@@ -224,6 +224,8 @@
         lineRequest().then(data => {
             //console.log(data);
             chartData = JSON.parse(data);
+            //console.log(data);
+            //console.log('line data');
             //console.log(chartData);
             google.charts.load('current', {
                 'packages': ['corechart']
@@ -244,45 +246,33 @@
             //     ['Sun', 10, 11, 12, 7]
 
             // ]);
+
             var data = new google.visualization.DataTable();
-            var array = [];
             data.addColumn('string', 'Day');
+
+
             /// loop to add columns
             for (var people in chartData['People']) {
-                console.log(people);
-                data.addColumn('number', people);
+                data.addColumn('number', chartData['People'][people]);
             }
-            console.log(chartData);
+            var array = [];
             for (var key in chartData) {
-                console.log(key);
-                if (key.localeCompare('People') == 0) {
-                    continue;
-                }
-                array.push(key);
-                console.log(chartData);
-                console.log(chartData[key]);
-                for (var time of chartData[key]) {
-                    array.push(time);
-                }
-                console.log(array);
-                data.addRows(array);
-                console.log(array);
-                array = [];
+                if (key == 'People') {
 
+                } else {
+                    array.push(key);
+                    for (let j = 0; j < chartData[key].length; j++) {
+                        array.push(chartData[key][j]);
+                    }
+                    data.addRow(array);
+                    array = [];
+                }
             }
-
-            //const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
-
-
-            //data.addColumn('string', 'Workout Type');
-            //data.addColumn('number', 'Workouts Completed');
-            // data.addRows(array);
 
             var options = {
                 titleTextStyle: {
                     fontSize: 15,
                 },
-                title: 'Comparison of Workouts between You and Your friends',
                 curveType: 'function',
                 legend: {
                     position: 'bottom'
@@ -290,9 +280,8 @@
                 width: '700',
                 height: '400',
                 chartArea: {
-                    left: 30,
-                    top: 30
-                }
+                    width: '100%'
+                },
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
@@ -337,6 +326,7 @@
             // ]);
             var data = new google.visualization.DataTable();
             const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
+            console.log('correct arr...');
             console.log(arr);
 
             data.addColumn('string', 'Workout Type');
@@ -347,9 +337,9 @@
                 titleTextStyle: {
                     fontSize: 15,
                 },
-                title: 'Number of Workouts by Workout Types',
                 width: '500',
                 height: '300',
+                colors: ['#7641bd'],
                 chartArea: {
                     left: 30,
                     top: 30
@@ -360,7 +350,7 @@
             chart.draw(data, google.charts.Bar.convertOptions(options));
         }
 
-        function drawBasic() {
+        /*function drawBasic() {
 
             // var data = google.visualization.arrayToDataTable([
             //     ['Day', 'Duration', ],
@@ -408,7 +398,7 @@
             var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
 
             chart.draw(data, options);
-        }
+        }*/
 
         function drawBasic() {
 
@@ -439,11 +429,11 @@
 
             var options = {
                 titleTextStyle: {
-                    fontSize: 20,
+                    fontSize: 30,
                 },
                 title: 'Weekly Workout Time',
                 chartArea: {
-                    width: '60%'
+                    width: '70%',
                 },
                 hAxis: {
                     title: 'Workout Time (in minutes)',
@@ -451,6 +441,10 @@
                 },
                 vAxis: {
                     title: 'Day'
+                },
+                height: 500,
+                bar: {
+                    groupWidth: "95%"
                 },
                 colors: ['#7641BD']
             };
@@ -523,46 +517,60 @@
         </div>
     </nav>
     <div class="container">
-        <div class="inner-container col-lg-6">
-            <div>
-                <h2>Weekly Goal</h2>
-                <progress value="" max="" id="progress"> </progress>
-            </div>
-            <div>
-                <h2>Workout Streak Counter</h2>
-                <input id="streak" type="number" value="" disabled></input>
-            </div>
-            <div id="">
-                <h5>Weekly Workout Time Per Day</h5>
-                <div id="pie_div"></div>
-            </div>
-            <div>
-                <div id="columnchart_material" style=""></div>
-            </div>
+        <!-- <div class="inner-container col-lg-6"> -->
+        <div class="item col-lg-6">
+            <h2>Weekly Goal</h2>
+            <progress value="" max="" id="progress"> </progress>
         </div>
-
-        <div class="inner-container col-lg-6">
-            <div id="">
-                <div class="text-right" id="chart_div"></div>
-            </div>
-            <div style="color:white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda, recusandae quasi culpa est molestiae, unde aut eum mollitia non quidem omnis reiciendis tempore neque facilis laudantium quam amet illum deleniti.</div>
-
-            <div id="">
-                <div></div>
-                <h4 class="text-center font-weight-bold">Location of Friends</h4>
-                <div class="text-left" id="geo_div"></div>
-            </div>
-            <div style="color:white">
-                <div class="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel in pariatur veniam nam, incidunt repudiandae hic odio architecto quos aut autem, expedita earum numquam praesentium quasi saepe soluta maiores obcaecati?</div>
-            </div>
-            <div id="">
-                <div class="text-left" id="curve_chart"></div>
-            </div>
-
+        <div class="item col-lg-6">
+            <h2>Workout Streak Counter</h2>
+            <input id="streak" type="number" value="" disabled></input>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 5%;">
+        <div id="" class=" col-lg-6">
+            <h2>Weekly Workout Time Per Day</h2>
+            <div id="pie_div"></div>
+        </div>
+        <div id="" class="item col-lg-6">
+            <div></div>
+            <h2 class="text-center">Location of Friends</h2>
+            <div class="text-left" id="geo_div"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class=" col-lg-6">
+            <h2>Number of Workouts by Workout Types</h2>
+            <div></div>
+            <div id="columnchart_material"></div>
+        </div>
+        <div id="" class="col-lg-6">
+            <h2>Comparison of Workouts between You and Your friends</h2>
+            <div class="text-left" id="curve_chart"></div>
         </div>
 
 
     </div>
+    <div id="" class="container col-lg-8">
+        <!-- <h2 class="text-center">Weekly Workout Time</h2> -->
+        <div class="item" id="chart_div"></div>
+    </div>
+
+    <!-- </div> -->
+
+    <!-- <div class="inner-container col-lg-6"> -->
+
+    <!-- <div style="color:white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda, recusandae quasi culpa est molestiae, unde aut eum mollitia non quidem omnis reiciendis tempore neque facilis laudantium quam amet illum deleniti.</div> -->
+
+
+    <!-- <div style="color:white"> -->
+    <!-- <div class="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel in pariatur veniam nam, incidunt repudiandae hic odio architecto quos aut autem, expedita earum numquam praesentium quasi saepe soluta maiores obcaecati?</div> -->
+    <!-- </div> -->
+
+
+    <!-- </div> -->
+
+    <!-- Formatting Visualizations -->
     <script>
         async function doRequest() {
             let user = localStorage.getItem("user");
@@ -645,7 +653,7 @@
             // /profile/:username/:field
             var urlFinal = 'http://127.0.0.1:8000/profile/' + uname + '/streak_counter' + '?_method=PATCH';
             var sCounter = newVal;
-            console.log(sCounter);
+            //console.log(sCounter);
             $.ajax({
                 url: urlFinal,
                 type: 'PATCH',

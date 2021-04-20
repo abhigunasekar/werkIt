@@ -116,7 +116,7 @@
                     <!-- <label type="button" for="loc" class="btn btn-login dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
                     <!-- Your Location -->
                     <!-- </label> -->
-                    <select id="uname" value="US-IN" class="btn btn-login" aria-labelledby="">
+                    <select id="mySelect" value="US-IN" class="btn btn-login" aria-labelledby="">
                         <option id="US-AL"  value="US-AL">US-AL</option>
                         <option id="US-AK" value="US-AK">US-AK</option>
                         <option id="US-AZ" value="US-AZ">US-AZ</option>
@@ -131,7 +131,7 @@
                         <option id="US-HI" value="US-HI">US-HI</option>
                         <option id="US-ID" value="US-ID">US-ID</option>
                         <option id="US-IL" value="US-IL">US-IL</option>
-                        <option id="US-IN" value="US-IN">US-IN</option>
+                        <option id="US-IN" value="US-IN" selected="selected">US-IN</option>
                         <option id="US-IA" value="US-IA">US-IA</option>
                         <option id="US-KS" value="US-KS">US-KS</option>
                         <option id="US-KY" value="US-KY">US-KY</option>
@@ -277,6 +277,14 @@
             uname.value = json.user;
             var dValue = json.dark_mode;
             var dSwitch = document.getElementById("switch");
+            var currentLoc = json.loc;
+            var mySelect = document.getElementById('mySelect');
+            for (var i, j = 0; i = mySelect.options[j]; j++) {
+                if (i.value == currentLoc) {
+                    mySelect.selectedIndex = j;
+                    break;
+                }
+            }
             if (dValue == true) {
                 document.documentElement.classList.toggle('dark-mode');
                 document.querySelectorAll('.inverted').forEach((result) => {
