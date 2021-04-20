@@ -814,7 +814,8 @@ async function get_friends(username) {
     var friends = new Array;
     for (var id of user.friends_list) {
         var f = await ConnectedFriends.findById(id).exec();
-        friends.push(f.friend_name);
+        var f_user = await User.findById(f.friend_id);
+        friends.push({username: f_user.user, name: f.friend_name);
     }
     return friends;
 }
