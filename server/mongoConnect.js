@@ -37,12 +37,10 @@ const userSchema = new mongoose.Schema({
         { type: mongoose.Schema.Types.ObjectId, ref: "ConnectedFriends"}
     ],
     plan_requests: [
-        {friend: { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends' },
-        plan: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' }}
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Request' }
     ],
     challenges: [
-        {num: Number,
-        friend: { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends'}}
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Request'}
     ]
 }, { versionKey: false });
 
@@ -132,6 +130,14 @@ const friends = new mongoose.Schema({
 }, { versionKey: false });
 
 const ConnectedFriends = mongoose.model("ConnectedFriends", friends)
+
+const request = new mongoose.Schema({
+    friend: { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends' },
+    plan: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' },
+    num: Number
+}, { versionKey: false});
+
+const Request = mongoose.model("Request", request);
 
 // Functions called by server
 
@@ -815,7 +821,7 @@ async function get_friends(username) {
     for (var id of user.friends_list) {
         var f = await ConnectedFriends.findById(id).exec();
         var f_user = await User.findById(f.friend_id);
-        friends.push({username: f_user.user, name: f.friend_name);
+        friends.push({username: f_user.user, name: f.friend_name});
     }
     return friends;
 }
@@ -825,16 +831,32 @@ async function send_request(username, req_body) {
     var friend = await get_user_obj(req_body.friend);
     if (req_body.type.localeCompare("plan") == 0) {
         var plan = await get_workout_plan(username, req_body.plan)
-        var obj = {friend: user._id, plan: plan._id};
+        const request = new Request({
+            plan: plan._id,
+            friend: user._id
+        });
+
+        request.save(function(err, request) {
+            if (err) return console.error(err);
+        });
+
         var requests = user.plan_requests;
-        requests.push(obj);
+        requests.push(request);
         return await User.findByIdAndUpdate(
             friend._id, {plan_requests: requests}, {new: true}
         ).exec();
     } else if (req_body.type.localeCompare("challenge") == 0) {
-        var obj = {num: req_body.num, friend: user._id};
+        const request = new Request({
+            num: req_body.num,
+            friend: user._id
+        });
+
+        request.save(function(err, request) {
+            if (err) return console.error(err);
+        });
+
         var requests = user.challenges;
-        requests.push(obj);
+        requests.push(request);
         return await User.findByIdAndUpdate(
             friend._id, {challenges: requests}, {new: true}
         ).exec();
