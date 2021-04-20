@@ -23,6 +23,19 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/25ed10730a.js" crossorigin="anonymous"></script>
 
+    <script type="text/javascript" src="../loading/loading.js"></script>
+
+    <script>
+        window.onload = function () {
+            pageload();
+        };
+
+        window.onclick = function () {
+            pageclick();
+        }
+
+    </script>
+
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="new_username.css">
     <title>New Username</title>
@@ -63,6 +76,11 @@
                     <button type="submit" class="btn btn-signup btn-lg btn-block">Change Username</button>
                 </div>
 
+            </div>
+
+            <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+            <div id="We're Werking on it text" hidden="true">
+                One moment, We're Werking on Your Network Connection...
             </div>
     </div>
     </div>
