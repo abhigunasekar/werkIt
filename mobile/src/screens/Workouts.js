@@ -32,13 +32,12 @@ export default class Workouts extends Component{
         this.listener = this.props.navigation.addListener('focus', () => {
             console.log('focus');
             setTimeout(() => serverMethods.getUserWorkouts(this.state.username)
-            .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                this.setState({ workouts: response })
-            }), 100); // why is there a timeout here
-        })
-        // this.setState({ workouts: response });
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response)
+                    this.setState({ workouts: response })
+                }), 300);
+        });
     }
 
     componentWillUnmount() {

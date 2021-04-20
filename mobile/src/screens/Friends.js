@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Pressable } from 'react-native';
+import { View, Text, ScrollView, Pressable, Modal } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 import Button from '../components/Button';
@@ -16,7 +16,8 @@ export default class Friends extends Component {
         this.state = {
             username: this.props.username,
             friends: [],
-            new_friend: ''
+            new_friend: '',
+            modalVisible: false,
         };
 
         this.check_friend = this.check_friend.bind(this);
@@ -65,6 +66,8 @@ export default class Friends extends Component {
                 <Button
                     key={i}
                     buttonText={this.state.friends[i]}
+                    onPress={() => this.setState({ modalVisible: true })}
+                    darkmode={this.props.darkmode}
                     purple={true}
                 />
             )
@@ -95,6 +98,35 @@ export default class Friends extends Component {
                     purple={true}
                     onPress={() => this.check_friend()}
                 />
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                >
+                    <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                        <View style={this.props.darkmode ? dark.modalView : light.modalView}>
+                            <Button
+                                buttonText='Send workout plan'
+                                onPress={() => this.setState({ modalVisible: false })}
+                                darkmode={this.props.darkmode}
+                                purple
+                            />
+                            <Button
+                                buttonText='Send fitness challenge'
+                                onPress={() => this.setState({ modalVisible: false })}
+                                darkmode={this.props.darkmode}
+                                purple
+                            />
+                            <Button
+                                buttonText='Cancel'
+                                onPress={() => this.setState({ modalVisible: false })}
+                                darkmode={this.props.darkmode}
+                                gray
+                            />
+
+                        </View>
+                    </View>
+                </Modal>
                 </View>
                 <ScrollView style={{width: '80%', height: '70%'}} contentContainerStyle={{alignItems: 'center'}}>
                     {(friendsList.length === 0) ? <Text style={this.props.darkmode ? dark.text : light.text}>Add some friends!</Text> : friendsList}
