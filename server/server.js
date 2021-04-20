@@ -426,8 +426,17 @@ app.get('/:username/friends', (req, res) => {
     mc.get_friends(req.params.username).then(friends => {
         console.log("Successfully found friends");
         res.status(200).json(friends);
-    })
-})
+    });
+});
+
+// save plan or challenge request 
+app.post('/:username/request', (req, res) => {
+    console.log("Sending " + req.body.type + " request to friend " + req.body.friend);
+    mc.send_request(req.params.username, req.body).then(_ => {
+        console.log("Successfully sent request");
+        res.status(200).end();
+    });
+});
 
 
 app.listen(port, ip, function () {

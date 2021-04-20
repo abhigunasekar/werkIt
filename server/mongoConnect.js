@@ -37,12 +37,12 @@ const userSchema = new mongoose.Schema({
         { type: mongoose.Schema.Types.ObjectId, ref: "ConnectedFriends"}
     ],
     plan_requests: [
-        { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends' },
-        { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' }
+        {friend: { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends' },
+        plan: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' }}
     ],
     challenges: [
-        Number,
-        { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends'}
+        {num: Number,
+        friend: { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends'}}
     ]
 }, { versionKey: false });
 
@@ -819,6 +819,30 @@ async function get_friends(username) {
     return friends;
 }
 
+async function send_request(username, req_body) {
+    var user = await get_user_obj(username);
+    var friend = await get_user_obj(req_body.friend);
+    if (req_body.type.localeCompare("plan") == 0) {
+        var plan = await get_workout_plan(username, req_body.plan)
+        var obj = {friend: user._id, plan: plan._id};
+        var requests = user.plan_requests;
+        requests.push(obj);
+        return await User.findByIdAndUpdate(
+            friend._id, {plan_requests: requests}, {new: true}
+        ).exec();
+    } else if (req_body.type.localeCompare("challenge") == 0) {
+        var obj = {num: req_body.num, friend: user._id};
+        var requests = user.challenges;
+        requests.push(obj);
+        return await User.findByIdAndUpdate(
+            friend._id, {challenges: requests}, {new: true}
+        ).exec();
+    } else if (req.body.type.localeCompare("friend") == 0) {
+        // TODO implement friend request
+        return 0;
+    }
+}
+
 
 module.exports = {
     save_new_account_data,
@@ -858,6 +882,7 @@ module.exports = {
     get_friends,
     get_geochart_data,
     get_line_chart_data,
-    get_col_chart_data
+    get_col_chart_data,
+    send_request
     // validate_email
 }
