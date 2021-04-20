@@ -407,7 +407,7 @@ async function save_workout(username, w_name, w_type, exercises) {
 
     // add list of exercises to the workout
     for (var e of exercises) {
-        await save_new_exercise(username, w_name, e.e_name, e.data);
+        await save_new_exercise(username, w_name, e.name, e.data);
     }
 }
 
