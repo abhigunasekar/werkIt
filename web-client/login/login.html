@@ -46,19 +46,19 @@
 
     </script>
 
-<script>
+    <script>
     // Loading Symbol -- Please Uncomment Before Sprint Review
 
-    /* checkNetworkConnection();
-            document.getElementById("We're Werking on it...").hidden = false;
-            document.getElementById("We're Werking on it text").hidden = false; */
+        /* checkNetworkConnection();
+                document.getElementById("We're Werking on it...").hidden = false;
+                document.getElementById("We're Werking on it text").hidden = false; */
 
         /* if (!checkNetworkConnectionCaller()) {
                 event.preventDefault();
                 // document.getElementById("We're Werking on it...").hidden = false;
                 // document.getElementById("We're Werking on it...").hidden = true;
             } */
-</script>
+    </script>
 
 </head>
 
@@ -113,9 +113,11 @@
             </div>
         </form>
     </div>
-    <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
-    <div id="We're Werking on it text" hidden="true">
-        One moment, We're Werking on Your Network Connection...
+    <div class="center">
+        <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+        <div id="We're Werking on it text" hidden="true">
+            One moment, We're Werking on Your Network Connection...
+        </div>
     </div>
     <script>
         $("#submit-btn").click(function (event) {
