@@ -5,6 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import Button from '../components/Button';
 import Textbox from '../components/TextBox';
 import * as serverMethods from '../ServerMethods';
+import { friendExistsError, friendDNEError } from '../components/Alerts';
 
 import light from '../light';
 import dark from '../dark';
@@ -25,7 +26,7 @@ export default class Friends extends Component {
     
     componentDidMount() {
         //server call to get friends list
-        console.log("gettin friends");
+        console.log("getting friends");
         serverMethods.getFriends(this.state.username)
             .then(response => response.json())
             .then(response => {
@@ -47,13 +48,18 @@ export default class Friends extends Component {
         var body = { "friend_user": this.state.new_friend};
         serverMethods.addFriend(this.state.username, body)
             .then(response => {
-                console.log(response);
-                console.log("yay new friend");
-                serverMethods.getFriends(this.state.username)
-                .then(response => response.json())
-                .then(response => {
-                    this.setState({friends: response})
-                });
+                if (response.status == 400) {
+                    friendDNEError(this.state.new_friend);
+                } else if (response.status == 401) {
+                    friendExistsError(this.state.new_friend);
+                } else {
+                    console.log("yay new friend");
+                    serverMethods.getFriends(this.state.username)
+                    .then(response => response.json())
+                    .then(response => {
+                        this.setState({friends: response})
+                    });
+                }
             });
         
     }
