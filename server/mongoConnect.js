@@ -840,7 +840,7 @@ async function send_request(username, req_body) {
             if (err) return console.error(err);
         });
 
-        var requests = user.plan_requests;
+        var requests = friend.plan_requests;
         requests.push(request);
         return await User.findByIdAndUpdate(
             friend._id, {plan_requests: requests}, {new: true}
@@ -855,7 +855,7 @@ async function send_request(username, req_body) {
             if (err) return console.error(err);
         });
 
-        var requests = user.challenges;
+        var requests = friend.challenges;
         requests.push(request);
         return await User.findByIdAndUpdate(
             friend._id, {challenges: requests}, {new: true}
