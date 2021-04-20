@@ -1,4 +1,4 @@
-const address = '10.0.0.48';
+const address = '10.0.0.86';
 
 export async function createAccount(info) {
     console.log('create account');
@@ -251,5 +251,17 @@ export function addFriend(username, newFriend) {
             'Content-Type' : 'application/json'
         },
         body: JSON.stringify(newFriend)
+    });
+}
+
+export function sendRequest(username, request) {
+    console.log("send request in server methods called")
+    return fetch('http://' + address + ':8000/' + username + '/request', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(request)
     });
 }

@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "10.0.0.48";
+const ip = "10.0.0.86";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -432,6 +432,7 @@ app.get('/:username/friends', (req, res) => {
 // save plan or challenge request 
 app.post('/:username/request', (req, res) => {
     console.log("Sending " + req.body.type + " request to friend " + req.body.friend);
+    console.log(req.body)
     mc.send_request(req.params.username, req.body).then(_ => {
         console.log("Successfully sent request");
         res.status(200).end();
