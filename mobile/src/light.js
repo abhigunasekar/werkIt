@@ -239,4 +239,14 @@ export default StyleSheet.create({
         alignItems: 'center',
         paddingTop: 300
     },
+    lightTextHeader: {
+        color: 'black',
+        fontFamily: "Avenir-Heavy",
+        fontSize: 20
+    },
+    lightTextBase: {
+        color: 'black',
+        fontFamily: "Avenir-HeavyOblique",
+        fontSize: 20
+    },
 })

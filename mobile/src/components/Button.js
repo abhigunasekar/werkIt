@@ -48,6 +48,15 @@ export default class Button extends Component {
                     <MaterialCommunityIcons name="fingerprint" size={24} color="black" />
                 </Pressable>
                 );
+        } else if (this.props.send) {
+            return (
+                <Pressable
+                    onPress={() => this.props.onPress()}
+                    style={this.props.style}
+                >
+                    <MaterialCommunityIcons name="send" size={24} color="black" />
+                </Pressable>
+            );
         } else {
             return null;
         }
