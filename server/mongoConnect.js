@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     loc: String,
     dark_mode: Boolean,
     streak_counter: Number,
+    challenges_won: Number,
     active_plan: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' },
     weekly_plan: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' }
@@ -34,6 +35,14 @@ const userSchema = new mongoose.Schema({
     ],
     friends_list: [
         { type: mongoose.Schema.Types.ObjectId, ref: "ConnectedFriends"}
+    ],
+    plan_requests: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends' },
+        { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' }
+    ],
+    challenges: [
+        Number,
+        { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends'}
     ]
 }, { versionKey: false });
 
@@ -140,7 +149,10 @@ async function save_new_account_data(u_name, req_body) {
         active_plan: null,
         weekly_plan: [],
         completed_workouts: [],
-        streak_counter: 0
+        streak_counter: 0,
+        challenges_won: 0,
+        plan_requests: [],
+        challenges: []
     });
 
     user.save().then(_ => {
