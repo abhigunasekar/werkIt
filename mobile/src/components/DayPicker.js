@@ -27,6 +27,7 @@ export default class DayPicker extends Component {
                     itemStyle={{justifyContent: 'flex-start'}}
                     labelStyle={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}
                     dropDownStyle={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
+                    arrowColor={this.props.darkmode ? '#FFFFFF' : '#000000'}
                     onChangeItem={(item) => {
                         this.props.select(item.value)
                     }}

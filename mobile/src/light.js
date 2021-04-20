@@ -111,6 +111,10 @@ export default StyleSheet.create({
         alignItems: 'center',
         height: '100%'
     },
+    workoutTrackerContainer: {
+        alignItems: 'center',
+        height: '100%'
+    },
     button: {
         alignItems: 'center',
         borderWidth: 2,
@@ -234,5 +238,15 @@ export default StyleSheet.create({
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
         paddingTop: 300
+    },
+    lightTextHeader: {
+        color: 'black',
+        fontFamily: "Avenir-Heavy",
+        fontSize: 20
+    },
+    lightTextBase: {
+        color: 'black',
+        fontFamily: "Avenir-HeavyOblique",
+        fontSize: 20
     },
 })

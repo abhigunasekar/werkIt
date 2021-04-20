@@ -15,7 +15,6 @@ export default class WorkoutPlans extends Component {
         this.state = {
             username: this.props.username,
             workoutPlans: [],
-            style: this.props.darkmode ? dark : light
         }
     }
 
@@ -29,12 +28,12 @@ export default class WorkoutPlans extends Component {
         this.listener = this.props.navigation.addListener('focus', () => {
             console.log('focus');
             setTimeout(() => serverMethods.getUserWorkoutPlans(this.state.username)
-            .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                this.setState({ workoutPlans: response })
-            }), 100);
-        })
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response)
+                    this.setState({ workoutPlans: response })
+                }), 300);
+        });
     }
 
     componentWillUnmount() {
@@ -50,14 +49,15 @@ export default class WorkoutPlans extends Component {
                 <WorkoutLabel
                     key={i}
                     name={workoutPlan}
-                    edit={() => this.props.navigation.navigate('WorkoutPlanEditor', { workoutPlan: workoutPlan })} //server call to get workouts given name
+                    darkmode={this.props.darkmode}
+                    edit={() => this.props.navigation.navigate('WorkoutPlanEditor', { username: this.state.username, workoutPlan: workoutPlan, edit: true })} //server call to get workouts given name
                 />
             );
         }
         return(
-            <View style={this.state.style.workoutsContainer}>
-                <ScrollView style={this.state.style.workoutList} contentContainerStyle={{alignItems: 'center'}}>
-                    <Text style={[{fontSize: 15}, this.state.style.text]}>{(this.state.workoutPlans.length !== 0) ? "" : "Create a new workout plan to get started!"}</Text>
+            <View style={this.props.darkmode ? dark.workoutsContainer : light.workoutsContainer}>
+                <ScrollView style={this.props.darkmode ? dark.workoutList : light.workoutList} contentContainerStyle={{alignItems: 'center'}}>
+                    <Text style={[{fontSize: 15}, this.props.darkmode ? dark.text : light.text]}>{(this.state.workoutPlans.length !== 0) ? "" : "Create a new workout plan to get started!"}</Text>
                     {workoutPlanList}
                 </ScrollView>
                 <Button

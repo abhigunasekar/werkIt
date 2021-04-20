@@ -16,7 +16,7 @@ export default class WorkoutPlanEditor extends Component {
         super(props);
 
         this.state = {
-            name: '',
+            name: this.props.route.params.workoutPlan === undefined ? '' : this.props.route.params.workoutPlan,
             monday: '',
             tuesday: '',
             wednesday: '',
@@ -25,12 +25,12 @@ export default class WorkoutPlanEditor extends Component {
             saturday: '',
             sunday: '',
             savedWorkouts: [],
-            style: this.props.darkmode ? dark : light,
         }
     }
 
     componentDidMount() {
         console.log('mounted')
+        //server call to get workout plan information if user decides to edit the workout plan
         serverMethods.getUserWorkouts(this.props.route.params.username)
         .then(response => response.json())
         .then(response => {
@@ -45,7 +45,7 @@ export default class WorkoutPlanEditor extends Component {
     render() {
         return(
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <View style={this.state.style.workoutPlanEditorContainer}>
+                <View style={this.props.darkmode ? dark.workoutPlanEditorContainer : light.workoutPlanEditorContainer}>
                     <TextBox
                         placeholder='Workout Plan Name'
                         value={this.state.name}
@@ -123,7 +123,11 @@ export default class WorkoutPlanEditor extends Component {
                                 if (this.state.name === '') {
                                     missingNameError();
                                 } else {
-                                    serverMethods.createWorkoutPlan(this.props.route.params.username, { name: this.state.name, Monday: this.state.monday, Tuesday: this.state.tuesday, Wednesday: this.state.wednesday, Thursday: this.state.thursday, Friday: this.state.friday, Saturday: this.state.saturday, Sunday: this.state.sunday });
+                                    if (this.props.params.edited) {
+                                        serverMethods.editWorkoutPlan(this.props.route.params.username, this.props.route.params.workout, { name: this.state.name, Monday: this.state.monday, Tuesday: this.state.tuesday, Wednesday: this.state.wednesday, Thursday: this.state.thursday, Friday: this.state.friday, Saturday: this.state.saturday, Sunday: this.state.sunday });
+                                    } else {
+                                        serverMethods.createWorkoutPlan(this.props.route.params.username, { name: this.state.name, Monday: this.state.monday, Tuesday: this.state.tuesday, Wednesday: this.state.wednesday, Thursday: this.state.thursday, Friday: this.state.friday, Saturday: this.state.saturday, Sunday: this.state.sunday });
+                                    }
                                     this.props.navigation.navigate('WorkoutPlans');
                                 }
                             }}

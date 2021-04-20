@@ -6,6 +6,8 @@ import MotivationalQuote from './src/screens/MotivationalQuote';
 import LoginStackNavigator from './src/stackNavigators/LoginStackNavigator';
 import DrawerNavigator from './src/DrawerNavigator';
 
+import * as serverMethods from './src/ServerMethods';
+
 export default class App extends Component {
     constructor() {
         super();
@@ -24,6 +26,7 @@ export default class App extends Component {
         this.logout = this.logout.bind(this);
         this.persist = this.persist.bind(this);
         this.getToken = this.getToken.bind(this);
+        this.updateDarkmode = this.updateDarkmode.bind(this);
     }
 
     async componentDidMount() {
@@ -47,8 +50,13 @@ export default class App extends Component {
                 console.log('setToken error: ' + error);
             }
         }
-
-        this.setState({ isLoggedIn: true, username: user });
+        serverMethods.getUserField(user, "dark_mode")
+                    .then(response => response.json())
+                    .then(response => {
+                        console.log('response is: ' + response)
+                        this.setState({ darkmode: response.dark_mode, isLoggedIn: true, username: user })
+                    });
+        //this.setState({ isLoggedIn: true, username: user });
     }
 
     async logout() {
@@ -70,6 +78,9 @@ export default class App extends Component {
                 console.log('token is not null')
                 this.setState({ username: loginToken });
                 //server call for dark mode?
+                serverMethods.getUserField(loginToken, "dark_mode")
+                    .then(response => response.json())
+                    .then(response => this.setState({ darkmode: response.dark_mode }));
                 return true;
             } else {
                 return false;
@@ -77,6 +88,12 @@ export default class App extends Component {
         } catch (error) {
             console.log('getToken error:' + error);
         }
+    }
+
+    updateDarkmode() {
+        this.setState({ darkmode: !this.state.darkmode });
+        //maybe i don't need to force update?
+        this.forceUpdate();
     }
 
     render() {
@@ -94,7 +111,7 @@ export default class App extends Component {
             }
             else {
                 return (
-                    <DrawerNavigator logout={this.logout} username={this.state.username} darkmode={this.state.darkmode}/>
+                    <DrawerNavigator logout={this.logout} username={this.state.username} darkmode={this.state.darkmode} updateDarkmode={this.updateDarkmode}/>
                 );
             }
         }

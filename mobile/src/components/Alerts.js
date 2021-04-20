@@ -179,3 +179,68 @@ export const incompleteFormError = () => {
         ]
     )
 }
+
+export const incompleteWorkoutError = (navigate) => {
+    Alert.alert(
+        '',
+        'You haven\'t finished every exercise yet!',
+        [
+            {
+                text: 'Finish anyway',
+                onPress: () => navigate(),
+                style: 'destructive'
+            },
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const friendExistsError = (friend_name) => {
+    Alert.alert(
+        '',
+        'You are already friends with ' + friend_name + '!',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const friendDNEError = (friend_name) => {
+    Alert.alert(
+        '',
+        'The username ' + friend_name + ' does not exist!  Friend not added.',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const workout_plan_sent = (friend_name) => {
+    Alert.alert(
+        '',
+        'Successfully sent workout plan to ' + friend_name + ' !',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const challenge_sent = (friend_name) => {
+    Alert.alert(
+        '',
+        'Successfully sent fitness challenge to ' + friend_name + ' !',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}

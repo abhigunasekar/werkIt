@@ -1,4 +1,4 @@
-const address = '10.186.151.176';
+const address = '10.0.0.86';
 
 export async function createAccount(info) {
     console.log('create account');
@@ -150,5 +150,118 @@ export function updateActiveWorkoutPlan(username, workoutPlan) {
             Accept: 'application/json',
             'Content-Type': 'application/json'
         }
+    });
+}
+
+export function getUserField(username, field) {
+    console.log('getting field: ' + field);
+    return fetch('http://' + address + ':8000/' + username + '/profile/' + field);
+}
+
+export function updateDarkmode(username) {
+    console.log('switching darkmode preferences for: ' + username);
+    return fetch('http://' + address + ':8000/user/' + username + '/darkmode', {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
+}
+
+export function getWorkout(username, workout) {
+    console.log('getting workout with name: ' + workout);
+    return fetch('http://' + address + ':8000/' + username + '/workout/' + workout);
+}
+
+export function deleteWorkout(username, workout) {
+    console.log('deleting workout: ' + workout);
+    return fetch('http://' + address + ':8000/' + username + '/' + workout + '/rm_wkout', {
+        method: 'DELETE',
+    });
+}
+
+export function deleteWorkoutPlan(username, workoutPlan) {
+    return fetch('http://' + address + ':8000/' + username + '/' + workoutPlan + '/rm_plan', {
+        method: 'DELETE',
+    })
+}
+
+export function deleteWorkoutType(username, workoutType) {
+    console.log('deleting workout type: ' + workoutType)
+    return fetch('http://' + address + ':8000/' + username + '/' + workoutType + '/rm_type', {
+        method: 'DELETE',
+    })
+}
+
+export function deleteExercise(username, workoutType, exercise) {
+    return fetch('http://' + address + ':8000/' + username + '/' + workoutType + '/' + exercise + '/rm_ex', {
+        method: 'DELETE',
+    })
+}
+
+export function editWorkout(username, oldName, workout) {
+    console.log('editing workout: ' + workout.name);
+    return fetch('http://' + address + ':8000/' + username + '/' + oldName + '/edit_workout', {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(workout)  
+    })
+}
+
+export function editWorkoutPlan(username, oldName, workoutPlan) {
+    console.log('editing workout plan: ' + workoutPlan.name)
+    return fetch('http://' + address + ':8000/' + username + '/' + oldName + '/edit_plan', {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(workoutPlan)
+    })
+}
+
+// this one is sus
+export function editWorkoutType(username, workoutType, newName) {
+    return fetch('http://' + address + ':8000/' + username + '/' + workoutType + '/edit_workoutType', {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(newName)
+    });
+}
+
+export function getFriends(username) {
+    return fetch('http://' + address + ':8000/' + username + '/friends', {
+        method: 'GET'
+    })
+}
+
+export function addFriend(username, newFriend) {
+    console.log("adding friend");
+    return fetch('http://' + address + ':8000/' + username + '/add_friend', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(newFriend)
+    });
+}
+
+export function sendRequest(username, request) {
+    console.log("send request in server methods called")
+    return fetch('http://' + address + ':8000/' + username + '/request', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(request)
     });
 }

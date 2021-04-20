@@ -20,6 +20,11 @@ export default StyleSheet.create({
         backgroundColor: '#3E3E3E',
         height: '100%',
     },
+    workoutTrackerContainer: {
+        alignItems: 'center',
+        backgroundColor: '#3E3E3E',
+        height: '100%'
+    },
     workoutPlanEditorContainer: {
         backgroundColor: '#3E3E3E',
         alignItems: 'center',
@@ -188,5 +193,15 @@ export default StyleSheet.create({
     },
     text: {
         color: '#FFFFFF'
+    },
+    darkTextBase: {
+        color: 'white',
+        fontFamily: "Avenir-HeavyOblique",
+        fontSize: 20
+    },
+    darkTextHeader: {
+        color: 'white',
+        fontFamily: "Avenir-Heavy",
+        fontSize: 20
     },
 })

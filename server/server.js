@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "127.0.0.1";
+const ip = "10.0.0.86";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -32,7 +32,7 @@ app.use(methodOverride('_method'));
 
 
 // check connection with server
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     console.log("Got GET request")
     res.status(200).end();
 });
@@ -310,6 +310,34 @@ app.get('/:username/histogram', (req, res) => {
     });
 });
 
+// get data for geochart
+app.get('/:username/geochart', (req, res) => {
+    console.log("Getting data for geochart");
+    mc.get_geochart_data(req.params.username).then(data => {
+        console.log("data found: " + data);
+        res.status(200).send(data);
+    });
+});
+
+// get data for line chart
+app.get('/:username/line_chart', (req, res) => {
+    console.log("Getting data for line chart");
+    mc.get_line_chart_data(req.params.username).then(data => {
+        console.log("data found: " + data);
+        res.status(200).send(data);
+    });
+});
+
+// get data for column chart
+app.get('/:username/col_chart', (req, res) => {
+    console.log("Getting data for column chart");
+    mc.get_col_chart_data(req.params.username).then(data => {
+        console.log("data found: " + data);
+        res.status(200).send(data);
+    });
+});
+
+
 // delete workout
 app.delete('/:username/:workout/rm_wkout', (req, res) => {
     console.log("Removing workout " + req.params.workout + " for user " + req.params.username);
@@ -340,8 +368,8 @@ app.delete('/:username/:type/rm_type', (req, res) => {
 // delete known exercise from workout type
 app.delete('/:username/:type/:exercise/rm_ex', (req, res) => {
     console.log("Removing exercise " + req.params.exercise +
-                " for workout type " + req.params.type +
-                " for user " + req.params.username);
+        " for workout type " + req.params.type +
+        " for user " + req.params.username);
     mc.remove_exercise(req.params.username, req.params.type, req.params.exercise).then(_ => {
         console.log("Exercise successfully removed");
         res.status(200).end();
@@ -375,7 +403,43 @@ app.patch('/:username/:type/edit_workoutType', (req, res) => {
     });
 });
 
+// add a friend
+app.post('/:username/add_friend', (req, res) => {
+    console.log("Adding friend " + req.body.friend_user + " for user " + req.params.username);
+    mc.add_friend(req.params.username, req.body.friend_user).then(rc => {
+        if (rc == 0) {
+            console.log("Successfully saved friend");
+            res.status(200).end();
+        } else if (rc == 1){
+            console.log("Friend requested does not exist");
+            res.status(400).end();
+        } else {
+            console.log("User is already friends with requested friend");
+            res.status(401).end();
+        }
+    });
+});
 
-app.listen(port, ip, function () {
+// get list of friends
+app.get('/:username/friends', (req, res) => {
+    console.log("Getting friends for user " + req.params.username);
+    mc.get_friends(req.params.username).then(friends => {
+        console.log("Successfully found friends");
+        res.status(200).json(friends);
+    });
+});
+
+// save plan or challenge request 
+app.post('/:username/request', (req, res) => {
+    console.log("Sending " + req.body.type + " request to friend " + req.body.friend);
+    console.log(req.body)
+    mc.send_request(req.params.username, req.body).then(_ => {
+        console.log("Successfully sent request");
+        res.status(200).end();
+    });
+});
+
+
+app.listen(port, ip, function() {
     console.log("Server listening on http://%s:%d", ip, port);
 });

@@ -240,9 +240,15 @@ h4 {
 
 .container {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
+    align-items: baseline;
+    align-content: space-between;
     margin-top: 3%;
+}
+
+.item {
+    flex-grow: 1;
 }
 
 .inner-container {
@@ -267,4 +273,8 @@ h5 {
     margin-top: 20%;
     margin-bottom: 10%;
     font-weight: bold;
+}
+
+.pie-container {
+    margin-bottom: 30%;
 }
