@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "10.0.0.86";
+const ip = "127.0.0.1";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -32,7 +32,7 @@ app.use(methodOverride('_method'));
 
 
 // check connection with server
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     console.log("Got GET request")
     res.status(200).end();
 });
@@ -410,7 +410,7 @@ app.post('/:username/add_friend', (req, res) => {
         if (rc == 0) {
             console.log("Successfully saved friend");
             res.status(200).end();
-        } else if (rc == 1){
+        } else if (rc == 1) {
             console.log("Friend requested does not exist");
             res.status(400).end();
         } else {
@@ -440,6 +440,6 @@ app.post('/:username/request', (req, res) => {
 });
 
 
-app.listen(port, ip, function() {
+app.listen(port, ip, function () {
     console.log("Server listening on http://%s:%d", ip, port);
 });

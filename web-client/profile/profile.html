@@ -15,6 +15,8 @@
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <meta name="color-scheme" content="dark light">
     <script src="https://kit.fontawesome.com/83e160a4ed.js" crossorigin="anonymous"></script>
+    <!-- Made by Vivek 04/18/2021 to reintegrate camera/profile pic functionality-->
+    <script type="text/javascript" src="./camera.js"></script>
 
 
     <title>Werk It</title>
@@ -30,7 +32,7 @@
 
 </head>
 
-<body>
+<body onload=initialize()>
     <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -57,6 +59,21 @@
             <hr>
 
             <div class="container form-group panel panel-primary">
+
+                <div class="text-center" id="container">
+                    <div class="camera">
+                        <video id="video" hidden>Video stream not available.</video>
+                        <label for="updateProfile">
+                          <img id="profilePic" title="Click to give ya self a new look!" class="profile"/>
+                        </label>
+                        <img id="photo" alt="The screen capture will appear in this box." class="profilePicture" hidden>
+                    </div>
+                    <canvas id="canvas" hidden>
+                    </canvas>
+                    
+                    <input type="file" id="updateProfile" onchange="updateProfilePic()" name="" hidden/>
+                </div>
+
                 <div class="input-group form-row col-lg-12">
                     <label for="name" id="lFName">Name</label>
                     <input type="text" class="form-control mx-sm-3" id="name" name="username" value="" readonly>

@@ -49,11 +49,11 @@ export default class App extends Component {
             }
         }
         serverMethods.getUserField(user, "dark_mode")
-                    .then(response => response.json())
-                    .then(response => {
-                        console.log('response is: ' + response)
-                        this.setState({ darkmode: response.dark_mode, isLoggedIn: true, username: user })
-                    });
+            .then(response => response.json())
+            .then(response => {
+                console.log('response is: ' + response)
+                this.setState({ darkmode: response.dark_mode, isLoggedIn: true, username: user })
+            });
         //this.setState({ isLoggedIn: true, username: user });
     }
 
@@ -95,6 +95,7 @@ export default class App extends Component {
     }
 
     render() {
+
         // pass style down based on preference
         if (!this.state.isLoaded) {
             return (
@@ -103,12 +104,12 @@ export default class App extends Component {
         } else {
             if (!this.state.isLoggedIn) {
                 return (
-                    <LoginStackNavigator login={this.login} persist={this.persist}/>
+                    <LoginStackNavigator login={this.login} persist={this.persist} logout={this.logout} />
                 );
             }
             else {
                 return (
-                    <DrawerNavigator logout={this.logout} username={this.state.username} darkmode={this.state.darkmode} updateDarkmode={this.updateDarkmode}/>
+                    <DrawerNavigator logout={this.logout} username={this.state.username} darkmode={this.state.darkmode} updateDarkmode={this.updateDarkmode} />
                 );
             }
         }

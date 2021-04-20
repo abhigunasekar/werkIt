@@ -33,6 +33,7 @@ export default class DashboardStackNavigator extends Component {
                 >
                     {props => <Dashboard {...props} logout={this.props.logout} username={this.props.username} darkmode={this.props.darkmode}/>}
                 </Stack.Screen>
+<<<<<<< HEAD
                 <Stack.Screen
                     name='Workout Tracker'
                     options={{
@@ -43,6 +44,12 @@ export default class DashboardStackNavigator extends Component {
                     }}
                 >
                     {props => <WorkoutTracker {...props} username={this.props.username} darkmode={this.props.darkmode}/>}
+=======
+                <Stack.Screen 
+                    name='Login'
+                >
+                    {props => <Login {...props} login={this.props.login} persist={this.props.persist}/>}
+>>>>>>> 541ea563386d60cca05f8993e7587b924610ffe5
                 </Stack.Screen>
             </Stack.Navigator>
         );
