@@ -281,7 +281,7 @@
                 width: '700',
                 height: '400',
                 chartArea: {
-                    width: '100%'
+                    width: '70%'
                 },
             };
 
@@ -374,7 +374,7 @@
 
 
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Day');
+            data.addColumn('string', 'Day');100
             data.addColumn('number', 'Duration');
             data.addRows(arr);
 
@@ -603,6 +603,26 @@
             }
         });
 
+        async function updateChallenge() {
+            let user = localStorage.getItem("user");
+            let url = 'http://127.0.0.1:8000/profile/' + user;
+            let res = await fetch(url);
+
+            if (res.ok) {
+                let text = await res.text();
+                return text;
+            } else {
+                return `HTTP error: ${res.status}`;
+            }
+        }
+
+        updateChallenge().then(data => {
+            var json = JSON.parse(data);
+            var trophy = document.getElementById('challenge');
+            var challengesWon = json.challenges_won;
+            trophy.innerHTML = " " + challengesWon;
+        });
+
         var counter = document.querySelector('h3');
         var count = 0;
         var goal = document.getElementById('progress');
@@ -701,8 +721,6 @@
             // }
 
         }
-        var trophy = document.getElementById('challenge');
-        trophy.innerHTML = " " + 1;
     </script>
 </body>
 
