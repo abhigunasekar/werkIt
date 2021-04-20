@@ -194,4 +194,14 @@ export default StyleSheet.create({
     text: {
         color: '#FFFFFF'
     },
+    darkTextBase: {
+        color: 'white',
+        fontFamily: "Avenir-HeavyOblique",
+        fontSize: 20
+    },
+    darkTextHeader: {
+        color: 'white',
+        fontFamily: "Avenir-Heavy",
+        fontSize: 20
+    },
 })

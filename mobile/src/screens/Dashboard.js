@@ -8,7 +8,7 @@ import Button from '../components/Button';
 import * as serverMethods from '../ServerMethods';
 import light from '../light';
 import dark from '../dark';
-
+  
 export default class Dashboard extends Component {
     constructor(props) {
         super(props);
@@ -77,6 +77,102 @@ export default class Dashboard extends Component {
         this.listener();
     }
 
+    nextUpcomingWorkout(currentActive) {
+        var nextWorkout = '';
+        if (this.state.day == 'Sunday') {
+            if (currentActive.activeWorkoutPlan.Monday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Monday + " on Monday\n";
+                console.log("the next workout is on monday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Tuesday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Tuesday + " on Tuesday\n";
+                console.log("the next workout is on tuesday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Wednesday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Wednesday + " on Wednesday\n";
+                console.log("the next workout is on wednesday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Thursday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Thursday + " on Thursday\n";
+                console.log("the next workout is on thursday: " + nextWorkouts);
+            }
+            if (currentActive.activeWorkoutPlan.Friday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Friday + " on Wednesday\n";
+                console.log("the next workout is on friday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Saturday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
+                console.log("the next workout is on saturday: " + nextWorkout);
+            }
+        } else if (this.state.day == 'Monday') {
+            if (currentActive.activeWorkoutPlan.Tuesday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Tuesday + " on Tuesday\n";
+                console.log("the next workout is on tuesday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Wednesday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Wednesday + " on Wednesday\n";
+                console.log("the next workout is on wednesday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Thursday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Thursday + " on Thursday\n";
+                console.log("the next workout is on thursday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Friday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Friday + " on Friday\n";
+                console.log("the next workout is on friday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Saturday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
+                console.log("the next workout is on saturday: " + nextWorkout);
+            }
+        } else if (this.state.day == 'Tuesday') {
+            if (currentActive.activeWorkoutPlan.Wednesday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Wednesday + " on Wednesday\n";
+                console.log("the next workout is on wednesday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Thursday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Thursday + " on Thursday\n";
+                console.log("the next workout is on thursday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Friday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Friday + " on Friday\n";
+                console.log("the next workout is on friday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Saturday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
+                console.log("the next workout is on saturday: " + nextWorkout);
+            }
+        } else if (this.state.day == 'Wednesday') {
+            if (currentActive.activeWorkoutPlan.Thursday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Thursday + " on Thursday\n";
+                console.log("the next workout is on thursday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Friday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Friday + " on Friday\n";
+                console.log("the next workout is on friday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Saturday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
+                console.log("the next workout is on saturday: " + nextWorkout);
+            }
+        } else if (this.state.day == 'Thursday') {
+            if (currentActive.activeWorkoutPlan.Friday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Friday + " on Friday\n";
+                console.log("the next workout is on friday: " + nextWorkout);
+            }
+            if (currentActive.activeWorkoutPlan.Saturday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
+                console.log("the next workout is on saturday: " + nextWorkout);
+            }
+        } else if (this.state.day == 'Friday') {
+            if (currentActive.activeWorkoutPlan.Saturday !== "") {
+                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
+                console.log("the next workout is on saturday: " + nextWorkout);
+            }
+        }
+        return nextWorkout;
+    }
+
     render() {
         let today = new Date();
         //let day = today.getDay();
@@ -115,6 +211,7 @@ export default class Dashboard extends Component {
                 <Text>{today}</Text>
                 <Text>Today is: {this.state.day}</Text>
                 <Text>{((this.state.workout === undefined) || (this.state.workout === '')) ? 'You don\'t have a workout today' : 'Todays workout is: ' + this.state.workout}</Text>
+
                 {(this.state.workout === undefined) || (this.state.workout === '') ? null : 
                     <Button
                     buttonText='START'
@@ -123,6 +220,10 @@ export default class Dashboard extends Component {
                     gray={true}
                     />
                 }
+                <Text></Text>
+                <Text style={[this.props.darkmode ? dark.darkTextHeader : light.lightTextHeader]}>Your upcoming workout is/are:</Text>
+                <Text style={[this.props.darkmode ? dark.darkTextBase : light.lightTextBase]}>{(this.nextUpcomingWorkout(this.state) === '' || this.nextUpcomingWorkout(this.state) === undefined) ? 'You have no upcoming workout this week' : this.nextUpcomingWorkout(this.state)}</Text>
+
             </View>
         );
     }

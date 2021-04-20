@@ -1,4 +1,4 @@
-const address = '10.192.30.111';
+const address = '10.0.0.48';
 
 export async function createAccount(info) {
     console.log('create account');
@@ -251,4 +251,22 @@ export function completeWorkout(username, workout) {
         },
         body: JSON.stringify(workout)
     })
+}
+
+export function getFriends(username) {
+    return fetch('http://' + address + ':8000/' + username + '/friends', {
+        method: 'GET'
+    })
+}
+
+export function addFriend(username, newFriend) {
+    console.log("adding friend");
+    return fetch('http://' + address + ':8000/' + username + '/add_friend', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(newFriend)
+    });
 }

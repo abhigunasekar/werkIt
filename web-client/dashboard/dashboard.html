@@ -33,6 +33,7 @@
             background: purple;
         }
     </style>
+
     <title>Werk It</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
@@ -61,7 +62,7 @@
 
             progressBar.value = actual;
             progressBar.max = expected;
-            console.log('actual = ' + actual);
+            //console.log('actual = ' + actual);
             if (actual == 3) {
                 alert("Nice Job! You Completed On Average 3 Workouts This Week");
             }
@@ -129,7 +130,7 @@
         // Geo-Chart for Location
         async function geoRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let url = 'http://127.0.0.1:8000/' + user + '/geochart';
             let res = await fetch(url);
 
             if (res.ok) {
@@ -142,7 +143,7 @@
 
         geoRequest().then(data => {
             //console.log(data);
-            //chartData = JSON.parse(data);
+            geoData = JSON.parse(data);
             //console.log(chartData);
             google.charts.load('current', {
                 packages: ['geochart'],
@@ -152,15 +153,48 @@
 
         });
 
-        function drawGeoChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['State', 'Location Scale'],
-                ['US-IL', 'You'],
-                ['US-IN', 'Friend 1'],
-                ['US-IA', 'Friend 2'],
-                ['US-RI', 'Friend 3'],
+        //------------------------------------------------------------------------------------------------------------------
 
-            ]);
+        // const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
+        //     console.log(arr);
+
+
+        //     var data = new google.visualization.DataTable();
+        //     data.addColumn('string', 'Day');
+        //     data.addColumn('number', 'Duration');
+        //     data.addRows(arr);
+
+        //     var options = {
+        //         titleTextStyle: {
+        //             fontSize: 20,
+        //         },
+        //         title: 'Weekly Workout Time',
+        //         chartArea: {
+        //             width: '60%'
+        //         },
+        //         hAxis: {
+        //             title: 'Workout Time (in minutes)',
+        //             minValue: 0
+        //         },
+        //         vAxis: {
+        //             title: 'Day'
+        //         },
+        //         colors: ['#7641BD'],
+        //     };
+
+        //     var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+        //     chart.draw(data, options);
+
+        function drawGeoChart() {
+            var data = new google.visualization.DataTable();
+            const arr = Object.keys(geoData).map((key) => [geoData[key], key]);
+            //console.log(arr);
+
+            data.addColumn('string', 'State');
+            data.addColumn('string', 'Name');
+            data.addRows(arr);
+
             var geochart = new google.visualization.GeoChart(document.getElementById('geo_div'));
 
             geochart.draw(data, {
@@ -177,7 +211,7 @@
         // Line-Chart for Workouts of user vs friends
         async function lineRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let url = 'http://127.0.0.1:8000/' + user + '/line_chart';
             let res = await fetch(url);
 
             if (res.ok) {
@@ -190,7 +224,9 @@
 
         lineRequest().then(data => {
             //console.log(data);
-            //chartData = JSON.parse(data);
+            chartData = JSON.parse(data);
+            //console.log(data);
+            //console.log('line data');
             //console.log(chartData);
             google.charts.load('current', {
                 'packages': ['corechart']
@@ -200,24 +236,44 @@
         });
 
         function drawLineChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Number of Workouts', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
-                ['Mon', 1, 2, 3, 4],
-                ['Tue', 4, 5, 6, 5],
-                ['Wed', 7, 8, 9, 6],
-                ['Thur', 10, 11, 12, 7],
-                ['Fri', 10, 11, 12, 7],
-                ['Sat', 10, 11, 12, 7],
-                ['Sun', 10, 11, 12, 7]
+            // var data = google.visualization.arrayToDataTable([
+            //     ['Number of Workouts', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
+            //     ['Mon', 1, 2, 3, 4],
+            //     ['Tue', 4, 5, 6, 5],
+            //     ['Wed', 7, 8, 9, 6],
+            //     ['Thur', 10, 11, 12, 7],
+            //     ['Fri', 10, 11, 12, 7],
+            //     ['Sat', 10, 11, 12, 7],
+            //     ['Sun', 10, 11, 12, 7]
 
-            ]);
-            var geochart = new google.visualization.GeoChart(document.getElementById('curve_chart'));
+            // ]);
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Day');
+
+
+            /// loop to add columns
+            for (var people in chartData['People']) {
+                data.addColumn('number', chartData['People'][people]);
+            }
+            var array = [];
+            for (var key in chartData) {
+                if (key == 'People') {
+
+                } else {
+                    array.push(key);
+                    for (let j = 0; j < chartData[key].length; j++) {
+                        array.push(chartData[key][j]);
+                    }
+                    data.addRow(array);
+                    array = [];
+                }
+            }
 
             var options = {
                 titleTextStyle: {
                     fontSize: 15,
                 },
-                title: 'Comparison of Workouts between You and Your friends',
                 curveType: 'function',
                 legend: {
                     position: 'bottom'
@@ -225,9 +281,8 @@
                 width: '700',
                 height: '400',
                 chartArea: {
-                    left: 30,
-                    top: 30
-                }
+                    width: '70%'
+                },
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
@@ -239,7 +294,7 @@
         // Line-Chart for Workouts of user vs friends
         async function colRequest() {
             let user = localStorage.getItem("user");
-            let url = 'http://127.0.0.1:8000/' + user + '/histogram';
+            let url = 'http://127.0.0.1:8000/' + user + '/col_chart';
             let res = await fetch(url);
 
             if (res.ok) {
@@ -252,7 +307,7 @@
 
         colRequest().then(data => {
             //console.log(data);
-            //chartData = JSON.parse(data);
+            chartData = JSON.parse(data);
             //console.log(chartData);
             google.charts.load('current', {
                 'packages': ['bar']
@@ -262,23 +317,30 @@
         });
 
         function drawColChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Workout Type', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
-                ['Type 1', 10, 5, 15, 30],
-                ['Type 2', 20, 10, 20, 20],
-                ['Type 3', 30, 15, 25, 10],
-                ['Type 4', 40, 20, 30, 4],
+            // var data = google.visualization.arrayToDataTable([
+            //     ['Workout Type', 'You', 'Friend 1', 'Friend 2', 'Friend 3'],
+            //     ['Type 1', 10, 5, 15, 30],
+            //     ['Type 2', 20, 10, 20, 20],
+            //     ['Type 3', 30, 15, 25, 10],
+            //     ['Type 4', 40, 20, 30, 4],
 
-            ]);
+            // ]);
+            var data = new google.visualization.DataTable();
+            const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
+            console.log('correct arr...');
+            console.log(arr);
+
+            data.addColumn('string', 'Workout Type');
+            data.addColumn('number', 'Workouts Completed');
+            data.addRows(arr);
 
             var options = {
                 titleTextStyle: {
                     fontSize: 15,
                 },
-                title: 'Number of Workouts by Workout Types',
-                Subtitles: 'Comparison for current year (2021)',
                 width: '500',
-                height: '300',
+                height: '400',
+                colors: ['#7641bd'],
                 chartArea: {
                     left: 30,
                     top: 30
@@ -289,7 +351,7 @@
             chart.draw(data, google.charts.Bar.convertOptions(options));
         }
 
-        function drawBasic() {
+        /*function drawBasic() {
 
             // var data = google.visualization.arrayToDataTable([
             //     ['Day', 'Duration', ],
@@ -312,7 +374,7 @@
 
 
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Day');
+            data.addColumn('string', 'Day');100
             data.addColumn('number', 'Duration');
             data.addRows(arr);
 
@@ -337,7 +399,7 @@
             var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
 
             chart.draw(data, options);
-        }
+        }*/
 
         function drawBasic() {
 
@@ -368,11 +430,11 @@
 
             var options = {
                 titleTextStyle: {
-                    fontSize: 20,
+                    fontSize: 30,
                 },
                 title: 'Weekly Workout Time',
                 chartArea: {
-                    width: '60%'
+                    width: '70%',
                 },
                 hAxis: {
                     title: 'Workout Time (in minutes)',
@@ -380,6 +442,10 @@
                 },
                 vAxis: {
                     title: 'Day'
+                },
+                height: 500,
+                bar: {
+                    groupWidth: "95%"
                 },
                 colors: ['#7641BD']
             };
@@ -440,8 +506,10 @@
         <div class="collapse navbar-collapse navbar-main bg-main " id="navbarTogglerDemo03">
             <ul class="navbar-nav mx-auto mt-2 mt-lg-0 navbar-center">
                 <li class="navbar-brand mr-0 ">
-                    <a class="nav-link navbar-main bg-main " id="about" href="#">Dashboard</a>
+                    <a class="nav-link navbar-main bg-main " id="about" href="#">Dashboard <i class="fa fa-trophy" aria-hidden="true"><span id="challenge"></span></i>
+                    </a>
                 </li>
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <a href="../profile/profile.html" class="btn btn-outline-login my-2 my-sm-0 " type="submit">Profile</a>
@@ -451,47 +519,62 @@
 
         </div>
     </nav>
+
     <div class="container">
-        <div class="inner-container col-lg-6">
-            <div>
-                <h2>Weekly Goal</h2>
-                <progress value="" max="" id="progress"> </progress>
-            </div>
-            <div>
-                <h2>Workout Streak Counter</h2>
-                <input id="streak" type="number" value="" disabled></input>
-            </div>
-            <div id="">
-                <h5>Weekly Workout Time Per Day</h5>
-                <div id="pie_div"></div>
-            </div>
-            <div>
-                <div id="columnchart_material" style=""></div>
-            </div>
+        <!-- <div class="inner-container col-lg-6"> -->
+        <div class="item col-lg-6">
+            <h2>Weekly Goal</h2>
+            <progress value="" max="" id="progress"> </progress>
         </div>
-
-        <div class="inner-container col-lg-6">
-            <div id="">
-                <div class="text-right" id="chart_div"></div>
-            </div>
-            <div style="color:white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda, recusandae quasi culpa est molestiae, unde aut eum mollitia non quidem omnis reiciendis tempore neque facilis laudantium quam amet illum deleniti.</div>
-
-            <div id="">
-                <div></div>
-                <h4 class="text-center font-weight-bold">Location of Friends</h4>
-                <div class="text-left" id="geo_div"></div>
-            </div>
-            <div style="color:white">
-                <div class="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel in pariatur veniam nam, incidunt repudiandae hic odio architecto quos aut autem, expedita earum numquam praesentium quasi saepe soluta maiores obcaecati?</div>
-            </div>
-            <div id="">
-                <div class="text-left" id="curve_chart"></div>
-            </div>
-
+        <div class="item col-lg-6">
+            <h2>Workout Streak Counter</h2>
+            <input id="streak" type="number" value="" disabled></input>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 5%;">
+        <div id="" class=" col-lg-6">
+            <h2>Weekly Workout Time Per Day</h2>
+            <div id="pie_div"></div>
+        </div>
+        <div id="" class="item col-lg-6">
+            <div></div>
+            <h2 class="text-center">Location of Friends</h2>
+            <div class="text-left" id="geo_div"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class=" col-lg-6">
+            <h2>Number of Workouts by Workout Types</h2>
+            <div></div>
+            <div id="columnchart_material"></div>
+        </div>
+        <div id="" class="col-lg-6">
+            <h2>Comparison of Workouts between You and Your friends</h2>
+            <div class="text-left" id="curve_chart"></div>
         </div>
 
 
     </div>
+    <div id="" class="container col-lg-8">
+        <!-- <h2 class="text-center">Weekly Workout Time</h2> -->
+        <div class="item" id="chart_div"></div>
+    </div>
+
+    <!-- </div> -->
+
+    <!-- <div class="inner-container col-lg-6"> -->
+
+    <!-- <div style="color:white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda, recusandae quasi culpa est molestiae, unde aut eum mollitia non quidem omnis reiciendis tempore neque facilis laudantium quam amet illum deleniti.</div> -->
+
+
+    <!-- <div style="color:white"> -->
+    <!-- <div class="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel in pariatur veniam nam, incidunt repudiandae hic odio architecto quos aut autem, expedita earum numquam praesentium quasi saepe soluta maiores obcaecati?</div> -->
+    <!-- </div> -->
+
+
+    <!-- </div> -->
+
+    <!-- Formatting Visualizations -->
     <script>
         async function doRequest() {
             let user = localStorage.getItem("user");
@@ -518,6 +601,26 @@
                     result.classList.toggle('invert');
                 })
             }
+        });
+
+        async function updateChallenge() {
+            let user = localStorage.getItem("user");
+            let url = 'http://127.0.0.1:8000/profile/' + user;
+            let res = await fetch(url);
+
+            if (res.ok) {
+                let text = await res.text();
+                return text;
+            } else {
+                return `HTTP error: ${res.status}`;
+            }
+        }
+
+        updateChallenge().then(data => {
+            var json = JSON.parse(data);
+            var trophy = document.getElementById('challenge');
+            var challengesWon = json.challenges_won;
+            trophy.innerHTML = " " + challengesWon;
         });
 
         var counter = document.querySelector('h3');
@@ -574,7 +677,7 @@
             // /profile/:username/:field
             var urlFinal = 'http://127.0.0.1:8000/profile/' + uname + '/streak_counter' + '?_method=PATCH';
             var sCounter = newVal;
-            console.log(sCounter);
+            //console.log(sCounter);
             $.ajax({
                 url: urlFinal,
                 type: 'PATCH',
