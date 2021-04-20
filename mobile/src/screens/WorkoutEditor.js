@@ -30,7 +30,6 @@ export default class WorkoutEditor extends Component {
             editorVisible: false,
             workoutTypeVisible: false,
             exerciseVisible: false,
-            edit: this.props.route.params.edit,
             editWorkoutType: false,
             edited: false,
         };
@@ -354,10 +353,6 @@ export default class WorkoutEditor extends Component {
                             animationType='slide'
                             transparent={true}
                             visible={this.state.modalVisible}
-                            onRequestClose={() => {
-                                Alert.alert("Modal has been closed.");
-                                this.setState({ modalVisible: !this.state.modalVisible});
-                            }}
                             >
                             <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
                                 <View style={this.props.darkmode ? dark.modalView : light.modalView}>
@@ -477,12 +472,13 @@ export default class WorkoutEditor extends Component {
                                 } else if (this.state.exercises.length === 0) {
                                     missingExerciseError();
                                 } else {
-                                    if (this.state.edit) {
+                                    if (this.props.route.params.edit) {
                                         console.log('edit')
-                                        serverMethods.editWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
+                                        serverMethods.editWorkout(this.props.route.params.username, this.props.route.params.workout, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
                                     } else {
-                                        console.log('create')
+                                        console.log('|||||||||||||||||||||||||||||||||||||')
                                         console.log({ name: this.state.name, type: this.state.type, exercises: this.state.exercises })
+                                        console.log('|||||||||||||||||||||||||||||||||||||')
                                         serverMethods.createWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
                                     }
                                     this.props.navigation.navigate('Workouts');

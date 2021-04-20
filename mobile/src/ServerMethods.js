@@ -200,9 +200,9 @@ export function deleteExercise(username, workoutType, exercise) {
     })
 }
 
-export function editWorkout(username, workout) {
+export function editWorkout(username, oldName, workout) {
     console.log('editing workout: ' + workout.name);
-    return fetch('http://' + address + ':8000/' + username + '/' + workout.name + '/edit_workout', {
+    return fetch('http://' + address + ':8000/' + username + '/' + oldName + '/edit_workout', {
         method: 'PATCH',
         headers: {
             Accept: 'application/json',
@@ -212,9 +212,9 @@ export function editWorkout(username, workout) {
     })
 }
 
-export function editWorkoutPlan(username, workoutPlan) {
+export function editWorkoutPlan(username, oldName, workoutPlan) {
     console.log('editing workout plan: ' + workoutPlan.name)
-    return fetch('http://' + address + ':8000/' + username + '/' + workoutPlan.name + '/edit_plan', {
+    return fetch('http://' + address + ':8000/' + username + '/' + oldName + '/edit_plan', {
         method: 'PATCH',
         headers: {
             Accept: 'application/json',
