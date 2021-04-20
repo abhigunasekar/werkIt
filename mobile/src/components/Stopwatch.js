@@ -65,7 +65,7 @@ export default class Stopwatch extends Component {
               hr = '0' + hr;
             }
 
-            this.setState({ hr: hr, min: min, sec: sec }, () => this.props.updateTime(this.state.hr, this.state.min, this.state.sec));
+            this.setState({ hr: hr, min: min, sec: sec }, () => this.props.logTime(this.state.hr, this.state.min, this.state.sec));
             setTimeout(() => this.cycle(), 1000);
         }
     }
@@ -77,7 +77,7 @@ export default class Stopwatch extends Component {
                 <Button
                     buttonText={this.state.runStopwatch ? 'PAUSE' : 'START'}
                     onPress={() => this.stopwatch()}
-                    style={{marginLeft: 30}}
+                    style={{marginLeft: 70}}
                     darkmode={this.props.darkmode}
                     gray={true}
                 />

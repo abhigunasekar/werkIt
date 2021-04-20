@@ -137,18 +137,14 @@ export default class Login extends Component {
                                     invalidFormAlert();
                                 }
                             }}
-                            style={{marginTop: 10, width: 150}}
+                            style={{width: 150}}
                             purple={true}
                         />
                         {/* Add a checkbox for "Keep me signed in" that sets this.state.persist: true */}
-                        <View style={{flexDirection: 'row', marginTop: 30}}>
+                        <View style={{flexDirection: 'row', marginTop: 20}}>
                             <Text onPress={() => this.props.navigation.navigate('CreateAccount')} style={{ color: '#FB963C', marginRight: 15 }}>Create Account</Text>
                             <Text onPress={() => this.props.navigation.navigate('ChangePassword')} style={{ color: '#535c68' }}>Forgot Password?</Text>
                         </View>
-                        <Button
-                            onPress={() => this.props.login()}
-                            gray
-                        />
                     </View>
                 </View>
             </TouchableWithoutFeedback>
