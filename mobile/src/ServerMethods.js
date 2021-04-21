@@ -1,4 +1,4 @@
-const address = '10.0.0.48';
+const address = '10.192.30.111';
 
 export async function createAccount(info) {
     console.log('create account');
@@ -269,4 +269,9 @@ export function addFriend(username, newFriend) {
         },
         body: JSON.stringify(newFriend)
     });
+}
+
+export function getQuote() {
+    console.log('getting motivational quote')
+    return fetch('http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json');
 }

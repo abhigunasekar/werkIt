@@ -30,7 +30,7 @@ export default class App extends Component {
     async componentDidMount() {
         const token = await this.getToken();
         this.setState({ isLoggedIn: token });
-        setTimeout(() => this.setState({ isLoaded: true }), 4000);
+        setTimeout(() => this.setState({ isLoaded: true }), 80000);
     }
 
     persist() {
