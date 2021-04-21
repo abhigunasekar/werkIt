@@ -31,6 +31,7 @@ export default class MotivationalQuote extends Component {
                     <Text style={{fontStyle: 'italic', fontSize: 15, marginTop: 20}}>"{this.state.quoteText}"</Text>
                 </View>
                 <Text style={{fontSize: 10, marginTop: 20, marginLeft: 120}}>- {this.state.quoteAuthor === '' ?  'Unknown' : this.state.quoteAuthor}</Text>
+
             </View>
         );
     }

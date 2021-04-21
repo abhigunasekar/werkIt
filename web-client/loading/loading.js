@@ -3,10 +3,25 @@
 
 var mostRecentNetworkStatus = 1;
 
+function pageload() {
+    checkNetworkConnection();
+    document.getElementById("We're Werking on it...").hidden = false;
+    document.getElementById("We're Werking on it text").hidden = false;
+}
+
+function pageclick() {
+    if (!checkNetworkConnectionCaller()) {
+        event.preventDefault();
+        // document.getElementById("We're Werking on it...").hidden = false;
+        // document.getElementById("We're Werking on it...").hidden = true;
+    }
+}
+
 function checkNetworkConnection() {
     const checkOnlineStatus = async() => {
         try {
             // http://172.30.81.223:8000/
+            // Previously: https://www.google.com
             const online = await fetch("https://www.google.com", {
                 method: 'GET',
                 mode: 'no-cors',
@@ -21,17 +36,17 @@ function checkNetworkConnection() {
     setInterval(async() => {
         const result = await checkOnlineStatus();
         if (result) {
-            console.log("Connected to Internet");
+            // console.log("Connected to Internet");
             mostRecentNetworkStatus = 0;
             document.getElementById("We're Werking on it...").hidden = true;
             document.getElementById("We're Werking on it text").hidden = true;
         } else {
-            console.log("Not connected to Internet");
+            // console.log("Not connected to Internet");
             mostRecentNetworkStatus = 1;
             document.getElementById("We're Werking on it...").hidden = false;
             document.getElementById("We're Werking on it text").hidden = false;
         }
-    }, 15000);
+    }, 1000);
 }
 
 function checkNetworkConnectionCaller() {
