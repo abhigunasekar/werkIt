@@ -104,7 +104,7 @@ export default class App extends Component {
         } else {
             if (!this.state.isLoggedIn) {
                 return (
-                    <LoginStackNavigator login={this.login} persist={this.persist} logout={this.logout} />
+                    <LoginStackNavigator login={this.login} persist={this.persist} />
                 );
             }
             else {
