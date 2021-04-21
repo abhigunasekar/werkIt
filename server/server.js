@@ -32,7 +32,7 @@ app.use(methodOverride('_method'));
 
 
 // check connection with server
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     console.log("Got GET request")
     res.status(200).end();
 });
@@ -411,7 +411,7 @@ app.post('/:username/add_friend', (req, res) => {
         if (rc == 0) {
             console.log("Successfully saved friend");
             res.status(200).end();
-        } else if (rc == 1){
+        } else if (rc == 1) {
             console.log("Friend requested does not exist");
             res.status(400).end();
         } else {
@@ -427,10 +427,20 @@ app.get('/:username/friends', (req, res) => {
     mc.get_friends(req.params.username).then(friends => {
         console.log("Successfully found friends");
         res.status(200).json(friends);
-    })
-})
+    });
+});
+
+// save plan or challenge request 
+app.post('/:username/request', (req, res) => {
+    console.log("Sending " + req.body.type + " request to friend " + req.body.friend);
+    console.log(req.body)
+    mc.send_request(req.params.username, req.body).then(_ => {
+        console.log("Successfully sent request");
+        res.status(200).end();
+    });
+});
 
 
-app.listen(port, ip, function() {
+app.listen(port, ip, function () {
     console.log("Server listening on http://%s:%d", ip, port);
 });

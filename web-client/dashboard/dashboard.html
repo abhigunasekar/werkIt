@@ -7,13 +7,20 @@
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js" integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js"
+        integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g=="
+        crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <meta name="color-scheme" content="dark light">
 
 
@@ -36,6 +43,8 @@
 
     <title>Werk It</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="../loading/loading.js"></script>
+
     <script>
         async function dRequest() {
             let user = localStorage.getItem("user");
@@ -479,14 +488,14 @@
                 },
                 'width': 400,
                 'height': 300
-                    // hAxis: {
-                    //     title: 'Workout Time (in minutes)',
-                    //     minValue: 0
-                    // },
-                    // vAxis: {
-                    //     title: 'Day'
-                    // },
-                    // colors: ['#7641BD']
+                // hAxis: {
+                //     title: 'Workout Time (in minutes)',
+                //     minValue: 0
+                // },
+                // vAxis: {
+                //     title: 'Day'
+                // },
+                // colors: ['#7641BD']
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('pie_div'));
@@ -499,14 +508,17 @@
 <body>
     <!-- Links Navbar -->
     <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
-        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse navbar-main bg-main " id="navbarTogglerDemo03">
             <ul class="navbar-nav mx-auto mt-2 mt-lg-0 navbar-center">
                 <li class="navbar-brand mr-0 ">
-                    <a class="nav-link navbar-main bg-main " id="about" href="#">Dashboard <i class="fa fa-trophy" aria-hidden="true"><span id="challenge"></span></i>
+                    <a class="nav-link navbar-main bg-main " id="about" href="#">Dashboard <i class="fa fa-trophy"
+                            aria-hidden="true"><span id="challenge"></span></i>
                     </a>
                 </li>
 
@@ -559,22 +571,10 @@
         <!-- <h2 class="text-center">Weekly Workout Time</h2> -->
         <div class="item" id="chart_div"></div>
     </div>
-
-    <!-- </div> -->
-
-    <!-- <div class="inner-container col-lg-6"> -->
-
-    <!-- <div style="color:white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda, recusandae quasi culpa est molestiae, unde aut eum mollitia non quidem omnis reiciendis tempore neque facilis laudantium quam amet illum deleniti.</div> -->
-
-
-    <!-- <div style="color:white"> -->
-    <!-- <div class="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel in pariatur veniam nam, incidunt repudiandae hic odio architecto quos aut autem, expedita earum numquam praesentium quasi saepe soluta maiores obcaecati?</div> -->
-    <!-- </div> -->
-
-
-    <!-- </div> -->
-
-    <!-- Formatting Visualizations -->
+    <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+    <div id="We're Werking on it text" hidden="true">
+        One moment, We're Werking on Your Network Connection...
+    </div>
     <script>
         async function doRequest() {
             let user = localStorage.getItem("user");
@@ -635,7 +635,8 @@
         //     alert(user);
         // });
 
-        window.onload = function() {
+        window.onload = function () {
+            pageload();
             var actualVal = actual.getAttribute("value");
             var goalVal = actual.getAttribute("max");
             var date = new Date();
@@ -685,17 +686,18 @@
                 data: {
                     streak_counter: sCounter
                 },
-                success: function(data, textStatus) {
+                success: function (data, textStatus) {
                     //alert("successful 3");
 
                     //location.reload();
 
                 },
-                error: function(jqXHR, textStatus, err) {
+                error: function (jqXHR, textStatus, err) {
                     // alert('text status ' + textStatus + ', err ' + err)
                     alert("error");
                 }
             })
+
 
 
 
@@ -720,6 +722,10 @@
             //     //alert("Congratulations! You have surpassed your goals!");
             // }
 
+        }
+
+        window.onclick = function () {
+            pageclick();
         }
     </script>
 </body>

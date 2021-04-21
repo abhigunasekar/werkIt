@@ -37,12 +37,10 @@ const userSchema = new mongoose.Schema({
         { type: mongoose.Schema.Types.ObjectId, ref: "ConnectedFriends"}
     ],
     plan_requests: [
-        { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends' },
-        { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' }
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Request' }
     ],
     challenges: [
-        Number,
-        { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends'}
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Request'}
     ]
 }, { versionKey: false });
 
@@ -132,6 +130,14 @@ const friends = new mongoose.Schema({
 }, { versionKey: false });
 
 const ConnectedFriends = mongoose.model("ConnectedFriends", friends)
+
+const request = new mongoose.Schema({
+    friend: { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends' },
+    plan: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' },
+    num: Number
+}, { versionKey: false});
+
+const Request = mongoose.model("Request", request);
 
 // Functions called by server
 
@@ -814,9 +820,50 @@ async function get_friends(username) {
     var friends = new Array;
     for (var id of user.friends_list) {
         var f = await ConnectedFriends.findById(id).exec();
-        friends.push(f.friend_name);
+        var f_user = await User.findById(f.friend_id);
+        friends.push({username: f_user.user, name: f.friend_name});
     }
     return friends;
+}
+
+async function send_request(username, req_body) {
+    var user = await get_user_obj(username);
+    var friend = await get_user_obj(req_body.friend);
+    if (req_body.type.localeCompare("plan") == 0) {
+        var plan = await get_workout_plan(username, req_body.plan)
+        const request = new Request({
+            plan: plan._id,
+            friend: user._id
+        });
+
+        request.save(function(err, request) {
+            if (err) return console.error(err);
+        });
+
+        var requests = friend.plan_requests;
+        requests.push(request);
+        return await User.findByIdAndUpdate(
+            friend._id, {plan_requests: requests}, {new: true}
+        ).exec();
+    } else if (req_body.type.localeCompare("challenge") == 0) {
+        const request = new Request({
+            num: req_body.num,
+            friend: user._id
+        });
+
+        request.save(function(err, request) {
+            if (err) return console.error(err);
+        });
+
+        var requests = friend.challenges;
+        requests.push(request);
+        return await User.findByIdAndUpdate(
+            friend._id, {challenges: requests}, {new: true}
+        ).exec();
+    } else if (req.body.type.localeCompare("friend") == 0) {
+        // TODO implement friend request
+        return 0;
+    }
 }
 
 
@@ -858,6 +905,7 @@ module.exports = {
     get_friends,
     get_geochart_data,
     get_line_chart_data,
-    get_col_chart_data
+    get_col_chart_data,
+    send_request
     // validate_email
 }
