@@ -174,6 +174,11 @@ export function getWorkout(username, workout) {
     return fetch('http://' + address + ':8000/' + username + '/workout/' + workout);
 }
 
+export function getWorkoutPlan(username, workoutPlan) {
+    console.log('getting workout plan with name: ' + workoutPlan);
+    return fetch('http://' + address + ':8000/' + username + '/workout_plan/' + workoutPlan);
+}
+
 export function deleteWorkout(username, workout) {
     console.log('deleting workout: ' + workout);
     return fetch('http://' + address + ':8000/' + username + '/' + workout + '/rm_wkout', {
@@ -213,7 +218,7 @@ export function editWorkout(username, oldName, workout) {
 }
 
 export function editWorkoutPlan(username, oldName, workoutPlan) {
-    console.log('editing workout plan: ' + workoutPlan.name)
+    console.log('editing workout plan: ' + oldName)
     return fetch('http://' + address + ':8000/' + username + '/' + oldName + '/edit_plan', {
         method: 'PATCH',
         headers: {
@@ -230,10 +235,22 @@ export function editWorkoutType(username, workoutType, newName) {
         method: 'PATCH',
         headers: {
             Accept: 'application/json',
-            'Content-Type' : 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(newName)
     });
+}
+
+export function completeWorkout(username, workout) {
+    console.log('saving completed workout: ' + workout.workout_name)
+    return fetch('http://' + address + ':8000/' + username + '/completed', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(workout)
+    })
 }
 
 export function getFriends(username) {
@@ -264,4 +281,9 @@ export function sendRequest(username, request) {
         },
         body: JSON.stringify(request)
     });
+}
+
+export function getQuote() {
+    console.log('getting motivational quote')
+    return fetch('http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json');
 }

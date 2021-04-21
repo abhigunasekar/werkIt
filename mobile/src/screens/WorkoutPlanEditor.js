@@ -17,14 +17,14 @@ export default class WorkoutPlanEditor extends Component {
 
         this.state = {
             name: this.props.route.params.workoutPlan === undefined ? '' : this.props.route.params.workoutPlan,
-            monday: '',
-            tuesday: '',
-            wednesday: '',
-            thursday: '',
-            friday: '',
-            saturday: '',
-            sunday: '',
-            savedWorkouts: [],
+            Monday: 'None',
+            Tuesday: 'None',
+            Wednesday: 'None',
+            Thursday: 'None',
+            Friday: 'None',
+            Saturday: 'None',
+            Sunday: 'None',
+            savedWorkouts: [{label: 'None', value: 'None'}],
         }
     }
 
@@ -32,14 +32,24 @@ export default class WorkoutPlanEditor extends Component {
         console.log('mounted')
         //server call to get workout plan information if user decides to edit the workout plan
         serverMethods.getUserWorkouts(this.props.route.params.username)
-        .then(response => response.json())
-        .then(response => {
-            console.log(response)
-            let array = this.state.savedWorkouts;
-            response.map((workout) => array.unshift({label: workout, value: workout}))
-            array.push({label: 'None', value: ''})
-            this.setState({ savedWorkouts: array })
-        });
+            .then(response => response.json())
+            .then(response => {
+                //console.log(response)
+                let array = this.state.savedWorkouts;
+                response.map((workout) => array.unshift({label: workout, value: workout}))
+                this.setState({ savedWorkouts: array })
+            });
+        if (this.props.route.params.edit) {
+            console.log('edit')
+            serverMethods.getWorkoutPlan(this.props.route.params.username, this.state.name)
+                .then(response => response.json())
+                .then(response => {
+                    console.log("-------------------------------------")
+                    console.log(response)
+                    console.log("-------------------------------------")
+                    this.setState({ Monday: response.Monday, Tuesday: response.Tuesday, Wednesday: response.Wednesday, Thursday: response.Thursday, Friday: response.Friday, Saturday: response.Saturday, Sunday: response.Sunday})
+                })
+        }
     }
 
     render() {
@@ -56,7 +66,8 @@ export default class WorkoutPlanEditor extends Component {
                     <DayPicker
                         day='Monday'
                         savedWorkouts={this.state.savedWorkouts}
-                        select={(workout) => this.setState({ monday: workout })}
+                        defaultValue={this.state.Monday}
+                        select={(workout) => this.setState({ Monday: workout })}
                         margin={60}
                         zIndex={7000}
                         darkmode={this.props.darkmode}
@@ -64,7 +75,8 @@ export default class WorkoutPlanEditor extends Component {
                     <DayPicker
                         day='Tuesday'
                         savedWorkouts={this.state.savedWorkouts}
-                        select={(workout) => this.setState({ tuesday: workout })}
+                        defaultValue={this.state.Tuesday}
+                        select={(workout) => this.setState({ Tuesday: workout })}
                         margin={60}
                         zIndex={6000}
                         darkmode={this.props.darkmode}
@@ -72,7 +84,8 @@ export default class WorkoutPlanEditor extends Component {
                     <DayPicker
                         day='Wednesday'
                         savedWorkouts={this.state.savedWorkouts}
-                        select={(workout) => this.setState({ wednesday: workout })}
+                        defaultValue={this.state.Wednesday}
+                        select={(workout) => this.setState({ Wednesday: workout })}
                         margin={40}
                         zIndex={5000}
                         darkmode={this.props.darkmode}
@@ -80,7 +93,8 @@ export default class WorkoutPlanEditor extends Component {
                     <DayPicker
                         day='Thursday'
                         savedWorkouts={this.state.savedWorkouts}
-                        select={(workout) => this.setState({ thursday: workout })}
+                        defaultValue={this.state.Thursday}
+                        select={(workout) => this.setState({ Thursday: workout })}
                         margin={50}
                         zIndex={4000}
                         darkmode={this.props.darkmode}
@@ -88,7 +102,8 @@ export default class WorkoutPlanEditor extends Component {
                     <DayPicker
                         day='Friday'
                         savedWorkouts={this.state.savedWorkouts}
-                        select={(workout) => this.setState({ friday: workout })}
+                        defaultValue={this.state.Friday}
+                        select={(workout) => this.setState({ Friday: workout })}
                         margin={70}
                         zIndex={3000}
                         darkmode={this.props.darkmode}
@@ -96,7 +111,8 @@ export default class WorkoutPlanEditor extends Component {
                     <DayPicker
                         day='Saturday'
                         savedWorkouts={this.state.savedWorkouts}
-                        select={(workout) => this.setState({ saturday: workout })}
+                        defaultValue={this.state.Saturday}
+                        select={(workout) => this.setState({ Saturday: workout })}
                         margin={50}
                         zIndex={2000}
                         darkmode={this.props.darkmode}
@@ -104,7 +120,8 @@ export default class WorkoutPlanEditor extends Component {
                     <DayPicker
                         day='Sunday'
                         savedWorkouts={this.state.savedWorkouts}
-                        select={(workout) => this.setState({ sunday: workout })}
+                        defaultValue={this.state.Sunday}
+                        select={(workout) => this.setState({ Sunday: workout })}
                         margin={60}
                         zIndex={1000}
                         darkmode={this.props.darkmode}
@@ -113,7 +130,17 @@ export default class WorkoutPlanEditor extends Component {
                         <Button
                             buttonText='Cancel'
                             onPress={() => this.props.navigation.navigate('WorkoutPlans')}
-                            style={{marginRight: 150}}
+                            style={{marginRight: 40}}
+                            darkmode={this.props.darkmode}
+                            orange={true}
+                        />
+                        <Button
+                            buttonText='Delete'
+                            onPress={() => {
+                                serverMethods.deleteWorkoutPlan(this.props.route.params.username, this.state.name);
+                                this.props.navigation.navigate('WorkoutPlans');
+                            }}
+                            style={{marginRight: 40}}
                             darkmode={this.props.darkmode}
                             orange={true}
                         />
@@ -123,10 +150,32 @@ export default class WorkoutPlanEditor extends Component {
                                 if (this.state.name === '') {
                                     missingNameError();
                                 } else {
-                                    if (this.props.params.edited) {
-                                        serverMethods.editWorkoutPlan(this.props.route.params.username, this.props.route.params.workout, { name: this.state.name, Monday: this.state.monday, Tuesday: this.state.tuesday, Wednesday: this.state.wednesday, Thursday: this.state.thursday, Friday: this.state.friday, Saturday: this.state.saturday, Sunday: this.state.sunday });
+                                    if (this.props.route.params.edit) {
+                                        serverMethods.editWorkoutPlan(this.props.route.params.username, this.props.route.params.workoutPlan,
+                                            {
+                                                name: this.state.name,
+                                                Monday: this.state.Monday === '' ? 'None' : this.state.Monday,
+                                                Tuesday: this.state.Tuesday === '' ? 'None' : this.state.Tuesday,
+                                                Wednesday: this.state.Wednesday === '' ? 'None' : this.state.Wednesday,
+                                                Thursday: this.state.Thursday === '' ? 'None': this.state.Thursday,
+                                                Friday: this.state.Friday === '' ? 'None' : this.state.Friday,
+                                                Saturday: this.state.Saturday === '' ? 'None' : this.state.Saturday,
+                                                Sunday: this.state.Sunday === '' ? 'None' : this.state.Sunday
+                                            }
+                                        );
                                     } else {
-                                        serverMethods.createWorkoutPlan(this.props.route.params.username, { name: this.state.name, Monday: this.state.monday, Tuesday: this.state.tuesday, Wednesday: this.state.wednesday, Thursday: this.state.thursday, Friday: this.state.friday, Saturday: this.state.saturday, Sunday: this.state.sunday });
+                                        serverMethods.createWorkoutPlan(this.props.route.params.username, 
+                                            {
+                                                name: this.state.name,
+                                                Monday: this.state.Monday === '' ? 'None' : this.state.Monday,
+                                                Tuesday: this.state.Tuesday === '' ? 'None' : this.state.Tuesday,
+                                                Wednesday: this.state.Wednesday === '' ? 'None' : this.state.Wednesday,
+                                                Thursday: this.state.Thursday === '' ? 'None': this.state.Thursday,
+                                                Friday: this.state.Friday === '' ? 'None' : this.state.Friday,
+                                                Saturday: this.state.Saturday === '' ? 'None' : this.state.Saturday,
+                                                Sunday: this.state.Sunday === '' ? 'None' : this.state.Sunday
+                                            }
+                                        );
                                     }
                                     this.props.navigation.navigate('WorkoutPlans');
                                 }

@@ -15,26 +15,31 @@ export default class WorkoutTracker extends Component {
         super(props);
 
         this.state = {
-            workout: this.props.route.params.workout,
             exercises: [],
-            time: '',
+            time: 0,
             finished: [],
             hr: 0,
             min: 0,
             sec: 0,
+            type: '',
         }
 
         this.updateTime = this.updateTime.bind(this);
+        this.logTime = this.logTime.bind(this);
     }
 
-    updateTime(hr, min, sec) {
-        this.setState({ hr: parseInt(hr), min: parseInt(min), sec: parseInt(sec) });
+    updateTime() {
+        this.setState({ time: (this.state.hr * 60) + (this.state.min) + (this.state.sec >= 30  ? 1 : 0) })
+    }
+
+    logTime(hr, min, sec) {
+        this.setState({ hr: parseInt(hr), min: parseInt(min), sec: parseInt(sec) }, () => this.updateTime());
     }
 
 
     componentDidMount() {
         //server call to get information about the workout
-        serverMethods.getWorkout(this.props.username, this.state.workout)
+        serverMethods.getWorkout(this.props.username, this.props.route.params.workout)
             .then(response => response.json())
             .then(response => {
                 console.log(response)
@@ -61,19 +66,15 @@ export default class WorkoutTracker extends Component {
                         }}
                     />
                 )
-                this.setState({ exercises: array })
+                this.setState({ exercises: array, type: response.type })
             });
     }
 
     render() {
-        console.log('num exercises: ' + this.state.exercises.length)
-        console.log('num finished: ' + this.state.finished.length)
         return(
             <View style={this.props.darkmode ? dark.workoutTrackerContainer : light.workoutTrackerContainer}>
-                {/* put stopwatch here */}
-                <Stopwatch updateTime={this.updateTime} darkmode={this.props.darkmode}/>
-                <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000' , fontWeight: 'bold', fontSize: 20}}>{this.state.workout}</Text>
-                <ScrollView style={{width: '85%', borderWidth: 1}} contentContainerStyle={{borderWidth: 3, alignItems: 'center'}}>
+                <Stopwatch logTime={this.logTime} darkmode={this.props.darkmode}/>
+                <ScrollView style={{width: '85%'}} contentContainerStyle={{alignItems: 'center'}}>
                     {this.state.exercises}
                 </ScrollView>
                 <View style={{flexDirection: 'row', marginBottom: 30, marginTop: 30}}>
@@ -87,11 +88,17 @@ export default class WorkoutTracker extends Component {
                     <Button
                         buttonText='Submit'
                         onPress={() => {
+                            // {workout_name: , day: , date: , time:, type_name }
+                            console.log({workout_name: this.props.route.params.workout, day: this.props.route.params.day, date: this.props.route.params.date, time: this.state.time, type_name: this.state.type })
                             if (this.state.exercises.length !== this.state.finished.length) {
                                 //do we know what happens if "finish anyway"
-                                incompleteWorkoutError(() => this.props.navigation.navigate('Dashboard'));
+                                incompleteWorkoutError(() => {
+                                    serverMethods.completeWorkout(this.props.username, {workout_name: this.props.route.params.workout, day: this.props.route.params.day, date: this.props.route.params.date, time: this.state.time, type_name: this.state.type });
+                                    this.props.navigation.navigate('Dashboard');
+                                });
                             } else {
-                                this.props.navigation.navigate('Dashboard'/*, format for time here */);
+                                serverMethods.completeWorkout(this.props.username, {workout_name: this.props.route.params.workout, day: this.props.route.params.day, date: this.props.route.params.date, time: this.state.time, type_name: this.state.type });
+                                this.props.navigation.navigate('Dashboard');
                             }
                         }}
                         darkmode={this.props.darkmode}

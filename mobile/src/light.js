@@ -237,7 +237,6 @@ export default StyleSheet.create({
     motivationalQuote: {
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
-        paddingTop: 300
     },
     lightTextHeader: {
         color: 'black',

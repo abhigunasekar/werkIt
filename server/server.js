@@ -393,7 +393,8 @@ app.patch('/:username/:workout/edit_workout', (req, res) => {
 
 // edit workout plan
 app.patch('/:username/:plan/edit_plan', (req, res) => {
-    console.log("Updating workout plan " + req.params.workout + " for user " + req.params.username);
+    console.log("Updating workout plan " + req.params.plan + " for user " + req.params.username);
+    console.log(req.body);
     mc.update_plan(req.params.username, req.params.plan, req.body).then(_ => {
         console.log("Successfully updated workout");
         res.status(200).end();

@@ -32,7 +32,7 @@ export default class WorkoutPlans extends Component {
                 .then(response => {
                     console.log(response)
                     this.setState({ workoutPlans: response })
-                }), 300);
+                }), 500);
         });
     }
 
