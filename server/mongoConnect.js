@@ -731,6 +731,7 @@ async function get_all_plan_names(username) {
     var list = new Array;
     for (var p_id of user.weekly_plan) {
         var plan = await WorkoutPlan.findById(p_id).exec();
+        console.log("Get all plan names: " + p_id)
         list.push(plan.name);
     }
     return list;
@@ -939,8 +940,10 @@ async function get_requests(username) {
         }
         var friend_obj = await User.findById(req.friend).exec();
         req_obj['friend'] = friend_obj.name;
+        console.log("request object: " + req_obj)
         req_arr.push(req_obj);
     }
+    console.log("mongo connect: " + req_arr)
     return req_arr;
 }
 

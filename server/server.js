@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "10.0.0.48";
+const ip = "10.0.0.86";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -447,10 +447,11 @@ app.post('/:username/request', (req, res) => {
 });
 
 // get pending requests for a user
-app.get('/:username/requests', (req, res) => {
+app.get('/:username/messagerequests', (req, res) => {
     console.log("Getting all requests for user " + req.params.username);
     mc.get_requests(req.params.username).then(requests => {
         console.log("Successfully got pending requests");
+        console.log("requests: " + requests)
         res.status(200).json(requests);
     });
 });

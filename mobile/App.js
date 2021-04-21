@@ -18,6 +18,7 @@ export default class App extends Component {
             persist: false,
             username: '',
             darkmode: false,
+            firstLogin: false
         };
 
         this.login = this.login.bind(this);
@@ -39,6 +40,8 @@ export default class App extends Component {
     }
 
     async login(user) {
+        console.log("inside log in function")
+        
         if (this.state.persist) {
             // AsyncStorage method to create token???
             try {
@@ -48,13 +51,14 @@ export default class App extends Component {
                 console.log('setToken error: ' + error);
             }
         }
+        this.setState({ firstLogin: true });
         serverMethods.getUserField(user, "dark_mode")
             .then(response => response.json())
             .then(response => {
                 console.log('response is: ' + response)
-                this.setState({ darkmode: response.dark_mode, isLoggedIn: true, username: user })
+                this.setState({ darkmode: response.dark_mode, isLoggedIn: true, username: user})
             });
-        //this.setState({ isLoggedIn: true, username: user });
+        
     }
 
     async logout() {
@@ -109,7 +113,7 @@ export default class App extends Component {
             }
             else {
                 return (
-                    <DrawerNavigator logout={this.logout} username={this.state.username} darkmode={this.state.darkmode} updateDarkmode={this.updateDarkmode} />
+                    <DrawerNavigator logout={this.logout} username={this.state.username} darkmode={this.state.darkmode} updateDarkmode={this.updateDarkmode} firstLogin={this.state.firstLogin} />
                 );
             }
         }

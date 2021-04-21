@@ -287,3 +287,12 @@ export function getQuote() {
     console.log('getting motivational quote')
     return fetch('http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json');
 }
+export function getMessageRequests(username) {
+    console.log("inside message request")
+    var grab = fetch('http://' + address + ':8000/' + username + '/messagerequests', {
+        method: 'GET'
+    });
+    console.log("grab: " + grab)
+    return grab;
+    //return fetch('http://' + address + ':8000/' + username + '/requests');
+}
