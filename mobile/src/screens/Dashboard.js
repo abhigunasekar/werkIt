@@ -181,7 +181,8 @@ export default class Dashboard extends Component {
         let yyyy = today.getFullYear();
         today = mm + '-' + dd + '-' + yyyy;
 
-        // {workout_name: , day: , date: , time: }
+        // {workout_name: , day: , date: , time:, type_name }
+
         return (
             <View style={this.props.darkmode ? dark.dashboardContainer : light.dashboardContainer}>
                 <Text style={[this.props.darkmode ? dark.text : light.text, {fontSize: 20, margin: 25}]}>Welcome {this.state.username}!</Text>
@@ -214,7 +215,7 @@ export default class Dashboard extends Component {
                 {(this.state.workout === undefined) || (this.state.workout === '') ? null : 
                     <Button
                     buttonText='START'
-                    onPress={() => this.props.navigation.navigate('Workout Tracker', { workout: this.state.workout })}
+                    onPress={() => this.props.navigation.navigate('Workout Tracker', { workout: this.state.workout, day: this.state.day, date: today })}
                     darkmode={this.props.darkmode}
                     gray={true}
                     />

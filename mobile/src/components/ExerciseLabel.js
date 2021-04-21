@@ -15,39 +15,57 @@ export default class ExerciseLabel extends Component {
 
     render() {
         let label = '';
-        if (this.props.sets !== undefined) {
+        let multiplier = 0;
+        if (this.props.sets !== 0) {
             label += '     Sets: ';
-            label += this.props.sets
+            label += this.props.sets;
+            label += '\n';
+            multiplier++;
         }
-        if (this.props.reps !== undefined) {
+        if (this.props.reps !== 0) {
             label += '     Reps: ';
             label += this.props.reps;
+            label += '\n';
+            multiplier++;
         }
-        if (this.props.weight !== undefined) {
+        if (this.props.weight !== 0) {
             label += '     Weight: ';
             label += this.props.weight;
+            label += '\n';
+            multiplier++;
         }
-        if (this.props.duration !== undefined) {
+        if (this.props.duration !== 0) {
             label += '     Duration: ';
             label += this.props.duration;
+            label += '\n';
+            multiplier++;
         }
-        if (this.props.distance !== undefined) {
+        if (this.props.distance !== 0) {
             label += '     Distance: ';
             label += this.props.distance;
+            label += '\n';
+            multiplier++;
         }
-        if (this.props.pace !== undefined) {
+        if (this.props.pace !== 0) {
             label += '     Pace: ';
             label += this.props.pace;
+            label += '\n';
+            multiplier++;
         }
-        if (this.props.incline !== undefined) {
+        if (this.props.incline !== 0) {
             label += '     Incline: ';
             label += this.props.incline;
+            label += '\n';
+            multiplier++;
         }
-        if (this.props.laps !== undefined) {
+        if (this.props.laps !== 0) {
             label += '     Laps: ';
             label += this.props.laps;
+            label += '\n';
+            multiplier++;
         }
         console.log(label);
+        label = label.slice(0, -1);
         return (
             <CheckBox
                 containerStyle={{width: '90%'}}
@@ -58,10 +76,10 @@ export default class ExerciseLabel extends Component {
                         this.setState({ completed: true });
                     }
                 }}
-                containerStyle={{backgroundColor: this.props.darkmode ? '#7E7E7E' : '#FFFFFF'}}
+                containerStyle={{backgroundColor: this.props.darkmode ? '#7E7E7E' : '#FFFFFF', width: '75%'}}
                 title={
                     <View style={{flexDirection: 'row', marginLeft: 7}}>
-                        <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', fontWeight: 'bold'}}>{this.props.name}</Text>
+                        <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', fontWeight: 'bold', marginTop: multiplier*5}}>{this.props.name}</Text>
                         <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}>{label}</Text>
                     </View>
                 }

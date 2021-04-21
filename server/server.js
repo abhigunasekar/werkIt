@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "10.0.0.86";
+const ip = "10.192.30.111";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -387,7 +387,8 @@ app.patch('/:username/:workout/edit_workout', (req, res) => {
 
 // edit workout plan
 app.patch('/:username/:plan/edit_plan', (req, res) => {
-    console.log("Updating workout plan " + req.params.workout + " for user " + req.params.username);
+    console.log("Updating workout plan " + req.params.plan + " for user " + req.params.username);
+    console.log(req.body);
     mc.update_plan(req.params.username, req.params.plan, req.body).then(_ => {
         console.log("Successfully updated workout");
         res.status(200).end();
