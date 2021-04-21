@@ -23,14 +23,14 @@ export default class MotivationalQuote extends Component {
     render() {
         // add styling so it looks like "cover page" for now
         // add motivational quote generator in Sprint 3
-        console.log(this.state.quote)
+        console.log(this.state.quoteAuthor)
         return (
             <View style={styles.motivationalQuote}>
-                <Text style={{color: '#7641BD', fontWeight: 'bold', fontSize: 50, marginTop: 250}}>WERK IT</Text>
-                <View style={{width: '80%', borderWidth: 1}}>
-                    <Text style={{color: '#7641BD', fontStyle: 'italic', fontSize: 15, marginTop: 30}}>{this.state.quoteText}</Text>
+                <Text style={{color: '#7641BD', fontWeight: 'bold', fontSize: 50, marginTop: 240}}>WERK IT</Text>
+                <View style={{width: '80%'}}>
+                    <Text style={{fontStyle: 'italic', fontSize: 15, marginTop: 20}}>"{this.state.quoteText}"</Text>
                 </View>
-                <Text style={{color: '#7641BD', fontSize: 10, marginTop: 20, marginLeft: 70}}>- {this.state.quoteAuthor}</Text>
+                <Text style={{fontSize: 10, marginTop: 20, marginLeft: 120}}>- {this.state.quoteAuthor === '' ?  'Unknown' : this.state.quoteAuthor}</Text>
             </View>
         );
     }
