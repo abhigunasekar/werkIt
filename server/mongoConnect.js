@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     loc: String,
     pic: String,
+    code: Number,
     dark_mode: Boolean,
     streak_counter: Number,
     challenges_won: Number,
@@ -284,20 +285,27 @@ async function check_user_existence(username) {
 
 async function validate_email(username, email) {
     var exists = await check_user_existence(username);
+    console.log("exists: " + exists);
     if (exists) {
         console.log("Username exists")
         var user = await get_user_obj(username);
         if (user.email.localeCompare(email) == 0) {
+            console.log("HERE")
             return true;
+        } else {
+            return false;
         }
     }
+    console.log("exists2: " + exists);
     return exists;
 }
 
 async function send_email(username, email) {
-    if (!validate_email(username, email)) {
+    if (!(await validate_email(username, email))) {
+        console.log("here");
         return 1;
     }
+    var user = await get_user_obj(username);
     var code = Math.floor(Math.random() * (999999-100000) + 100000);
     var msg = 'Your six digit code is: ' + code.toString();
     var mailOptions = {
@@ -306,7 +314,7 @@ async function send_email(username, email) {
         subject: 'WerkIt Password Reset Requested',
         text: msg
     };
-    transporter.sendMail(mailOptions, function(error, info) {
+    await transporter.sendMail(mailOptions, async function(error, info) {
         if (error) {
             console.log("email error: " + error);
             return 2;
@@ -315,7 +323,14 @@ async function send_email(username, email) {
             console.log('Preview URL: ' + nodemailer.getTestMessageUrl(info));
         }
     });
-    return 0;
+    return await User.findByIdAndUpdate(
+        user._id, {code: code}, {new: true}
+    ).exec();
+}
+
+async function check_code(username, code) {
+    var user = await get_user_obj(username);
+    return (code == user.code);
 }
 
 async function change_password(user, new_pass) {
@@ -326,7 +341,9 @@ async function change_password(user, new_pass) {
         // New password is not different from old one
         throw 403;
     } else {
-        return await User.findOneAndUpdate({ user: user }, { pass: new_pass }, { new: true }).exec();
+        return await User.findOneAndUpdate(
+            { user: user }, { pass: new_pass, code: null }, { new: true }
+        ).exec();
     }
 }
 
@@ -338,6 +355,7 @@ async function update_darkmode(username) {
 
 async function update_profile_field(username, field, data) {
     var user = await get_user_obj(username);
+    console.log(user);
     return await User.findByIdAndUpdate(
         user._id, {
             [field]: data[field]
@@ -1022,5 +1040,6 @@ module.exports = {
     send_request,
     get_requests,
     handle_request,
-    send_email
+    send_email,
+    check_code
 }
