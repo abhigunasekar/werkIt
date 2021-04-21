@@ -35,7 +35,6 @@ export default class DrawerNavigator extends Component {
     constructor(props) {
         super(props);
 
-        console.log('drawer: ' + this.props.darkmode)
         this.state = {
             style: this.props.darkmode ? dark : light,
         }

@@ -29,24 +29,18 @@ export default class WorkoutPlanEditor extends Component {
     }
 
     componentDidMount() {
-        console.log('mounted')
         //server call to get workout plan information if user decides to edit the workout plan
         serverMethods.getUserWorkouts(this.props.route.params.username)
             .then(response => response.json())
             .then(response => {
-                //console.log(response)
                 let array = this.state.savedWorkouts;
                 response.map((workout) => array.unshift({label: workout, value: workout}))
                 this.setState({ savedWorkouts: array })
             });
         if (this.props.route.params.edit) {
-            console.log('edit')
             serverMethods.getWorkoutPlan(this.props.route.params.username, this.state.name)
                 .then(response => response.json())
                 .then(response => {
-                    console.log("-------------------------------------")
-                    console.log(response)
-                    console.log("-------------------------------------")
                     this.setState({ Monday: response.Monday, Tuesday: response.Tuesday, Wednesday: response.Wednesday, Thursday: response.Thursday, Friday: response.Friday, Saturday: response.Saturday, Sunday: response.Sunday})
                 })
         }

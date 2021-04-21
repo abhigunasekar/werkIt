@@ -46,7 +46,6 @@ export default class WorkoutEditor extends Component {
         serverMethods.getUserWorkoutTypes(this.props.route.params.username)
             .then(response => response.json())
             .then(response => {
-                //console.log(response)
                 let array = this.state.savedTypes;
                 response.map((type) => array.unshift({label: type, value: type}));
                 this.setState({ savedTypes: array });
@@ -55,9 +54,6 @@ export default class WorkoutEditor extends Component {
             serverMethods.getWorkout(this.props.route.params.username, this.state.name)
                 .then(response => response.json())
                 .then(response => {
-                    console.log('----------------------------------------------')
-                    console.log(response);
-                    console.log('----------------------------------------------')
                     response.exercises.map((exercise) => {
                         this.addExercise({ name: exercise.name, sets: exercise.data.sets, reps: exercise.data.reps, weight: exercise.data.weight, duration: exercise.data.duration, distance: exercise.data.distance, pace: exercise.data.pace, incline: exercise.data.incline, laps: exercise.data.laps });
                     });
@@ -65,17 +61,14 @@ export default class WorkoutEditor extends Component {
                         serverMethods.getExercises(this.props.route.params.username, response.type)
                         .then(response => response.json())
                         .then(response => {
-                            //console.log(response)
                             this.setState({ savedExercises: response })
                         });
-                    });//funny logic needed here
+                    });
                 });
         }
     }
 
     addExercise(exercise) {
-        //console.log('add exercise');
-        //console.log(exercise);
         let duplicate = false;
         let newArray = this.state.exercises;
         for (let i = 0; i < newArray.length; i++) {
@@ -105,8 +98,6 @@ export default class WorkoutEditor extends Component {
     }
 
     editExercise(name, field, val) {
-        console.log('edit')
-        //console.log(this.state.exercises)
         for (let i = 0; i < this.state.exercises.length; i++) {
             if (name === this.state.exercises[i].name) {
                 let array = this.state.exercises;
@@ -145,9 +136,6 @@ export default class WorkoutEditor extends Component {
         let exerciseList = [];
         for (let i = 0; i < this.state.exercises.length; i++) {
             let exercise = this.state.exercises[i];
-            //console.log('exercise list')
-            //console.log(exercise)
-            // does this one need darkmode
             exerciseList.push(
                 <ExerciseButton
                     key={i}
@@ -218,10 +206,6 @@ export default class WorkoutEditor extends Component {
     }
 
     render() {
-        //console.log('render')  
-        //console.log('workout name is: ' + this.state.name)
-        console.log(this.state.exercises);
-
         let exerciseList = this.createExerciseList();
 
         let buttonList = this.createButtonList();
@@ -249,10 +233,8 @@ export default class WorkoutEditor extends Component {
                         dropDownStyle={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
                         arrowColor={this.props.darkmode ? '#FFFFFF' : '#000000'}
                         onChangeItem={(item) => {
-                            console.log(item.value)
                             if (item.value === 'add') {
                                 // show a text box, and then submit
-                                //console.log(this.state.savedTypes[this.state.savedTypes.length - 1])
                                 this.setState({ workoutTypeVisible: true })
                                 // add error checking
                             } else {
@@ -299,7 +281,7 @@ export default class WorkoutEditor extends Component {
                                             }
                                             serverMethods.deleteWorkoutType(this.props.route.params.username, this.state.newType)
                                             .then(response => {
-                                                console.log(response.status)
+                                                //console.log(response.status)
                                                 //check to make sure things were deleted?
                                             });
                                             this.setState({ savedTypes: array, newType: '', type: 'add', workoutTypeVisible: false, editWorkoutType: false, edited: false })
@@ -410,7 +392,6 @@ export default class WorkoutEditor extends Component {
                                         type={this.state.type}
                                         dismiss={() => this.setState({ editorVisible: false, modalVisible: false })}
                                         createExercise={(exercise) => {
-                                            //console.log('wtf is going on')
                                             let obj = {name: exercise.name, data: { sets: exercise.sets, reps: exercise.reps, weight: exercise.weight, duration: exercise.duration, distance: exercise.distance, pace: exercise.pace, incline: exercise.incline, laps: exercise.laps }};
                                             serverMethods.createExercise(this.props.route.params.username, this.state.type, obj)
                                                 .then(response => {
@@ -455,8 +436,6 @@ export default class WorkoutEditor extends Component {
                         <Button
                             buttonText='Delete'
                             onPress={() => {
-                                //this.props.deleteExercise(this.state);
-                                //console.log('time to delete');
                                 serverMethods.deleteWorkout(this.props.route.params.username, this.state.name);
                                 this.props.navigation.navigate('Workouts');
                             }}
@@ -473,12 +452,8 @@ export default class WorkoutEditor extends Component {
                                     missingExerciseError();
                                 } else {
                                     if (this.props.route.params.edit) {
-                                        console.log('edit')
                                         serverMethods.editWorkout(this.props.route.params.username, this.props.route.params.workout, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
                                     } else {
-                                        console.log('|||||||||||||||||||||||||||||||||||||')
-                                        console.log({ name: this.state.name, type: this.state.type, exercises: this.state.exercises })
-                                        console.log('|||||||||||||||||||||||||||||||||||||')
                                         serverMethods.createWorkout(this.props.route.params.username, { name: this.state.name, type: this.state.type, exercises: this.state.exercises });
                                     }
                                     this.props.navigation.navigate('Workouts');

@@ -26,15 +26,12 @@ export default class Workouts extends Component{
         serverMethods.getUserWorkouts(this.state.username)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
                 this.setState({ workouts: response })
             });
         this.listener = this.props.navigation.addListener('focus', () => {
-            console.log('focus');
             setTimeout(() => serverMethods.getUserWorkouts(this.state.username)
                 .then(response => response.json())
                 .then(response => {
-                    console.log(response)
                     this.setState({ workouts: response })
                 }), 300);
         });
@@ -43,19 +40,6 @@ export default class Workouts extends Component{
     componentWillUnmount() {
         this.listener();
     }
-
-    // componentDidUpdate(prevProps) {
-    //     // this will probably need to change after server calls are introduced
-    //     console.log('update')
-    //     if (prevProps.isFocused !== this.props.isFocused) {
-    //     serverMethods.getUserWorkouts(this.state.username)
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             console.log(response)
-    //             this.setState({ workouts: response })
-    //         });
-    //     }
-    // }
 
     editWorkout(workout) {
         this.setState({ currWorkout: workout });
@@ -73,7 +57,6 @@ export default class Workouts extends Component{
     }
 
     render() {
-        console.log(this.state.username);
         let workoutList = [];
         for (let i = 0; i < this.state.workouts.length; i++) {
             let workout = this.state.workouts[i];

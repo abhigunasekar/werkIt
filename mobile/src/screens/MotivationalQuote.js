@@ -23,7 +23,6 @@ export default class MotivationalQuote extends Component {
     render() {
         // add styling so it looks like "cover page" for now
         // add motivational quote generator in Sprint 3
-        console.log(this.state.quoteAuthor)
         return (
             <View style={styles.motivationalQuote}>
                 <Text style={{color: '#7641BD', fontWeight: 'bold', fontSize: 50, marginTop: 240}}>WERK IT</Text>
