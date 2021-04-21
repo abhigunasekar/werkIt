@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "10.0.0.86";
+const ip = "10.0.0.48";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -88,20 +88,21 @@ app.get('/user/:username', (req, res) => {
 });
 
 // check validity of username/email and send email for resetting password
-// app.post('/user/:username/email', (req, res) => {
-//     console.log("Sending email (in process to reset password)")
-//     mc.send_email(req.params.username, req.body.email).then(sent => {
-//         if (sent) {
-//             console.log("")
-//             mc.send_email(req.params.username, req.body.email).then(_ => {
-//                 res.status(200).end();
-//             });
-//         } else {
-//             console.log("Invalid username or email");
-//             res.status(400).end();
-//         }
-//     });
-// });
+app.post('/user/:username/email', (req, res) => {
+    console.log("Sending email (in process to reset password)");
+    mc.send_email(req.params.username, req.body.email).then(rc => {
+        if (rc == 0) {
+            console.log("Email successfully sent");
+            res.status(200).end();
+        } else if (rc == 1) {
+            console.log("Invalid username or email");
+            res.status(400).end();
+        } else {
+            console.log("There was an error sending the email");
+            res.status(401).end();
+        }
+    });
+});
 
 // reset password
 app.patch('/user/:username/profile', (req, res) => {
@@ -155,6 +156,11 @@ app.get('/:username/profile/:field', (req, res) => {
         });
     })
 })
+
+// app.get('/:username/profile_pic', (req, res) => {
+//     console.log("Getting profile pic");
+//     mc.get_profile_pic
+// })
 
 // get known workout types
 app.get('/:username/workoutTypes', (req, res) => {
@@ -439,7 +445,26 @@ app.post('/:username/request', (req, res) => {
     });
 });
 
+// get pending requests for a user
+app.get('/:username/requests', (req, res) => {
+    console.log("Getting all requests for user " + req.params.username);
+    mc.get_requests(req.params.username).then(requests => {
+        console.log("Successfully got pending requests");
+        res.status(200).json(requests);
+    });
+});
+
+// accept/decline request for a user
+app.post('/:username/request/:action', (req, res) => {
+    console.log(req.params.action + "ing request for user " + req.params.username);
+    mc.handle_request(req.params.username, req.params.action, req.body).then(_ => {
+        console.log("Successfully handled request");
+        res.status(200).end();
+    })
+})
+
 
 app.listen(port, ip, function () {
     console.log("Server listening on http://%s:%d", ip, port);
+    mc.create_email_account();
 });
