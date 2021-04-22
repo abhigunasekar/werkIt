@@ -940,7 +940,6 @@ async function get_requests(username) {
         }
         var friend_obj = await User.findById(req.friend).exec();
         req_obj['friend'] = friend_obj.name;
-        console.log("request object: " + req_obj)
         req_arr.push(req_obj);
     }
     console.log("mongo connect: " + req_arr)

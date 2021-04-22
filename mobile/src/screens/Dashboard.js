@@ -22,6 +22,7 @@ export default class Dashboard extends Component {
             workout: '',
             day: '',
             messages: [],
+            messageList: [],
             current_message_selected: '',
             modalVisible: false, 
         }
@@ -183,28 +184,29 @@ export default class Dashboard extends Component {
 
     make_message_buttons() {
         serverMethods.getMessageRequests(this.state.username)
+            .then(response => response.json())
             .then(response => {
-                response.json()
-                console.log("response: " + response)
-                this.setState({ messages: response });
-            })
-        let messageList = [];
-        console.log("messages: " + this.state.messages)
-        //console.log("messages: " + JSON.stringify(this.state.messages))
-        for (let i = 0; i < this.state.messages.length; i++) {
-            console.log("in loop: " + this.state.messages[i].friend)
-            messageList.push(
-                <Button
-                    key={i}
-                    buttonText={this.state.messages[i].friend}
-                    onPress={() => this.setState({ current_message_selected:this.state.messages[i].friend, modalVisible: true })}
-                    darkmode={this.props.darkmode}
-                    purple={true}
-                />
-            )
-        }
-        console.log("return")
-        //return messageList;
+                console.log("friends res:" + response);
+                console.log("friends res:" + response.message);
+                this.setState({ messages: response.message });
+                let messageList = [];
+                console.log("messages: " + this.state.messages)
+                //console.log("messages: " + JSON.stringify(this.state.messages))
+                for (let i = 0; i < this.state.messages.length; i++) {
+                    console.log("in loop: " + this.state.messages[i].friend)
+                    messageList.push(
+                        <Button
+                            key={i}
+                            buttonText={this.state.messages[i].friend}
+                            onPress={() => this.setState({ current_message_selected:this.state.messages[i].friend, modalVisible: true })}
+                            darkmode={this.props.darkmode}
+                            purple={true}
+                        />
+                    )
+                }
+                console.log("return")
+                this.setState({ messageList: messageList, modalVisible: true})
+            });
     }
 
     render() {
@@ -259,7 +261,8 @@ export default class Dashboard extends Component {
                 <Text style={[this.props.darkmode ? dark.darkTextBase : light.lightTextBase]}>{(this.nextUpcomingWorkout(this.state) === '' || this.nextUpcomingWorkout(this.state) === undefined) ? 'You have no upcoming workout this week' : this.nextUpcomingWorkout(this.state)}</Text>
                 <Button
                     buttonText='Messages'
-                    onPress={() => this.setState({ modalVisible: true})}
+                    onPress={() => this.make_message_buttons()}
+                    // onPress={() => this.setState({ modalVisible: true})}
                     darkmode={this.props.darkmode}
                     purple
                 />
@@ -272,7 +275,8 @@ export default class Dashboard extends Component {
                         <View style={this.props.darkmode ? dark.modalView : light.modalView}>
                             <Text>These are your message(s): </Text>
                             {/* <div><ul>{this.make_message_buttons()}</ul></div> */}
-                            {this.make_message_buttons()}
+                            {/* {this.make_message_buttons()} */}
+                            {this.state.messageList}
                             <Button
                                 buttonText='Back'
                                 onPress={() => this.setState({ modalVisible: false })}

@@ -98,6 +98,7 @@ export default class Friends extends Component {
                     key={i}
                     buttonText={this.state.friends[i].name}
                     onPress={() => this.setState({ current_friend_selected:this.state.friends[i].username, modalVisible1: true })}
+                    style={{marginBottom: 20}}
                     darkmode={this.props.darkmode}
                     purple={true}
                 />
