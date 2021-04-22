@@ -228,8 +228,8 @@
             //console.log(data);
             chartData = JSON.parse(data);
             //console.log(data);
-            //console.log('line data');
-            //console.log(chartData);
+            console.log('line data');
+            console.log(chartData);
             google.charts.load('current', {
                 'packages': ['corechart']
             });
@@ -310,7 +310,8 @@
         colRequest().then(data => {
             //console.log(data);
             chartData = JSON.parse(data);
-            //console.log(chartData);
+            console.log('colchart...')
+            console.log(chartData);
             google.charts.load('current', {
                 'packages': ['bar']
             });
