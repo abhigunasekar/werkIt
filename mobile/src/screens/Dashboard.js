@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Modal, SliderComponent } from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -10,16 +10,27 @@ import light from '../light';
 import dark from '../dark';
   
 export default class Dashboard extends Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             username: this.props.username,
+            firstLogin: this.props.firstLogin,
             savedWorkoutPlans: [],
             activeWorkoutPlan: '',
             workout: '',
             day: '',
+            messages: [],
+            messageList: [],
+            current_message_plan: '',
+            current_message_friend:'',
+            friendIndex: 0,
+            modalVisible: false, 
+            modalMessageCheck: false
         }
+        this.make_message_buttons=this.make_message_buttons.bind(this)
+
     }
 
     updateWorkout() {
@@ -118,6 +129,33 @@ export default class Dashboard extends Component {
         return nextWorkout;
     }
 
+    make_message_buttons() {
+        serverMethods.getMessageRequests(this.state.username)
+            .then(response => response.json())
+            .then(response => {
+                console.log("friends res:" + JSON.stringify(response));
+                console.log("friends res:" + response.message);
+                this.setState({ messages: response.message });
+                let messageList = [];
+                console.log("messages: " + this.state.messages)
+                //console.log("messages: " + JSON.stringify(this.state.messages))
+                for (let i = 0; i < this.state.messages.length; i++) {
+                    console.log("in loop: " + this.state.messages[i].friend)
+                    messageList.push(
+                        <Button
+                            key={i}
+                            buttonText={this.state.messages[i].friend}
+                            onPress={() => this.setState({ current_message_friend:this.state.messages[i].friend, current_message_plan:this.state.messages[i].type, friendIndex:i, modalVisible: false, modalMessageCheck: true })}
+                            darkmode={this.props.darkmode}
+                            purple={true}
+                        />
+                    )
+                }
+                console.log("return")
+                this.setState({ messageList: messageList, modalVisible: true})
+            });
+    }
+
     render() {
         let today = new Date();
         let day = today.getDay();
@@ -171,7 +209,6 @@ export default class Dashboard extends Component {
                     gray={true}
                     />
                 }
-
             </View>
         );
     }

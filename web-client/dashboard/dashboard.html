@@ -7,20 +7,13 @@
     <!-- Favicon -->
     <link rel=icon type=image/x-icon href=../assets/favicon.png>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js"
-        integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g=="
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js" integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g==" crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <meta name="color-scheme" content="dark light">
 
 
@@ -336,8 +329,8 @@
             // ]);
             var data = new google.visualization.DataTable();
             const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
-            console.log('correct arr...');
-            console.log(arr);
+            //console.log('correct arr...');
+            //console.log(arr);
 
             data.addColumn('string', 'Workout Type');
             data.addColumn('number', 'Workouts Completed');
@@ -425,11 +418,11 @@
 
             // Testing 1
             //var result = [];
-            console.log(chartData);
-            console.log(chartData.Monday);
+            //console.log(chartData);
+            //console.log(chartData.Monday);
 
             const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
-            console.log(arr);
+            //console.log(arr);
 
 
             var data = new google.visualization.DataTable();
@@ -465,11 +458,11 @@
         }
 
         function drawPie() {
-            console.log(pieData);
-            console.log(pieData.Monday);
+            //console.log(pieData);
+            //console.log(pieData.Monday);
 
             const arr = Object.keys(pieData).map((key) => [key, pieData[key]]);
-            console.log(arr);
+            //console.log(arr);
 
 
             var data = new google.visualization.DataTable();
@@ -488,14 +481,14 @@
                 },
                 'width': 400,
                 'height': 300
-                // hAxis: {
-                //     title: 'Workout Time (in minutes)',
-                //     minValue: 0
-                // },
-                // vAxis: {
-                //     title: 'Day'
-                // },
-                // colors: ['#7641BD']
+                    // hAxis: {
+                    //     title: 'Workout Time (in minutes)',
+                    //     minValue: 0
+                    // },
+                    // vAxis: {
+                    //     title: 'Day'
+                    // },
+                    // colors: ['#7641BD']
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('pie_div'));
@@ -508,9 +501,7 @@
 <body>
     <!-- Links Navbar -->
     <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
-        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
-            aria-label="Toggle navigation">
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -536,7 +527,7 @@
         <!-- <div class="inner-container col-lg-6"> -->
         <div class="item col-lg-6">
             <h2>Weekly Goal</h2>
-            <progress value="" max="" id="progress"> </progress>
+            <progress value="100" max="100" id="progress"> </progress>
         </div>
         <div class="item col-lg-6">
             <h2>Workout Streak Counter</h2>
@@ -593,7 +584,8 @@
             var json = JSON.parse(data);
             var streak = document.getElementById('streak');
             console.log(json);
-            streak.value = 0;
+            console.log('streak counter is ' + json.streak_counter);
+            streak.setAttribute("value", json.streak_counter);
             var dValue = json.dark_mode;
             if (dValue == true) {
                 document.documentElement.classList.toggle('dark-mode');
@@ -635,17 +627,18 @@
         //     alert(user);
         // });
 
-        window.onload = function () {
-            pageload();
+        window.onload = function() {
+            //pageload();
             var actualVal = actual.getAttribute("value");
             var goalVal = actual.getAttribute("max");
             var date = new Date();
             var day = date.getDay();
             var hour = date.getHours();
-            var newVal;
+            var newVal = streak.getAttribute("value");
+            console.log(newVal);
 
             if (actual.getAttribute("value") >= 3) {
-                //alert("Nice Job! You Completed On Average 3 Workouts This Week");
+                alert("Nice Job! You Completed On Average 3 Workouts This Week");
             }
             //actual.value = goal.max;
             // US18, A1: If Progress Bar Full, then streak should be increased by one
@@ -655,9 +648,11 @@
                 streak.setAttribute("value", newVal);
                 if (actual.value == actual.max) {
                     alert("Congratulations! You have met your weekly goal :)");
+                    streak.setAttribute("value", (streak.value + 1).length);
                 }
             } else {
                 newVal = streak.value;
+                streak.setAttribute("value", newVal);
             }
 
 
@@ -677,7 +672,7 @@
             var uname = localStorage.getItem("user");
             // /profile/:username/:field
             var urlFinal = 'http://127.0.0.1:8000/profile/' + uname + '/streak_counter' + '?_method=PATCH';
-            var sCounter = newVal;
+            var sCounter = streak.value;
             //console.log(sCounter);
             $.ajax({
                 url: urlFinal,
@@ -686,47 +681,48 @@
                 data: {
                     streak_counter: sCounter
                 },
-                success: function (data, textStatus) {
+                success: function(data, textStatus) {
                     //alert("successful 3");
 
                     //location.reload();
 
                 },
-                error: function (jqXHR, textStatus, err) {
+                error: function(jqXHR, textStatus, err) {
                     // alert('text status ' + textStatus + ', err ' + err)
                     alert("error");
                 }
-            })
+            });
 
 
 
 
 
+
+
+        }
+
+        window.onclick = function() {
+                pageclick();
+            }
             //if (actualVal == goalVal) {
 
-            //                streak.value = ++count;
-            //alert('Congratulations! You have successfully completed your weekly goal.');
-            //actual.setAttribute("aria-valuenow", "0");
-            //goal.setAttribute("aria-valuemax", "100");
+        //                streak.value = ++count;
+        //alert('Congratulations! You have successfully completed your weekly goal.');
+        //actual.setAttribute("aria-valuenow", "0");
+        //goal.setAttribute("aria-valuemax", "100");
 
-            //width.setAttribute("class", "progress-bar w-0");
-            //          }
-            // if (actualVal == 0) {
-            //     streak.value = 0;
-            //     //alert("Unfortunate! Please workout more in the upcoming weeks!");
-            // }
-            // if (avg == 0) {
-            //     //alert("Please workout more next week!");
-            // }
-            // if (avg > 3) {
-            //     //alert("Congratulations! You have surpassed your goals!");
-            // }
-
-        }
-
-        window.onclick = function () {
-            pageclick();
-        }
+        //width.setAttribute("class", "progress-bar w-0");
+        //          }
+        // if (actualVal == 0) {
+        //     streak.value = 0;
+        //     //alert("Unfortunate! Please workout more in the upcoming weeks!");
+        // }
+        // if (avg == 0) {
+        //     //alert("Please workout more next week!");
+        // }
+        // if (avg > 3) {
+        //     //alert("Congratulations! You have surpassed your goals!");
+        // }
     </script>
 </body>
 
