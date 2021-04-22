@@ -26,7 +26,6 @@ export default class ChangePassword extends Component {
 
         this.checkUsername = this.checkUsername.bind(this);
         this.passwordHandler = this.passwordHandler.bind(this);
-        this.validForm = this.validForm.bind(this);
         this.sendEmail = this.sendEmail.bind(this);
         this.checkCode = this.checkCode.bind(this);
     }
