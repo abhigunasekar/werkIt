@@ -91,15 +91,29 @@ app.get('/user/:username', (req, res) => {
 app.post('/user/:username/email', (req, res) => {
     console.log("Sending email (in process to reset password)");
     mc.send_email(req.params.username, req.body.email).then(rc => {
-        if (rc == 0) {
-            console.log("Email successfully sent");
-            res.status(200).end();
-        } else if (rc == 1) {
+        if (rc == 1) {
             console.log("Invalid username or email");
             res.status(400).end();
-        } else {
+        } else if (rc == 2) {
             console.log("There was an error sending the email");
             res.status(401).end();
+        } else {
+            console.log("Email successfully sent");
+            res.status(200).end();
+        }
+    });
+});
+
+// check 6-digit code
+app.post('/user/:username/code', (req, res) => {
+    console.log("Validating code");
+    mc.check_code(req.params.username, req.body.code).then(correct => {
+        if (correct) {
+            console.log("Code is correct");
+            res.status(200).end();
+        } else {
+            console.log("Code is incorrect");
+            res.status(400).end();
         }
     });
 });
@@ -130,7 +144,7 @@ app.get('/profile/:username', cors(), (req, res) => {
 // update one element of user profile info
 // ONLY use with fields that are not object ids
 app.patch('/profile/:username/:field', (req, res) => {
-    console.log("Updating " + req.params.field + "field for user " + req.params.username);
+    console.log("Updating " + req.params.field + " field for user " + req.params.username);
     mc.update_profile_field(req.params.username, req.params.field, req.body).then(_ => {
         res.status(200).end();
     });

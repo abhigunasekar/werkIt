@@ -1,4 +1,4 @@
-const address = '10.0.0.86';
+const address = '10.0.0.48';
 
 export async function createAccount(info) {
     console.log('create account');
@@ -28,6 +28,30 @@ export async function login(info) {
         headers: {
             'Content-Type': 'application/json'
         }
+    });
+}
+
+export async function sendEmail(username, body) {
+    console.log('send email');
+    return fetch('http://' + address + ':8000/user/' + username + '/email', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(body)
+    });
+}
+
+export async function checkCode(username, body) {
+    console.log('check code');
+    return fetch('http://' + address + ':8000/user/' + username + '/code', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(body)
     });
 }
 

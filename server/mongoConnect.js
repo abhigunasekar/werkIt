@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     loc: String,
     pic: String,
+    code: Number,
     dark_mode: Boolean,
     streak_counter: Number,
     challenges_won: Number,
@@ -145,7 +146,8 @@ const friends = new mongoose.Schema({
     friend_name: String,
     friend_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     friend_goal: Number,
-    friend_streak_counter: Number
+    friend_streak_counter: Number,
+    pending: Boolean
 }, { versionKey: false });
 
 const ConnectedFriends = mongoose.model("ConnectedFriends", friends)
@@ -284,20 +286,27 @@ async function check_user_existence(username) {
 
 async function validate_email(username, email) {
     var exists = await check_user_existence(username);
+    console.log("exists: " + exists);
     if (exists) {
         console.log("Username exists")
         var user = await get_user_obj(username);
         if (user.email.localeCompare(email) == 0) {
+            console.log("HERE")
             return true;
+        } else {
+            return false;
         }
     }
+    console.log("exists2: " + exists);
     return exists;
 }
 
 async function send_email(username, email) {
-    if (!validate_email(username, email)) {
+    if (!(await validate_email(username, email))) {
+        console.log("here");
         return 1;
     }
+    var user = await get_user_obj(username);
     var code = Math.floor(Math.random() * (999999-100000) + 100000);
     var msg = 'Your six digit code is: ' + code.toString();
     var mailOptions = {
@@ -306,7 +315,7 @@ async function send_email(username, email) {
         subject: 'WerkIt Password Reset Requested',
         text: msg
     };
-    transporter.sendMail(mailOptions, function(error, info) {
+    await transporter.sendMail(mailOptions, async function(error, info) {
         if (error) {
             console.log("email error: " + error);
             return 2;
@@ -315,7 +324,14 @@ async function send_email(username, email) {
             console.log('Preview URL: ' + nodemailer.getTestMessageUrl(info));
         }
     });
-    return 0;
+    return await User.findByIdAndUpdate(
+        user._id, {code: code}, {new: true}
+    ).exec();
+}
+
+async function check_code(username, code) {
+    var user = await get_user_obj(username);
+    return (code == user.code);
 }
 
 async function change_password(user, new_pass) {
@@ -326,7 +342,9 @@ async function change_password(user, new_pass) {
         // New password is not different from old one
         throw 403;
     } else {
-        return await User.findOneAndUpdate({ user: user }, { pass: new_pass }, { new: true }).exec();
+        return await User.findOneAndUpdate(
+            { user: user }, { pass: new_pass, code: null }, { new: true }
+        ).exec();
     }
 }
 
@@ -338,6 +356,7 @@ async function update_darkmode(username) {
 
 async function update_profile_field(username, field, data) {
     var user = await get_user_obj(username);
+    console.log(user);
     return await User.findByIdAndUpdate(
         user._id, {
             [field]: data[field]
@@ -847,7 +866,7 @@ async function update_plan(username, plan, new_plan_data) {
     return true;
 }
 
-async function add_friend(username, f_user) {
+async function add_friend(username, f_user, pending) {
     if (!(await check_user_existence(f_user))) {
         return 1;
     }
@@ -865,7 +884,8 @@ async function add_friend(username, f_user) {
         friend_name: friend_obj.name,
         friend_id: friend_obj,
         friend_goal: 0,
-        friend_streak_counter: 0
+        friend_streak_counter: 0,
+        pending: pending
     });
 
     friend.save(function(err, friend) {
@@ -909,7 +929,10 @@ async function send_request(username, req_body) {
             friend: user._id
         });
     } else if (req.body.type.localeCompare("friend") == 0) {
-        // TODO implement friend request
+        request = new Request({
+            type: req_body.type,
+            friend: user._id
+        });
         return 0;
     }
     request.save(function(err, request) {
@@ -968,8 +991,26 @@ async function handle_request(username, action, body) {
                     person._id, {challenges: challenges}, {new: true}
                 ).exec();
             }
+        } else if (body.type.localeCompare("friend") == 0) {
+            await add_friend(user.username, friend_user.username, false);
+            for (var cf_id of friend_user.friends_list) {
+                var cf = await ConnectedFriends.findById(cf_id).exec();
+                if (cf.friend_name.localeCompare(user.name) == 0) {
+                    await ConnectedFriends.findByIdAndUpdate(
+                        cf_id, {pending: false}, {new: true}
+                    ).exec();
+                }
+            }
         }
     } else {
+        if (body.type.localeCompare("friend") == 0) {
+            for (var cf_id of friend_user.friends_list) {
+                var cf = await ConnectedFriends.findById(cf_id).exec();
+                if (cf.friend_name.localeCompare(user.name) == 0) {
+                    await ConnectedFriends.findByIdAndDelete(cf_id).exec();
+                }
+            }
+        }
         await Request.findByIdAndDelete(body._id).exec();
     }
 
@@ -1024,5 +1065,6 @@ module.exports = {
     send_request,
     get_requests,
     handle_request,
-    send_email
+    send_email,
+    check_code
 }

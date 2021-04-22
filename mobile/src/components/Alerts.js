@@ -72,6 +72,42 @@ export const usernameDoesNotExist = () => {
     )
 }
 
+export const invalidEmailCredentials = () => {
+    Alert.alert(
+        '',
+        'Either the specified username or email is invalid.',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const invalidCode = () => {
+    Alert.alert(
+        '',
+        'The 6-digit code entered is incorrect.',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const enterCodeError = () => {
+    Alert.alert(
+        '',
+        'Please enter the 6-digit code.',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
 export const missingUsernameError = () => {
     Alert.alert(
         '',
@@ -225,6 +261,18 @@ export const workout_plan_sent = (friend_name) => {
     Alert.alert(
         '',
         'Successfully sent workout plan to ' + friend_name + ' !',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
+export const pending_friend_alert = (friend_name) => {
+    Alert.alert(
+        '',
+        'Waiting for ' + friend_name + ' to accept your friend request!',
         [
             {
                 text: 'OK'

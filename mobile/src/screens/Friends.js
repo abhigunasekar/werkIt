@@ -5,7 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import Button from '../components/Button';
 import Textbox from '../components/TextBox';
 import * as serverMethods from '../ServerMethods';
-import { friendExistsError, friendDNEError, workout_plan_sent, challenge_sent } from '../components/Alerts';
+import { friendExistsError, friendDNEError, workout_plan_sent, challenge_sent, pending_friend_alert } from '../components/Alerts';
 import DropDownPicker from 'react-native-dropdown-picker';
 import TextBox from '../components/TextBox';
 
@@ -19,6 +19,7 @@ export default class Friends extends Component {
         this.state = {
             username: this.props.username,
             friends: [],
+            pending: [],
             new_friend: '',
             current_friend_selected: '',
             modalVisible1: false,
@@ -39,7 +40,17 @@ export default class Friends extends Component {
             .then(response => response.json())
             .then(response => {
                 console.log("friends res:" + response);
-                this.setState({ friends: response });
+                var friend_list = [];
+                var pending_list = [];
+                for (var f of response) {
+                    if (f.pending) {
+                        pending_list.push(f);
+                    } else {
+                        friend_list.push(f);
+                    }
+                }
+                this.setState({ friends: friend_list });
+                this.setState({ pending: pending_list });
             });
         serverMethods.getUserWorkoutPlans(this.state.username)
             .then(response => response.json())
@@ -101,6 +112,20 @@ export default class Friends extends Component {
                     style={{marginBottom: 20}}
                     darkmode={this.props.darkmode}
                     purple={true}
+                />
+            )
+        }
+
+        let pendingList = [];
+        
+        for (let i = 0; i < this.state.pending.length; i++) {
+            pendingList.push(
+                <Button
+                    key={i}
+                    buttonText={this.state.pending[i].name}
+                    onPress={() => pending_friend_alert()}
+                    darkmode={this.props.darkmode}
+                    gray={true}
                 />
             )
         }
@@ -239,6 +264,7 @@ export default class Friends extends Component {
                 </View>
                 <ScrollView style={{width: '80%', height: '70%'}} contentContainerStyle={{alignItems: 'center'}}>
                     {(friendsList.length === 0) ? <Text style={this.props.darkmode ? dark.text : light.text}>Add some friends!</Text> : friendsList}
+                    {(pendingList.length === 0) ? <Text style={this.props.darkmode ? dark.text : light.text}></Text> : pendingList}
                 </ScrollView>
             </View>
         );
