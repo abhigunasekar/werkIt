@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Modal, SliderComponent } from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -10,16 +10,27 @@ import light from '../light';
 import dark from '../dark';
   
 export default class Dashboard extends Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             username: this.props.username,
+            firstLogin: this.props.firstLogin,
             savedWorkoutPlans: [],
             activeWorkoutPlan: '',
             workout: '',
             day: '',
+            messages: [],
+            messageList: [],
+            current_message_plan: '',
+            current_message_friend:'',
+            friendIndex: 0,
+            modalVisible: false, 
+            modalMessageCheck: false
         }
+        this.make_message_buttons=this.make_message_buttons.bind(this)
+
     }
 
     updateWorkout() {
@@ -79,6 +90,9 @@ export default class Dashboard extends Component {
 
     nextUpcomingWorkout(currentActive) {
         var nextWorkout = '';
+        if (currentActive.activeWorkoutPlan === null || currentActive.activeWorkoutPlan === undefined) {
+            return nextWorkout;
+        }
         if (this.state.day == 'Sunday') {
             if (currentActive.activeWorkoutPlan.Monday !== "") {
                 nextWorkout += this.state.activeWorkoutPlan.Monday + " on Monday\n";
@@ -173,6 +187,33 @@ export default class Dashboard extends Component {
         return nextWorkout;
     }
 
+    make_message_buttons() {
+        serverMethods.getMessageRequests(this.state.username)
+            .then(response => response.json())
+            .then(response => {
+                console.log("friends res:" + JSON.stringify(response));
+                console.log("friends res:" + response.message);
+                this.setState({ messages: response.message });
+                let messageList = [];
+                console.log("messages: " + this.state.messages)
+                //console.log("messages: " + JSON.stringify(this.state.messages))
+                for (let i = 0; i < this.state.messages.length; i++) {
+                    console.log("in loop: " + this.state.messages[i].friend)
+                    messageList.push(
+                        <Button
+                            key={i}
+                            buttonText={this.state.messages[i].friend}
+                            onPress={() => this.setState({ current_message_friend:this.state.messages[i].friend, current_message_plan:this.state.messages[i].type, friendIndex:i, modalVisible: false, modalMessageCheck: true })}
+                            darkmode={this.props.darkmode}
+                            purple={true}
+                        />
+                    )
+                }
+                console.log("return")
+                this.setState({ messageList: messageList, modalVisible: true})
+            });
+    }
+
     render() {
         let today = new Date();
         //let day = today.getDay();
@@ -181,7 +222,8 @@ export default class Dashboard extends Component {
         let yyyy = today.getFullYear();
         today = mm + '-' + dd + '-' + yyyy;
 
-        // {workout_name: , day: , date: , time: }
+        // {workout_name: , day: , date: , time:, type_name }
+
         return (
             <View style={this.props.darkmode ? dark.dashboardContainer : light.dashboardContainer}>
                 <Text style={[this.props.darkmode ? dark.text : light.text, {fontSize: 20, margin: 25}]}>Welcome {this.state.username}!</Text>
@@ -214,14 +256,76 @@ export default class Dashboard extends Component {
                 {(this.state.workout === undefined) || (this.state.workout === '') ? null : 
                     <Button
                     buttonText='START'
-                    onPress={() => this.props.navigation.navigate('Workout Tracker', { workout: this.state.workout })}
+                    onPress={() => this.props.navigation.navigate('Workout Tracker', { workout: this.state.workout, day: this.state.day, date: today })}
                     darkmode={this.props.darkmode}
-                    onPress={() => {
-                        this.props.logout();
-                        this.props.navigation.navigate('Login');
-                    } }
-                    orange={true}
-                />}
+                    gray={true}
+                    />
+                }
+                <Text></Text>
+                <Text style={[this.props.darkmode ? dark.darkTextHeader : light.lightTextHeader]}>Your upcoming workout is/are:</Text>
+                <Text style={[this.props.darkmode ? dark.darkTextBase : light.lightTextBase]}>{(this.nextUpcomingWorkout(this.state) === '' || this.nextUpcomingWorkout(this.state) === undefined) ? 'You have no upcoming workout this week' : this.nextUpcomingWorkout(this.state)}</Text>
+                <Button
+                    buttonText='Messages'
+                    onPress={() => this.make_message_buttons()}
+                    darkmode={this.props.darkmode}
+                    purple
+                />
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                >
+                    <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                        <View style={this.props.darkmode ? dark.modalView : light.modalView}>
+                            <Text>These are your message(s): </Text>
+                            {this.state.messageList}
+                            <Button
+                                buttonText='Back'
+                                onPress={() => this.setState({ modalVisible: false })}
+                                darkmode={this.props.darkmode}
+                                gray
+                            />
+                        </View>
+                    </View>
+                </Modal>
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={this.state.modalMessageCheck}
+                >
+                    <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                        <View style={this.props.darkmode ? dark.modalView : light.modalView}>
+                            <Text>Please accept or decline this {this.state.current_message_plan} message from {this.state.current_message_friend}</Text>
+                            <Button
+                                buttonText='Accept'
+                                onPress={() => {
+                                    //console.log("message at index: " + this.friendIndex)
+                                    this.setState({ modalMessageCheck: false })
+                                    serverMethods.acceptMessage(this.state.username, this.state.messages[this.state.friendIndex])
+                                        .then(() => this.setState({ modalMessageCheck: false }))
+                                }}
+                                darkmode={this.props.darkmode}
+                                gray
+                            />
+                            <Button
+                                buttonText='Decline'
+                                onPress={() => {
+                                    this.setState({ modalMessageCheck: false })
+                                    serverMethods.declineMessage(this.state.username, this.state.messages[this.state.friendIndex])
+                                        .then(() => this.setState({ modalMessageCheck: false }))
+                                }}
+                                darkmode={this.props.darkmode}
+                                gray
+                            />
+                            <Button
+                                buttonText='Back'
+                                onPress={() => this.setState({ modalMessageCheck: false, modalVisible: true  })}
+                                darkmode={this.props.darkmode}
+                                gray
+                            />
+                        </View>
+                    </View>
+                </Modal>
             </View>
         );
     }

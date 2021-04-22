@@ -31,6 +31,30 @@ export async function login(info) {
     });
 }
 
+export async function sendEmail(username, body) {
+    console.log('send email');
+    return fetch('http://' + address + ':8000/user/' + username + '/email', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(body)
+    });
+}
+
+export async function checkCode(username, body) {
+    console.log('check code');
+    return fetch('http://' + address + ':8000/user/' + username + '/code', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(body)
+    });
+}
+
 export async function changePassword(info) {
     console.log('change password');
     return await fetch('http://' + address + ':8000/user/' + info.username + '/profile', {
@@ -174,6 +198,11 @@ export function getWorkout(username, workout) {
     return fetch('http://' + address + ':8000/' + username + '/workout/' + workout);
 }
 
+export function getWorkoutPlan(username, workoutPlan) {
+    console.log('getting workout plan with name: ' + workoutPlan);
+    return fetch('http://' + address + ':8000/' + username + '/workout_plan/' + workoutPlan);
+}
+
 export function deleteWorkout(username, workout) {
     console.log('deleting workout: ' + workout);
     return fetch('http://' + address + ':8000/' + username + '/' + workout + '/rm_wkout', {
@@ -213,7 +242,7 @@ export function editWorkout(username, oldName, workout) {
 }
 
 export function editWorkoutPlan(username, oldName, workoutPlan) {
-    console.log('editing workout plan: ' + workoutPlan.name)
+    console.log('editing workout plan: ' + oldName)
     return fetch('http://' + address + ':8000/' + username + '/' + oldName + '/edit_plan', {
         method: 'PATCH',
         headers: {
@@ -230,10 +259,22 @@ export function editWorkoutType(username, workoutType, newName) {
         method: 'PATCH',
         headers: {
             Accept: 'application/json',
-            'Content-Type' : 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(newName)
     });
+}
+
+export function completeWorkout(username, workout) {
+    console.log('saving completed workout: ' + workout.workout_name)
+    return fetch('http://' + address + ':8000/' + username + '/completed', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(workout)
+    })
 }
 
 export function getFriends(username) {
@@ -263,5 +304,41 @@ export function sendRequest(username, request) {
             'Content-Type' : 'application/json'
         },
         body: JSON.stringify(request)
+    });
+}
+
+export function getQuote() {
+    console.log('getting motivational quote')
+    return fetch('http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json');
+}
+export function getMessageRequests(username) {
+    console.log("inside message request")
+    var grab = fetch('http://' + address + ':8000/' + username + '/messagerequests', {
+        method: 'GET'
+    });
+    console.log("grab: " + grab)
+    return grab;
+    //return fetch('http://' + address + ':8000/' + username + '/requests');
+}
+
+export function acceptMessage(username, message) {
+    return fetch('http://' + address + ':8000/' + username + '/adrequest/accept', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(message)
+    });
+}
+
+export function declineMessage(username, message) {
+    return fetch('http://' + address + ':8000/' + username + '/adrequest/decline', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(message)
     });
 }

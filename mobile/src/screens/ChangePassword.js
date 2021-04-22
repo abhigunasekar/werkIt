@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import TextBox from '../components/TextBox';
 import PasswordBox from '../components/PasswordBox';
 
-import { mismatchPasswordAlert, invalidFormAlert, usernameDoesNotExist } from '../components/Alerts';
+import { mismatchPasswordAlert, invalidFormAlert, usernameDoesNotExist, invalidEmailCredentials, enterCodeError, invalidCode } from '../components/Alerts';
 import * as serverMethods from '../ServerMethods';
 import styles from '../light';
 
@@ -20,11 +20,14 @@ export default class ChangePassword extends Component {
             matchingCredentials: false,
             passwordChanged: false,
             confirmation: false,
+            code: ''
         }
 
         this.checkUsername = this.checkUsername.bind(this);
         this.passwordHandler = this.passwordHandler.bind(this);
         this.validForm = this.validForm.bind(this);
+        this.sendEmail = this.sendEmail.bind(this);
+        this.checkCode = this.checkCode.bind(this);
     }
 
     async checkUsername() {
@@ -44,6 +47,36 @@ export default class ChangePassword extends Component {
             }
         } else {
             invalidFormAlert();
+        }
+    }
+
+    async sendEmail() {
+        if ((this.state.username !== '') && (this.state.email !== '')) {
+            var body = {email: this.state.email};
+            let emailRes = await serverMethods.sendEmail(this.state.username, body);
+            console.log(emailRes.status);
+            if ((emailRes.status === 200)) {
+                this.setState({ matchingCredentials: true });
+            } else {
+                invalidEmailCredentials();
+            }
+        } else {
+            invalidFormAlert();
+        }
+    }
+
+    async checkCode() {
+        if (this.state.code !== '') {
+            var body = {code: parseInt(this.state.code, 10)}
+            var codeRes = await serverMethods.checkCode(this.state.username, body);
+            console.log(codeRes.status);
+            if (codeRes.status === 200) {
+                this.setState({ confirmation: true});
+            } else {
+                invalidCode();
+            }
+        } else {
+            enterCodeError();
         }
     }
 
@@ -87,7 +120,7 @@ export default class ChangePassword extends Component {
                             /> 
                             <Button
                                 buttonText='Next'
-                                onPress={() => this.checkUsername()}
+                                onPress={() => this.sendEmail()}
                                 gray={true}
                             />
                             </View>
@@ -101,32 +134,11 @@ export default class ChangePassword extends Component {
                     <View style={styles.changePasswordContainer}>
                         <View style={styles.changePasswordForm}>
                             <Text style={{fontSize: 16, color: '#535c68', fontWeight: 'bold', marginBottom: 50}}>Check your email for a 6-digit confirmation code</Text>
-                            <View style={{flexDirection: 'row'}}>
-                                <TextBox
-                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
-                                    textAlign='center'
-                                />
-                                <TextBox
-                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
-                                    textAlign='center'
-                                />
-                                <TextBox
-                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
-                                    textAlign='center'
-                                />
-                                <TextBox
-                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
-                                    textAlign='center'
-                                />
-                                <TextBox
-                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
-                                    textAlign='center'
-                                />
-                                <TextBox
-                                    style={{width: 30, height: 30, marginRight: 15, padding: 0}}
-                                    textAlign='center'
-                                />
-                            </View>
+                            <TextBox
+                                placeholder='6-digit code'
+                                onChangeText={(text) => this.setState({ code: text })}
+                                value={this.state.code}
+                            />
                             <View style={{flexDirection: 'row', marginTop: 30}}>
                             <Button 
                                 buttonText='Go back'
@@ -136,7 +148,7 @@ export default class ChangePassword extends Component {
                             /> 
                             <Button
                                 buttonText='Next'
-                                onPress={() => console.log('submit confirmation code')}
+                                onPress={() => this.checkCode()}
                                 gray={true}
                             />
                             </View>

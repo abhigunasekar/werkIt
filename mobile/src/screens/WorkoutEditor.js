@@ -51,7 +51,7 @@ export default class WorkoutEditor extends Component {
                 response.map((type) => array.unshift({label: type, value: type}));
                 this.setState({ savedTypes: array });
             });
-        if (this.state.name !== '') {
+        if (this.props.route.params.edit) {
             serverMethods.getWorkout(this.props.route.params.username, this.state.name)
                 .then(response => response.json())
                 .then(response => {

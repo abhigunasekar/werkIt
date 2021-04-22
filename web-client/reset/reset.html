@@ -80,25 +80,9 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
-                    <input type="email" class="form-control" name="email" placeholder="Email" required="required">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required">
                 </div>
             </div>
-
-            <!-- Password -->
-            <!-- <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="password" id="pswd" class="form-control" name="password" placeholder="New Password" required="required">
-                </div>
-            </div> -->
-
-            <!-- Confirm Password -->
-            <!-- <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="password" id="confirm" class="form-control" name="password" placeholder="Confirm Password" required="required">
-                </div>
-            </div> -->
 
             <div class="form-group row">
                 <div class="col-sm-12 text-center">
@@ -127,7 +111,30 @@
 
         $btn.on('click', function(event) {
             event.preventDefault();
-            window.location.href = 'http://agunase.github.io/werkIt/web-client/reset/code.html';
+            var username = document.getElementById("user").value;
+            var email = document.getElementById("email").value;
+            if (username == "" || email == "") {
+                alert("Please enter your username and password.");
+                return false;
+            } else {
+                var url = 'http://127.0.0.1:8000/user/' + username + '/email';
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        email: email
+                    },
+                    success: function(data, textStatus) {
+                        localStorage.setItem("user", username);
+                        window.location.href = './code.html';
+                    },
+                    error: function(jqXHR, textStatus, err) {
+                        alert("Either the specified username or email is invalid.");
+                        return false;
+                    }
+                });
+            }
         });
     </script>
 </body>
