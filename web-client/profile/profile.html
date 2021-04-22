@@ -5,10 +5,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js" integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js"
+        integrity="sha512-35iprhkhuoR3ynsM73FbqSEX8JxZn5FaOujUFquTtioaqR7HKLrmvV22Sx0p5pctSIR9k6jJv80Ieo38dih99g=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="profile.css">
     <!-- Favicon -->
@@ -49,7 +56,9 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-main bg-main inverted">
-        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -60,7 +69,8 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <a href="../dashboard/dashboard.html" class="btn btn-outline-login my-2 my-sm-0" type="submit">Dashboard</a>
+                <a href="../dashboard/dashboard.html" class="btn btn-outline-login my-2 my-sm-0"
+                    type="submit">Dashboard</a>
                 <a href="../index.html" class="btn btn-outline-login my-2 my-sm-0 " type="submit">Log Out</a>
             </form>
         </div>
@@ -79,14 +89,14 @@
                     <div class="camera">
                         <video id="video" hidden>Video stream not available.</video>
                         <label for="updateProfile">
-                          <img id="profilePic" title="Click to give ya self a new look!" class="profile"/>
+                            <img id="profilePic" title="Click to give ya self a new look!" class="profile" />
                         </label>
                         <img id="photo" alt="The screen capture will appear in this box." class="profilePicture" hidden>
                     </div>
                     <canvas id="canvas" hidden>
                     </canvas>
-                    
-                    <input type="file" id="updateProfile" onchange="updateProfilePic()" name="" hidden/>
+
+                    <input type="file" id="updateProfile" onchange="updateProfilePic()" name="" hidden />
                 </div>
 
                 <div class="input-group form-row col-lg-12">
@@ -149,7 +159,7 @@
                     <!-- Your Location -->
                     <!-- </label> -->
                     <select id="mySelect" value="US-IN" class="btn btn-login" aria-labelledby="">
-                        <option id="US-AL"  value="US-AL">US-AL</option>
+                        <option id="US-AL" value="US-AL">US-AL</option>
                         <option id="US-AK" value="US-AK">US-AK</option>
                         <option id="US-AZ" value="US-AZ">US-AZ</option>
                         <option id="US-AR" value="US-AR">US-AR</option>
@@ -266,24 +276,24 @@
         var $ni = $('#name');
 
 
-        $np.on('click', function() {
+        $np.on('click', function () {
             $ni.prop('readonly', false).focus();
 
         });
 
 
-        $ep.on('click', function() {
+        $ep.on('click', function () {
             $ei.prop('readonly', false).focus();
 
         });
 
 
-        $up.on('click', function() {
+        $up.on('click', function () {
             $ui.prop('readonly', false).focus();
 
         });
 
-        $('input').focusout(function() {
+        $('input').focusout(function () {
             $('input').prop('readonly', true).focusout();
         });
 
@@ -324,9 +334,9 @@
             if (dValue == true) {
                 document.documentElement.classList.toggle('dark-mode');
                 document.querySelectorAll('.inverted').forEach((result) => {
-                        result.classList.toggle('invert');
-                    })
-                    //alert(dValue.value);
+                    result.classList.toggle('invert');
+                })
+                //alert(dValue.value);
                 dSwitch.checked = true;
             } else {
                 dSwitch.checked = false;
@@ -336,7 +346,7 @@
             console.log(dSwitch.checked);
         });
 
-        $("#submit-btn").click(function(event) {
+        $("#submit-btn").click(function (event) {
             event.preventDefault();
             var uname = $("#uname").val();
             var urlFinal = 'http://127.0.0.1:8000/user/' + uname + '/darkmode?_method=PATCH';
@@ -350,23 +360,159 @@
             //     "password": password
             // };
             $.ajax({
-                    url: urlFinal,
-                    type: 'PATCH',
-                    cache: false,
-                    data: {
+                url: urlFinal,
+                type: 'PATCH',
+                cache: false,
+                data: {
 
-                    },
-                    success: function(data, textStatus) {
-                        //alert("successful");
-                        location.reload();
+                },
+                success: function (data, textStatus) {
+                    //alert("successful");
+                    location.reload();
 
-                    },
-                    error: function(jqXHR, textStatus, err) {
-                        // alert('text status ' + textStatus + ', err ' + err)
-                        alert("error");
-                    }
-                })
-                // window.location = "../dashboard/dashboard.html";
+                },
+                error: function (jqXHR, textStatus, err) {
+                    // alert('text status ' + textStatus + ', err ' + err)
+                    alert("error");
+                }
+            })
+            // window.location = "../dashboard/dashboard.html";
+        });
+
+
+        //-----Patch Request for Modified Fields----
+        var $btn = $('#submit-btn');
+
+        $btn.on('click', function (event) {
+            event.preventDefault();
+            var name = document.getElementById("name").value;
+            var index = name.indexOf(" ");
+            var fName = name.substring(0, index);;
+            var lName = name.substring(index, name.length);;
+            var email = document.getElementById("email").value;
+            var uname = document.getElementById("uname").value;
+            var loc = document.getElementById("mySelect").value;
+            var dMode = document.getElementById("switch").value;
+            console.log(loc);
+            console.log(dMode);
+            /*if (password == "") {
+                alert("Please enter your new password.");
+                return false;
+            } else if (password != confirmP) {
+                alert("Passwords didn't match, please try again.");
+                return false;
+            } else {*/
+            var url = 'http://127.0.0.1:8000/user/' + localStorage.getItem("user") + '/profile';
+            $.ajax({
+                url: url,
+                type: 'PATCH',
+                cache: false,
+                data: {
+                    f_name: fName,
+                    l_name: lName,
+                    email: email,
+                    username: uname,
+                    dark_mode: dMode,
+                    loc: loc
+
+
+                },
+                success: function (data, textStatus) {
+                    //window.location.href = '../login/login.html';
+                    //localStorage.setItem("user", null);
+                    alert("Your preferences were saved");
+                },
+                error: function (jqXHR, textStatus, err) {
+                    alert("There was an error saving your preferences.");
+                    return false;
+                }
+            });
+            /*$.ajax({
+                url: url,
+                type: 'PATCH',
+                cache: false,
+                data: {
+                    l_name: lName
+                },
+                success: function (data, textStatus) {
+                    //window.location.href = '../login/login.html';
+                    //localStorage.setItem("user", null);
+                    alert("Your preferences were saved");
+                },
+                error: function (jqXHR, textStatus, err) {
+                    alert("There was an error saving your preferences.");
+                    return false;
+                }
+            });
+            $.ajax({
+                url: url,
+                type: 'PATCH',
+                cache: false,
+                data: {
+                    email: email
+                },
+                success: function (data, textStatus) {
+                    //window.location.href = '../login/login.html';
+                    //localStorage.setItem("user", null);
+                    alert("Your preferences were saved");
+                },
+                error: function (jqXHR, textStatus, err) {
+                    alert("There was an error saving your preferences.");
+                    return false;
+                }
+            });
+            $.ajax({
+                url: url,
+                type: 'PATCH',
+                cache: false,
+                data: {
+                    username: uname
+                },
+                success: function (data, textStatus) {
+                    //window.location.href = '../login/login.html';
+                    //localStorage.setItem("user", null);
+                    alert("Your preferences were saved");
+                },
+                error: function (jqXHR, textStatus, err) {
+                    alert("There was an error saving your preferences.");
+                    return false;
+                }
+            });
+            $.ajax({
+                url: url,
+                type: 'PATCH',
+                cache: false,
+                data: {
+                    dark_mode: dMode
+                },
+                success: function (data, textStatus) {
+                    //window.location.href = '../login/login.html';
+                    //localStorage.setItem("user", null);
+                    alert("Your preferences were saved");
+                },
+                error: function (jqXHR, textStatus, err) {
+                    alert("There was an error saving your preferences.");
+                    return false;
+                }
+            });
+            $.ajax({
+                url: url,
+                type: 'PATCH',
+                cache: false,
+                data: {
+                    loc: loc
+                },
+                success: function (data, textStatus) {
+                    //window.location.href = '../login/login.html';
+                    //localStorage.setItem("user", null);
+                    alert("Your preferences were saved");
+                },
+                error: function (jqXHR, textStatus, err) {
+                    alert("There was an error saving your preferences.");
+                    return false;
+                }
+            });*/
+            /* }*/
         });
     </script>
 </body>
