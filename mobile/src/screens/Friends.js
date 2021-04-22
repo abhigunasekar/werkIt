@@ -173,7 +173,7 @@ export default class Friends extends Component {
                 >
                     <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
                         <View style={this.props.darkmode ? dark.modalView : light.modalView}>
-                            <Text>Current friend selected: {this.state.current_friend_selected}</Text>
+                            <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}>Current friend selected: {this.state.current_friend_selected}</Text>
                             <Button
                                 buttonText='Send workout plan'
                                 onPress={() => this.setState({ modalVisible1: false, modalVisibleSendPlan: true })}
@@ -242,7 +242,7 @@ export default class Friends extends Component {
                 >
                     <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
                         <View style={this.props.darkmode ? dark.modalView : light.modalView}>
-                            <Text>Enter the number of workouts for friend to complete:</Text>
+                            <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}>Enter the number of workouts for friend to complete:</Text>
                             <TextBox
                                 keyboardType='number-pad'
                                 style={{marginTop: 20, alignItems: 'center'}}

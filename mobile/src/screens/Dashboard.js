@@ -209,6 +209,68 @@ export default class Dashboard extends Component {
                     gray={true}
                     />
                 }
+                <Button
+                    buttonText='Messages'
+                    onPress={() => this.make_message_buttons()}
+                    darkmode={this.props.darkmode}
+                    purple
+                />
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                >
+                    <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                        <View style={this.props.darkmode ? dark.modalView : light.modalView}>
+                            <Text style={[this.props.darkmode ? dark.text : light.text]}>These are your message(s): </Text>
+                            {this.state.messageList}
+                            <Button
+                                buttonText='Back'
+                                onPress={() => this.setState({ modalVisible: false })}
+                                darkmode={this.props.darkmode}
+                                gray
+                            />
+                        </View>
+                    </View>
+                </Modal>
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={this.state.modalMessageCheck}
+                >
+                    <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
+                        <View style={this.props.darkmode ? dark.modalView : light.modalView}>
+                            <Text style={[this.props.darkmode ? dark.text : light.text]}>Please accept or decline this {this.state.current_message_plan} from {this.state.current_message_friend}</Text>
+                            <Button
+                                buttonText='Accept'
+                                onPress={() => {
+                                    //console.log("message at index: " + this.friendIndex)
+                                    this.setState({ modalMessageCheck: false })
+                                    serverMethods.acceptMessage(this.state.username, this.state.messages[this.state.friendIndex])
+                                        .then(() => this.setState({ modalMessageCheck: false }))
+                                }}
+                                darkmode={this.props.darkmode}
+                                purple
+                            />
+                            <Button
+                                buttonText='Decline'
+                                onPress={() => {
+                                    this.setState({ modalMessageCheck: false })
+                                    serverMethods.declineMessage(this.state.username, this.state.messages[this.state.friendIndex])
+                                        .then(() => this.setState({ modalMessageCheck: false }))
+                                }}
+                                darkmode={this.props.darkmode}
+                                purple
+                            />
+                            <Button
+                                buttonText='Back'
+                                onPress={() => this.setState({ modalMessageCheck: false, modalVisible: true  })}
+                                darkmode={this.props.darkmode}
+                                gray
+                            />
+                        </View>
+                    </View>
+                </Modal>
             </View>
         );
     }
