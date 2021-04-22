@@ -28,6 +28,20 @@
 
     <!-- Personalized CSS -->
     <link rel="stylesheet" href="username.css">
+
+
+    <script type="text/javascript" src="../loading/loading.js"></script>
+    <script>
+        window.onload = function () {
+            pageload();
+        };
+
+        window.onclick = function () {
+            pageclick();
+        };
+
+    </script>
+
     <title>Change Username</title>
 
 </head>
@@ -65,6 +79,10 @@
                         Password</a>
                     <!-- <button type="submit" class="btn btn-login">Login</button> -->
                 </div>
+            </div>
+            <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+            <div id="We're Werking on it text" hidden="true">
+                One moment, We're Werking on Your Network Connection...
             </div>
 
     </div>

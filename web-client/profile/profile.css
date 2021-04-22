@@ -11,6 +11,28 @@ body {
     padding-bottom: 0;
 }
 
+.profile {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    opacity: 1;
+   /*  border: 3px  purple;  */
+    /* background-color: #FFFFFF; */
+}
+
+.profilePicture {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    opacity: 1;
+}
+
 nav #logo {
     background-color: white;
     color: white;
