@@ -39,7 +39,7 @@ export default class Friends extends Component {
         serverMethods.getFriends(this.state.username)
             .then(response => response.json())
             .then(response => {
-                console.log("friends res:" + response);
+                console.log("friends res:" + JSON.stringify(response));
                 var friend_list = [];
                 var pending_list = [];
                 for (var f of response) {
@@ -93,7 +93,17 @@ export default class Friends extends Component {
                     serverMethods.getFriends(this.state.username)
                     .then(response => response.json())
                     .then(response => {
-                        this.setState({friends: response})
+                        var friend_list = [];
+                        var pending_list = [];
+                        for (var f of response) {
+                            if (f.pending) {
+                                pending_list.push(f);
+                            } else {
+                                friend_list.push(f);
+                            }
+                        }
+                        this.setState({ friends: friend_list });
+                        this.setState({ pending: pending_list });
                     });
                 }
             });
@@ -123,7 +133,8 @@ export default class Friends extends Component {
                 <Button
                     key={i}
                     buttonText={this.state.pending[i].name}
-                    onPress={() => pending_friend_alert()}
+                    onPress={() => pending_friend_alert(this.state.pending[i].name)}
+                    style={{marginBottom: 20}}
                     darkmode={this.props.darkmode}
                     gray={true}
                 />
@@ -263,7 +274,7 @@ export default class Friends extends Component {
                 </Modal>
                 </View>
                 <ScrollView style={{width: '80%', height: '70%'}} contentContainerStyle={{alignItems: 'center'}}>
-                    {(friendsList.length === 0) ? <Text style={this.props.darkmode ? dark.text : light.text}>Add some friends!</Text> : friendsList}
+                    {(friendsList.length === 0 && pendingList.length === 0) ? <Text style={this.props.darkmode ? dark.text : light.text}>Add some friends!</Text> : friendsList}
                     {(pendingList.length === 0) ? <Text style={this.props.darkmode ? dark.text : light.text}></Text> : pendingList}
                 </ScrollView>
             </View>
