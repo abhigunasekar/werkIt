@@ -249,9 +249,9 @@ export default class Dashboard extends Component {
                         //this.setState({ activeWorkoutPlan: item.value });
                     }}
                 />
-                <Text>{today}</Text>
-                <Text>Today is: {this.state.day}</Text>
-                <Text>{((this.state.workout === undefined) || (this.state.workout === '')) ? 'You don\'t have a workout today' : 'Todays workout is: ' + this.state.workout}</Text>
+                <Text style={[this.props.darkmode ? dark.text : light.text]}>{today}</Text>
+                <Text style={[this.props.darkmode ? dark.text : light.text]}>Today is: {this.state.day}</Text>
+                <Text style={[this.props.darkmode ? dark.text : light.text]}>{((this.state.workout === undefined) || (this.state.workout === '')) ? 'You don\'t have a workout today' : 'Todays workout is: ' + this.state.workout}</Text>
 
                 {(this.state.workout === undefined) || (this.state.workout === '') ? null : 
                     <Button
@@ -277,7 +277,7 @@ export default class Dashboard extends Component {
                 >
                     <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
                         <View style={this.props.darkmode ? dark.modalView : light.modalView}>
-                            <Text>These are your message(s): </Text>
+                            <Text style={[this.props.darkmode ? dark.text : light.text]}>These are your message(s): </Text>
                             {this.state.messageList}
                             <Button
                                 buttonText='Back'
@@ -295,7 +295,7 @@ export default class Dashboard extends Component {
                 >
                     <View style={this.props.darkmode ? dark.centeredView : light.centeredView}>
                         <View style={this.props.darkmode ? dark.modalView : light.modalView}>
-                            <Text>Please accept or decline this {this.state.current_message_plan} message from {this.state.current_message_friend}</Text>
+                            <Text style={[this.props.darkmode ? dark.text : light.text]}>Please accept or decline this {this.state.current_message_plan} from {this.state.current_message_friend}</Text>
                             <Button
                                 buttonText='Accept'
                                 onPress={() => {
@@ -305,7 +305,7 @@ export default class Dashboard extends Component {
                                         .then(() => this.setState({ modalMessageCheck: false }))
                                 }}
                                 darkmode={this.props.darkmode}
-                                gray
+                                purple
                             />
                             <Button
                                 buttonText='Decline'
@@ -315,7 +315,7 @@ export default class Dashboard extends Component {
                                         .then(() => this.setState({ modalMessageCheck: false }))
                                 }}
                                 darkmode={this.props.darkmode}
-                                gray
+                                purple
                             />
                             <Button
                                 buttonText='Back'
