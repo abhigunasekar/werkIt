@@ -1,4 +1,4 @@
-const address = '10.0.0.48';
+const address = '10.0.0.86';
 
 export async function createAccount(info) {
     console.log('create account');
@@ -310,4 +310,35 @@ export function sendRequest(username, request) {
 export function getQuote() {
     console.log('getting motivational quote')
     return fetch('http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json');
+}
+export function getMessageRequests(username) {
+    console.log("inside message request")
+    var grab = fetch('http://' + address + ':8000/' + username + '/messagerequests', {
+        method: 'GET'
+    });
+    console.log("grab: " + grab)
+    return grab;
+    //return fetch('http://' + address + ':8000/' + username + '/requests');
+}
+
+export function acceptMessage(username, message) {
+    return fetch('http://' + address + ':8000/' + username + '/adrequest/accept', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(message)
+    });
+}
+
+export function declineMessage(username, message) {
+    return fetch('http://' + address + ':8000/' + username + '/adrequest/decline', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(message)
+    });
 }

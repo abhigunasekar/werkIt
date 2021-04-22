@@ -146,7 +146,8 @@ const friends = new mongoose.Schema({
     friend_name: String,
     friend_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     friend_goal: Number,
-    friend_streak_counter: Number
+    friend_streak_counter: Number,
+    pending: Boolean
 }, { versionKey: false });
 
 const ConnectedFriends = mongoose.model("ConnectedFriends", friends)
@@ -749,6 +750,7 @@ async function get_all_plan_names(username) {
     var list = new Array;
     for (var p_id of user.weekly_plan) {
         var plan = await WorkoutPlan.findById(p_id).exec();
+        console.log("Get all plan names: " + p_id)
         list.push(plan.name);
     }
     return list;
@@ -864,7 +866,7 @@ async function update_plan(username, plan, new_plan_data) {
     return true;
 }
 
-async function add_friend(username, f_user) {
+async function add_friend(username, f_user, pending) {
     if (!(await check_user_existence(f_user))) {
         return 1;
     }
@@ -882,7 +884,8 @@ async function add_friend(username, f_user) {
         friend_name: friend_obj.name,
         friend_id: friend_obj,
         friend_goal: 0,
-        friend_streak_counter: 0
+        friend_streak_counter: 0,
+        pending: pending
     });
 
     friend.save(function(err, friend) {
@@ -894,16 +897,27 @@ async function add_friend(username, f_user) {
     await User.findByIdAndUpdate(
         user._id, {friends_list: friends}, {new: true}
     ).exec();
+    if (pending) {
+        await send_request(
+            username,
+            {
+                type: "friend",
+                friend: friend_obj.user,
+                pending: true
+            }
+        )
+    }
     return 0;
 }
 
 async function get_friends(username) {
     var user = await get_user_obj(username);
+    console.log("list: "+user.friends_list)
     var friends = new Array;
     for (var id of user.friends_list) {
         var f = await ConnectedFriends.findById(id).exec();
         var f_user = await User.findById(f.friend_id);
-        friends.push({username: f_user.user, name: f.friend_name});
+        friends.push({username: f_user.user, name: f.friend_name, pending: f.pending});
     }
     return friends;
 }
@@ -925,9 +939,11 @@ async function send_request(username, req_body) {
             num: req_body.num,
             friend: user._id
         });
-    } else if (req.body.type.localeCompare("friend") == 0) {
-        // TODO implement friend request
-        return 0;
+    } else if (req_body.type.localeCompare("friend") == 0) {
+        request = new Request({
+            type: req_body.type,
+            friend: user._id
+        });
     }
     request.save(function(err, request) {
         if (err) return console.error(err);
@@ -959,14 +975,16 @@ async function get_requests(username) {
         req_obj['friend'] = friend_obj.name;
         req_arr.push(req_obj);
     }
+    console.log("mongo connect: " + req_arr)
     return req_arr;
 }
 
 async function handle_request(username, action, body) {
     var user = await get_user_obj(username);
+    var friend_user = await User.findById(body.friend_id).exec();
     if (action.localeCompare("accept") == 0) {
-        var friend_user = await User.findById(body.friend_id).exec();
-        // var friend_user = await get_user_obj(friend.friend_id);
+        console.log("**Body: " + JSON.stringify(body))
+        console.log("**Type: " + body.type)
         if (body.type.localeCompare("plan") == 0) {
             var plan_obj = await get_plan_obj(friend_user.user, body.plan);
             var plan_list = user.weekly_plan;
@@ -984,8 +1002,34 @@ async function handle_request(username, action, body) {
                     person._id, {challenges: challenges}, {new: true}
                 ).exec();
             }
+        } else if (body.type.localeCompare("friend") == 0) {
+            await add_friend(user.user, friend_user.user, false);
+            for (var cf_id of friend_user.friends_list) {
+                var cf = await ConnectedFriends.findById(cf_id).exec();
+                if (cf.friend_name.localeCompare(user.name) == 0) {
+                    await ConnectedFriends.findByIdAndUpdate(
+                        cf_id, {pending: false}, {new: true}
+                    ).exec();
+                }
+            }
         }
     } else {
+        if (body.type.localeCompare("friend") == 0) {
+            var new_fl = [];
+            for (var cf_id of friend_user.friends_list) {
+                var cf = await ConnectedFriends.findById(cf_id).exec();
+                console.log(cf.friend_name, user.name);
+                if (cf.friend_name.localeCompare(user.name) == 0) {
+                    console.log("here");
+                    await ConnectedFriends.findByIdAndDelete(cf_id).exec();
+                } else {
+                    new_fl.push(cf_id);
+                }
+            }
+            await User.findByIdAndUpdate(
+                friend_user._id, {friends_list: new_fl}, {new: true}
+            ).exec();
+        }
         await Request.findByIdAndDelete(body._id).exec();
     }
 

@@ -427,7 +427,7 @@ app.patch('/:username/:type/edit_workoutType', (req, res) => {
 // add a friend
 app.post('/:username/add_friend', (req, res) => {
     console.log("Adding friend " + req.body.friend_user + " for user " + req.params.username);
-    mc.add_friend(req.params.username, req.body.friend_user).then(rc => {
+    mc.add_friend(req.params.username, req.body.friend_user, true).then(rc => {
         if (rc == 0) {
             console.log("Successfully saved friend");
             res.status(200).end();
@@ -461,24 +461,25 @@ app.post('/:username/request', (req, res) => {
 });
 
 // get pending requests for a user
-app.get('/:username/requests', (req, res) => {
+app.get('/:username/messagerequests', (req, res) => {
     console.log("Getting all requests for user " + req.params.username);
     mc.get_requests(req.params.username).then(requests => {
         console.log("Successfully got pending requests");
-        res.status(200).json(requests);
+        console.log("requests: " + requests)
+        var obj = {message: requests}
+        res.status(200).json(obj);
     });
 });
 
 // accept/decline request for a user
-app.post('/:username/request/:action', (req, res) => {
+app.post('/:username/adrequest/:action', (req, res) => {
+    console.log("body in server: " + JSON.stringify(req.body))
     console.log(req.params.action + "ing request for user " + req.params.username);
     mc.handle_request(req.params.username, req.params.action, req.body).then(_ => {
         console.log("Successfully handled request");
         res.status(200).end();
     });
 });
-
-
 
 
 app.listen(port, ip, function () {

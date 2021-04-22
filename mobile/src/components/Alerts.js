@@ -269,6 +269,18 @@ export const workout_plan_sent = (friend_name) => {
     )
 }
 
+export const pending_friend_alert = (friend_name) => {
+    Alert.alert(
+        '',
+        'Waiting for ' + friend_name + ' to accept your friend request!',
+        [
+            {
+                text: 'OK'
+            }
+        ]
+    )
+}
+
 export const challenge_sent = (friend_name) => {
     Alert.alert(
         '',
