@@ -3,25 +3,25 @@ const quoteText = document.getElementById('quote');
 // const authorText = document.getElementById('author');
 // const twitterBtn = document.getElementById('twitter');
 // const newQuoteBin = document.getElementById('new-quote');
-const loader = document.getElementById('loader');
+// const loader = document.getElementById('loader');
 
 // Show Loading
-function showLoadingSpinner() {
+/* function showLoadingSpinner() {
     loader.hidden = false;
     quoteContainer.hidden = true;
-}
+} */
 
 // Hide Loading
-function removeLoadingSpinner() {
+/* function removeLoadingSpinner() {
     if (!loader.hidden) {
         quoteContainer.hidden = false;
         loader.hidden = true;
     }
-}
+} */
 
 // Get Quotes from API
 async function getQuote() {
-    showLoadingSpinner();
+    // showLoadingSpinner();
     const proxyUrl = 'https://desolate-inlet-19096.herokuapp.com/'
     const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
     try {
@@ -41,7 +41,7 @@ async function getQuote() {
         }
         quoteText.innerText = data.quoteText;
         // Stop loader and show quote
-        removeLoadingSpinner();
+        // removeLoadingSpinner();
     } catch (error) {
         // console.log(error);
         getQuote();
