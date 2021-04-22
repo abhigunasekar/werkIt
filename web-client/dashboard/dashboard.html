@@ -209,6 +209,7 @@
             });
         }
 
+        var lineData;
 
         // Line-Chart for Workouts of user vs friends
         async function lineRequest() {
@@ -226,10 +227,10 @@
 
         lineRequest().then(data => {
             //console.log(data);
-            chartData = JSON.parse(data);
+            lineData = JSON.parse(data);
             //console.log(data);
             console.log('line data');
-            console.log(chartData);
+            console.log(lineData);
             google.charts.load('current', {
                 'packages': ['corechart']
             });
@@ -255,17 +256,17 @@
 
 
             /// loop to add columns
-            for (var people in chartData['People']) {
-                data.addColumn('number', chartData['People'][people]);
+            for (var people in lineData['People']) {
+                data.addColumn('number', lineData['People'][people]);
             }
             var array = [];
-            for (var key in chartData) {
+            for (var key in lineData) {
                 if (key == 'People') {
 
                 } else {
                     array.push(key);
-                    for (let j = 0; j < chartData[key].length; j++) {
-                        array.push(chartData[key][j]);
+                    for (let j = 0; j < lineData[key].length; j++) {
+                        array.push(lineData[key][j]);
                     }
                     data.addRow(array);
                     array = [];
@@ -291,6 +292,7 @@
             chart.draw(data, options);
         }
 
+        var colChartData;
 
         //-------------COLUMN CHART
         // Line-Chart for Workouts of user vs friends
@@ -309,9 +311,9 @@
 
         colRequest().then(data => {
             //console.log(data);
-            chartData = JSON.parse(data);
+            colChartData = JSON.parse(data);
             console.log('colchart...')
-            console.log(chartData);
+            console.log(colChartData);
             google.charts.load('current', {
                 'packages': ['bar']
             });
@@ -329,7 +331,11 @@
 
             // ]);
             var data = new google.visualization.DataTable();
-            const arr = Object.keys(chartData).map((key) => [key, chartData[key]]);
+            const arr = Object.keys(colChartData).map((key) => [key, colChartData[key]]);
+            console.log(colChartData);
+            for (var key of arr) {
+                console.log('key is ' + key);
+            }
             //console.log('correct arr...');
             //console.log(arr);
 
