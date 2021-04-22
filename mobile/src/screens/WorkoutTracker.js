@@ -66,7 +66,8 @@ export default class WorkoutTracker extends Component {
                     />
                 )
                 this.setState({ exercises: array, type: response.type })
-            });
+            })
+            .catch(err => console.log(err));
     }
 
     render() {

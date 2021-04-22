@@ -17,7 +17,8 @@ export default class MotivationalQuote extends Component {
     componentDidMount() {
         serverMethods.getQuote()
             .then(response => response.json())
-            .then(response => this.setState({ quoteText: response.quoteText, quoteAuthor: response.quoteAuthor }));
+            .then(response => this.setState({ quoteText: response.quoteText, quoteAuthor: response.quoteAuthor }))
+            .catch(err => console.log(err));
     }
 
     render() {

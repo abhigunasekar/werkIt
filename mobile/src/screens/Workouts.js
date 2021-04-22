@@ -27,13 +27,15 @@ export default class Workouts extends Component{
             .then(response => response.json())
             .then(response => {
                 this.setState({ workouts: response })
-            });
+            })
+            .catch(err => console.log(err));
         this.listener = this.props.navigation.addListener('focus', () => {
             setTimeout(() => serverMethods.getUserWorkouts(this.state.username)
                 .then(response => response.json())
                 .then(response => {
                     this.setState({ workouts: response })
-                }), 300);
+                })
+                .catch(err => console.log(err)), 300)
         });
     }
 
@@ -81,7 +83,7 @@ export default class Workouts extends Component{
                 <Button
                     buttonText='Create New Workout'
                     onPress={() => this.props.navigation.navigate('WorkoutEditor', { username: this.state.username })}
-                    style={{marginBottom: 20}}
+                    style={{marginBottom: 30}}
                     darkmode={this.props.darkmode}
                     purple={true}
                 />

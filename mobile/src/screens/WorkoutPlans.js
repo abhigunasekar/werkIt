@@ -23,13 +23,15 @@ export default class WorkoutPlans extends Component {
             .then(response => response.json())
             .then(response => {
                 this.setState({ workoutPlans: response })
-            });
+            })
+            .catch(err => console.log(err));
         this.listener = this.props.navigation.addListener('focus', () => {
             setTimeout(() => serverMethods.getUserWorkoutPlans(this.state.username)
                 .then(response => response.json())
                 .then(response => {
                     this.setState({ workoutPlans: response })
-                }), 500);
+                })
+                .catch(err => console.log(err)), 500)
         });
     }
 
@@ -61,7 +63,7 @@ export default class WorkoutPlans extends Component {
                     onPress={() => this.props.navigation.navigate('WorkoutPlanEditor', { username: this.state.username })}
                     //maybe add a thing to make sure there are enough workouts?
                     darkmode={this.props.darkmode}
-                    style={{marginBottom: 20}}
+                    style={{marginBottom: 30}}
                     purple={true}
                 />
             </View>

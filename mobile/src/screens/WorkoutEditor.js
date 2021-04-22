@@ -48,24 +48,28 @@ export default class WorkoutEditor extends Component {
             .then(response => {
                 let array = this.state.savedTypes;
                 response.map((type) => array.unshift({label: type, value: type}));
-                this.setState({ savedTypes: array });
-            });
-        if (this.props.route.params.edit) {
-            serverMethods.getWorkout(this.props.route.params.username, this.state.name)
-                .then(response => response.json())
-                .then(response => {
-                    response.exercises.map((exercise) => {
-                        this.addExercise({ name: exercise.name, sets: exercise.data.sets, reps: exercise.data.reps, weight: exercise.data.weight, duration: exercise.data.duration, distance: exercise.data.distance, pace: exercise.data.pace, incline: exercise.data.incline, laps: exercise.data.laps });
-                    });
-                    this.setState({ type: response.type }, () => {
-                        serverMethods.getExercises(this.props.route.params.username, response.type)
-                        .then(response => response.json())
-                        .then(response => {
-                            this.setState({ savedExercises: response })
-                        });
-                    });
+                this.setState({ savedTypes: array }, () => {
+                    if (this.props.route.params.edit) {
+                        serverMethods.getWorkout(this.props.route.params.username, this.state.name)
+                            .then(response => response.json())
+                            .then(response => {
+                                response.exercises.map((exercise) => {
+                                    this.addExercise({ name: exercise.name, sets: exercise.data.sets, reps: exercise.data.reps, weight: exercise.data.weight, duration: exercise.data.duration, distance: exercise.data.distance, pace: exercise.data.pace, incline: exercise.data.incline, laps: exercise.data.laps });
+                                });
+                                this.setState({ type: response.type }, () => {
+                                    serverMethods.getExercises(this.props.route.params.username, response.type)
+                                    .then(response => response.json())
+                                    .then(response => {
+                                        this.setState({ savedExercises: response })
+                                    })
+                                    .catch(err => console.log(err));
+                                });
+                            })
+                            .catch(err => console.log(err));
+                    }
                 });
-        }
+            })
+            .catch(err => console.log(err));
     }
 
     addExercise(exercise) {
@@ -243,7 +247,8 @@ export default class WorkoutEditor extends Component {
                                         .then(response => response.json())
                                         .then(response => {
                                             this.setState({ savedExercises: response, type: item.value, newType: item.value, workoutTypeVisible: true, editWorkoutType: true })
-                                        });
+                                        })
+                                        .catch(err => console.log(err));
                                 }
                             }
                         }}
@@ -283,7 +288,8 @@ export default class WorkoutEditor extends Component {
                                             .then(response => {
                                                 //console.log(response.status)
                                                 //check to make sure things were deleted?
-                                            });
+                                            })
+                                            .catch(err => console.log(err));
                                             this.setState({ savedTypes: array, newType: '', type: 'add', workoutTypeVisible: false, editWorkoutType: false, edited: false })
                                         }}
                                         style={{marginRight: 15}}
