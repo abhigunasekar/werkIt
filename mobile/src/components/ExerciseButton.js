@@ -75,9 +75,6 @@ export default class ExerciseButton extends Component {
 
     render() {
         // change this to hold hideable views in modal
-        //console.log(typeof (this.state.sets))
-        console.log('sets: ' + this.state.sets)
-        console.log('visible: ' + this.state.modalVisible)
 
         let counter = 0;
         if (this.state.setsVisible) {
@@ -135,7 +132,6 @@ export default class ExerciseButton extends Component {
                                     value={this.state.sets}
                                     defaultValue={this.state.sets}
                                     update={(e) => {
-                                        console.log('tried');
                                         this.props.edit('Sets', e);
                                         this.setState({ sets: e });
                                     }}

@@ -23,7 +23,7 @@ export default class WorkoutLabel extends Component {
             <Button
                 buttonText={this.props.name}
                 onPress={() => this.props.edit()}
-                style={{width: '80%', margin: 10}}
+                style={{width: '80%', marginBottom: 20}}
                 darkmode={this.props.darkmode}
                 purple={true}
             />

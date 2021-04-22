@@ -1,4 +1,4 @@
-const address = '10.0.0.86';
+const address = '10.192.20.142';
 
 export async function createAccount(info) {
     console.log('create account');
@@ -76,17 +76,9 @@ export async function verifyUsername(username) {
 
 export function getUserData(username) {
     console.log('getting data for: ' + username);
-    //return await fetch('http://' + address + ':8000/profile/' + username);
     return fetch('http://' + address + ':8000/profile/' + username, {
          method: 'GET'
       })
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //      console.log(responseJson);
-    //   })
-    //   .catch((error) => {
-    //      console.error(error);
-    //   });
 }
 
 export function getUserWorkoutPlans(username) {

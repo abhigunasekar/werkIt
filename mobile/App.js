@@ -31,7 +31,7 @@ export default class App extends Component {
     async componentDidMount() {
         const token = await this.getToken();
         this.setState({ isLoggedIn: token });
-        setTimeout(() => this.setState({ isLoaded: true }), 4000);
+        setTimeout(() => this.setState({ isLoaded: true }), 5000);
     }
 
     persist() {
@@ -56,9 +56,10 @@ export default class App extends Component {
             .then(response => response.json())
             .then(response => {
                 console.log('response is: ' + response)
-                this.setState({ darkmode: response.dark_mode, isLoggedIn: true, username: user})
-            });
-        
+                this.setState({ darkmode: response.dark_mode, isLoggedIn: true, username: user })
+            })
+            .catch(err => console.log(err));
+        //this.setState({ isLoggedIn: true, username: user });
     }
 
     async logout() {
@@ -82,7 +83,8 @@ export default class App extends Component {
                 //server call for dark mode?
                 serverMethods.getUserField(loginToken, "dark_mode")
                     .then(response => response.json())
-                    .then(response => this.setState({ darkmode: response.dark_mode }));
+                    .then(response => this.setState({ darkmode: response.dark_mode }))
+                    .catch(err => console.log(err));
                 return true;
             } else {
                 return false;

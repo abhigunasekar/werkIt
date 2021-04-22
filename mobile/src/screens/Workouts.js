@@ -26,36 +26,22 @@ export default class Workouts extends Component{
         serverMethods.getUserWorkouts(this.state.username)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
                 this.setState({ workouts: response })
-            });
+            })
+            .catch(err => console.log(err));
         this.listener = this.props.navigation.addListener('focus', () => {
-            console.log('focus');
             setTimeout(() => serverMethods.getUserWorkouts(this.state.username)
                 .then(response => response.json())
                 .then(response => {
-                    console.log(response)
                     this.setState({ workouts: response })
-                }), 300);
+                })
+                .catch(err => console.log(err)), 300)
         });
     }
 
     componentWillUnmount() {
         this.listener();
     }
-
-    // componentDidUpdate(prevProps) {
-    //     // this will probably need to change after server calls are introduced
-    //     console.log('update')
-    //     if (prevProps.isFocused !== this.props.isFocused) {
-    //     serverMethods.getUserWorkouts(this.state.username)
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             console.log(response)
-    //             this.setState({ workouts: response })
-    //         });
-    //     }
-    // }
 
     editWorkout(workout) {
         this.setState({ currWorkout: workout });
@@ -73,7 +59,6 @@ export default class Workouts extends Component{
     }
 
     render() {
-        console.log(this.state.username);
         let workoutList = [];
         for (let i = 0; i < this.state.workouts.length; i++) {
             let workout = this.state.workouts[i];
@@ -98,7 +83,7 @@ export default class Workouts extends Component{
                 <Button
                     buttonText='Create New Workout'
                     onPress={() => this.props.navigation.navigate('WorkoutEditor', { username: this.state.username })}
-                    style={{marginBottom: 20}}
+                    style={{marginBottom: 30}}
                     darkmode={this.props.darkmode}
                     purple={true}
                 />

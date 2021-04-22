@@ -22,13 +22,13 @@ export default class Settings extends Component {
         return(
             <View style={this.props.darkmode ? dark.friendsContainer : light.friendsContainer}>
                 <View style={this.props.darkmode ? dark.friendsHeader : light.friendsHeader}>
-                    <Pressable style={{marginLeft: 17, marginRight: 100}} onPress={() => this.props.navigation.openDrawer()}>
+                    <Pressable style={{marginLeft: 17, marginRight: 110}} onPress={() => this.props.navigation.openDrawer()}>
                             <FontAwesome name="home" size={24} color="white" />
                     </Pressable>
-                    <Text style={{color: '#FFFFFF', fontSize: 24, fontWeight: 'bold'}}>Settings</Text>
+                    <Text style={{color: '#FFFFFF', fontSize: 20, fontWeight: '500'}}>Settings</Text>
                 </View>
-                <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}>Settings for {this.props.username}</Text>
-                <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', marginTop: 50}}>Do we want to put user info here?</Text>
+                {/* <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000'}}>Settings for {this.props.username}</Text> */}
+                {/* <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', marginTop: 50}}>Do we want to put user info here?</Text> */}
                 <View style={{flexDirection: 'row', marginTop: 50}}>
                     <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', marginTop: 5}}>Dark Mode: </Text>
                     <Switch
@@ -46,13 +46,13 @@ export default class Settings extends Component {
                         value={this.props.darkmode}
                     />
                 </View>
-                <Button
+                {/* <Button
                     buttonText='Log out'
                     onPress={() => this.props.logout()}
                     style={{marginTop: 50}}
                     darkmode={this.props.darkmode}
                     orange={true}
-                />
+                /> */}
             </View>
         );
     }

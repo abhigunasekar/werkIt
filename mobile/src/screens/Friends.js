@@ -144,10 +144,10 @@ export default class Friends extends Component {
         return (
             <View style={this.props.darkmode ? dark.friendsContainer : light.friendsContainer}>
                 <View style={this.props.darkmode ? dark.friendsHeader : light.friendsHeader}>
-                    <Pressable style={{marginLeft: 17, marginRight: 85}} onPress={() => this.props.navigation.openDrawer()}>
+                    <Pressable style={{marginLeft: 17, marginRight: 95}} onPress={() => this.props.navigation.openDrawer()}>
                             <FontAwesome name="home" size={24} color="white" />
                         </Pressable>
-                    <Text style={{color: '#FFFFFF', fontWeight: 'bold', fontSize: 24}}>Friends List</Text>
+                    <Text style={{color: '#FFFFFF', fontWeight: '500', fontSize: 20}}>Friends List</Text>
                 </View>
                 {/* search box */}
                 <View style={{flexDirection: 'row', marginBottom: 20}}>
