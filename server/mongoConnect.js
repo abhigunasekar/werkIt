@@ -928,7 +928,10 @@ async function send_request(username, req_body) {
             friend: user._id
         });
     } else if (req.body.type.localeCompare("friend") == 0) {
-        // TODO implement friend request
+        request = new Request({
+            type: req_body.type,
+            friend: user._id
+        });
         return 0;
     }
     request.save(function(err, request) {
