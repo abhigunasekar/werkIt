@@ -408,7 +408,14 @@
                 type: 'PATCH',
                 cache: false,
                 data: {
-                    f_name: fName
+                    f_name: fName,
+                    l_name: lName,
+                    email: email,
+                    username: uname,
+                    dark_mode: dMode,
+                    loc: loc
+
+
                 },
                 success: function (data, textStatus) {
                     //window.location.href = '../login/login.html';
@@ -420,7 +427,7 @@
                     return false;
                 }
             });
-            $.ajax({
+            /*$.ajax({
                 url: url,
                 type: 'PATCH',
                 cache: false,
@@ -504,7 +511,7 @@
                     alert("There was an error saving your preferences.");
                     return false;
                 }
-            });
+            });*/
             /* }*/
         });
     </script>
