@@ -10,8 +10,8 @@ function pageload() {
 }
 
 function pageclick() {
-    console.log("here");
-    console.log(!checkNetworkConnectionCaller())
+    //console.log("here");
+    //console.log(!checkNetworkConnectionCaller())
     if (!checkNetworkConnectionCaller()) {
         event.preventDefault();
         // document.getElementById("We're Werking on it...").hidden = false;
@@ -29,7 +29,7 @@ function checkNetworkConnection() {
                 mode: 'no-cors',
                 cache: 'no-cache'
             });
-            console.log("online",online);
+            //console.log("online", online);
             return online /* online.status >= 200 && online.status < 300 */ ;
         } catch (err) {
             return false;
@@ -37,9 +37,9 @@ function checkNetworkConnection() {
     };
 
     setInterval(async() => {
-        console.log("HERE")
+        //console.log("HERE")
         const result = await checkOnlineStatus();
-        console.log("result",result);
+        //console.log("result", result);
         if (result) {
             // console.log("Connected to Internet");
             mostRecentNetworkStatus = 0;
@@ -52,12 +52,12 @@ function checkNetworkConnection() {
             document.getElementById("We're Werking on it text").hidden = false;
         }
     }, 1000);
-    
+
     setInterval(null);
 }
 
 function checkNetworkConnectionCaller() {
-    console.log("recent",mostRecentNetworkStatus)
+    //console.log("recent", mostRecentNetworkStatus)
     if (mostRecentNetworkStatus === 1) {
         alert("We cannot access the internet. Please check your network connectivity");
         return false;
