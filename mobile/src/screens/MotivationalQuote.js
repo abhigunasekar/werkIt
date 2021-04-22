@@ -18,7 +18,12 @@ export default class MotivationalQuote extends Component {
         serverMethods.getQuote()
             .then(response => response.json())
             .then(response => this.setState({ quoteText: response.quoteText, quoteAuthor: response.quoteAuthor }))
-            .catch(err => console.log(err));
+            .catch(() => {
+                serverMethods.getQuote()
+                    .then(response => response.json())
+                    .then(response => this.setState({ quoteText: response.quoteText, quoteAuthor: response.quoteAuthor }))
+                    .catch(err => console.log('wow you\'re hella unlucky'))
+            });
     }
 
     render() {
