@@ -386,8 +386,9 @@
         $btn.on('click', function (event) {
             event.preventDefault();
             var name = document.getElementById("name").value;
-            var fName = name;
-            var lName = name;
+            var index = name.indexOf(" ");
+            var fName = name.substring(0, index);;
+            var lName = name.substring(index, name.length);;
             var email = document.getElementById("email").value;
             var uname = document.getElementById("uname").value;
             var loc = document.getElementById("mySelect").value;
@@ -407,7 +408,7 @@
                 type: 'PATCH',
                 cache: false,
                 data: {
-                    f_name: fname
+                    f_name: fName
                 },
                 success: function (data, textStatus) {
                     //window.location.href = '../login/login.html';
@@ -424,7 +425,7 @@
                 type: 'PATCH',
                 cache: false,
                 data: {
-                    l_name: lname
+                    l_name: lName
                 },
                 success: function (data, textStatus) {
                     //window.location.href = '../login/login.html';
@@ -476,6 +477,23 @@
                 cache: false,
                 data: {
                     dark_mode: dMode
+                },
+                success: function (data, textStatus) {
+                    //window.location.href = '../login/login.html';
+                    //localStorage.setItem("user", null);
+                    alert("Your preferences were saved");
+                },
+                error: function (jqXHR, textStatus, err) {
+                    alert("There was an error saving your preferences.");
+                    return false;
+                }
+            });
+            $.ajax({
+                url: url,
+                type: 'PATCH',
+                cache: false,
+                data: {
+                    loc: loc
                 },
                 success: function (data, textStatus) {
                     //window.location.href = '../login/login.html';
