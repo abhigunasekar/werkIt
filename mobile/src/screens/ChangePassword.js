@@ -20,11 +20,11 @@ export default class ChangePassword extends Component {
             matchingCredentials: false,
             passwordChanged: false,
             confirmation: false,
+            valid: false,
         }
 
         this.checkUsername = this.checkUsername.bind(this);
         this.passwordHandler = this.passwordHandler.bind(this);
-        this.validForm = this.validForm.bind(this);
     }
 
     async checkUsername() {
@@ -51,11 +51,9 @@ export default class ChangePassword extends Component {
         if (e.nativeEvent.text !== this.state.newPassword) {
             console.log('passwords do not match');
             mismatchPasswordAlert();
+        } else {
+            this.setState({ valid: true });
         }
-    }
-
-    validForm() {
-        return (this.state.newPassword !== '');
     }
 
     render() {
@@ -164,7 +162,7 @@ export default class ChangePassword extends Component {
                             <Button
                                 buttonText='Reset Password'
                                 onPress={async () => {
-                                    if (this.validForm()) {
+                                    if (this.state.valid) {
                                         console.log('New password: ' + this.state.newPassword);
                                         let response = await serverMethods.changePassword({ username: this.state.username, newPassword: this.state.newPassword });
                                         if (response.status === 200) {
