@@ -479,8 +479,6 @@ app.post('/:username/request/:action', (req, res) => {
 });
 
 
-
-
 app.listen(port, ip, function () {
     console.log("Server listening on http://%s:%d", ip, port);
     mc.create_email_account();

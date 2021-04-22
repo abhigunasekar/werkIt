@@ -146,7 +146,8 @@ const friends = new mongoose.Schema({
     friend_name: String,
     friend_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     friend_goal: Number,
-    friend_streak_counter: Number
+    friend_streak_counter: Number,
+    pending: Boolean
 }, { versionKey: false });
 
 const ConnectedFriends = mongoose.model("ConnectedFriends", friends)
@@ -864,7 +865,7 @@ async function update_plan(username, plan, new_plan_data) {
     return true;
 }
 
-async function add_friend(username, f_user) {
+async function add_friend(username, f_user, pending) {
     if (!(await check_user_existence(f_user))) {
         return 1;
     }
@@ -882,7 +883,8 @@ async function add_friend(username, f_user) {
         friend_name: friend_obj.name,
         friend_id: friend_obj,
         friend_goal: 0,
-        friend_streak_counter: 0
+        friend_streak_counter: 0,
+        pending: pending
     });
 
     friend.save(function(err, friend) {
@@ -984,8 +986,26 @@ async function handle_request(username, action, body) {
                     person._id, {challenges: challenges}, {new: true}
                 ).exec();
             }
+        } else if (body.type.localeCompare("friend") == 0) {
+            await add_friend(user.username, friend_user.username, false);
+            for (var cf_id of friend_user.friends_list) {
+                var cf = await ConnectedFriends.findById(cf_id).exec();
+                if (cf.friend_name.localeCompare(user.name) == 0) {
+                    await ConnectedFriends.findByIdAndUpdate(
+                        cf_id, {pending: false}, {new: true}
+                    ).exec();
+                }
+            }
         }
     } else {
+        if (body.type.localeCompare("friend") == 0) {
+            for (var cf_id of friend_user.friends_list) {
+                var cf = await ConnectedFriends.findById(cf_id).exec();
+                if (cf.friend_name.localeCompare(user.name) == 0) {
+                    await ConnectedFriends.findByIdAndDelete(cf_id).exec();
+                }
+            }
+        }
         await Request.findByIdAndDelete(body._id).exec();
     }
 
