@@ -68,6 +68,12 @@
     <div class="login-form ">
         <!-- action="" onSubmit="return setAction(this)" id="" method="POST" -->
         <form>
+            <div class="col-sm-12 text-center">
+                <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
+                <div id="We're Werking on it text" hidden="true">
+                    One moment, We're Werking on Your Network Connection...
+                </div>
+            </div>
             <div class="text-center" id="container">
                 <h2 class="text-center">Profile</h2>
             </div>
@@ -86,7 +92,7 @@
                     <canvas id="canvas" hidden>
                     </canvas>
                     
-                    <input type="file" id="updateProfile" onchange="updateProfilePic()" name="" hidden/>
+                    <input type="file" id="updateProfile" onchange="updateProfilePic()" name="" webkitdirectory hidden/>
                 </div>
 
                 <div class="input-group form-row col-lg-12">
@@ -241,10 +247,6 @@
                 <div class="col-sm-12 text-center">
                     <p></p>
                     <button class="btn btn-login btn-lg btn-block" id="submit-btn">Save Preferences</button>
-                </div>
-                <img id="We're Werking on it..." src="../../Loading_Assets/Loading_GT1_Client_Wait.gif" hidden />
-                <div id="We're Werking on it text" hidden="true">
-                    One moment, We're Werking on Your Network Connection...
                 </div>
             </div>
         </form>

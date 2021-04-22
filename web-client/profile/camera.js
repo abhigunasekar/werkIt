@@ -102,6 +102,7 @@ function initialize() {
 
 function updateProfilePic() {
     document.getElementById("profilePic").src = URL.createObjectURL(document.getElementById("updateProfile").files[0]);
+    console.log(document.getElementById("updateProfile").files[0].webkitRelativePath);
 }
 
 function triggerUpdateProfile() {
