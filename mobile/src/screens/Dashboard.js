@@ -70,6 +70,9 @@ export default class Dashboard extends Component {
                     response.map((workoutPlan) => array.push({ label: workoutPlan, value: workoutPlan }))
                     this.setState({ savedWorkoutPlans: array })
                 }));
+            serverMethods.getActiveWorkoutPlan(this.state.username)
+                .then(response => response.json())
+                .then(response => this.setState({ activeWorkoutPlan: response }, () => this.updateWorkout()));
         // what happens if the user doesn't have an active workout plan
     }
 
@@ -191,7 +194,7 @@ export default class Dashboard extends Component {
                 <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', marginTop: 30}}>Today is: {this.state.day}</Text>
                 <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', marginTop: 10}}>{((this.state.workout === undefined) || (this.state.workout === 'None')) ? 'You don\'t have a workout today' : 'Todays workout is: ' + this.state.workout}</Text>
                 {/* <Text style={[this.props.darkmode ? dark.darkTextHeader : light.lightTextHeader]}>Your upcoming workout(s) is/are:</Text> */}
-                <Text style={/*[this.props.darkmode ? dark.darkTextBase : light.lightTextBase]*/{color: this.props.darkmode ? '#FFFFFF' : '#00000', marginTop: 30}}>{(this.nextUpcomingWorkout(this.state) === '' || this.nextUpcomingWorkout(this.state) === undefined) ? 'You have no upcoming workouts this week!' : 'Your upcoming workouts are:\n' + this.nextUpcomingWorkout(this.state)}</Text>
+                <Text style={/*[this.props.darkmode ? dark.darkTextBase : light.lightTextBase]*/{color: this.props.darkmode ? '#FFFFFF' : '#00000', marginTop: 30}}>{(this.nextUpcomingWorkout(this.state) === '' || this.nextUpcomingWorkout(this.state) === undefined) ? 'You have no upcoming workouts this week!' : 'Your upcoming workouts are:\n\n\t' + this.nextUpcomingWorkout(this.state)}</Text>
                 {(this.state.workout === undefined) || (this.state.workout === '') ? null : 
                     <Button
                     buttonText='START'

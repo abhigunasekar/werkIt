@@ -15,9 +15,6 @@ export default class DayPicker extends Component {
     }
 
     render() {
-        if (this.props.defaultValue === '') {
-            console.log('eat ass')
-        }
         return (
             <View style={{flexDirection: 'row', zIndex: this.props.zIndex, marginBottom: 20}}>
                 <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', marginTop: 10, marginRight: this.props.margin}}>{this.props.day}:</Text>
