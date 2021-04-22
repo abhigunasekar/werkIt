@@ -974,6 +974,8 @@ async function handle_request(username, action, body) {
     if (action.localeCompare("accept") == 0) {
         var friend_user = await User.findById(body.friend_id).exec();
         // var friend_user = await get_user_obj(friend.friend_id);
+        console.log("**Body: " + JSON.stringify(body))
+        console.log("**Type: " + body.type)
         if (body.type.localeCompare("plan") == 0) {
             var plan_obj = await get_plan_obj(friend_user.user, body.plan);
             var plan_list = user.weekly_plan;

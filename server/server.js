@@ -13,7 +13,7 @@ const port = 8000;
 // TODO set ip dynamically or figure out how to run server
 // from anywhere - must match network used by expo though
 
-const ip = "10.0.0.48";
+const ip = "10.0.0.86";
 var urlencodedparser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
 
@@ -427,7 +427,7 @@ app.patch('/:username/:type/edit_workoutType', (req, res) => {
 // add a friend
 app.post('/:username/add_friend', (req, res) => {
     console.log("Adding friend " + req.body.friend_user + " for user " + req.params.username);
-    mc.add_friend(req.params.username, req.body.friend_user).then(rc => {
+    mc.add_friend(req.params.username, req.body.friend_user, true).then(rc => {
         if (rc == 0) {
             console.log("Successfully saved friend");
             res.status(200).end();
@@ -472,7 +472,8 @@ app.get('/:username/messagerequests', (req, res) => {
 });
 
 // accept/decline request for a user
-app.post('/:username/request/:action', (req, res) => {
+app.post('/:username/adrequest/:action', (req, res) => {
+    console.log("body in server: " + JSON.stringify(req.body))
     console.log(req.params.action + "ing request for user " + req.params.username);
     mc.handle_request(req.params.username, req.params.action, req.body).then(_ => {
         console.log("Successfully handled request");
