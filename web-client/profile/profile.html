@@ -147,9 +147,9 @@
                 <div class="input-group form-row col-lg-12">
                     <label for="uname" id="lFName">Username</label>
                     <input type="text" class="form-control mx-sm-3 mb-2" id="uname" name="username" value="" readonly>
-                    <div class='pen-style text-center'>
+                    <!-- <div class='pen-style text-center'>
                         <i class="fas fa-pen edit-pen" id="uname-edit"></i>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="container form-group">
@@ -270,7 +270,6 @@
         // Referenced Styling from https://codepen.io/jovincroninwilesmith/pen/jPBxQx/
         var $ep = $('#email-edit');
         var $ei = $('#email');
-        var $up = $('#uname-edit');
         var $ui = $('#uname');
         var $np = $('#name-edit');
         var $ni = $('#name');
@@ -287,14 +286,8 @@
 
         });
 
-
-        $up.on('click', function () {
-            $ui.prop('readonly', false).focus();
-
-        });
-
         $('input').focusout(function () {
-            $('input').prop('readonly', true).focusout();
+            $('input').prop('readonly', true);
         });
 
         async function doRequest() {
@@ -346,39 +339,6 @@
             console.log(dSwitch.checked);
         });
 
-        $("#submit-btn").click(function (event) {
-            event.preventDefault();
-            var uname = $("#uname").val();
-            var urlFinal = 'http://127.0.0.1:8000/user/' + uname + '/darkmode?_method=PATCH';
-            //alert(uname);
-            // localStorage.setItem("user", uname);
-            // var profiles = {
-            //     "f_name": fName,
-            //     "l_name": lName,
-            //     "email": email,
-            //     "username": uname,
-            //     "password": password
-            // };
-            $.ajax({
-                url: urlFinal,
-                type: 'PATCH',
-                cache: false,
-                data: {
-
-                },
-                success: function (data, textStatus) {
-                    //alert("successful");
-                    location.reload();
-
-                },
-                error: function (jqXHR, textStatus, err) {
-                    // alert('text status ' + textStatus + ', err ' + err)
-                    alert("error");
-                }
-            })
-            // window.location = "../dashboard/dashboard.html";
-        });
-
 
         //-----Patch Request for Modified Fields----
         var $btn = $('#submit-btn');
@@ -386,133 +346,38 @@
         $btn.on('click', function (event) {
             event.preventDefault();
             var name = document.getElementById("name").value;
-            var index = name.indexOf(" ");
-            var fName = name.substring(0, index);;
-            var lName = name.substring(index, name.length);;
             var email = document.getElementById("email").value;
-            var uname = document.getElementById("uname").value;
             var loc = document.getElementById("mySelect").value;
-            var dMode = document.getElementById("switch").value;
-            console.log(loc);
-            console.log(dMode);
-            /*if (password == "") {
-                alert("Please enter your new password.");
-                return false;
-            } else if (password != confirmP) {
-                alert("Passwords didn't match, please try again.");
-                return false;
-            } else {*/
-            var url = 'http://127.0.0.1:8000/user/' + localStorage.getItem("user") + '/profile';
-            $.ajax({
-                url: url,
-                type: 'PATCH',
-                cache: false,
-                data: {
-                    f_name: fName,
-                    l_name: lName,
-                    email: email,
-                    username: uname,
-                    dark_mode: dMode,
-                    loc: loc
+            var dMode_switch = document.getElementById("switch");
+            var dMode = false;
+            if (dMode_switch.checked) {
+                dMode = true;
+            }
+            console.log("dark mode:", dMode_switch.checked);
+            var field_list = ['name', 'email', 'loc', 'dark_mode'];
+            var new_list = [name, email, loc, dMode];
 
-
-                },
-                success: function (data, textStatus) {
-                    //window.location.href = '../login/login.html';
-                    //localStorage.setItem("user", null);
-                    alert("Your preferences were saved");
-                },
-                error: function (jqXHR, textStatus, err) {
-                    alert("There was an error saving your preferences.");
-                    return false;
-                }
-            });
-            /*$.ajax({
-                url: url,
-                type: 'PATCH',
-                cache: false,
-                data: {
-                    l_name: lName
-                },
-                success: function (data, textStatus) {
-                    //window.location.href = '../login/login.html';
-                    //localStorage.setItem("user", null);
-                    alert("Your preferences were saved");
-                },
-                error: function (jqXHR, textStatus, err) {
-                    alert("There was an error saving your preferences.");
-                    return false;
-                }
-            });
-            $.ajax({
-                url: url,
-                type: 'PATCH',
-                cache: false,
-                data: {
-                    email: email
-                },
-                success: function (data, textStatus) {
-                    //window.location.href = '../login/login.html';
-                    //localStorage.setItem("user", null);
-                    alert("Your preferences were saved");
-                },
-                error: function (jqXHR, textStatus, err) {
-                    alert("There was an error saving your preferences.");
-                    return false;
-                }
-            });
-            $.ajax({
-                url: url,
-                type: 'PATCH',
-                cache: false,
-                data: {
-                    username: uname
-                },
-                success: function (data, textStatus) {
-                    //window.location.href = '../login/login.html';
-                    //localStorage.setItem("user", null);
-                    alert("Your preferences were saved");
-                },
-                error: function (jqXHR, textStatus, err) {
-                    alert("There was an error saving your preferences.");
-                    return false;
-                }
-            });
-            $.ajax({
-                url: url,
-                type: 'PATCH',
-                cache: false,
-                data: {
-                    dark_mode: dMode
-                },
-                success: function (data, textStatus) {
-                    //window.location.href = '../login/login.html';
-                    //localStorage.setItem("user", null);
-                    alert("Your preferences were saved");
-                },
-                error: function (jqXHR, textStatus, err) {
-                    alert("There was an error saving your preferences.");
-                    return false;
-                }
-            });
-            $.ajax({
-                url: url,
-                type: 'PATCH',
-                cache: false,
-                data: {
-                    loc: loc
-                },
-                success: function (data, textStatus) {
-                    //window.location.href = '../login/login.html';
-                    //localStorage.setItem("user", null);
-                    alert("Your preferences were saved");
-                },
-                error: function (jqXHR, textStatus, err) {
-                    alert("There was an error saving your preferences.");
-                    return false;
-                }
-            });*/
-            /* }*/
+            console.log("leng",field_list.length)
+            for (var i = 0; i < field_list.length; i++) {
+                var url = 'http://127.0.0.1:8000/profile/' + localStorage.getItem("user") + '/' + field_list[i];
+                $.ajax({
+                    url: url,
+                    type: 'PATCH',
+                    cache: false,
+                    data: {
+                        [field_list[i]]: new_list[i]
+                    },
+                    success: function (data, textStatus) {
+                        console.log("Your preferences were saved");
+                    },
+                    error: function (jqXHR, textStatus, err) {
+                        console.log(err);
+                        return false;
+                    }
+                });
+            }
+            alert("Your preferences have been saved!");
+            window.location.href = './profile.html';
         });
     </script>
 </body>
