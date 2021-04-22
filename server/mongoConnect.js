@@ -1,4 +1,6 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
+// var multer = require('multer');
 mongoose.Promise = global.Promise;
 // TODO setup new user/pass that is not admin for general users
 mongoose.connect("mongodb+srv://adminUser:adminPassword@cluster0.aplfp.mongodb.net/WerkItDB", { useNewUrlParser: true, useUnifiedTopology: true });
@@ -9,6 +11,22 @@ db.once('open', function() {
     console.log("Connected to WerkIt Database");
 });
 
+// development werkIt email account
+var werkitAccount = null;
+var transporter = null;
+async function create_email_account() {
+    werkitAccount = await nodemailer.createTestAccount();
+    transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false,
+        auth: {
+            user: werkitAccount.user,
+            pass: werkitAccount.pass
+        }
+    });
+}
+
 // Schemas
 
 const userSchema = new mongoose.Schema({
@@ -17,6 +35,8 @@ const userSchema = new mongoose.Schema({
     pass: String,
     email: String,
     loc: String,
+    pic: String,
+    code: Number,
     dark_mode: Boolean,
     streak_counter: Number,
     challenges_won: Number,
@@ -36,11 +56,11 @@ const userSchema = new mongoose.Schema({
     friends_list: [
         { type: mongoose.Schema.Types.ObjectId, ref: "ConnectedFriends"}
     ],
-    plan_requests: [
+    challenges: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'Request' }
     ],
-    challenges: [
-        { type: mongoose.Schema.Types.ObjectId, ref: 'Request'}
+    requests: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Request' }
     ]
 }, { versionKey: false });
 
@@ -126,12 +146,14 @@ const friends = new mongoose.Schema({
     friend_name: String,
     friend_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     friend_goal: Number,
-    friend_streak_counter: Number
+    friend_streak_counter: Number,
+    pending: Boolean
 }, { versionKey: false });
 
 const ConnectedFriends = mongoose.model("ConnectedFriends", friends)
 
 const request = new mongoose.Schema({
+    type: String,
     friend: { type: mongoose.Schema.Types.ObjectId, ref: 'ConnectedFriends' },
     plan: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPlan' },
     num: Number
@@ -139,7 +161,30 @@ const request = new mongoose.Schema({
 
 const Request = mongoose.model("Request", request);
 
+// var imageSchema = new mongoose.Schema({
+//     name: String,
+//     desc: String,
+//     img:
+//     {
+//         data: Buffer,
+//         contentType: String
+//     }
+// });
+  
+// const ProfilePic = new mongoose.model('ProfilePic', imageSchema);
+
 // Functions called by server
+
+// var storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// });
+ 
+// var upload = multer({ storage: storage });
 
 async function save_new_account_data(u_name, req_body) {
 
@@ -149,6 +194,7 @@ async function save_new_account_data(u_name, req_body) {
         pass: req_body.password,
         email: req_body.email,
         loc: null,
+        pic: null,
         dark_mode: false,
         workouts: [],
         workoutTypes: [],
@@ -157,7 +203,7 @@ async function save_new_account_data(u_name, req_body) {
         completed_workouts: [],
         streak_counter: 0,
         challenges_won: 0,
-        plan_requests: [],
+        requests: [],
         challenges: []
     });
 
@@ -238,21 +284,55 @@ async function check_user_existence(username) {
     return await User.exists({ user: username });
 }
 
-// async function validate_email(username, email) {
-//     var exists = await check_user_existence(username);
-//     if (exists) {
-//         console.log("Username exists")
-//         var user = await get_user_obj(username);
-//         if (user.email.localeCompare(email) == 0) {
-//             return true;
-//         }
-//     }
-//     return exists;
-// }
+async function validate_email(username, email) {
+    var exists = await check_user_existence(username);
+    console.log("exists: " + exists);
+    if (exists) {
+        console.log("Username exists")
+        var user = await get_user_obj(username);
+        if (user.email.localeCompare(email) == 0) {
+            console.log("HERE")
+            return true;
+        } else {
+            return false;
+        }
+    }
+    console.log("exists2: " + exists);
+    return exists;
+}
 
-// async function send_email(username, email) {
+async function send_email(username, email) {
+    if (!(await validate_email(username, email))) {
+        console.log("here");
+        return 1;
+    }
+    var user = await get_user_obj(username);
+    var code = Math.floor(Math.random() * (999999-100000) + 100000);
+    var msg = 'Your six digit code is: ' + code.toString();
+    var mailOptions = {
+        from: 'do-not-reply@werkIt.com',
+        to: email,
+        subject: 'WerkIt Password Reset Requested',
+        text: msg
+    };
+    await transporter.sendMail(mailOptions, async function(error, info) {
+        if (error) {
+            console.log("email error: " + error);
+            return 2;
+        } else {
+            console.log('Email sent: ' + info.response);
+            console.log('Preview URL: ' + nodemailer.getTestMessageUrl(info));
+        }
+    });
+    return await User.findByIdAndUpdate(
+        user._id, {code: code}, {new: true}
+    ).exec();
+}
 
-// }
+async function check_code(username, code) {
+    var user = await get_user_obj(username);
+    return (code == user.code);
+}
 
 async function change_password(user, new_pass) {
     if (!(await check_user_existence(user))) {
@@ -262,7 +342,9 @@ async function change_password(user, new_pass) {
         // New password is not different from old one
         throw 403;
     } else {
-        return await User.findOneAndUpdate({ user: user }, { pass: new_pass }, { new: true }).exec();
+        return await User.findOneAndUpdate(
+            { user: user }, { pass: new_pass, code: null }, { new: true }
+        ).exec();
     }
 }
 
@@ -274,6 +356,7 @@ async function update_darkmode(username) {
 
 async function update_profile_field(username, field, data) {
     var user = await get_user_obj(username);
+    console.log(user);
     return await User.findByIdAndUpdate(
         user._id, {
             [field]: data[field]
@@ -667,6 +750,7 @@ async function get_all_plan_names(username) {
     var list = new Array;
     for (var p_id of user.weekly_plan) {
         var plan = await WorkoutPlan.findById(p_id).exec();
+        console.log("Get all plan names: " + p_id)
         list.push(plan.name);
     }
     return list;
@@ -782,7 +866,7 @@ async function update_plan(username, plan, new_plan_data) {
     return true;
 }
 
-async function add_friend(username, f_user) {
+async function add_friend(username, f_user, pending) {
     if (!(await check_user_existence(f_user))) {
         return 1;
     }
@@ -800,7 +884,8 @@ async function add_friend(username, f_user) {
         friend_name: friend_obj.name,
         friend_id: friend_obj,
         friend_goal: 0,
-        friend_streak_counter: 0
+        friend_streak_counter: 0,
+        pending: pending
     });
 
     friend.save(function(err, friend) {
@@ -812,16 +897,27 @@ async function add_friend(username, f_user) {
     await User.findByIdAndUpdate(
         user._id, {friends_list: friends}, {new: true}
     ).exec();
+    if (pending) {
+        await send_request(
+            username,
+            {
+                type: "friend",
+                friend: friend_obj.user,
+                pending: true
+            }
+        )
+    }
     return 0;
 }
 
 async function get_friends(username) {
     var user = await get_user_obj(username);
+    console.log("list: "+user.friends_list)
     var friends = new Array;
     for (var id of user.friends_list) {
         var f = await ConnectedFriends.findById(id).exec();
         var f_user = await User.findById(f.friend_id);
-        friends.push({username: f_user.user, name: f.friend_name});
+        friends.push({username: f_user.user, name: f.friend_name, pending: f.pending});
     }
     return friends;
 }
@@ -829,45 +925,124 @@ async function get_friends(username) {
 async function send_request(username, req_body) {
     var user = await get_user_obj(username);
     var friend = await get_user_obj(req_body.friend);
+    var request = null;
     if (req_body.type.localeCompare("plan") == 0) {
         var plan = await get_workout_plan(username, req_body.plan)
-        const request = new Request({
+        request = new Request({
+            type: req_body.type,
             plan: plan._id,
             friend: user._id
         });
-
-        request.save(function(err, request) {
-            if (err) return console.error(err);
-        });
-
-        var requests = friend.plan_requests;
-        requests.push(request);
-        return await User.findByIdAndUpdate(
-            friend._id, {plan_requests: requests}, {new: true}
-        ).exec();
     } else if (req_body.type.localeCompare("challenge") == 0) {
-        const request = new Request({
+        request = new Request({
+            type: req_body.type,
             num: req_body.num,
             friend: user._id
         });
-
-        request.save(function(err, request) {
-            if (err) return console.error(err);
+    } else if (req_body.type.localeCompare("friend") == 0) {
+        request = new Request({
+            type: req_body.type,
+            friend: user._id
         });
-
-        var requests = friend.challenges;
-        requests.push(request);
-        return await User.findByIdAndUpdate(
-            friend._id, {challenges: requests}, {new: true}
-        ).exec();
-    } else if (req.body.type.localeCompare("friend") == 0) {
-        // TODO implement friend request
-        return 0;
     }
+    request.save(function(err, request) {
+        if (err) return console.error(err);
+    });
+
+    var requests = friend.requests;
+    requests.push(request);
+    return await User.findByIdAndUpdate(
+        friend._id, {requests: requests}, {new: true}
+    ).exec();
+}
+
+async function get_requests(username) {
+    var req_arr = [];
+    var user = await get_user_obj(username);
+    for (var id of user.requests) {
+        var req = await Request.findById(id).exec();
+        var req_obj = {
+            _id: req._id,
+            type: req.type,
+            friend_id: req.friend,
+            num: req.num
+        }
+        if (req.plan != undefined) {
+            var plan_obj = await WorkoutPlan.findById(req.plan).exec();
+            req_obj['plan'] = plan_obj.name;
+        }
+        var friend_obj = await User.findById(req.friend).exec();
+        req_obj['friend'] = friend_obj.name;
+        req_arr.push(req_obj);
+    }
+    console.log("mongo connect: " + req_arr)
+    return req_arr;
+}
+
+async function handle_request(username, action, body) {
+    var user = await get_user_obj(username);
+    var friend_user = await User.findById(body.friend_id).exec();
+    if (action.localeCompare("accept") == 0) {
+        console.log("**Body: " + JSON.stringify(body))
+        console.log("**Type: " + body.type)
+        if (body.type.localeCompare("plan") == 0) {
+            var plan_obj = await get_plan_obj(friend_user.user, body.plan);
+            var plan_list = user.weekly_plan;
+            plan_list.push(plan_obj);
+            await User.findByIdAndUpdate(
+                user._id, {weekly_plan: plan_list}, {new: true}
+            ).exec();
+            await Request.findByIdAndDelete(body._id).exec();
+        } else if (body.type.localeCompare("challenge") == 0) {
+            for (var person of [user, friend_user]) {
+                var challenges = person.challenges;
+                var chal = await Request.findById(body._id).exec();
+                challenges.push(chal);
+                await User.findByIdAndUpdate(
+                    person._id, {challenges: challenges}, {new: true}
+                ).exec();
+            }
+        } else if (body.type.localeCompare("friend") == 0) {
+            await add_friend(user.user, friend_user.user, false);
+            for (var cf_id of friend_user.friends_list) {
+                var cf = await ConnectedFriends.findById(cf_id).exec();
+                if (cf.friend_name.localeCompare(user.name) == 0) {
+                    await ConnectedFriends.findByIdAndUpdate(
+                        cf_id, {pending: false}, {new: true}
+                    ).exec();
+                }
+            }
+        }
+    } else {
+        if (body.type.localeCompare("friend") == 0) {
+            var new_fl = [];
+            for (var cf_id of friend_user.friends_list) {
+                var cf = await ConnectedFriends.findById(cf_id).exec();
+                console.log(cf.friend_name, user.name);
+                if (cf.friend_name.localeCompare(user.name) == 0) {
+                    console.log("here");
+                    await ConnectedFriends.findByIdAndDelete(cf_id).exec();
+                } else {
+                    new_fl.push(cf_id);
+                }
+            }
+            await User.findByIdAndUpdate(
+                friend_user._id, {friends_list: new_fl}, {new: true}
+            ).exec();
+        }
+        await Request.findByIdAndDelete(body._id).exec();
+    }
+
+    var req_list = user.requests;
+    req_list.splice(req_list.indexOf(body._id), 1);
+    return await User.findByIdAndUpdate(
+        user._id, {requests: req_list}, {new: true}
+    ).exec();
 }
 
 
 module.exports = {
+    create_email_account,
     save_new_account_data,
     check_login,
     check_user_existence,
@@ -906,6 +1081,9 @@ module.exports = {
     get_geochart_data,
     get_line_chart_data,
     get_col_chart_data,
-    send_request
-    // validate_email
+    send_request,
+    get_requests,
+    handle_request,
+    send_email,
+    check_code
 }

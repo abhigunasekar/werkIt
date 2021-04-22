@@ -64,8 +64,8 @@ export default class ExerciseLabel extends Component {
             label += '\n';
             multiplier++;
         }
-        console.log(label);
         label = label.slice(0, -1);
+        
         return (
             <CheckBox
                 containerStyle={{width: '90%'}}

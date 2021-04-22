@@ -14,7 +14,6 @@ const Stack = createStackNavigator();
 export default class DashboardStackNavigator extends Component {
     constructor(props) {
         super(props);
-        console.log('dashboard: ' + this.props.darkmode)
     }
 
     render() {

@@ -22,17 +22,16 @@ export default class WorkoutPlans extends Component {
         serverMethods.getUserWorkoutPlans(this.state.username)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
                 this.setState({ workoutPlans: response })
-            });
+            })
+            .catch(err => console.log(err));
         this.listener = this.props.navigation.addListener('focus', () => {
-            console.log('focus');
             setTimeout(() => serverMethods.getUserWorkoutPlans(this.state.username)
                 .then(response => response.json())
                 .then(response => {
-                    console.log(response)
                     this.setState({ workoutPlans: response })
-                }), 500);
+                })
+                .catch(err => console.log(err)), 500)
         });
     }
 
@@ -41,7 +40,6 @@ export default class WorkoutPlans extends Component {
     }
 
     render() {
-        console.log(this.state.username);
         let workoutPlanList = [];
         for (let i = 0; i < this.state.workoutPlans.length; i++) {
             let workoutPlan = this.state.workoutPlans[i];
@@ -65,7 +63,7 @@ export default class WorkoutPlans extends Component {
                     onPress={() => this.props.navigation.navigate('WorkoutPlanEditor', { username: this.state.username })}
                     //maybe add a thing to make sure there are enough workouts?
                     darkmode={this.props.darkmode}
-                    style={{marginBottom: 20}}
+                    style={{marginBottom: 30}}
                     purple={true}
                 />
             </View>

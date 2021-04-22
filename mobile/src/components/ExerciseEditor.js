@@ -111,19 +111,9 @@ export default class ExerciseEditor extends Component {
                             darkmode={this.props.darkmode}
                             orange={true}
                         />
-                        {/* <Button
-                            buttonText='Delete'
-                            onPress={() => {
-                                this.props.deleteExercise(this.state);
-                                this.props.dismiss();
-                            }}
-                            orange={true}
-                        /> */}
                         <Button
                             buttonText='Submit'
                             onPress={() => {
-                                //this.props.createExercise(this.state);
-                                console.log(this.state.selectedFields);
                                 if (this.state.selectedFields.length === 0) {
                                     createExerciseError();
                                 } else if (this.state.name === '') {
@@ -159,7 +149,6 @@ export default class ExerciseEditor extends Component {
                                                 break;
                                         }
                                     }
-                                    console.log(exercise);
                                     this.props.createExercise(exercise); 
                                     //make a call to helper function to server call to create new exercise
                                 }

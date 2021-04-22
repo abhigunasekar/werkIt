@@ -73,7 +73,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i
                             class="animate__animated animate__slideInLeft fas fa-user-shield"></i></span>
-                    <input type="text" class="form-control" name="username" id="user" placeholder="Enter the 6-digit code from email" required="required">
+                    <input type="text" class="form-control" name="username" id="code" placeholder="Enter the 6-digit code from email" required="required">
                 </div>
             </div>
 
@@ -127,7 +127,28 @@
 
         $btn.on('click', function(event) {
             event.preventDefault();
-            window.location.href = 'http://agunase.github.io/werkIt/web-client/reset/changepassword.html';
+            var code = document.getElementById("code").value;
+            if (code == "") {
+                alert("Please enter the 6-digit code that was sent to your email.");
+                return false;
+            } else {
+                var url = 'http://127.0.0.1:8000/user/' + localStorage.getItem("user") + '/code';
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    cache: false,
+                    data: {
+                        code: parseInt(code, 10)
+                    },
+                    success: function(data, textStatus) {
+                        window.location.href = './changepassword.html';
+                    },
+                    error: function(jqXHR, textStatus, err) {
+                        alert("The 6-digit code is incorrect.");
+                        return false;
+                    }
+                });
+            }
         });
     </script>
 </body>

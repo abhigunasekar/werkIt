@@ -38,33 +38,33 @@ export default class Stopwatch extends Component {
     }
 
     cycle() {
+        let sec = parseInt(this.state.sec);
+        let min = parseInt(this.state.min);
+        let hr = parseInt(this.state.hr);
+    
+        sec = sec + 1;
+    
+        if (sec == 60) {
+          min = min + 1;
+          sec = 0;
+        }
+        if (min == 60) {
+          hr = hr + 1;
+          min = 0;
+          sec = 0;
+        }
+    
+        if (sec < 10 || sec == 0) {
+          sec = '0' + sec;
+        }
+        if (min < 10 || min == 0) {
+          min = '0' + min;
+        }
+        if (hr < 10 || hr == 0) {
+          hr = '0' + hr;
+        }
+        
         if (this.state.runStopwatch) {
-            let sec = parseInt(this.state.sec);
-            let min = parseInt(this.state.min);
-            let hr = parseInt(this.state.hr);
-        
-            sec = sec + 1;
-        
-            if (sec == 60) {
-              min = min + 1;
-              sec = 0;
-            }
-            if (min == 60) {
-              hr = hr + 1;
-              min = 0;
-              sec = 0;
-            }
-        
-            if (sec < 10 || sec == 0) {
-              sec = '0' + sec;
-            }
-            if (min < 10 || min == 0) {
-              min = '0' + min;
-            }
-            if (hr < 10 || hr == 0) {
-              hr = '0' + hr;
-            }
-
             this.setState({ hr: hr, min: min, sec: sec }, () => this.props.logTime(this.state.hr, this.state.min, this.state.sec));
             setTimeout(() => this.cycle(), 1000);
         }

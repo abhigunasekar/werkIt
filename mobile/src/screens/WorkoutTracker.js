@@ -42,7 +42,6 @@ export default class WorkoutTracker extends Component {
         serverMethods.getWorkout(this.props.username, this.props.route.params.workout)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
                 let key = 0;
                 let array = response.exercises.map(exercise => 
                     <ExerciseLabel
@@ -67,7 +66,8 @@ export default class WorkoutTracker extends Component {
                     />
                 )
                 this.setState({ exercises: array, type: response.type })
-            });
+            })
+            .catch(err => console.log(err));
     }
 
     render() {
@@ -89,9 +89,7 @@ export default class WorkoutTracker extends Component {
                         buttonText='Submit'
                         onPress={() => {
                             // {workout_name: , day: , date: , time:, type_name }
-                            console.log({workout_name: this.props.route.params.workout, day: this.props.route.params.day, date: this.props.route.params.date, time: this.state.time, type_name: this.state.type })
                             if (this.state.exercises.length !== this.state.finished.length) {
-                                //do we know what happens if "finish anyway"
                                 incompleteWorkoutError(() => {
                                     serverMethods.completeWorkout(this.props.username, {workout_name: this.props.route.params.workout, day: this.props.route.params.day, date: this.props.route.params.date, time: this.state.time, type_name: this.state.type });
                                     this.props.navigation.navigate('Dashboard');

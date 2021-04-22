@@ -88,20 +88,35 @@ app.get('/user/:username', (req, res) => {
 });
 
 // check validity of username/email and send email for resetting password
-// app.post('/user/:username/email', (req, res) => {
-//     console.log("Sending email (in process to reset password)")
-//     mc.send_email(req.params.username, req.body.email).then(sent => {
-//         if (sent) {
-//             console.log("")
-//             mc.send_email(req.params.username, req.body.email).then(_ => {
-//                 res.status(200).end();
-//             });
-//         } else {
-//             console.log("Invalid username or email");
-//             res.status(400).end();
-//         }
-//     });
-// });
+app.post('/user/:username/email', (req, res) => {
+    console.log("Sending email (in process to reset password)");
+    mc.send_email(req.params.username, req.body.email).then(rc => {
+        if (rc == 1) {
+            console.log("Invalid username or email");
+            res.status(400).end();
+        } else if (rc == 2) {
+            console.log("There was an error sending the email");
+            res.status(401).end();
+        } else {
+            console.log("Email successfully sent");
+            res.status(200).end();
+        }
+    });
+});
+
+// check 6-digit code
+app.post('/user/:username/code', (req, res) => {
+    console.log("Validating code");
+    mc.check_code(req.params.username, req.body.code).then(correct => {
+        if (correct) {
+            console.log("Code is correct");
+            res.status(200).end();
+        } else {
+            console.log("Code is incorrect");
+            res.status(400).end();
+        }
+    });
+});
 
 // reset password
 app.patch('/user/:username/profile', (req, res) => {
@@ -129,7 +144,7 @@ app.get('/profile/:username', cors(), (req, res) => {
 // update one element of user profile info
 // ONLY use with fields that are not object ids
 app.patch('/profile/:username/:field', (req, res) => {
-    console.log("Updating " + req.params.field + "field for user " + req.params.username);
+    console.log("Updating " + req.params.field + " field for user " + req.params.username);
     mc.update_profile_field(req.params.username, req.params.field, req.body).then(_ => {
         res.status(200).end();
     });
@@ -155,6 +170,11 @@ app.get('/:username/profile/:field', (req, res) => {
         });
     })
 })
+
+// app.get('/:username/profile_pic', (req, res) => {
+//     console.log("Getting profile pic");
+//     mc.get_profile_pic
+// })
 
 // get known workout types
 app.get('/:username/workoutTypes', (req, res) => {
@@ -407,7 +427,7 @@ app.patch('/:username/:type/edit_workoutType', (req, res) => {
 // add a friend
 app.post('/:username/add_friend', (req, res) => {
     console.log("Adding friend " + req.body.friend_user + " for user " + req.params.username);
-    mc.add_friend(req.params.username, req.body.friend_user).then(rc => {
+    mc.add_friend(req.params.username, req.body.friend_user, true).then(rc => {
         if (rc == 0) {
             console.log("Successfully saved friend");
             res.status(200).end();
@@ -440,7 +460,29 @@ app.post('/:username/request', (req, res) => {
     });
 });
 
+// get pending requests for a user
+app.get('/:username/messagerequests', (req, res) => {
+    console.log("Getting all requests for user " + req.params.username);
+    mc.get_requests(req.params.username).then(requests => {
+        console.log("Successfully got pending requests");
+        console.log("requests: " + requests)
+        var obj = {message: requests}
+        res.status(200).json(obj);
+    });
+});
+
+// accept/decline request for a user
+app.post('/:username/adrequest/:action', (req, res) => {
+    console.log("body in server: " + JSON.stringify(req.body))
+    console.log(req.params.action + "ing request for user " + req.params.username);
+    mc.handle_request(req.params.username, req.params.action, req.body).then(_ => {
+        console.log("Successfully handled request");
+        res.status(200).end();
+    });
+});
+
 
 app.listen(port, ip, function () {
     console.log("Server listening on http://%s:%d", ip, port);
+    mc.create_email_account();
 });

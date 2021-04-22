@@ -1,34 +1,42 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
+import * as serverMethods from '../ServerMethods';
 import styles from '../light';
 
 export default class MotivationalQuote extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
-            quote: '',
+            quoteText: '',
+            quoteAuthor: '',
         }
-
-        this.getQuote = this.getQuote.bind(this);
-        this.getQuote();
     }
 
-    async getQuote() {
-        const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
-        try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            this.setState({ quote: "\"" + data['quoteText'] + "\"" });
-        } catch (error) {
-            console.log(error);
-        }
+    componentDidMount() {
+        serverMethods.getQuote()
+            .then(response => response.json())
+            .then(response => this.setState({ quoteText: response.quoteText, quoteAuthor: response.quoteAuthor }))
+            .catch(() => {
+                serverMethods.getQuote()
+                    .then(response => response.json())
+                    .then(response => this.setState({ quoteText: response.quoteText, quoteAuthor: response.quoteAuthor }))
+                    .catch(err => console.log('wow you\'re hella unlucky'))
+            });
     }
 
     render() {
+        // add styling so it looks like "cover page" for now
+        // add motivational quote generator in Sprint 3
         return (
             <View style={styles.motivationalQuote}>
-                <Text style={{color: '#7641BD', fontWeight: 'bold', fontSize: 30}}>{this.state.quote}</Text>
+                <Text style={{color: '#7641BD', fontWeight: 'bold', fontSize: 50, marginTop: 240}}>WERK IT</Text>
+                <View style={{width: '80%'}}>
+                    <Text style={{fontStyle: 'italic', fontSize: 15, marginTop: 20}}>"{this.state.quoteText}"</Text>
+                </View>
+                <Text style={{fontSize: 10, marginTop: 20, marginLeft: 120}}>- {this.state.quoteAuthor === '' ?  'Unknown' : this.state.quoteAuthor}</Text>
+
             </View>
         );
     }

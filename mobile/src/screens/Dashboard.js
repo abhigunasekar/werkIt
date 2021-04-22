@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Modal, SliderComponent } from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -10,16 +10,27 @@ import light from '../light';
 import dark from '../dark';
   
 export default class Dashboard extends Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             username: this.props.username,
+            firstLogin: this.props.firstLogin,
             savedWorkoutPlans: [],
             activeWorkoutPlan: '',
             workout: '',
             day: '',
+            messages: [],
+            messageList: [],
+            current_message_plan: '',
+            current_message_friend:'',
+            friendIndex: 0,
+            modalVisible: false, 
+            modalMessageCheck: false
         }
+        this.make_message_buttons=this.make_message_buttons.bind(this)
+
     }
 
     updateWorkout() {
@@ -38,7 +49,7 @@ export default class Dashboard extends Component {
                     this.setState({ workout: this.state.activeWorkoutPlan?.Wednesday, day: 'Wednesday' });
                     break;
                 case 4:
-                    this.setState({ workout: this.state.activeWorkoutPlan?.Thursday, day: 'Tuesday' });
+                    this.setState({ workout: this.state.activeWorkoutPlan?.Thursday, day: 'Thursday' });
                     break;
                 case 5:
                     this.setState({ workout: this.state.activeWorkoutPlan?.Friday, day: 'Friday' });
@@ -53,7 +64,8 @@ export default class Dashboard extends Component {
         //server call to get current active workout?
         serverMethods.getActiveWorkoutPlan(this.state.username)
             .then(response => response.json())
-            .then(response => this.setState({ activeWorkoutPlan: response }, () => this.updateWorkout()));
+            .then(response => this.setState({ activeWorkoutPlan: response }, () => this.updateWorkout()))
+            .catch(err => console.log(err));
         
         serverMethods.getUserWorkoutPlans(this.state.username)
             .then(response => response.json())
@@ -61,15 +73,23 @@ export default class Dashboard extends Component {
                 let array = [];
                 response.map((workoutPlan) => array.push({ label: workoutPlan, value: workoutPlan }))
                 this.setState({ savedWorkoutPlans: array })
-            });
+            })
+            .catch(err => console.log(err));
         this.listener = this.props.navigation.addListener('focus', () =>
+        {
             serverMethods.getUserWorkoutPlans(this.state.username)
                 .then(response => response.json())
                 .then(response => {
                     let array = [];
                     response.map((workoutPlan) => array.push({ label: workoutPlan, value: workoutPlan }))
                     this.setState({ savedWorkoutPlans: array })
-                }));
+                }).catch(err => console.log(err))
+            serverMethods.getActiveWorkoutPlan(this.state.username)
+                .then(response => response.json())
+                .then(response => this.setState({ activeWorkoutPlan: response }, () => this.updateWorkout()))
+                .catch(err => console.log(err))
+            }
+        );
         // what happens if the user doesn't have an active workout plan
     }
 
@@ -77,105 +97,68 @@ export default class Dashboard extends Component {
         this.listener();
     }
 
-    nextUpcomingWorkout(currentActive) {
-        var nextWorkout = '';
-        if (this.state.day == 'Sunday') {
-            if (currentActive.activeWorkoutPlan.Monday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Monday + " on Monday\n";
-                console.log("the next workout is on monday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Tuesday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Tuesday + " on Tuesday\n";
-                console.log("the next workout is on tuesday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Wednesday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Wednesday + " on Wednesday\n";
-                console.log("the next workout is on wednesday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Thursday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Thursday + " on Thursday\n";
-                console.log("the next workout is on thursday: " + nextWorkouts);
-            }
-            if (currentActive.activeWorkoutPlan.Friday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Friday + " on Wednesday\n";
-                console.log("the next workout is on friday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Saturday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
-                console.log("the next workout is on saturday: " + nextWorkout);
-            }
-        } else if (this.state.day == 'Monday') {
-            if (currentActive.activeWorkoutPlan.Tuesday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Tuesday + " on Tuesday\n";
-                console.log("the next workout is on tuesday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Wednesday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Wednesday + " on Wednesday\n";
-                console.log("the next workout is on wednesday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Thursday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Thursday + " on Thursday\n";
-                console.log("the next workout is on thursday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Friday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Friday + " on Friday\n";
-                console.log("the next workout is on friday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Saturday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
-                console.log("the next workout is on saturday: " + nextWorkout);
-            }
-        } else if (this.state.day == 'Tuesday') {
-            if (currentActive.activeWorkoutPlan.Wednesday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Wednesday + " on Wednesday\n";
-                console.log("the next workout is on wednesday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Thursday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Thursday + " on Thursday\n";
-                console.log("the next workout is on thursday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Friday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Friday + " on Friday\n";
-                console.log("the next workout is on friday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Saturday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
-                console.log("the next workout is on saturday: " + nextWorkout);
-            }
-        } else if (this.state.day == 'Wednesday') {
-            if (currentActive.activeWorkoutPlan.Thursday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Thursday + " on Thursday\n";
-                console.log("the next workout is on thursday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Friday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Friday + " on Friday\n";
-                console.log("the next workout is on friday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Saturday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
-                console.log("the next workout is on saturday: " + nextWorkout);
-            }
-        } else if (this.state.day == 'Thursday') {
-            if (currentActive.activeWorkoutPlan.Friday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Friday + " on Friday\n";
-                console.log("the next workout is on friday: " + nextWorkout);
-            }
-            if (currentActive.activeWorkoutPlan.Saturday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
-                console.log("the next workout is on saturday: " + nextWorkout);
-            }
-        } else if (this.state.day == 'Friday') {
-            if (currentActive.activeWorkoutPlan.Saturday !== "") {
-                nextWorkout += this.state.activeWorkoutPlan.Saturday + " on Saturday\n";
-                console.log("the next workout is on saturday: " + nextWorkout);
-            }
+    nextUpcomingWorkout(day) {
+        let nextWorkout = '';
+        if (this.state.activeWorkoutPlan === null) {
+            return '';
         }
+
+        if (day === 0) {
+            day = 7;
+        }
+
+        if (this.state.activeWorkoutPlan.Tuesday !== "None" && day < 2) {
+            nextWorkout += 'Tuesday: ' + this.state.activeWorkoutPlan.Tuesday + '\n';
+        }
+        if (this.state.activeWorkoutPlan.Wednesday !== "None" && day < 3) {
+            nextWorkout += 'Wednesday: ' + this.state.activeWorkoutPlan.Wednesday + '\n';
+        }
+        if (this.state.activeWorkoutPlan.Thursday === "None" && day < 4) {
+            nextWorkout += 'Thursday: ' + this.state.activeWorkoutPlan.Thursday + '\n';
+        }
+        if (this.state.activeWorkoutPlan.Friday !== "None" && day < 5) {
+            nextWorkout += 'Friday: ' + this.state.activeWorkoutPlan.Friday + '\n';
+        }
+        if (this.state.activeWorkoutPlan.Saturday !== "None" && day < 6) {
+            nextWorkout += 'Saturday: ' + this.state.activeWorkoutPlan.Saturday + '\n';
+        }
+        if (this.state.activeWorkoutPlan.Sunday !== 'None' && day < 7) {
+            nextWorkout += 'Sunday: ' + this.state.activeWorkoutPlan.Sunday + '\n';
+        }
+        
         return nextWorkout;
+    }
+
+    make_message_buttons() {
+        serverMethods.getMessageRequests(this.state.username)
+            .then(response => response.json())
+            .then(response => {
+                console.log("friends res:" + JSON.stringify(response));
+                console.log("friends res:" + response.message);
+                this.setState({ messages: response.message });
+                let messageList = [];
+                console.log("messages: " + this.state.messages)
+                //console.log("messages: " + JSON.stringify(this.state.messages))
+                for (let i = 0; i < this.state.messages.length; i++) {
+                    console.log("in loop: " + this.state.messages[i].friend)
+                    messageList.push(
+                        <Button
+                            key={i}
+                            buttonText={this.state.messages[i].friend}
+                            onPress={() => this.setState({ current_message_friend:this.state.messages[i].friend, current_message_plan:this.state.messages[i].type, friendIndex:i, modalVisible: false, modalMessageCheck: true })}
+                            darkmode={this.props.darkmode}
+                            purple={true}
+                        />
+                    )
+                }
+                console.log("return")
+                this.setState({ messageList: messageList, modalVisible: true})
+            });
     }
 
     render() {
         let today = new Date();
-        //let day = today.getDay();
+        let day = today.getDay();
         let dd = String(today.getDate()).padStart(2, '0');
         let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
         let yyyy = today.getFullYear();
@@ -190,8 +173,8 @@ export default class Dashboard extends Component {
                 <DropDownPicker
                     items={this.state.savedWorkoutPlans}
                     defaultValue={''}
-                    placeholder={(this.state.activeWorkoutPlan !== null) ? this.state.activeWorkoutPlan.name : 'Select an active workout plan'}
-                    containerStyle={{height: 40, width: '50%'}}
+                    placeholder={(this.state.activeWorkoutPlan === null || this.state.activeWorkoutPlan === '') ? 'Select an active workout plan' : this.state.activeWorkoutPlan.name}
+                    containerStyle={{height: 40, width: '65%'}}
                     style={{backgroundColor: this.props.darkmode ? '#6E6E6E' : '#FAFAFA'}}
                     itemStyle={{
                         justifyContent: 'flex-start'
@@ -204,26 +187,28 @@ export default class Dashboard extends Component {
                             .then(() => serverMethods.getActiveWorkoutPlan(this.state.username)
                                             .then(response => response.json())
                                             .then(response => this.setState({ activeWorkoutPlan: response }, () => this.updateWorkout()))
-                                    );
+                                    ).catch(err => console.log(err));
                         //this.setState({ activeWorkoutPlan: item.value });
                     }}
                 />
-                <Text>{today}</Text>
-                <Text>Today is: {this.state.day}</Text>
-                <Text>{((this.state.workout === undefined) || (this.state.workout === '')) ? 'You don\'t have a workout today' : 'Todays workout is: ' + this.state.workout}</Text>
-
+                <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', marginTop: 30}}>Today is: {this.state.day}</Text>
+                <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', marginTop: 10}}>{((this.state.workout === undefined) || (this.state.workout === 'None')) ? 'You don\'t have a workout today' : 'Todays workout is: ' + this.state.workout}</Text>
+                {/* <Text style={[this.props.darkmode ? dark.darkTextHeader : light.lightTextHeader]}>Your upcoming workout(s) is/are:</Text> */}
+                <Text style={/*[this.props.darkmode ? dark.darkTextBase : light.lightTextBase]*/{color: this.props.darkmode ? '#FFFFFF' : '#000000', marginTop: 50}}>{this.nextUpcomingWorkout(day) === '' ? 'You have no upcoming workouts this week!' : 
+                    <View>
+                        <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', fontWeight: 'bold'}}>Your upcoming workouts are:</Text>
+                        <Text style={{color: this.props.darkmode ? '#FFFFFF' : '#000000', marginTop: 20, textAlign: 'center'}}>{this.nextUpcomingWorkout(day)}</Text>
+                    </View>
+                }</Text>
                 {(this.state.workout === undefined) || (this.state.workout === '') ? null : 
                     <Button
                     buttonText='START'
                     onPress={() => this.props.navigation.navigate('Workout Tracker', { workout: this.state.workout, day: this.state.day, date: today })}
+                    style={{marginTop: 50}}
                     darkmode={this.props.darkmode}
                     gray={true}
                     />
                 }
-                <Text></Text>
-                <Text style={[this.props.darkmode ? dark.darkTextHeader : light.lightTextHeader]}>Your upcoming workout is/are:</Text>
-                <Text style={[this.props.darkmode ? dark.darkTextBase : light.lightTextBase]}>{(this.nextUpcomingWorkout(this.state) === '' || this.nextUpcomingWorkout(this.state) === undefined) ? 'You have no upcoming workout this week' : this.nextUpcomingWorkout(this.state)}</Text>
-
             </View>
         );
     }
